@@ -1,0 +1,47 @@
+{
+  "$schema": "../../schema.json",
+  "components": [
+    {
+      "type": "App",
+      "format": "full",
+      "patterns": ["./main.ts"]
+    },
+    {
+      "type": "View",
+      "patterns": ["**/*.view.**"]
+    },
+    {
+      "type": "Component",
+      "patterns": ["**/**component.**"]
+    },
+    {
+      "type": "Controller",
+      "patterns": ["**/controllers/*"]
+    },
+    {
+      "type": "Model",
+      "patterns": ["**/models/*"]
+    }
+  ],
+  "output": [
+    {
+      "path": ["./docs/architecture.puml"],
+      "groups": [
+        {
+          "type": "Main",
+          "components": ["View", "Controller"]
+        },
+        {
+          "type": "Base",
+          "components": ["Component", "Model"]
+        },
+        {
+          "patterns": ["**/*"]
+        }
+      ]
+    },
+    {
+      "path": "./docs/architecture.svg"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+@startuml
+
+top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 16
+
+package "Main" {
+  (main.view)
+  (singleton)
+}
+
+package "Base" {
+  (base.component)
+  (component)
+  (model)
+}
+
+(main.ts)
+
+(component) ~> (base.component)
+(main.ts) --> (main.view)
+(main.view) -> (component)
+(main.view) ~~~> (singleton)
+(singleton) ---> (model)
+
+@enduml

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2015",
+    "types": ["node", "jest"],
+    "strictNullChecks": true
+  },
+  "exclude": ["test/**"]
+}

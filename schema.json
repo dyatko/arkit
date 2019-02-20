@@ -1,0 +1,183 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "ComponentNameFormat": {
+            "description": "Component name formats",
+            "enum": [
+                "base",
+                "complete",
+                "full"
+            ],
+            "type": "string"
+        },
+        "ComponentSchema": {
+            "description": "Component definition",
+            "properties": {
+                "excludePatterns": {
+                    "description": "File patterns to exclude, e.g. [\"**\\/*.test.ts\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "format": {
+                    "$ref": "#/definitions/ComponentNameFormat",
+                    "default": "base",
+                    "description": "Filename format, e.g. \"base\", \"full\""
+                },
+                "patterns": {
+                    "description": "File patterns to include, e.g. [\"**\\/*.model.ts\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Component type, e.g. \"Model\"",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "patterns",
+                "type"
+            ],
+            "type": "object"
+        },
+        "GroupSchema": {
+            "description": "Group of components",
+            "properties": {
+                "components": {
+                    "description": "List of components, e.g. [\"Service\", \"Model\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "first": {
+                    "default": false,
+                    "description": "First group",
+                    "type": "boolean"
+                },
+                "last": {
+                    "default": false,
+                    "description": "Last group",
+                    "type": "boolean"
+                },
+                "patterns": {
+                    "description": "File patterns, e.g. [\"services\\/*.ts\", \"**\\/*.model.ts\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "Component type, e.g. \"Data-related\"",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "OutputDirection": {
+            "enum": [
+                "horizontal",
+                "vertical"
+            ],
+            "type": "string"
+        },
+        "OutputSchema": {
+            "properties": {
+                "components": {
+                    "description": "List of components, e.g. [\"Service\", \"Model\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "direction": {
+                    "$ref": "#/definitions/OutputDirection",
+                    "default": "vertical",
+                    "description": "Direction, e.g. \"horizontal\", \"vertical\""
+                },
+                "groups": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/GroupSchema"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/GroupSchema"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "description": "Optional groups of components"
+                },
+                "path": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Output path or paths, e.g. [\"architecture.puml\", \"architecture.svg\"]"
+                },
+                "patterns": {
+                    "description": "File patterns, e.g. [\"services\\/*.ts\", \"**\\/*.model.ts\"]",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "description": "Configuration",
+    "properties": {
+        "components": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ComponentSchema"
+                },
+                {
+                    "items": {
+                        "$ref": "#/definitions/ComponentSchema"
+                    },
+                    "type": "array"
+                }
+            ],
+            "description": "Required list of component definitions"
+        },
+        "excludePatterns": {
+            "description": "File patterns to exclude, e.g. [\"node_modules/**\"]",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "output": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/OutputSchema"
+                },
+                {
+                    "items": {
+                        "$ref": "#/definitions/OutputSchema"
+                    },
+                    "type": "array"
+                }
+            ],
+            "description": "Optional output configurations"
+        }
+    },
+    "required": [
+        "components"
+    ],
+    "type": "object"
+}
+
