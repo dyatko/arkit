@@ -4,9 +4,10 @@
   "description": "A CLI tool to visualise project architecture",
   "main": "index.ts",
   "scripts": {
-    "test": "jest",
+    "lint": "tslint --project .",
     "build-schema": "typescript-json-schema src/config.ts ConfigSchema --required true -o schema.json",
-    "build": "npm run build-schema"
+    "build": "npm run build-schema",
+    "test": "jest"
   },
   "engines": {
     "node": ">= 6.16.0"

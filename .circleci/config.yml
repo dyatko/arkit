@@ -34,4 +34,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
       # run tests!
+      - run: npm run lint
       - run: npm test
