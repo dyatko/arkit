@@ -1,4 +1,5 @@
 {
+    "$id": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json#",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "ComponentNameFormat": {
@@ -21,7 +22,7 @@
                     "type": "array"
                 },
                 "format": {
-                    "$ref": "#/definitions/ComponentNameFormat",
+                    "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/ComponentNameFormat",
                     "default": "base",
                     "description": "Filename format, e.g. \"base\", \"full\""
                 },
@@ -94,18 +95,18 @@
                     "type": "array"
                 },
                 "direction": {
-                    "$ref": "#/definitions/OutputDirection",
+                    "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/OutputDirection",
                     "default": "vertical",
                     "description": "Direction, e.g. \"horizontal\", \"vertical\""
                 },
                 "groups": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/GroupSchema"
+                            "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/GroupSchema"
                         },
                         {
                             "items": {
-                                "$ref": "#/definitions/GroupSchema"
+                                "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/GroupSchema"
                             },
                             "type": "array"
                         }
@@ -142,11 +143,11 @@
         "components": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/ComponentSchema"
+                    "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/ComponentSchema"
                 },
                 {
                     "items": {
-                        "$ref": "#/definitions/ComponentSchema"
+                        "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/ComponentSchema"
                     },
                     "type": "array"
                 }
@@ -163,11 +164,11 @@
         "output": {
             "anyOf": [
                 {
-                    "$ref": "#/definitions/OutputSchema"
+                    "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/OutputSchema"
                 },
                 {
                     "items": {
-                        "$ref": "#/definitions/OutputSchema"
+                        "$ref": "https://cdn.jsdelivr.net/gh/dyatko/arkit@master/schema.json##/definitions/OutputSchema"
                     },
                     "type": "array"
                 }
