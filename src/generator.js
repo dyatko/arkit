@@ -234,8 +234,12 @@ class Generator {
         }
         return puml.join('\n');
     }
+    /**
+     * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
+     */
     generatePlantUMLSkin(output) {
         const puml = [''];
+        puml.push('scale max 1200 width');
         if (output.direction === config_1.OutputDirection.HORIZONTAL) {
             puml.push('left to right direction');
         }
@@ -245,6 +249,14 @@ class Generator {
         puml.push('skinparam monochrome true');
         puml.push('skinparam shadowing false');
         puml.push('skinparam nodesep 16');
+        puml.push('skinparam defaultFontName Helvetica');
+        puml.push('skinparam defaultFontSize 13');
+        puml.push(`
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    `);
         return puml.join('\n');
     }
 }

@@ -1,9 +1,18 @@
 @startuml
 
+scale max 1200 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 16
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 13
+
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    
 
 package "Main" {
   (main.view)

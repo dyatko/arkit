@@ -318,8 +318,13 @@ export class Generator {
     return puml.join('\n')
   }
 
+  /**
+   * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
+   */
   private generatePlantUMLSkin (output: OutputSchema): string {
     const puml = ['']
+
+    puml.push('scale max 1200 width')
 
     if (output.direction === OutputDirection.HORIZONTAL) {
       puml.push('left to right direction')
@@ -330,6 +335,15 @@ export class Generator {
     puml.push('skinparam monochrome true')
     puml.push('skinparam shadowing false')
     puml.push('skinparam nodesep 16')
+    puml.push('skinparam defaultFontName Helvetica')
+    puml.push('skinparam defaultFontSize 13')
+
+    puml.push(`
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    `)
 
     return puml.join('\n')
   }
