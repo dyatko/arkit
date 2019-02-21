@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A CLI tool to visualise project architecture",
   "main": "index.ts",
   "scripts": {
@@ -55,5 +55,18 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
-  }
+  },
+  "keywords": [
+    "architecture",
+    "uml",
+    "diagram",
+    "typescript",
+    "javascript",
+    "plantuml",
+    "ts",
+    "js",
+    "component",
+    "cli",
+    "generate"
+  ]
 }
