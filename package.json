@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A CLI tool to visualise project architecture",
   "main": "index.ts",
   "scripts": {
@@ -42,7 +42,6 @@
   "dependencies": {
     "debug": "^4.1.1",
     "minimatch": "^3.0.4",
-    "node-plantuml": "^0.8.1",
     "pino": "^5.11.1",
     "pino-debug": "^1.2.0",
     "pino-pretty": "^2.5.0",
