@@ -7,6 +7,8 @@ Config {
       "patterns": Array [
         "**/*.ts",
         "**/*.js",
+        "**/*.jsx",
+        "**/*.tsx",
       ],
       "type": "Component",
     },
@@ -30,6 +32,8 @@ Config {
   "patterns": Array [
     "**/*.ts",
     "**/*.js",
+    "**/*.jsx",
+    "**/*.tsx",
   ],
 }
 `;
@@ -41,17 +45,14 @@ Config {
       "patterns": Array [
         "**/*.ts",
         "**/*.js",
+        "**/*.jsx",
+        "**/*.tsx",
       ],
       "type": "Component",
     },
   ],
   "directory": "/Users/marat/Dev/arkit/test/express",
-  "excludePatterns": Array [
-    "node_modules/**",
-    "test/**",
-    "**/*.test.*",
-    "**/*.spec.*",
-  ],
+  "excludePatterns": Array [],
   "extensions": Array [
     ".js",
     ".ts",
@@ -59,11 +60,17 @@ Config {
     ".tsx",
   ],
   "outputs": Array [
-    Object {},
+    Object {
+      "path": Array [
+        "express.svg",
+      ],
+    },
   ],
   "patterns": Array [
     "**/*.ts",
     "**/*.js",
+    "**/*.jsx",
+    "**/*.tsx",
   ],
 }
 `;

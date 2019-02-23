@@ -54,9 +54,9 @@ skinparam usecase {
 "
 `;
 
-exports[`Acceptance test Express should output correct puml 1`] = `
-"@startuml
-
+exports[`Acceptance test Express should output correct svg 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"no\\"?><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" contentScriptType=\\"application/ecmascript\\" contentStyleType=\\"text/css\\" height=\\"187px\\" preserveAspectRatio=\\"none\\" style=\\"width:525px;height:187px;\\" version=\\"1.1\\" viewBox=\\"0 0 525 187\\" width=\\"525px\\" zoomAndPan=\\"magnify\\"><defs/><g><ellipse cx=\\"350.2548\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"48.2548\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"64\\" x=\\"318.2548\\" y=\\"76.8982\\">application</text><ellipse cx=\\"62.734\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"36.234\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"47\\" x=\\"39.234\\" y=\\"76.8982\\">express</text><ellipse cx=\\"383.5571\\" cy=\\"161.8457\\" fill=\\"#F8F8F8\\" rx=\\"16.5571\\" ry=\\"13.8457\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"17\\" x=\\"375.0571\\" y=\\"166.7949\\">init</text><ellipse cx=\\"227.5061\\" cy=\\"161.949\\" fill=\\"#F8F8F8\\" rx=\\"23.5061\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"29\\" x=\\"213.0061\\" y=\\"166.8982\\">layer</text><ellipse cx=\\"322.4558\\" cy=\\"161.949\\" fill=\\"#F8F8F8\\" rx=\\"28.4558\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"36\\" x=\\"304.4558\\" y=\\"166.8982\\">query</text><ellipse cx=\\"250.5269\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"35.5269\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"46\\" x=\\"227.5269\\" y=\\"76.8982\\">request</text><ellipse cx=\\"156.3909\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"41.8909\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"55\\" x=\\"128.8909\\" y=\\"76.8982\\">response</text><ellipse cx=\\"161.3345\\" cy=\\"161.949\\" fill=\\"#F8F8F8\\" rx=\\"26.3345\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"33\\" x=\\"144.8345\\" y=\\"166.8982\\">route</text><ellipse cx=\\"62.7401\\" cy=\\"161.949\\" fill=\\"#F8F8F8\\" rx=\\"56.7401\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"76\\" x=\\"24.7401\\" y=\\"166.8982\\">router/index</text><ellipse cx=\\"495.2635\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"19.2635\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"23\\" x=\\"483.7635\\" y=\\"76.8982\\">utils</text><ellipse cx=\\"437.5919\\" cy=\\"71.949\\" fill=\\"#F8F8F8\\" rx=\\"22.0919\\" ry=\\"14.949\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"27\\" x=\\"424.0919\\" y=\\"76.8982\\">view</text><!--link application to init--><path d=\\"M356.098,87.2673 C361.7974,102.811 370.6379,126.9214 376.728,143.531 \\" fill=\\"none\\" id=\\"application-init\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"378.5233,148.4271,379.1805,138.6002,376.802,143.7327,371.6695,141.3542,378.5233,148.4271\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link application to query--><path d=\\"M345.7502,87.2673 C341.0558,102.3565 333.8497,125.5188 328.705,142.0552 \\" fill=\\"none\\" id=\\"application-query\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"327.1797,146.9582,333.6729,139.5529,328.6651,142.1839,326.034,137.1762,327.1797,146.9582\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link application to router/index--><path d=\\"M316.3317,82.6776 C263.3952,99.2203 161.7045,130.9986 104.4096,148.9033 \\" fill=\\"none\\" id=\\"application-router/index\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"99.3458,150.4857,109.1292,151.6191,104.1182,148.9943,106.743,143.9832,99.3458,150.4857\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link application to utils--><path d=\\"M365.5953,57.5243 C377.9209,46.7712 396.3728,32.9749 415.5,27 C434.166,21.1692 441.8745,18.5288 459.5,27 C470.9169,32.4873 479.8465,43.5537 485.9564,53.3387 \\" fill=\\"none\\" id=\\"application-utils\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"488.5641,57.7197,487.3979,47.9401,486.0067,53.4232,480.5235,52.032,488.5641,57.7197\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link application to view--><path d=\\"M399.0977,72 C402.8104,72 406.5231,72 410.2358,72 \\" fill=\\"none\\" id=\\"application-view\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"415.2986,72,406.2986,68,410.2986,72,406.2986,76,415.2986,72\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link express to application--><path d=\\"M74.0047,57.5859 C83.5499,46.8668 98.1664,33.0862 114.5,27 C185.7167,0.4635 212.957,4.3393 285.5,27 C302.6846,32.3681 319.3241,44.0495 331.4654,54.1652 \\" fill=\\"none\\" id=\\"express-application\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"335.4047,57.5243,331.1519,48.641,331.6001,54.28,325.9611,54.7283,335.4047,57.5243\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link express to request--><path d=\\"M74.0047,57.5859 C83.5499,46.8668 98.1664,33.0862 114.5,27 C149.4836,13.9645 163.5164,13.9645 198.5,27 C212.9195,32.373 226.0008,43.7427 235.436,53.7087 \\" fill=\\"none\\" id=\\"express-request\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"238.9953,57.5859,235.8558,48.2508,235.6141,53.9025,229.9624,53.6608,238.9953,57.5859\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link express to response--><path d=\\"M98.8516,72 C102.2013,72 105.5509,72 108.9006,72 \\" fill=\\"none\\" id=\\"express-response\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"114.1644,72,105.1644,68,109.1644,72,105.1644,76,114.1644,72\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link express to route--><path d=\\"M77.536,85.6691 C95.1369,101.6699 124.2788,128.1626 143.1835,145.3487 \\" fill=\\"none\\" id=\\"express-route\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"147.2877,149.0798,143.319,140.066,143.588,145.7164,137.9376,145.9854,147.2877,149.0798\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link express to router/index--><path d=\\"M62.5,87.2673 C62.5,102.2264 62.5,125.1201 62.5,141.6261 \\" fill=\\"none\\" id=\\"express-router/index\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"62.5,146.9582,66.5,137.9582,62.5,141.9582,58.5,137.9582,62.5,146.9582\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link response to utils--><path d=\\"M169.6725,57.5538 C180.5069,46.8171 196.8962,33.0282 214.5,27 C266.0081,9.3616 410.429,3.4153 459.5,27 C470.9169,32.4873 479.8465,43.5537 485.9564,53.3387 \\" fill=\\"none\\" id=\\"response-utils\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"488.5641,57.7197,487.3979,47.9401,486.0067,53.4232,480.5235,52.032,488.5641,57.7197\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link route to layer--><path d=\\"M188.0547,162 C191.4927,162 194.9307,162 198.3686,162 \\" fill=\\"none\\" id=\\"route-layer\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"203.7712,162,194.7712,158,198.7712,162,194.7712,166,203.7712,162\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link router/index to layer--><path d=\\"M79.4977,147.5011 C93.3034,136.7352 113.8127,122.933 134.5,117 C157.1427,110.5061 166.0117,107.3503 187.5,117 C199.5728,122.4215 209.4878,133.4872 216.4265,143.2883 \\" fill=\\"none\\" id=\\"router/index-layer\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"219.4021,147.6776,217.6627,137.9836,216.5964,143.539,211.0409,142.4727,219.4021,147.6776\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--link router/index to route--><path d=\\"M119.3477,162 C122.7334,162 126.1192,162 129.505,162 \\" fill=\\"none\\" id=\\"router/index-route\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><polygon fill=\\"#383838\\" points=\\"134.8255,162,125.8255,158,129.8255,162,125.8255,166,134.8255,162\\" style=\\"stroke: #383838; stroke-width: 1.0;\\"/><!--
+@startuml
 scale max 1200 width
 top to bottom direction
 skinparam monochrome true
@@ -65,7 +65,6 @@ skinparam nodesep 16
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
-'oval
 skinparam usecase {
   borderThickness 1
 }
@@ -83,9 +82,9 @@ skinparam usecase {
 (utils)
 (view)
 
-(application) --> (init)
-(application) --> (query)
-(application) --> (router/index)
+(application) - -> (init)
+(application) - -> (query)
+(application) - -> (router/index)
 (application) -> (utils)
 (application) -> (view)
 (express) => (application)
@@ -97,9 +96,19 @@ skinparam usecase {
 (route) -> (layer)
 (router/index) -> (layer)
 (router/index) -> (route)
-
 @enduml
-"
+
+PlantUML version 1.2019.01(Sat Feb 09 15:32:04 UTC 2019)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 10.0.2+13
+Operating System: Linux
+OS Version: 4.4.0-1038-aws
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>"
 `;
 
 exports[`Acceptance test Sample should generate correct puml 1`] = `

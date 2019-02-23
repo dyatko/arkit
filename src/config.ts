@@ -6,7 +6,7 @@ import { info, warn } from './logger'
  */
 export interface ConfigSchema {
   /** Required list of component definitions */
-  components: ComponentSchema | ComponentSchema[]
+  components?: ComponentSchema | ComponentSchema[]
 
   /** File patterns to exclude, e.g. ["node_modules/**"] */
   excludePatterns?: string[]
@@ -94,11 +94,13 @@ export enum OutputDirection {
   VERTICAL = 'vertical'
 }
 
+const DEFAULT_COMPONENTS: ComponentSchema = {
+  type: 'Component',
+  patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+}
+
 export const DEFAULT_CONFIG: ConfigSchema = {
-  components: {
-    type: 'Component',
-    patterns: ['**/*.ts', '**/*.js']
-  },
+  components: DEFAULT_COMPONENTS,
   excludePatterns: ['node_modules/**', 'test/**', '**/*.test.*', '**/*.spec.*'],
   output: {}
 }
@@ -116,7 +118,12 @@ export class Config {
     const userConfigPath = path.join(this.directory, 'arkit')
     const userConfig = this.safeRequire<ConfigSchema>(userConfigPath)
 
-    this.components = this.array(userConfig && userConfig.components || DEFAULT_CONFIG.components)!
+    this.components = this.array(userConfig && userConfig.components) || []
+
+    if (!this.components.length) {
+      this.components.push(DEFAULT_COMPONENTS)
+    }
+
     this.outputs = this.array(userConfig && userConfig.output || DEFAULT_CONFIG.output)!
 
     if (userConfig && userConfig.excludePatterns) {

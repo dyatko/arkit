@@ -37,11 +37,16 @@ describe('Acceptance test', () => {
   })
 
   describe('Express', () => {
-    test('should output correct puml', () => {
+    test('should output correct svg', () => {
       const dir = path.join(__dirname, './express')
+      const svgPath = path.join(dir, './express.svg')
+
+      if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath)
 
       process.chdir(dir)
-      expect(execSync(arkit).toString()).toMatchSnapshot()
+      execSync(arkit)
+
+      expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot()
     })
   })
 })

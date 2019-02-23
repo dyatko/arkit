@@ -16,11 +16,12 @@ var OutputDirection;
     OutputDirection["HORIZONTAL"] = "horizontal";
     OutputDirection["VERTICAL"] = "vertical";
 })(OutputDirection = exports.OutputDirection || (exports.OutputDirection = {}));
+const DEFAULT_COMPONENTS = {
+    type: 'Component',
+    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+};
 exports.DEFAULT_CONFIG = {
-    components: {
-        type: 'Component',
-        patterns: ['**/*.ts', '**/*.js']
-    },
+    components: DEFAULT_COMPONENTS,
     excludePatterns: ['node_modules/**', 'test/**', '**/*.test.*', '**/*.spec.*'],
     output: {}
 };
@@ -33,7 +34,10 @@ class Config {
         logger_1.info('Working directory', directory);
         const userConfigPath = path.join(this.directory, 'arkit');
         const userConfig = this.safeRequire(userConfigPath);
-        this.components = this.array(userConfig && userConfig.components || exports.DEFAULT_CONFIG.components);
+        this.components = this.array(userConfig && userConfig.components) || [];
+        if (!this.components.length) {
+            this.components.push(DEFAULT_COMPONENTS);
+        }
         this.outputs = this.array(userConfig && userConfig.output || exports.DEFAULT_CONFIG.output);
         if (userConfig && userConfig.excludePatterns) {
             this.excludePatterns.push(...userConfig.excludePatterns);
