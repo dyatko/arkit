@@ -1,6 +1,15 @@
-import { Project, SourceFile, TypeGuards } from 'ts-morph'
+import * as fs from 'fs'
 import * as path from 'path'
-import * as minimatch from 'minimatch'
+import * as nanomatch from 'nanomatch'
+import { EOL } from 'os'
+import {
+  ExportDeclarationStructure,
+  ImportDeclarationStructure,
+  Project,
+  SourceFile,
+  Statement,
+  TypeGuards
+} from 'ts-morph'
 import { sync as resolve } from 'resolve'
 import { debug, trace, warn } from './logger'
 import { Config } from './config'
@@ -22,6 +31,11 @@ export interface Files {
   [file: string]: File
 }
 
+const QUOTES = `(?:'|")`
+const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`
+const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES)
+const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`)
+
 export class Parser {
   private project: Project
   private sourceFiles = new Map<string, SourceFile>()
@@ -39,22 +53,18 @@ export class Parser {
       addFilesFromTsConfig: false
     })
 
-    debug('Adding directory...')
-    this.project.addExistingDirectory(this.config.directory, {
-      recursive: true
-    })
+    debug('Adding directory...', this.config.directory)
+    this.project.addExistingDirectory(this.config.directory)
 
     debug('Searching files...')
-    const filePaths = this.project.getFileSystem()
-      .glob(this.config.patterns)
-      .filter(filepath =>
-        !this.config.excludePatterns.some(glob =>
-          minimatch(path.relative(this.config.directory, filepath), glob)
-        ))
-    trace(filePaths)
+    const allFilePaths = this.walkSync(this.config.directory)
+      .map(filepath => path.relative(this.config.directory, filepath))
+    const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns, { ignore: this.config.excludePatterns })
+      .map(filepath => path.join(this.config.directory, filepath))
+    trace(suitableFilePaths)
 
-    debug(`Adding ${filePaths.length} files...`)
-    this.project.addExistingSourceFiles(filePaths).forEach(sourceFile => {
+    debug(`Adding ${suitableFilePaths.length} files...`)
+    this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
       this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
     })
   }
@@ -77,61 +87,91 @@ export class Parser {
   }
 
   parse (): Files {
-    debug('Parsing...')
+    debug('Parsing...', this.sourceFiles.size, 'files')
     const files: Files = {}
 
     for (const [fullPath, sourceFile] of this.sourceFiles) {
       const filePath = path.relative(this.config.directory, fullPath)
+      const statements = sourceFile.getStatements()
+      debug(filePath, statements.length, 'statements')
+      const exports = this.getExports(sourceFile, statements)
+      const imports = this.getImports(sourceFile, statements)
 
-      files[filePath] = {
-        exports: this.getExports(sourceFile),
-        imports: this.getImports(sourceFile)
-      }
+      debug(Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
+      files[filePath] = { exports, imports }
     }
 
     return files
   }
 
-  private getImports (sourceFile: SourceFile): Imports {
-    return sourceFile.getStatements().reduce((imports, statement) => {
+  private getImports (sourceFile: SourceFile, statements: Statement[]): Imports {
+    return statements.reduce((imports, statement) => {
       let sourceFileImports: string[] | undefined
+      let structure: ImportDeclarationStructure | ExportDeclarationStructure | undefined
+
+      if (TypeGuards.isVariableStatement(statement)) {
+        statement.getStructure().declarations.forEach(declaration => {
+          if (typeof declaration.initializer === 'string') {
+            const [match, moduleSpecifier, namedImport] = Array.from(
+              REQUIRE_RE.exec(declaration.initializer) || []
+            )
+
+            if (moduleSpecifier) {
+              const importedFile: SourceFile | undefined = this.resolveModule(moduleSpecifier, sourceFile)
+              sourceFileImports = this.addImportedFile(importedFile, imports)
+
+              if (sourceFileImports && namedImport) {
+                sourceFileImports.push(namedImport)
+              }
+            }
+          }
+        })
+      }
 
       if (TypeGuards.isImportDeclaration(statement) || TypeGuards.isExportDeclaration(statement)) {
-        const structure = statement.getStructure()
-        const moduleSpecifier = structure.moduleSpecifier
+        let moduleSpecifier: string | undefined
+
+        try {
+          structure = statement.getStructure()
+          moduleSpecifier = structure.moduleSpecifier
+        } catch (e) {
+          warn(e)
+          const brokenLineNumber = statement.getStartLineNumber()
+          const brokenLine = sourceFile.getFullText().split(EOL)[brokenLineNumber - 1]
+          const moduleSpecifierMatch = TEXT_INSIDE_QUOTES_RE.exec(brokenLine)
+
+          if (moduleSpecifierMatch) {
+            moduleSpecifier = moduleSpecifierMatch[1]
+          }
+        }
 
         if (moduleSpecifier) {
           const importedFile: SourceFile | undefined =
-            statement.getModuleSpecifierSourceFile() ||
+            (structure && statement.getModuleSpecifierSourceFile()) ||
             this.resolveModule(moduleSpecifier, sourceFile)
 
-          if (importedFile) {
-            const filePath = path.relative(this.config.directory, importedFile.getFilePath())
-            sourceFileImports = imports[filePath] = imports[filePath] || []
-          } else {
-            warn('Import not found', sourceFile.getBaseName(), moduleSpecifier)
-          }
+          sourceFileImports = this.addImportedFile(importedFile, imports)
         }
       }
 
-      if (TypeGuards.isImportDeclaration(statement) && sourceFileImports) {
-        const structure = statement.getStructure()
+      if (TypeGuards.isImportDeclaration(statement) && sourceFileImports && structure) {
+        const importStructure = structure as ImportDeclarationStructure
 
-        if (structure.namespaceImport) {
-          sourceFileImports.push(structure.namespaceImport)
+        if (importStructure.namespaceImport) {
+          sourceFileImports.push(importStructure.namespaceImport)
         }
 
-        if (structure.defaultImport) {
-          sourceFileImports.push(structure.defaultImport)
+        if (importStructure.defaultImport) {
+          sourceFileImports.push(importStructure.defaultImport)
         }
 
-        if (structure.namedImports instanceof Array) {
-          sourceFileImports.push(...structure.namedImports.map(namedImport =>
+        if (importStructure.namedImports instanceof Array) {
+          sourceFileImports.push(...importStructure.namedImports.map(namedImport =>
             typeof namedImport === 'string' ? namedImport : namedImport.name
           ))
         }
 
-        if (!sourceFileImports.length && !structure.namedImports) {
+        if (!sourceFileImports.length && !importStructure.namedImports) {
           warn('IMPORT', sourceFile.getBaseName(), structure)
         }
       }
@@ -140,9 +180,16 @@ export class Parser {
     }, {} as Imports)
   }
 
-  private getExports (sourceFile: SourceFile): Exports {
-    return sourceFile.getStatements().reduce((exports, statement) => {
-      if (TypeGuards.isExportableNode(statement) && statement.isExported()) {
+  private addImportedFile (importedFile: SourceFile | undefined, imports: Imports): string[] | undefined {
+    if (importedFile) {
+      const filePath = path.relative(this.config.directory, importedFile.getFilePath())
+      return imports[filePath] = imports[filePath] || []
+    }
+  }
+
+  private getExports (sourceFile: SourceFile, statements: Statement[]): Exports {
+    return statements.reduce((exports, statement) => {
+      if (TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
         if (TypeGuards.isVariableStatement(statement)) {
           const structure = statement.getStructure()
 
@@ -160,7 +207,6 @@ export class Parser {
           trace('EXPORT', sourceFile.getBaseName(), statement.getStructure())
         } else {
           warn('EXPORT Unknown type', sourceFile.getBaseName(), statement)
-          throw new Error()
         }
       }
 
@@ -187,13 +233,15 @@ export class Parser {
 
     if (modulePath) {
       return this.sourceFiles.get(modulePath)
+    } else {
+      trace('Import not found', sourceFile.getBaseName(), moduleSpecifier)
     }
   }
 
   private resolveTsModule (moduleSpecifier): string | undefined {
     if (!this.tsResolve) return
 
-    warn('Resolve TS', moduleSpecifier)
+    trace('Resolve TS', moduleSpecifier)
     const modulePath = this.tsResolve(moduleSpecifier)
 
     if (!modulePath) return
@@ -204,6 +252,16 @@ export class Parser {
       if (this.sourceFiles.has(fullPath)) {
         return fullPath
       }
+    }
+  }
+
+  private walkSync (p: string): string[] {
+    if (fs.statSync(p).isDirectory()) {
+      return fs.readdirSync(p).reduce(
+        (paths, f) => [...paths, ...this.walkSync(path.join(p, f))]
+      , [] as string[])
+    } else {
+      return [ p ]
     }
   }
 }

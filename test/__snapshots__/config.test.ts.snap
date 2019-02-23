@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config Angular2 Todo 1`] = `
+Config {
+  "components": Array [
+    Object {
+      "patterns": Array [
+        "**/*.ts",
+        "**/*.js",
+      ],
+      "type": "Component",
+    },
+  ],
+  "directory": "/Users/marat/Dev/arkit/test/angular2_es2015",
+  "excludePatterns": Array [
+    "node_modules/**",
+    "test/**",
+    "**/*.test.*",
+    "**/*.spec.*",
+  ],
+  "extensions": Array [
+    ".js",
+    ".ts",
+    ".jsx",
+    ".tsx",
+  ],
+  "outputs": Array [
+    Object {},
+  ],
+  "patterns": Array [
+    "**/*.ts",
+    "**/*.js",
+  ],
+}
+`;
+
+exports[`Config Express 1`] = `
+Config {
+  "components": Array [
+    Object {
+      "patterns": Array [
+        "**/*.ts",
+        "**/*.js",
+      ],
+      "type": "Component",
+    },
+  ],
+  "directory": "/Users/marat/Dev/arkit/test/express",
+  "excludePatterns": Array [
+    "node_modules/**",
+    "test/**",
+    "**/*.test.*",
+    "**/*.spec.*",
+  ],
+  "extensions": Array [
+    ".js",
+    ".ts",
+    ".jsx",
+    ".tsx",
+  ],
+  "outputs": Array [
+    Object {},
+  ],
+  "patterns": Array [
+    "**/*.ts",
+    "**/*.js",
+  ],
+}
+`;
+
+exports[`Config Sample 1`] = `
+Config {
+  "components": Array [
+    Object {
+      "format": "full",
+      "patterns": Array [
+        "./main.ts",
+      ],
+      "type": "App",
+    },
+    Object {
+      "patterns": Array [
+        "**/*.view.**",
+      ],
+      "type": "View",
+    },
+    Object {
+      "patterns": Array [
+        "**/**component.**",
+      ],
+      "type": "Component",
+    },
+    Object {
+      "patterns": Array [
+        "**/controllers/*",
+      ],
+      "type": "Controller",
+    },
+    Object {
+      "patterns": Array [
+        "**/models/*",
+      ],
+      "type": "Model",
+    },
+  ],
+  "directory": "/Users/marat/Dev/arkit/test/sample",
+  "excludePatterns": Array [],
+  "extensions": Array [
+    ".js",
+    ".ts",
+    ".jsx",
+    ".tsx",
+  ],
+  "outputs": Array [
+    Object {
+      "groups": Array [
+        Object {
+          "components": Array [
+            "View",
+            "Controller",
+          ],
+          "type": "Main",
+        },
+        Object {
+          "components": Array [
+            "Component",
+            "Model",
+          ],
+          "type": "Base",
+        },
+        Object {
+          "patterns": Array [
+            "**/*",
+          ],
+        },
+      ],
+      "path": Array [
+        "./docs/architecture.puml",
+      ],
+    },
+    Object {
+      "path": "./docs/architecture.svg",
+    },
+  ],
+  "patterns": Array [
+    "./main.ts",
+    "**/*.view.**",
+    "**/**component.**",
+    "**/controllers/*",
+    "**/models/*",
+  ],
+}
+`;

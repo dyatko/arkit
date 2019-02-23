@@ -1,10 +1,9 @@
 import { Files } from './parser'
-import * as minimatch from 'minimatch'
 import * as path from 'path'
 import * as https from 'https'
+import * as nanomatch from 'nanomatch'
 import { ComponentFilters, ComponentNameFormat, ComponentSchema, Config, OutputDirection, OutputSchema } from './config'
 import { debug, trace } from './logger'
-import * as plantumlEncoder from 'plantuml-encoder'
 
 interface Component {
   name: string
@@ -146,8 +145,9 @@ export class Generator {
       const differentFilenames = new Set(
         components.map(component => component.filename)
       )
+      const shouldPrefixWithDirectory = differentFilenames.size > 1 || name === 'index'
 
-      if (differentFilenames.size > 1) {
+      if (shouldPrefixWithDirectory) {
         for (const component of components) {
           const dir = path.basename(path.dirname(component.filename))
           component.name = path.join(dir, component.name)
@@ -177,16 +177,14 @@ export class Generator {
   }
 
   private findComponentSchema (output: OutputSchema, filename: string): ComponentSchema {
-    const componentSchema = this.config.components.find(component => {
-      const includedInOutput =
-        !output.components ||
-        !output.components.length ||
-        output.components.some(outputComponent => outputComponent === component.type)
+    const componentSchema = this.config.components.find(componentSchema => {
+      const outputFilters: ComponentFilters[] = [output, ...this.config.array(output.groups) || []]
+      const includedInOutput = outputFilters.some(
+        outputFilter => this.verifyComponentFilters(outputFilter, componentSchema)
+      )
 
       if (includedInOutput) {
-        return !!component.patterns && component.patterns.some(pattern =>
-          this.match(filename, pattern)
-        )
+        return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns)
       } else {
         return false
       }
@@ -199,8 +197,8 @@ export class Generator {
     return componentSchema
   }
 
-  private verifyComponentFilters (filters: ComponentFilters, component: Component): boolean {
-    const matchesPatterns = !filters.patterns || filters.patterns.some(pattern => this.match(component.filename, pattern))
+  private verifyComponentFilters (filters: ComponentFilters, component: Component | ComponentSchema): boolean {
+    const matchesPatterns = !('filename' in component) || !filters.patterns || nanomatch.some(component.filename, filters.patterns)
     const matchesComponents = !filters.components || filters.components.some(type => type === component.type)
     return matchesPatterns && matchesComponents
   }
@@ -216,7 +214,7 @@ export class Generator {
   }
 
   private match (filename: string, pattern: string): boolean {
-    return minimatch(filename, pattern.replace(/^\.\//, ''))
+    return nanomatch(filename, pattern)
   }
 
   generatePlantUML (output: OutputSchema): string {
@@ -234,7 +232,7 @@ export class Generator {
 
     const puml = ['@startuml']
 
-    puml.push(this.generatePlantUMLSkin(output))
+    puml.push(this.generatePlantUMLSkin(output, layers))
 
     for (const [layer, components] of layers.entries()) {
       puml.push(this.generatePlantUMLLayer(layer, components))
@@ -248,15 +246,22 @@ export class Generator {
   }
 
   convertToSVG (puml: string): Promise<string> {
-    const encoded = plantumlEncoder.encode(puml)
-
     return new Promise((resolve, reject) => {
-      https.get(`https://www.plantuml.com/plantuml/svg/${encoded}`, res => {
+      const req = https.request('https://arkit.herokuapp.com/svg', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'text/plain',
+          'Content-Length': puml.length
+        }
+      }, res => {
         let svg = ['']
 
         res.on('data', data => svg.push(data))
         res.on('end', () => resolve(svg.join('')))
       }).on('error', reject)
+
+      req.write(puml)
+      req.end()
     })
   }
 
@@ -293,8 +298,7 @@ export class Generator {
 
   private generatePlantUMLRelationships (layers: Layers): string {
     const puml = ['']
-    const components = ([] as Component[])
-      .concat(...[...layers.values()].map(components => [...components]))
+    const components = this.getAllComponents(layers)
       .sort((a, b) => a.name.localeCompare(b.name))
 
     for (const component of components) {
@@ -302,9 +306,10 @@ export class Generator {
         const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename)
         if (!importedComponent) continue
 
+        const isImported = components.some(potentialComponent => potentialComponent.imports.includes(component.filename))
         const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length
         const connectionLength = Math.max(1, Math.min(4, numberOfLevels))
-        const connectionSign = component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-'
+        const connectionSign = !isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-'
         const connection = connectionSign.repeat(connectionLength) + '>'
 
         puml.push([
@@ -321,12 +326,14 @@ export class Generator {
   /**
    * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
    */
-  private generatePlantUMLSkin (output: OutputSchema): string {
+  private generatePlantUMLSkin (output: OutputSchema, layers: Layers): string {
     const puml = ['']
 
     puml.push('scale max 1200 width')
 
-    if (output.direction === OutputDirection.HORIZONTAL) {
+    const direction = output.direction || this.getAllComponents(layers).length > 20 ? OutputDirection.HORIZONTAL : OutputDirection.VERTICAL
+
+    if (direction === OutputDirection.HORIZONTAL) {
       puml.push('left to right direction')
     } else {
       puml.push('top to bottom direction')
@@ -335,8 +342,8 @@ export class Generator {
     puml.push('skinparam monochrome true')
     puml.push('skinparam shadowing false')
     puml.push('skinparam nodesep 16')
-    puml.push('skinparam defaultFontName Helvetica')
-    puml.push('skinparam defaultFontSize 13')
+    puml.push('skinparam defaultFontName Tahoma')
+    puml.push('skinparam defaultFontSize 14')
 
     puml.push(`
 'oval
@@ -346,5 +353,10 @@ skinparam usecase {
     `)
 
     return puml.join('\n')
+  }
+
+  private getAllComponents (layers: Layers): Component[] {
+    return ([] as Component[])
+      .concat(...[...layers.values()].map(components => [...components]))
   }
 }

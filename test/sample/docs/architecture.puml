@@ -5,8 +5,8 @@ top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 16
-skinparam defaultFontName Helvetica
-skinparam defaultFontSize 13
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
@@ -28,7 +28,7 @@ package "Base" {
 (main.ts)
 
 (component) ~> (base.component)
-(main.ts) --> (main.view)
+(main.ts) ==> (main.view)
 (main.view) -> (component)
 (main.view) ~~~> (singleton)
 (singleton) ---> (model)

@@ -35,4 +35,13 @@ describe('Acceptance test', () => {
       expect(execSync(arkit).toString()).toMatchSnapshot()
     })
   })
+
+  describe('Express', () => {
+    test('should output correct puml', () => {
+      const dir = path.join(__dirname, './express')
+
+      process.chdir(dir)
+      expect(execSync(arkit).toString()).toMatchSnapshot()
+    })
+  })
 })

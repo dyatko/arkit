@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const minimatch = require("minimatch");
 const path = require("path");
 const https = require("https");
+const nanomatch = require("nanomatch");
 const config_1 = require("./config");
 const logger_1 = require("./logger");
-const plantumlEncoder = require("plantuml-encoder");
 const EMPTY_LAYER = Symbol('__empty_layer__');
 class Generator {
     constructor(config, files) {
@@ -106,7 +105,8 @@ class Generator {
         for (const name in componentsByName) {
             const components = componentsByName[name];
             const differentFilenames = new Set(components.map(component => component.filename));
-            if (differentFilenames.size > 1) {
+            const shouldPrefixWithDirectory = differentFilenames.size > 1 || name === 'index';
+            if (shouldPrefixWithDirectory) {
                 for (const component of components) {
                     const dir = path.basename(path.dirname(component.filename));
                     component.name = path.join(dir, component.name);
@@ -129,12 +129,11 @@ class Generator {
         return sortedComponents;
     }
     findComponentSchema(output, filename) {
-        const componentSchema = this.config.components.find(component => {
-            const includedInOutput = !output.components ||
-                !output.components.length ||
-                output.components.some(outputComponent => outputComponent === component.type);
+        const componentSchema = this.config.components.find(componentSchema => {
+            const outputFilters = [output, ...this.config.array(output.groups) || []];
+            const includedInOutput = outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
             if (includedInOutput) {
-                return !!component.patterns && component.patterns.some(pattern => this.match(filename, pattern));
+                return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns);
             }
             else {
                 return false;
@@ -146,7 +145,7 @@ class Generator {
         return componentSchema;
     }
     verifyComponentFilters(filters, component) {
-        const matchesPatterns = !filters.patterns || filters.patterns.some(pattern => this.match(component.filename, pattern));
+        const matchesPatterns = !('filename' in component) || !filters.patterns || nanomatch.some(component.filename, filters.patterns);
         const matchesComponents = !filters.components || filters.components.some(type => type === component.type);
         return matchesPatterns && matchesComponents;
     }
@@ -158,7 +157,7 @@ class Generator {
         return path.basename(filename, path.extname(filename));
     }
     match(filename, pattern) {
-        return minimatch(filename, pattern.replace(/^\.\//, ''));
+        return nanomatch(filename, pattern);
     }
     generatePlantUML(output) {
         logger_1.debug('Generating components...');
@@ -168,7 +167,7 @@ class Generator {
         const layers = this.generateLayers(output, components);
         logger_1.trace(Array.from(layers.keys()));
         const puml = ['@startuml'];
-        puml.push(this.generatePlantUMLSkin(output));
+        puml.push(this.generatePlantUMLSkin(output, layers));
         for (const [layer, components] of layers.entries()) {
             puml.push(this.generatePlantUMLLayer(layer, components));
         }
@@ -178,13 +177,20 @@ class Generator {
         return puml.join('\n');
     }
     convertToSVG(puml) {
-        const encoded = plantumlEncoder.encode(puml);
         return new Promise((resolve, reject) => {
-            https.get(`https://www.plantuml.com/plantuml/svg/${encoded}`, res => {
+            const req = https.request('https://arkit.herokuapp.com/svg', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Content-Length': puml.length
+                }
+            }, res => {
                 let svg = [''];
                 res.on('data', data => svg.push(data));
                 res.on('end', () => resolve(svg.join('')));
             }).on('error', reject);
+            req.write(puml);
+            req.end();
         });
     }
     generatePlantUMLLayer(layer, components) {
@@ -213,17 +219,17 @@ class Generator {
     }
     generatePlantUMLRelationships(layers) {
         const puml = [''];
-        const components = []
-            .concat(...[...layers.values()].map(components => [...components]))
+        const components = this.getAllComponents(layers)
             .sort((a, b) => a.name.localeCompare(b.name));
         for (const component of components) {
             for (const importedFilename of component.imports) {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
                 if (!importedComponent)
                     continue;
+                const isImported = components.some(potentialComponent => potentialComponent.imports.includes(component.filename));
                 const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length;
                 const connectionLength = Math.max(1, Math.min(4, numberOfLevels));
-                const connectionSign = component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-';
+                const connectionSign = !isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-';
                 const connection = connectionSign.repeat(connectionLength) + '>';
                 puml.push([
                     this.generatePlantUMLComponent(component),
@@ -237,10 +243,11 @@ class Generator {
     /**
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
      */
-    generatePlantUMLSkin(output) {
+    generatePlantUMLSkin(output, layers) {
         const puml = [''];
         puml.push('scale max 1200 width');
-        if (output.direction === config_1.OutputDirection.HORIZONTAL) {
+        const direction = output.direction || this.getAllComponents(layers).length > 20 ? config_1.OutputDirection.HORIZONTAL : config_1.OutputDirection.VERTICAL;
+        if (direction === config_1.OutputDirection.HORIZONTAL) {
             puml.push('left to right direction');
         }
         else {
@@ -249,8 +256,8 @@ class Generator {
         puml.push('skinparam monochrome true');
         puml.push('skinparam shadowing false');
         puml.push('skinparam nodesep 16');
-        puml.push('skinparam defaultFontName Helvetica');
-        puml.push('skinparam defaultFontSize 13');
+        puml.push('skinparam defaultFontName Tahoma');
+        puml.push('skinparam defaultFontSize 14');
         puml.push(`
 'oval
 skinparam usecase {
@@ -258,6 +265,10 @@ skinparam usecase {
 }
     `);
         return puml.join('\n');
+    }
+    getAllComponents(layers) {
+        return []
+            .concat(...[...layers.values()].map(components => [...components]));
     }
 }
 exports.Generator = Generator;

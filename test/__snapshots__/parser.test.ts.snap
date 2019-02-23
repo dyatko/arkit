@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser Angular2 Todo 1`] = `
+Object {
+  "app/components/app/app.component.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "app/components/index.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/components/app/app.component.js": Array [],
+      "app/components/todo-footer/todo-footer.component.js": Array [],
+      "app/components/todo-header/todo-header.component.js": Array [],
+      "app/components/todo-item/todo-item.component.js": Array [],
+      "app/components/todo-list/todo-list.component.js": Array [],
+    },
+  },
+  "app/components/todo-footer/todo-footer.component.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/services/todo-store.service.js": Array [
+        "TodoStoreService",
+      ],
+    },
+  },
+  "app/components/todo-header/todo-header.component.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/services/todo-store.service.js": Array [
+        "TodoStoreService",
+      ],
+    },
+  },
+  "app/components/todo-item/todo-item.component.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "app/components/todo-list/todo-list.component.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/services/todo-store.service.js": Array [
+        "TodoStoreService",
+      ],
+    },
+  },
+  "app/main.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/main.module.js": Array [
+        "MainModule",
+      ],
+    },
+  },
+  "app/main.module.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/components/index.js": Array [
+        "AppComponent",
+        "TodoListComponent",
+        "TodoFooterComponent",
+        "TodoHeaderComponent",
+        "TodoItemComponent",
+      ],
+      "app/pipes/index.js": Array [
+        "TrimPipe",
+      ],
+      "app/routes.js": Array [
+        "routes",
+      ],
+      "app/services/todo-store.service.js": Array [
+        "TodoStoreService",
+      ],
+    },
+  },
+  "app/models/todo.model.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "app/pipes/index.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/pipes/trim/trim.pipe.js": Array [],
+    },
+  },
+  "app/pipes/trim/trim.pipe.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "app/routes.js": Object {
+    "exports": Array [
+      Array [
+        "routes",
+      ],
+    ],
+    "imports": Object {
+      "app/components/todo-list/todo-list.component.js": Array [
+        "TodoListComponent",
+      ],
+    },
+  },
+  "app/services/todo-store.service.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "app/models/todo.model.js": Array [
+        "TodoModel",
+      ],
+    },
+  },
+  "main.bundle.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "webpack.config.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+}
+`;
+
+exports[`Parser Express 1`] = `
+Object {
+  "application.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "middleware/init.js": Array [],
+      "middleware/query.js": Array [],
+      "router/index.js": Array [],
+      "utils.js": Array [
+        "compileETag",
+        "compileQueryParser",
+        "compileTrust",
+      ],
+      "view.js": Array [],
+    },
+  },
+  "express.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "application.js": Array [],
+      "request.js": Array [],
+      "response.js": Array [],
+      "router/index.js": Array [],
+      "router/route.js": Array [],
+    },
+  },
+  "middleware/init.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "middleware/query.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "request.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "response.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "utils.js": Array [
+        "isAbsolute",
+        "normalizeType",
+        "normalizeTypes",
+        "setCharset",
+      ],
+    },
+  },
+  "router/index.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "router/layer.js": Array [],
+      "router/route.js": Array [],
+    },
+  },
+  "router/layer.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "router/route.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "router/layer.js": Array [],
+    },
+  },
+  "utils.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "view.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+}
+`;
+
+exports[`Parser Sample 1`] = `
+Object {
+  "controllers/singleton.ts": Object {
+    "exports": Array [
+      Array [
+        "singleton",
+      ],
+    ],
+    "imports": Object {
+      "models/model.ts": Array [
+        "List",
+        "Model",
+      ],
+    },
+  },
+  "main.ts": Object {
+    "exports": Array [],
+    "imports": Object {
+      "views/main.view.js": Array [
+        "mainView",
+      ],
+    },
+  },
+  "models/model.ts": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "views/base.component.js": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+  "views/component.js": Object {
+    "exports": Array [],
+    "imports": Object {
+      "views/base.component.js": Array [
+        "BaseComponent",
+      ],
+    },
+  },
+  "views/main.view.js": Object {
+    "exports": Array [
+      Array [
+        "mainView",
+      ],
+    ],
+    "imports": Object {
+      "controllers/singleton.ts": Array [
+        "singleton",
+      ],
+      "views/component.js": Array [
+        "Component",
+      ],
+    },
+  },
+}
+`;

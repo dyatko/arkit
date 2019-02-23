@@ -1,5 +1,4 @@
 import * as pino from 'pino'
-import * as pinoDebug from 'pino-debug'
 
 const logger = pino({
   name: 'arkit',
@@ -8,13 +7,6 @@ const logger = pino({
   prettyPrint: {
     colorize: true,
     translateTime: true
-  }
-})
-
-pinoDebug(logger, {
-  auto: true,
-  map: {
-    'arkit': 'error'
   }
 })
 

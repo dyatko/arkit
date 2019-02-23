@@ -33,7 +33,6 @@ class Config {
         logger_1.info('Working directory', directory);
         const userConfigPath = path.join(this.directory, 'arkit');
         const userConfig = this.safeRequire(userConfigPath);
-        this.path = userConfig ? userConfigPath : undefined;
         this.components = this.array(userConfig && userConfig.components || exports.DEFAULT_CONFIG.components);
         this.outputs = this.array(userConfig && userConfig.output || exports.DEFAULT_CONFIG.output);
         if (userConfig && userConfig.excludePatterns) {

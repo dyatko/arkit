@@ -7,6 +7,8 @@
     "types": ["node", "jest"],
     "strictNullChecks": true
   },
-  "include": ["./src/*", "./index.ts"],
+  "include": ["./src/*",
+    "./src/index.ts"
+  ],
   "exclude": ["./test/*", "./node_modules/*"]
 }

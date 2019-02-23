@@ -104,7 +104,6 @@ export const DEFAULT_CONFIG: ConfigSchema = {
 }
 
 export class Config {
-  path?: string
   components: ComponentSchema[]
   outputs: OutputSchema[]
   patterns: string[] = []
@@ -117,7 +116,6 @@ export class Config {
     const userConfigPath = path.join(this.directory, 'arkit')
     const userConfig = this.safeRequire<ConfigSchema>(userConfigPath)
 
-    this.path = userConfig ? userConfigPath : undefined
     this.components = this.array(userConfig && userConfig.components || DEFAULT_CONFIG.components)!
     this.outputs = this.array(userConfig && userConfig.output || DEFAULT_CONFIG.output)!
 

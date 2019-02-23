@@ -1,16 +1,14 @@
-#! /usr/bin/env node
-
 import * as fs from 'fs'
 import * as path from 'path'
-import { Config } from './src/config'
-import { Parser } from './src/parser'
-import { Generator } from './src/generator'
-import { debug, trace } from './src/logger'
+import { debug, trace } from './logger'
+import { Config } from './config'
+import { Parser } from './parser'
+import { Generator } from './generator'
 
-export const main = (directory: string) => {
+export const arkit = (directory: string): string[] => {
   const config = new Config(directory)
 
-  debug(`Config ${config.path}`)
+  debug(`Config`)
   trace(config)
 
   const parser = new Parser(config)
@@ -21,12 +19,12 @@ export const main = (directory: string) => {
 
   const generator = new Generator(config, files)
 
-  for (const output of config.outputs) {
+  return config.outputs.map(output => {
     const puml = generator.generatePlantUML(output)
 
-    if (config.path && output.path) {
+    if (output.path) {
       for (const outputPath of config.array(output.path)!) {
-        const fullExportPath = path.join(path.dirname(config.path), outputPath)
+        const fullExportPath = path.join(config.directory, outputPath)
         const ext = path.extname(fullExportPath)
 
         if (fs.existsSync(fullExportPath)) {
@@ -48,9 +46,7 @@ export const main = (directory: string) => {
     } else {
       console.log(puml)
     }
-  }
-}
 
-if (require.main === module) {
-  main(process.cwd())
+    return puml
+  })
 }

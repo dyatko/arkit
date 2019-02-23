@@ -1,8 +1,8 @@
 {
   "name": "arkit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A CLI tool to visualise project architecture",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "compile": "tsc --project .",
     "lint": "tslint --project .",
@@ -27,30 +27,38 @@
   },
   "homepage": "https://github.com/dyatko/arkit#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.4",
-    "@types/minimatch": "^3.0.3",
-    "@types/node": "^10.12.19",
+    "@types/jest": "^24.0.6",
+    "@types/node": "^11.9.4",
     "@types/pino": "^5.8.5",
     "@types/resolve": "0.0.8",
     "jest": "^24.1.0",
-    "prettier": "^1.16.1",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^24.0.0",
     "tslint": "^5.12.1",
     "tslint-config-standard": "^8.0.1",
-    "typescript-json-schema": "^0.35.0"
+    "typescript-json-schema": "^0.36.0",
+    "weak": "^1.0.1"
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "minimatch": "^3.0.4",
+    "nanomatch": "^1.2.13",
     "pino": "^5.11.1",
-    "pino-debug": "^1.2.0",
     "pino-pretty": "^2.5.0",
-    "plantuml-encoder": "^1.2.5",
     "resolve": "^1.10.0",
-    "ts-morph": "^1.1.0",
+    "ts-morph": "^1.2.0",
     "tsconfig-paths": "^3.8.0"
   },
   "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "json",
+      "js",
+      "node"
+    ],
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/*.ts"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
