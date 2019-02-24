@@ -260,7 +260,10 @@ export class Generator {
 
   convertToSVG (puml: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const req = https.request('https://arkit.herokuapp.com/svg', {
+      const req = https.request({
+        hostname: 'arkit.herokuapp.com',
+        port: 443,
+        path: '/svg',
         method: 'post',
         headers: {
           'Content-Type': 'text/plain',
