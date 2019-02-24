@@ -25,11 +25,11 @@ skinparam rectangle {
     
 
 rectangle \\"app.component\\" as app_component
-rectangle \\"components/index\\" as components/index
+rectangle \\"components/index\\" as components_index
 rectangle \\"<b>main</b>\\" as main
 rectangle \\"<b>main.bundle</b>\\" as main_bundle
 rectangle \\"main.module\\" as main_module
-rectangle \\"pipes/index\\" as pipes/index
+rectangle \\"pipes/index\\" as pipes_index
 rectangle \\"routes\\" as routes
 rectangle \\"todo-footer.component\\" as todo-footer_component
 rectangle \\"todo-header.component\\" as todo-header_component
@@ -40,17 +40,17 @@ rectangle \\"todo.model\\" as todo_model
 rectangle \\"trim.pipe\\" as trim_pipe
 rectangle \\"<b>webpack.config</b>\\" as webpack_config
 
-components/index --> app_component
-components/index --> todo-footer_component
-components/index --> todo-header_component
-components/index --> todo-item_component
-components/index --> todo-list_component
+components_index --> app_component
+components_index --> todo-footer_component
+components_index --> todo-header_component
+components_index --> todo-item_component
+components_index --> todo-list_component
 main => main_module
-main_module --> components/index
-main_module --> pipes/index
+main_module --> components_index
+main_module --> pipes_index
 main_module --> routes
 main_module --> todo-store_service
-pipes/index --> trim_pipe
+pipes_index --> trim_pipe
 routes ---> todo-list_component
 todo-footer_component ----> todo-store_service
 todo-header_component ----> todo-store_service
@@ -93,13 +93,13 @@ rectangle \\"query\\" as query
 rectangle \\"request\\" as request
 rectangle \\"response\\" as response
 rectangle \\"route\\" as route
-rectangle \\"router/index\\" as router/index
+rectangle \\"router/index\\" as router_index
 rectangle \\"utils\\" as utils
 rectangle \\"view\\" as view
 
 application --> init
 application --> query
-application --> router/index
+application --> router_index
 application --> utils
 application --> view
 express => application
@@ -107,11 +107,11 @@ express ==> query
 express => request
 express => response
 express ==> route
-express ==> router/index
+express ==> router_index
 response --> utils
 route --> layer
-router/index --> layer
-router/index --> route
+router_index --> layer
+router_index --> route
 
 @enduml",
 ]

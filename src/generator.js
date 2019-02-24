@@ -231,7 +231,7 @@ class Generator {
     generatePlantUMLComponent(component, context) {
         const puml = [];
         const hasLayer = typeof component.layer === 'string';
-        const safeName = component.name.replace(/\./, '_');
+        const safeName = component.name.replace(/[./]/g, '_');
         if (hasLayer) {
             puml.push(`(${component.name})`);
         }

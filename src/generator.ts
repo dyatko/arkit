@@ -309,7 +309,7 @@ export class Generator {
   private generatePlantUMLComponent (component: Component, context: Context): string {
     const puml: string[] = []
     const hasLayer = typeof component.layer === 'string'
-    const safeName = component.name.replace(/\./, '_')
+    const safeName = component.name.replace(/[./]/g, '_')
 
     if (hasLayer) {
       puml.push(`(${component.name})`)
