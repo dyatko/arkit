@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A CLI tool to visualise project architecture",
   "main": "index.js",
   "scripts": {
