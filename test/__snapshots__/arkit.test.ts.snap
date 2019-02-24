@@ -4,52 +4,58 @@ exports[`Arkit Angular2 Todo 1`] = `
 Array [
   "@startuml
 
-scale max 1200 width
+scale max 1920 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 22
+skinparam nodesep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     
 
-(app.component)
-(components/index)
-(<b>main</b>)
-(<b>main.bundle</b>)
-(main.module)
-(pipes/index)
-(routes)
-(todo-footer.component)
-(todo-header.component)
-(todo-item.component)
-(todo-list.component)
-(todo-store.service)
-(todo.model)
-(trim.pipe)
-(<b>webpack.config</b>)
+rectangle \\"app.component\\" as app_component
+rectangle \\"components/index\\" as components/index
+rectangle \\"<b>main</b>\\" as main
+rectangle \\"<b>main.bundle</b>\\" as main_bundle
+rectangle \\"main.module\\" as main_module
+rectangle \\"pipes/index\\" as pipes/index
+rectangle \\"routes\\" as routes
+rectangle \\"todo-footer.component\\" as todo-footer_component
+rectangle \\"todo-header.component\\" as todo-header_component
+rectangle \\"todo-item.component\\" as todo-item_component
+rectangle \\"todo-list.component\\" as todo-list_component
+rectangle \\"todo-store.service\\" as todo-store_service
+rectangle \\"todo.model\\" as todo_model
+rectangle \\"trim.pipe\\" as trim_pipe
+rectangle \\"<b>webpack.config</b>\\" as webpack_config
 
-(components/index) --> (app.component)
-(components/index) --> (todo-footer.component)
-(components/index) --> (todo-header.component)
-(components/index) --> (todo-item.component)
-(components/index) --> (todo-list.component)
-(<b>main</b>) => (main.module)
-(main.module) --> (components/index)
-(main.module) --> (pipes/index)
-(main.module) -> (routes)
-(main.module) --> (todo-store.service)
-(pipes/index) --> (trim.pipe)
-(routes) ---> (todo-list.component)
-(todo-footer.component) ----> (todo-store.service)
-(todo-header.component) ----> (todo-store.service)
-(todo-list.component) ----> (todo-store.service)
-(todo-store.service) ---> (todo.model)
+components/index --> app_component
+components/index --> todo-footer_component
+components/index --> todo-header_component
+components/index --> todo-item_component
+components/index --> todo-list_component
+main => main_module
+main_module --> components/index
+main_module --> pipes/index
+main_module --> routes
+main_module --> todo-store_service
+pipes/index --> trim_pipe
+routes ---> todo-list_component
+todo-footer_component ----> todo-store_service
+todo-header_component ----> todo-store_service
+todo-list_component ----> todo-store_service
+todo-store_service ---> todo_model
 
 @enduml",
 ]
@@ -59,47 +65,53 @@ exports[`Arkit Express 1`] = `
 Array [
   "@startuml
 
-scale max 1200 width
+scale max 1920 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 22
+skinparam nodesep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     
 
-(application)
-(<b>express</b>)
-(init)
-(layer)
-(query)
-(request)
-(response)
-(route)
-(router/index)
-(utils)
-(view)
+rectangle \\"application\\" as application
+rectangle \\"<b>express</b>\\" as express
+rectangle \\"init\\" as init
+rectangle \\"layer\\" as layer
+rectangle \\"query\\" as query
+rectangle \\"request\\" as request
+rectangle \\"response\\" as response
+rectangle \\"route\\" as route
+rectangle \\"router/index\\" as router/index
+rectangle \\"utils\\" as utils
+rectangle \\"view\\" as view
 
-(application) --> (init)
-(application) --> (query)
-(application) --> (router/index)
-(application) -> (utils)
-(application) -> (view)
-(<b>express</b>) => (application)
-(<b>express</b>) ==> (query)
-(<b>express</b>) => (request)
-(<b>express</b>) => (response)
-(<b>express</b>) ==> (route)
-(<b>express</b>) ==> (router/index)
-(response) -> (utils)
-(route) -> (layer)
-(router/index) -> (layer)
-(router/index) -> (route)
+application --> init
+application --> query
+application --> router/index
+application --> utils
+application --> view
+express => application
+express ==> query
+express => request
+express => response
+express ==> route
+express ==> router/index
+response --> utils
+route --> layer
+router/index --> layer
+router/index --> route
 
 @enduml",
 ]
@@ -109,68 +121,80 @@ exports[`Arkit Sample 1`] = `
 Array [
   "@startuml
 
-scale max 1200 width
+scale max 1920 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 22
+skinparam nodesep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     
 
-package \\"Main\\" {
+rectangle \\"Main\\" {
   (main.view)
   (singleton)
 }
 
-package \\"Base\\" {
+rectangle \\"Base\\" {
   (base.component)
   (component)
   (model)
 }
 
-(<b>main.ts</b>)
+rectangle \\"<b>main.ts</b>\\" as main_ts
 
-(component) ~> (base.component)
-(<b>main.ts</b>) ==> (main.view)
-(main.view) -> (component)
-(main.view) ~~~> (singleton)
+(component) ..> (base.component)
+main_ts ==> (main.view)
+(main.view) --> (component)
+(main.view) ...> (singleton)
 (singleton) ---> (model)
 
 @enduml",
   "@startuml
 
-scale max 1200 width
+scale max 1920 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 22
+skinparam nodesep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     
 
-(base.component)
-(component)
-(<b>main.ts</b>)
-(main.view)
-(model)
-(singleton)
+rectangle \\"base.component\\" as base_component
+rectangle \\"component\\" as component
+rectangle \\"<b>main.ts</b>\\" as main_ts
+rectangle \\"main.view\\" as main_view
+rectangle \\"model\\" as model
+rectangle \\"singleton\\" as singleton
 
-(component) -> (base.component)
-(<b>main.ts</b>) ==> (main.view)
-(main.view) -> (component)
-(main.view) ---> (singleton)
-(singleton) ---> (model)
+component --> base_component
+main_ts ==> main_view
+main_view --> component
+main_view ---> singleton
+singleton ---> model
 
 @enduml",
 ]

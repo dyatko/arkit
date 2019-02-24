@@ -1,36 +1,42 @@
 @startuml
 
-scale max 1200 width
+scale max 1920 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 22
+skinparam nodesep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     
 
-package "Main" {
+rectangle "Main" {
   (main.view)
   (singleton)
 }
 
-package "Base" {
+rectangle "Base" {
   (base.component)
   (component)
   (model)
 }
 
-(<b>main.ts</b>)
+rectangle "<b>main.ts</b>" as main_ts
 
-(component) ~> (base.component)
-(<b>main.ts</b>) ==> (main.view)
-(main.view) -> (component)
-(main.view) ~~~> (singleton)
+(component) ..> (base.component)
+main_ts ==> (main.view)
+(main.view) --> (component)
+(main.view) ...> (singleton)
 (singleton) ---> (model)
 
 @enduml

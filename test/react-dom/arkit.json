@@ -3,7 +3,7 @@
   "components": [
     {
       "type": "Entry",
-      "patterns": ["index.js", "server.js", "server.node.js", "server.browser.js"]
+      "patterns": ["*.js"]
     },
     {
       "type": "Component",
@@ -16,15 +16,20 @@
     "groups": [
       {
         "first": true,
-        "components": ["Entry"]
+        "components": ["Entry"],
+        "patterns":  ["index.js", "server.js"]
       },
       {
-        "type": "Event Plugins",
-        "patterns": ["src/events/**/*EventPlugin.*"]
-      },
-      {
-        "type": "Events",
+        "type": "Event",
         "patterns": ["src/events/**/*Event.*"]
+      },
+      {
+        "type": "EventPlugins",
+        "patterns": ["src/events/**/*EventPlugin*"]
+      },
+      {
+        "type": "Events-related",
+        "patterns": ["src/events/**"]
       },
       {
         "type": "Client",
@@ -39,7 +44,7 @@
         "patterns": ["src/shared/**"]
       },
       {
-        "components": ["Component"]
+        "components": ["Component", "Entry"]
       }
     ]
   }

@@ -22,6 +22,11 @@ interface Components extends Map<string, Component> {
 interface Layers extends Map<string | typeof EMPTY_LAYER, Set<Component>> {
 }
 
+enum Context {
+  LAYER,
+  RELATIONSHIP
+}
+
 const EMPTY_LAYER = Symbol('__empty_layer__')
 
 export class Generator {
@@ -287,10 +292,10 @@ export class Generator {
     const puml = ['']
     const isLayer = typeof layer === 'string'
 
-    if (isLayer) puml.push(`package "${layer}" {`)
+    if (isLayer) puml.push(`rectangle "${layer}" {`)
 
     for (const component of components) {
-      const componentPuml = [this.generatePlantUMLComponent(component)]
+      const componentPuml = [this.generatePlantUMLComponent(component, Context.LAYER)]
 
       if (isLayer) componentPuml.unshift('  ')
       puml.push(componentPuml.join(''))
@@ -301,14 +306,24 @@ export class Generator {
     return puml.join('\n')
   }
 
-  private generatePlantUMLComponent (component: Component): string {
+  private generatePlantUMLComponent (component: Component, context: Context): string {
     const puml: string[] = []
+    const hasLayer = typeof component.layer === 'string'
+    const safeName = component.name.replace(/\./, '_')
 
-    puml.push('(')
-    if (!component.isImported) puml.push('<b>')
-    puml.push(component.name)
-    if (!component.isImported) puml.push('</b>')
-    puml.push(')')
+    if (hasLayer) {
+      puml.push(`(${component.name})`)
+    } else {
+      if (context === Context.RELATIONSHIP) {
+        puml.push(safeName)
+      } else {
+        puml.push('rectangle "')
+        if (!component.isImported) puml.push('<b>')
+        puml.push(component.name)
+        if (!component.isImported) puml.push('</b>')
+        puml.push(`" as ${safeName}`)
+      }
+    }
 
     return puml.join('')
   }
@@ -324,14 +339,14 @@ export class Generator {
         if (!importedComponent) continue
 
         const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length
-        const connectionLength = Math.max(1, Math.min(4, numberOfLevels))
-        const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-'
+        const connectionLength = Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels))
+        const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '.' : '-'
         const connection = connectionSign.repeat(connectionLength) + '>'
 
         puml.push([
-          this.generatePlantUMLComponent(component),
+          this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
           connection,
-          this.generatePlantUMLComponent(importedComponent)
+          this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP)
         ].join(' '))
       }
     }
@@ -345,7 +360,7 @@ export class Generator {
   private generatePlantUMLSkin (output: OutputSchema, layers: Layers): string {
     const puml = ['']
 
-    puml.push('scale max 1200 width')
+    puml.push('scale max 1920 width')
 
     const direction = output.direction || this.getAllComponents(layers).length > 20 ? OutputDirection.HORIZONTAL : OutputDirection.VERTICAL
 
@@ -357,13 +372,19 @@ export class Generator {
 
     puml.push('skinparam monochrome true')
     puml.push('skinparam shadowing false')
-    puml.push('skinparam nodesep 22')
+    puml.push('skinparam nodesep 20')
     puml.push('skinparam defaultFontName Tahoma')
     puml.push('skinparam defaultFontSize 14')
 
     puml.push(`
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     `)

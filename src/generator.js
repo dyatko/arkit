@@ -5,6 +5,11 @@ const https = require("https");
 const nanomatch = require("nanomatch");
 const config_1 = require("./config");
 const logger_1 = require("./logger");
+var Context;
+(function (Context) {
+    Context[Context["LAYER"] = 0] = "LAYER";
+    Context[Context["RELATIONSHIP"] = 1] = "RELATIONSHIP";
+})(Context || (Context = {}));
 const EMPTY_LAYER = Symbol('__empty_layer__');
 class Generator {
     constructor(config, files) {
@@ -212,9 +217,9 @@ class Generator {
         const puml = [''];
         const isLayer = typeof layer === 'string';
         if (isLayer)
-            puml.push(`package "${layer}" {`);
+            puml.push(`rectangle "${layer}" {`);
         for (const component of components) {
-            const componentPuml = [this.generatePlantUMLComponent(component)];
+            const componentPuml = [this.generatePlantUMLComponent(component, Context.LAYER)];
             if (isLayer)
                 componentPuml.unshift('  ');
             puml.push(componentPuml.join(''));
@@ -223,15 +228,27 @@ class Generator {
             puml.push('}');
         return puml.join('\n');
     }
-    generatePlantUMLComponent(component) {
+    generatePlantUMLComponent(component, context) {
         const puml = [];
-        puml.push('(');
-        if (!component.isImported)
-            puml.push('<b>');
-        puml.push(component.name);
-        if (!component.isImported)
-            puml.push('</b>');
-        puml.push(')');
+        const hasLayer = typeof component.layer === 'string';
+        const safeName = component.name.replace(/\./, '_');
+        if (hasLayer) {
+            puml.push(`(${component.name})`);
+        }
+        else {
+            if (context === Context.RELATIONSHIP) {
+                puml.push(safeName);
+            }
+            else {
+                puml.push('rectangle "');
+                if (!component.isImported)
+                    puml.push('<b>');
+                puml.push(component.name);
+                if (!component.isImported)
+                    puml.push('</b>');
+                puml.push(`" as ${safeName}`);
+            }
+        }
         return puml.join('');
     }
     generatePlantUMLRelationships(layers) {
@@ -244,13 +261,13 @@ class Generator {
                 if (!importedComponent)
                     continue;
                 const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length;
-                const connectionLength = Math.max(1, Math.min(4, numberOfLevels));
-                const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-';
+                const connectionLength = Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels));
+                const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '.' : '-';
                 const connection = connectionSign.repeat(connectionLength) + '>';
                 puml.push([
-                    this.generatePlantUMLComponent(component),
+                    this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
                     connection,
-                    this.generatePlantUMLComponent(importedComponent)
+                    this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP)
                 ].join(' '));
             }
         }
@@ -261,7 +278,7 @@ class Generator {
      */
     generatePlantUMLSkin(output, layers) {
         const puml = [''];
-        puml.push('scale max 1200 width');
+        puml.push('scale max 1920 width');
         const direction = output.direction || this.getAllComponents(layers).length > 20 ? config_1.OutputDirection.HORIZONTAL : config_1.OutputDirection.VERTICAL;
         if (direction === config_1.OutputDirection.HORIZONTAL) {
             puml.push('left to right direction');
@@ -271,12 +288,18 @@ class Generator {
         }
         puml.push('skinparam monochrome true');
         puml.push('skinparam shadowing false');
-        puml.push('skinparam nodesep 22');
+        puml.push('skinparam nodesep 20');
         puml.push('skinparam defaultFontName Tahoma');
         puml.push('skinparam defaultFontSize 14');
         puml.push(`
 'oval
 skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
   borderThickness 1
 }
     `);
