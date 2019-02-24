@@ -1,7 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Arkit Angular2 Todo 1`] = `Promise {}`;
+exports[`Arkit Angular2 Todo 1`] = `
+Array [
+  "@startuml
 
-exports[`Arkit Express 1`] = `Promise {}`;
+scale max 1200 width
+top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 22
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
 
-exports[`Arkit Sample 1`] = `Promise {}`;
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    
+
+(app.component)
+(components/index)
+(<b>main</b>)
+(<b>main.bundle</b>)
+(main.module)
+(pipes/index)
+(routes)
+(todo-footer.component)
+(todo-header.component)
+(todo-item.component)
+(todo-list.component)
+(todo-store.service)
+(todo.model)
+(trim.pipe)
+(<b>webpack.config</b>)
+
+(components/index) --> (app.component)
+(components/index) --> (todo-footer.component)
+(components/index) --> (todo-header.component)
+(components/index) --> (todo-item.component)
+(components/index) --> (todo-list.component)
+(<b>main</b>) => (main.module)
+(main.module) --> (components/index)
+(main.module) --> (pipes/index)
+(main.module) -> (routes)
+(main.module) --> (todo-store.service)
+(pipes/index) --> (trim.pipe)
+(routes) ---> (todo-list.component)
+(todo-footer.component) ----> (todo-store.service)
+(todo-header.component) ----> (todo-store.service)
+(todo-list.component) ----> (todo-store.service)
+(todo-store.service) ---> (todo.model)
+
+@enduml",
+]
+`;
+
+exports[`Arkit Express 1`] = `
+Array [
+  "@startuml
+
+scale max 1200 width
+top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 22
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
+
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    
+
+(application)
+(<b>express</b>)
+(init)
+(layer)
+(query)
+(request)
+(response)
+(route)
+(router/index)
+(utils)
+(view)
+
+(application) --> (init)
+(application) --> (query)
+(application) --> (router/index)
+(application) -> (utils)
+(application) -> (view)
+(<b>express</b>) => (application)
+(<b>express</b>) ==> (query)
+(<b>express</b>) => (request)
+(<b>express</b>) => (response)
+(<b>express</b>) ==> (route)
+(<b>express</b>) ==> (router/index)
+(response) -> (utils)
+(route) -> (layer)
+(router/index) -> (layer)
+(router/index) -> (route)
+
+@enduml",
+]
+`;
+
+exports[`Arkit Sample 1`] = `
+Array [
+  "@startuml
+
+scale max 1200 width
+top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 22
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
+
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    
+
+package \\"Main\\" {
+  (main.view)
+  (singleton)
+}
+
+package \\"Base\\" {
+  (base.component)
+  (component)
+  (model)
+}
+
+(<b>main.ts</b>)
+
+(component) ~> (base.component)
+(<b>main.ts</b>) ==> (main.view)
+(main.view) -> (component)
+(main.view) ~~~> (singleton)
+(singleton) ---> (model)
+
+@enduml",
+  "@startuml
+
+scale max 1200 width
+top to bottom direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 22
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
+
+'oval
+skinparam usecase {
+  borderThickness 1
+}
+    
+
+(base.component)
+(component)
+(<b>main.ts</b>)
+(main.view)
+(model)
+(singleton)
+
+(component) -> (base.component)
+(<b>main.ts</b>) ==> (main.view)
+(main.view) -> (component)
+(main.view) ---> (singleton)
+(singleton) ---> (model)
+
+@enduml",
+]
+`;

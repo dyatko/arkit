@@ -5,18 +5,24 @@ describe('Arkit', () => {
   test('Sample', () => {
     const dir = path.join(__dirname, './sample')
 
-    expect(arkit(dir)).toMatchSnapshot()
+    arkit(dir).then(output => {
+      expect(output).toMatchSnapshot()
+    })
   })
 
   test('Angular2 Todo', () => {
     const dir = path.join(__dirname, './angular2_es2015')
 
-    expect(arkit(dir)).toMatchSnapshot()
+    arkit(dir).then(output => {
+      expect(output).toMatchSnapshot()
+    })
   })
 
   test('Express', () => {
     const dir = path.join(__dirname, './express')
 
-    expect(arkit(dir)).toMatchSnapshot()
+    arkit(dir).then(output => {
+      expect(output).toMatchSnapshot()
+    })
   })
 })

@@ -3,7 +3,7 @@
 var arkit = require('./src/arkit').arkit
 
 if (require.main === module) {
-  arkit(process.cwd())
+  void arkit(process.cwd())
 } else {
   module.exports = arkit
 }
