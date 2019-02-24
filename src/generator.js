@@ -12,13 +12,14 @@ class Generator {
         this.files = files;
     }
     generateComponents(output) {
-        return Object.keys(this.files).reduce((components, filename) => {
+        const components = Object.keys(this.files).reduce((components, filename) => {
             const schema = this.findComponentSchema(output, filename);
             if (schema) {
                 const name = this.getComponentName(filename, schema);
                 components.set(filename, {
                     name,
                     filename,
+                    isImported: false,
                     type: schema.type,
                     layer: EMPTY_LAYER,
                     imports: Object.keys(this.files[filename].imports)
@@ -26,6 +27,15 @@ class Generator {
             }
             return components;
         }, new Map());
+        for (const component of components.values()) {
+            for (const potentialComponent of components.values()) {
+                if (potentialComponent.imports.includes(component.filename)) {
+                    component.isImported = true;
+                    break;
+                }
+            }
+        }
+        return components;
     }
     generateLayers(output, allComponents) {
         const groups = this.config.array(output.groups) || [{}];
@@ -201,20 +211,24 @@ class Generator {
         if (isLayer)
             puml.push(`package "${layer}" {`);
         for (const component of components) {
-            puml.push(this.generatePlantUMLComponent(component, layer));
+            const componentPuml = [this.generatePlantUMLComponent(component)];
+            if (isLayer)
+                componentPuml.unshift('  ');
+            puml.push(componentPuml.join(''));
         }
         if (isLayer)
             puml.push('}');
         return puml.join('\n');
     }
-    generatePlantUMLComponent(component, layer) {
+    generatePlantUMLComponent(component) {
         const puml = [];
         puml.push('(');
+        if (!component.isImported)
+            puml.push('<b>');
         puml.push(component.name);
+        if (!component.isImported)
+            puml.push('</b>');
         puml.push(')');
-        if (typeof layer === 'string') {
-            puml.unshift('  ');
-        }
         return puml.join('');
     }
     generatePlantUMLRelationships(layers) {
@@ -226,10 +240,9 @@ class Generator {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
                 if (!importedComponent)
                     continue;
-                const isImported = components.some(potentialComponent => potentialComponent.imports.includes(component.filename));
                 const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length;
                 const connectionLength = Math.max(1, Math.min(4, numberOfLevels));
-                const connectionSign = !isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-';
+                const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-';
                 const connection = connectionSign.repeat(connectionLength) + '>';
                 puml.push([
                     this.generatePlantUMLComponent(component),
@@ -255,7 +268,7 @@ class Generator {
         }
         puml.push('skinparam monochrome true');
         puml.push('skinparam shadowing false');
-        puml.push('skinparam nodesep 16');
+        puml.push('skinparam nodesep 22');
         puml.push('skinparam defaultFontName Tahoma');
         puml.push('skinparam defaultFontSize 14');
         puml.push(`

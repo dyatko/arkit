@@ -138,6 +138,7 @@ Object {
     "exports": Array [],
     "imports": Object {
       "application.js": Array [],
+      "middleware/query.js": Array [],
       "request.js": Array [],
       "response.js": Array [],
       "router/index.js": Array [],

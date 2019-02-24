@@ -15,7 +15,7 @@ exports.arkit = (directory) => {
     logger_1.trace('Parsed files');
     logger_1.trace(files);
     const generator = new generator_1.Generator(config, files);
-    return config.outputs.map(output => {
+    return Promise.all(config.outputs.map(output => {
         const puml = generator.generatePlantUML(output);
         if (output.path) {
             for (const outputPath of config.array(output.path)) {
@@ -37,8 +37,12 @@ exports.arkit = (directory) => {
             }
         }
         else {
-            console.log(puml);
+            generator.convertToSVG(puml).then(svg => {
+                console.log(svg);
+            }).catch(err => {
+                throw err;
+            });
         }
         return puml;
-    });
+    }));
 };

@@ -13,7 +13,6 @@ Config {
       "type": "Component",
     },
   ],
-  "directory": "/Users/marat/Dev/arkit/test/angular2_es2015",
   "excludePatterns": Array [
     "node_modules/**",
     "test/**",
@@ -51,7 +50,6 @@ Config {
       "type": "Component",
     },
   ],
-  "directory": "/Users/marat/Dev/arkit/test/express",
   "excludePatterns": Array [],
   "extensions": Array [
     ".js",
@@ -110,7 +108,6 @@ Config {
       "type": "Model",
     },
   ],
-  "directory": "/Users/marat/Dev/arkit/test/sample",
   "excludePatterns": Array [],
   "extensions": Array [
     ".js",

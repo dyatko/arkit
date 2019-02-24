@@ -28,7 +28,7 @@ describe('Acceptance test', () => {
   })
 
   describe('Angular2 Todo', () => {
-    test('should output correct puml', () => {
+    test('should output correct svg', () => {
       const dir = path.join(__dirname, './angular2_es2015')
 
       process.chdir(dir)
@@ -40,6 +40,20 @@ describe('Acceptance test', () => {
     test('should output correct svg', () => {
       const dir = path.join(__dirname, './express')
       const svgPath = path.join(dir, './express.svg')
+
+      if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath)
+
+      process.chdir(dir)
+      execSync(arkit)
+
+      expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot()
+    })
+  })
+
+  describe('ReactDOM', () => {
+    test('should output correct svg', () => {
+      const dir = path.join(__dirname, './react-dom')
+      const svgPath = path.join(dir, './arkit.svg')
 
       if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath)
 

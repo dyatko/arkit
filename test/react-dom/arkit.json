@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dyatko/arkit/master/schema.json",
+  "components": [
+    {
+      "type": "Entry",
+      "patterns": ["index.js", "server.js", "server.node.js", "server.browser.js"]
+    },
+    {
+      "type": "Component",
+      "patterns": ["src/**/*.js"],
+      "excludePatterns": ["**/__tests__/**", "**/*-test.js"]
+    }
+  ],
+  "output": {
+    "path": "arkit.svg",
+    "groups": [
+      {
+        "first": true,
+        "components": ["Entry"]
+      },
+      {
+        "type": "Event Plugins",
+        "patterns": ["src/events/**/*EventPlugin.*"]
+      },
+      {
+        "type": "Events",
+        "patterns": ["src/events/**/*Event.*"]
+      },
+      {
+        "type": "Client",
+        "patterns": ["src/client/**"]
+      },
+      {
+        "type": "Server",
+        "patterns": ["src/server/**"]
+      },
+      {
+        "type": "Shared",
+        "patterns": ["src/shared/**"]
+      },
+      {
+        "components": ["Component"]
+      }
+    ]
+  }
+}

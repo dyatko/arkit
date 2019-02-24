@@ -109,23 +109,20 @@ export class Parser {
       let sourceFileImports: string[] | undefined
       let structure: ImportDeclarationStructure | ExportDeclarationStructure | undefined
 
-      if (TypeGuards.isVariableStatement(statement)) {
-        statement.getStructure().declarations.forEach(declaration => {
-          if (typeof declaration.initializer === 'string') {
-            const [match, moduleSpecifier, namedImport] = Array.from(
-              REQUIRE_RE.exec(declaration.initializer) || []
-            )
+      if (TypeGuards.isVariableStatement(statement) || TypeGuards.isExpressionStatement(statement)) {
+        const text = statement.getText()
+        const [match, moduleSpecifier, namedImport] = Array.from(
+          REQUIRE_RE.exec(text) || []
+        )
 
-            if (moduleSpecifier) {
-              const importedFile: SourceFile | undefined = this.resolveModule(moduleSpecifier, sourceFile)
-              sourceFileImports = this.addImportedFile(importedFile, imports)
+        if (moduleSpecifier) {
+          const importedFile: SourceFile | undefined = this.resolveModule(moduleSpecifier, sourceFile)
+          sourceFileImports = this.addImportedFile(importedFile, imports)
 
-              if (sourceFileImports && namedImport) {
-                sourceFileImports.push(namedImport)
-              }
-            }
+          if (sourceFileImports && namedImport) {
+            sourceFileImports.push(namedImport)
           }
-        })
+        }
       }
 
       if (TypeGuards.isImportDeclaration(statement) || TypeGuards.isExportDeclaration(statement)) {

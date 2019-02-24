@@ -11,6 +11,7 @@ interface Component {
   filename: string
   imports: string[]
   layer: string | typeof EMPTY_LAYER
+  isImported: boolean
   first?: boolean
   last?: boolean
 }
@@ -31,7 +32,7 @@ export class Generator {
   }
 
   private generateComponents (output: OutputSchema): Components {
-    return Object.keys(this.files).reduce((components, filename) => {
+    const components = Object.keys(this.files).reduce((components, filename) => {
       const schema = this.findComponentSchema(output, filename)
 
       if (schema) {
@@ -40,6 +41,7 @@ export class Generator {
         components.set(filename, {
           name,
           filename,
+          isImported: false,
           type: schema.type,
           layer: EMPTY_LAYER,
           imports: Object.keys(this.files[filename].imports)
@@ -48,6 +50,17 @@ export class Generator {
 
       return components
     }, new Map() as Components)
+
+    for (const component of components.values()) {
+      for (const potentialComponent of components.values()) {
+        if (potentialComponent.imports.includes(component.filename)) {
+          component.isImported = true
+          break
+        }
+      }
+    }
+
+    return components
   }
 
   private generateLayers (output: OutputSchema, allComponents: Components): Layers {
@@ -274,7 +287,10 @@ export class Generator {
     if (isLayer) puml.push(`package "${layer}" {`)
 
     for (const component of components) {
-      puml.push(this.generatePlantUMLComponent(component, layer))
+      const componentPuml = [this.generatePlantUMLComponent(component)]
+
+      if (isLayer) componentPuml.unshift('  ')
+      puml.push(componentPuml.join(''))
     }
 
     if (isLayer) puml.push('}')
@@ -282,16 +298,14 @@ export class Generator {
     return puml.join('\n')
   }
 
-  private generatePlantUMLComponent (component: Component, layer?: string | Symbol): string {
+  private generatePlantUMLComponent (component: Component): string {
     const puml: string[] = []
 
     puml.push('(')
+    if (!component.isImported) puml.push('<b>')
     puml.push(component.name)
+    if (!component.isImported) puml.push('</b>')
     puml.push(')')
-
-    if (typeof layer === 'string') {
-      puml.unshift('  ')
-    }
 
     return puml.join('')
   }
@@ -306,10 +320,9 @@ export class Generator {
         const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename)
         if (!importedComponent) continue
 
-        const isImported = components.some(potentialComponent => potentialComponent.imports.includes(component.filename))
         const numberOfLevels = path.dirname(path.relative(component.filename, importedFilename)).split(path.sep).length
         const connectionLength = Math.max(1, Math.min(4, numberOfLevels))
-        const connectionSign = !isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-'
+        const connectionSign = !component.isImported ? '=' : component.layer === importedComponent.layer && typeof component.layer === 'string' ? '~' : '-'
         const connection = connectionSign.repeat(connectionLength) + '>'
 
         puml.push([
@@ -341,7 +354,7 @@ export class Generator {
 
     puml.push('skinparam monochrome true')
     puml.push('skinparam shadowing false')
-    puml.push('skinparam nodesep 16')
+    puml.push('skinparam nodesep 22')
     puml.push('skinparam defaultFontName Tahoma')
     puml.push('skinparam defaultFontSize 14')
 

@@ -63,19 +63,16 @@ class Parser {
         return statements.reduce((imports, statement) => {
             let sourceFileImports;
             let structure;
-            if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
-                statement.getStructure().declarations.forEach(declaration => {
-                    if (typeof declaration.initializer === 'string') {
-                        const [match, moduleSpecifier, namedImport] = Array.from(REQUIRE_RE.exec(declaration.initializer) || []);
-                        if (moduleSpecifier) {
-                            const importedFile = this.resolveModule(moduleSpecifier, sourceFile);
-                            sourceFileImports = this.addImportedFile(importedFile, imports);
-                            if (sourceFileImports && namedImport) {
-                                sourceFileImports.push(namedImport);
-                            }
-                        }
+            if (ts_morph_1.TypeGuards.isVariableStatement(statement) || ts_morph_1.TypeGuards.isExpressionStatement(statement)) {
+                const text = statement.getText();
+                const [match, moduleSpecifier, namedImport] = Array.from(REQUIRE_RE.exec(text) || []);
+                if (moduleSpecifier) {
+                    const importedFile = this.resolveModule(moduleSpecifier, sourceFile);
+                    sourceFileImports = this.addImportedFile(importedFile, imports);
+                    if (sourceFileImports && namedImport) {
+                        sourceFileImports.push(namedImport);
                     }
-                });
+                }
             }
             if (ts_morph_1.TypeGuards.isImportDeclaration(statement) || ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
                 let moduleSpecifier;

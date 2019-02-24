@@ -4,7 +4,7 @@ scale max 1200 width
 top to bottom direction
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 16
+skinparam nodesep 22
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
 
@@ -25,10 +25,10 @@ package "Base" {
   (model)
 }
 
-(main.ts)
+(<b>main.ts</b>)
 
 (component) ~> (base.component)
-(main.ts) ==> (main.view)
+(<b>main.ts</b>) ==> (main.view)
 (main.view) -> (component)
 (main.view) ~~~> (singleton)
 (singleton) ---> (model)

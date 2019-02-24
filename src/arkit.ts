@@ -5,7 +5,7 @@ import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
 
-export const arkit = (directory: string): string[] => {
+export const arkit = (directory: string): Promise<string[]> => {
   const config = new Config(directory)
 
   debug(`Config`)
@@ -19,7 +19,7 @@ export const arkit = (directory: string): string[] => {
 
   const generator = new Generator(config, files)
 
-  return config.outputs.map(output => {
+  return Promise.all(config.outputs.map(output => {
     const puml = generator.generatePlantUML(output)
 
     if (output.path) {
@@ -44,9 +44,13 @@ export const arkit = (directory: string): string[] => {
         }
       }
     } else {
-      console.log(puml)
+      generator.convertToSVG(puml).then(svg => {
+        console.log(svg)
+      }).catch(err => {
+        throw err
+      })
     }
 
     return puml
-  })
+  }))
 }
