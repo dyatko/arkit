@@ -43,14 +43,15 @@ export const arkit = (directory: string): Promise<string[]> => {
           })
         }
       }
-    } else {
-      generator.convertToSVG(puml).then(svg => {
-        console.log(svg)
-      }).catch(err => {
-        throw err
-      })
+
+      return puml
     }
 
-    return puml
+    return generator.convertToSVG(puml).then(svg => {
+      console.log(svg)
+      return puml
+    }).catch(err => {
+      throw err
+    })
   }))
 }

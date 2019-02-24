@@ -5,7 +5,7 @@ describe('Arkit', () => {
   test('Sample', () => {
     const dir = path.join(__dirname, './sample')
 
-    arkit(dir).then(output => {
+    return arkit(dir).then(output => {
       expect(output).toMatchSnapshot()
     })
   })
@@ -13,7 +13,7 @@ describe('Arkit', () => {
   test('Angular2 Todo', () => {
     const dir = path.join(__dirname, './angular2_es2015')
 
-    arkit(dir).then(output => {
+    return arkit(dir).then(output => {
       expect(output).toMatchSnapshot()
     })
   })
@@ -21,7 +21,7 @@ describe('Arkit', () => {
   test('Express', () => {
     const dir = path.join(__dirname, './express')
 
-    arkit(dir).then(output => {
+    return arkit(dir).then(output => {
       expect(output).toMatchSnapshot()
     })
   })
