@@ -1,10 +1,11 @@
 ![arkit](https://raw.githubusercontent.com/dyatko/arkit/master/arkit.svg?sanitize=true)
 
-## arkit `[:sweden: arkitektur]` visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful diagrams
+## arkit `[🇸🇪 arkitektur]` visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful and committable diagrams
 
-![NPM](https://img.shields.io/npm/v/arkit.svg?style=flat-square)
-![CircleCI](https://img.shields.io/circleci/project/github/dyatko/arkit/master.svg?style=flat-square)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/dyatko/arkit.svg?style=flat-square)
+[![NPM](https://img.shields.io/npm/v/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
+[![Travis](https://img.shields.io/travis/dyatko/arkit.svg?style=flat-square)](https://travis-ci.org/dyatko/arkit)
+[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/code)
+[![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/issues)
 
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
