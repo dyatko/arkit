@@ -44,8 +44,8 @@ npx arkit --help
 
 ### Real-world examples
 
-##### Simple example (Express.js, zero config)
+##### Simple example ([Express.js](test/express), zero config)
 ![Express example](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
 
-##### Complex example (ReactDOM, JSON config)
+##### Complex example ([ReactDOM](test/react-dom), [JSON config](test/react-dom/arkit.json))
 ![ReactDOM example](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
