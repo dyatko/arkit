@@ -3,9 +3,11 @@
 ## arkit _[🇸🇪arkitektur]_ visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful and committable diagrams
 
 [![NPM](https://img.shields.io/npm/v/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
+[![Downloads](https://img.shields.io/npm/dt/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
 [![Travis](https://img.shields.io/travis/dyatko/arkit.svg?style=flat-square)](https://travis-ci.org/dyatko/arkit)
-[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/code)
-[![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/issues)
+[![Test coverage](https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/code)
+[![Technical debt](https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/issues)
+![Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/arkit.svg?style=flat-square)
 
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
