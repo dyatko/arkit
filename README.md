@@ -1,6 +1,6 @@
 ![arkit](https://raw.githubusercontent.com/dyatko/arkit/master/arkit.svg?sanitize=true)
 
-## arkit `[🇸🇪 arkitektur]` visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful and committable diagrams
+## arkit _[🇸🇪arkitektur]_ visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful and committable diagrams
 
 [![NPM](https://img.shields.io/npm/v/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
 [![Travis](https://img.shields.io/travis/dyatko/arkit.svg?style=flat-square)](https://travis-ci.org/dyatko/arkit)
