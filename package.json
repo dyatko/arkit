@@ -1,14 +1,15 @@
 {
   "name": "arkit",
   "version": "1.0.12",
-  "description": "A CLI tool to visualise project architecture",
+  "description": "A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture",
   "main": "index.js",
   "scripts": {
     "compile": "tsc --project .",
-    "lint": "tslint --project .",
-    "build-schema": "typescript-json-schema src/config.ts ConfigSchema --required true --id 'https://raw.githubusercontent.com/dyatko/arkit/master/schema.json' -o schema.json",
+    "lint": "eslint --ext .ts .",
+    "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://raw.githubusercontent.com/dyatko/arkit/master/schema.json' -o schema.json",
     "build": "npm run compile && npm run build-schema",
-    "test": "jest"
+    "test": "npm run lint && npm run jest",
+    "prepublish": "npm run test && npm run build"
   },
   "engines": {
     "node": ">= 6.16.0"
@@ -27,18 +28,27 @@
   },
   "homepage": "https://github.com/dyatko/arkit#readme",
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/jest": "^24.0.6",
     "@types/node": "^11.9.4",
     "@types/pino": "^5.8.5",
     "@types/resolve": "0.0.8",
+    "@typescript-eslint/eslint-plugin": "^1.4.1",
+    "@typescript-eslint/parser": "^1.4.1",
+    "eslint": "^5.14.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
     "jest": "^24.1.0",
+    "prettier": "^1.16.4",
+    "standard": "^12.0.1",
     "ts-jest": "^24.0.0",
-    "tslint": "^5.12.1",
     "tslint-config-standard": "^8.0.1",
     "typescript-json-schema": "^0.36.0",
     "weak": "^1.0.1"
   },
   "dependencies": {
+    "commander": "^2.19.0",
     "debug": "^4.1.1",
     "nanomatch": "^1.2.13",
     "pino": "^5.11.1",
@@ -62,7 +72,31 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testPathIgnorePatterns": ["test/react-dom"]
+    "testPathIgnorePatterns": [
+      "test/react-dom"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules/*",
+    "test/*",
+    "src/*.js"
+  ],
+  "eslintConfig": {
+    "extends": "standard",
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off"
+    },
+    "env": {
+      "node": true,
+      "browser": false
+    }
   },
   "keywords": [
     "architecture",

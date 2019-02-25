@@ -3,25 +3,25 @@ import { arkit } from '../src/arkit'
 
 describe('Arkit', () => {
   test('Sample', () => {
-    const dir = path.join(__dirname, './sample')
+    const directory = path.join(__dirname, './sample')
 
-    return arkit(dir).then(output => {
+    return arkit({directory}).then(output => {
       expect(output).toMatchSnapshot()
     })
   })
 
   test('Angular2 Todo', () => {
-    const dir = path.join(__dirname, './angular2_es2015')
+    const directory = path.join(__dirname, './angular2_es2015')
 
-    return arkit(dir).then(output => {
+    return arkit({directory}).then(output => {
       expect(output).toMatchSnapshot()
     })
   })
 
   test('Express', () => {
-    const dir = path.join(__dirname, './express')
+    const directory = path.join(__dirname, './express')
 
-    return arkit(dir).then(output => {
+    return arkit({directory}).then(output => {
       expect(output).toMatchSnapshot()
     })
   })

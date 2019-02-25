@@ -63,7 +63,7 @@ export class Parser {
       .map(filepath => path.join(this.config.directory, filepath))
     trace(suitableFilePaths)
 
-    debug(`Adding ${suitableFilePaths.length} files...`)
+    debug(`Adding ${suitableFilePaths.length} files`)
     this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
       this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
     })
@@ -87,7 +87,7 @@ export class Parser {
   }
 
   parse (): Files {
-    debug('Parsing...', this.sourceFiles.size, 'files')
+    debug('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
 
     for (const [fullPath, sourceFile] of this.sourceFiles) {
@@ -180,7 +180,8 @@ export class Parser {
   private addImportedFile (importedFile: SourceFile | undefined, imports: Imports): string[] | undefined {
     if (importedFile) {
       const filePath = path.relative(this.config.directory, importedFile.getFilePath())
-      return imports[filePath] = imports[filePath] || []
+      if (!imports[filePath]) imports[filePath] = []
+      return imports[filePath]
     }
   }
 
@@ -256,9 +257,9 @@ export class Parser {
     if (fs.statSync(p).isDirectory()) {
       return fs.readdirSync(p).reduce(
         (paths, f) => [...paths, ...this.walkSync(path.join(p, f))]
-      , [] as string[])
+        , [] as string[])
     } else {
-      return [ p ]
+      return [p]
     }
   }
 }

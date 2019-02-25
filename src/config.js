@@ -2,20 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const logger_1 = require("./logger");
-/**
- * Component name formats
- */
-var ComponentNameFormat;
-(function (ComponentNameFormat) {
-    ComponentNameFormat["BASE_NAME"] = "base";
-    ComponentNameFormat["FULL_NAME"] = "full";
-    ComponentNameFormat["COMPLETE_PATH"] = "complete";
-})(ComponentNameFormat = exports.ComponentNameFormat || (exports.ComponentNameFormat = {}));
-var OutputDirection;
-(function (OutputDirection) {
-    OutputDirection["HORIZONTAL"] = "horizontal";
-    OutputDirection["VERTICAL"] = "vertical";
-})(OutputDirection = exports.OutputDirection || (exports.OutputDirection = {}));
 const DEFAULT_COMPONENTS = {
     type: 'Component',
     patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
@@ -26,19 +12,18 @@ exports.DEFAULT_CONFIG = {
     output: {}
 };
 class Config {
-    constructor(directory) {
-        this.directory = directory;
+    constructor(options) {
         this.patterns = [];
         this.excludePatterns = [];
         this.extensions = ['.js', '.ts', '.jsx', '.tsx'];
-        logger_1.info('Working directory', directory);
+        this.directory = options.directory;
         const userConfigPath = path.join(this.directory, 'arkit');
         const userConfig = this.safeRequire(userConfigPath);
         this.components = this.array(userConfig && userConfig.components) || [];
         if (!this.components.length) {
             this.components.push(DEFAULT_COMPONENTS);
         }
-        this.outputs = this.array(userConfig && userConfig.output || exports.DEFAULT_CONFIG.output);
+        this.outputs = this.array((userConfig && userConfig.output) || exports.DEFAULT_CONFIG.output);
         if (userConfig && userConfig.excludePatterns) {
             this.excludePatterns.push(...userConfig.excludePatterns);
         }
@@ -59,7 +44,7 @@ class Config {
             return require(path);
         }
         catch (e) {
-            logger_1.warn(e.toString());
+            logger_1.trace(e.toString());
         }
     }
     array(input) {

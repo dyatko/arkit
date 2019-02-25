@@ -6,11 +6,17 @@ Array [
 
 scale max 1920 width
 top to bottom direction
+
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
+skinparam ranksep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
 
 'oval
 skinparam usecase {
@@ -67,11 +73,17 @@ Array [
 
 scale max 1920 width
 top to bottom direction
+
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
+skinparam ranksep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
 
 'oval
 skinparam usecase {
@@ -123,11 +135,17 @@ Array [
 
 scale max 1920 width
 top to bottom direction
+
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
+skinparam ranksep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
 
 'oval
 skinparam usecase {
@@ -165,11 +183,17 @@ main_ts ==> (main.view)
 
 scale max 1920 width
 top to bottom direction
+
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
+skinparam ranksep 20
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
 
 'oval
 skinparam usecase {

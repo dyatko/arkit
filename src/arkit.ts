@@ -5,11 +5,33 @@ import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
 
-export const arkit = (directory: string): Promise<string[]> => {
-  const config = new Config(directory)
+export interface Options {
+  directory: string,
+  output?: string[],
+  first?: string[]
+}
 
-  debug(`Config`)
-  trace(config)
+const getOptions = (options?: Options): Options => {
+  const opts: Options = {
+    ...options,
+    directory: (options && options.directory) || ''
+  }
+  const directory = path.isAbsolute(opts.directory) ? opts.directory : path.join(process.cwd(), opts.directory)
+
+  return {
+    directory
+  }
+}
+
+export const arkit = (options?: Options): Promise<string[]> => {
+  const opts = getOptions(options)
+  debug('Options')
+  debug(opts)
+
+  const config = new Config(opts)
+
+  debug('Config')
+  debug(config)
 
   const parser = new Parser(config)
   const files = parser.parse()
@@ -28,8 +50,11 @@ export const arkit = (directory: string): Promise<string[]> => {
         const ext = path.extname(fullExportPath)
 
         if (fs.existsSync(fullExportPath)) {
+          debug('Removing', fullExportPath)
           fs.unlinkSync(fullExportPath)
         }
+
+        debug('Saving', fullExportPath)
 
         if (ext === '.puml') {
           fs.writeFileSync(fullExportPath, puml)
