@@ -237,8 +237,13 @@ export class GeneratorBase {
     return path.basename(filename, path.extname(filename))
   }
 
-  protected getAllComponents (layers: Layers): Component[] {
-    return ([] as Component[])
-      .concat(...[...layers.values()].map(components => [...components]))
+  protected getAllComponents (layers: Layers, sortByName = false): Component[] {
+    const components = ([] as Component[]).concat(...[...layers.values()].map(components => [...components]))
+
+    if (sortByName) {
+      components.sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    return components
   }
 }

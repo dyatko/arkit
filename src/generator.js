@@ -67,31 +67,37 @@ class Generator extends generator_base_1.GeneratorBase {
     }
     generatePlantUMLRelationships(layers) {
         const puml = [''];
-        const components = this.getAllComponents(layers).sort((a, b) => a.name.localeCompare(b.name));
+        const components = this.getAllComponents(layers, true);
         for (const component of components) {
             for (const importedFilename of component.imports) {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
-                if (!importedComponent)
-                    continue;
-                const numberOfLevels = path
-                    .dirname(path.relative(component.filename, importedFilename))
-                    .split(path.sep).length;
-                const connectionLength = Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels));
-                const connectionSign = !component.isImported
-                    ? '='
-                    : component.layer === importedComponent.layer &&
-                        component.layer !== generator_base_1.EMPTY_LAYER
-                        ? '.'
-                        : '-';
-                const connection = connectionSign.repeat(connectionLength) + '>';
-                puml.push([
-                    this.generatePlantUMLComponent(component, generator_base_1.Context.RELATIONSHIP),
-                    connection,
-                    this.generatePlantUMLComponent(importedComponent, generator_base_1.Context.RELATIONSHIP)
-                ].join(' '));
+                if (importedComponent) {
+                    const connectionLength = this.getConnectionLength(component, importedComponent);
+                    const connectionSign = this.getConnectionSign(component, importedComponent);
+                    const connection = connectionSign.repeat(connectionLength) + '>';
+                    const relationshipUML = [
+                        this.generatePlantUMLComponent(component, generator_base_1.Context.RELATIONSHIP),
+                        connection,
+                        this.generatePlantUMLComponent(importedComponent, generator_base_1.Context.RELATIONSHIP)
+                    ];
+                    puml.push(relationshipUML.join(' '));
+                }
             }
         }
         return puml.join('\n');
+    }
+    getConnectionLength(component, importedComponent) {
+        const numberOfLevels = path
+            .dirname(path.relative(component.filename, importedComponent.filename))
+            .split(path.sep).length;
+        return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels));
+    }
+    getConnectionSign(component, importedComponent) {
+        if (!component.isImported)
+            return '=';
+        if (component.layer === importedComponent.layer && component.layer !== generator_base_1.EMPTY_LAYER)
+            return '.';
+        return '-';
     }
     /**
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java

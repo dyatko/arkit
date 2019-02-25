@@ -171,9 +171,12 @@ class GeneratorBase {
         }
         return path.basename(filename, path.extname(filename));
     }
-    getAllComponents(layers) {
-        return []
-            .concat(...[...layers.values()].map(components => [...components]));
+    getAllComponents(layers, sortByName = false) {
+        const components = [].concat(...[...layers.values()].map(components => [...components]));
+        if (sortByName) {
+            components.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        return components;
     }
 }
 exports.GeneratorBase = GeneratorBase;
