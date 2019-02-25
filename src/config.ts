@@ -3,7 +3,6 @@ import { trace } from './logger'
 import { Options } from './arkit'
 import { ComponentSchema, ConfigSchema, OutputSchema } from './schema'
 
-
 const DEFAULT_COMPONENTS: ComponentSchema = {
   type: 'Component',
   patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
