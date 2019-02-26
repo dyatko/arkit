@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "@types/resolve": "0.0.8",
     "@typescript-eslint/eslint-plugin": "1.4.2",
     "@typescript-eslint/parser": "1.4.2",
-    "eslint": "5.14.1",
+    "eslint": "^5.14.1",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-node": "8.0.1",

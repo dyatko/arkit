@@ -37,31 +37,31 @@ rectangle \\"<b>main.bundle</b>\\" as main_bundle
 rectangle \\"main.module\\" as main_module
 rectangle \\"pipes/index\\" as pipes_index
 rectangle \\"routes\\" as routes
-rectangle \\"todo-footer.component\\" as todo-footer_component
-rectangle \\"todo-header.component\\" as todo-header_component
-rectangle \\"todo-item.component\\" as todo-item_component
-rectangle \\"todo-list.component\\" as todo-list_component
-rectangle \\"todo-store.service\\" as todo-store_service
+rectangle \\"todo-footer.component\\" as todo_footer_component
+rectangle \\"todo-header.component\\" as todo_header_component
+rectangle \\"todo-item.component\\" as todo_item_component
+rectangle \\"todo-list.component\\" as todo_list_component
+rectangle \\"todo-store.service\\" as todo_store_service
 rectangle \\"todo.model\\" as todo_model
 rectangle \\"trim.pipe\\" as trim_pipe
 rectangle \\"<b>webpack.config</b>\\" as webpack_config
 
 components_index --> app_component
-components_index --> todo-footer_component
-components_index --> todo-header_component
-components_index --> todo-item_component
-components_index --> todo-list_component
+components_index --> todo_footer_component
+components_index --> todo_header_component
+components_index --> todo_item_component
+components_index --> todo_list_component
 main => main_module
 main_module --> components_index
 main_module --> pipes_index
 main_module --> routes
-main_module --> todo-store_service
+main_module --> todo_store_service
 pipes_index --> trim_pipe
-routes ---> todo-list_component
-todo-footer_component ----> todo-store_service
-todo-header_component ----> todo-store_service
-todo-list_component ----> todo-store_service
-todo-store_service ---> todo_model
+routes ---> todo_list_component
+todo_footer_component ----> todo_store_service
+todo_header_component ----> todo_store_service
+todo_list_component ----> todo_store_service
+todo_store_service ---> todo_model
 
 @enduml",
 ]
