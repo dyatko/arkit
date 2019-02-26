@@ -1,6 +1,6 @@
-![arkit](https://raw.githubusercontent.com/dyatko/arkit/master/arkit.svg?sanitize=true)
+<img src="https://raw.githubusercontent.com/dyatko/arkit/master/arkit.svg?sanitize=true" alt="arkit" valign="top" /> `🇸🇪arkitektur`
 
-## arkit visualises architectures of JavaScript, TypeScript and Flow codebases as meaningful and committable diagrams _[🇸🇪 arkitektur]_
+## Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
 [![NPM](https://img.shields.io/npm/v/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
 [![Downloads](https://img.shields.io/npm/dt/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
@@ -12,7 +12,7 @@
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
 - Visualises all components or some segments of the architecture
-- Exports codebase visualisation as PlantUML, SVG or PNG
+- Exports codebase visualisation as Plant UML, SVG or PNG diagram
 - Integrates into development flow, so your CI, VCS, README and PRs are happy
 
 ### Usage
@@ -26,9 +26,9 @@ yarn add arkit --dev
 
 ### Configuration
 
-Arkit can be configured using basic CLI arguments or advanced JSON, JS module or package.json configuration. JSON schema can assist with available options.
+Arkit can be configured using basic CLI arguments or advanced JSON, JS module or package.json configuration.
 
-##### CLI arguments
+##### Basic CLI arguments
 
 ```console
 user@machine:~$ npx arkit --help
@@ -43,7 +43,7 @@ Options:
   -h, --help               output usage information
 ```
 
-##### JSON config
+##### Advanced arkit.json with JSON schema
 
 ```json
 {
@@ -65,10 +65,12 @@ Options:
 }
 ```
 
+**See all possible JSON configuration options in the examples below**
+
 ### Real-world examples
 
-##### Simple example ([Express.js](test/express), zero config)
+##### Simple diagram: [Express.js](test/express) with zero config
 ![Express example](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
 
-##### Complex example ([ReactDOM](test/react-dom), [JSON config](test/react-dom/arkit.json))
+##### Complex diagram: [ReactDOM](test/react-dom) with [JSON config](test/react-dom/arkit.json)
 ![ReactDOM example](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
