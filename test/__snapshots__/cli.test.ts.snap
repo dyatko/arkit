@@ -147,7 +147,7 @@ Country: US
 exports[`CLI Options should output help 1`] = `
 "Usage: index [options] [dir]
 
-A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture
+Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
 Options:
   -V, --version            output the version number

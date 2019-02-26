@@ -12,7 +12,7 @@
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
 - Visualises all components or some segments of the architecture
-- Exports codebase visualisation as Plant UML, SVG or PNG diagram
+- Exports codebase visualisation as SVG, PNG or Plant UML diagram
 - Integrates into development flow, so your CI, VCS, README and PRs are happy
 
 ### Usage
@@ -33,9 +33,6 @@ Arkit can be configured using basic CLI arguments or advanced JSON, JS module or
 ```console
 user@machine:~$ npx arkit --help
 Usage: arkit [options] [dir]
-
-A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture
-
 Options:
   -V, --version            output the version number
   -f, --first [file ...]   First component file patterns, e.g. src/index.js
@@ -50,11 +47,7 @@ Options:
   "$schema": "https://raw.githubusercontent.com/dyatko/arkit/master/schema.json",
   "components": [
     {
-        "type": "JavaScript",
-        "patterns": ["**/*.js", "**/*.jsx"]
-    },
-    {
-        "type": "TypeScript",
+        "type": "Component",
         "patterns": ["**/*.ts", "**/*.tsx"]
     }
   ],
