@@ -35,12 +35,14 @@ exports.arkit = (options) => {
                     logger_1.debug('Removing', fullExportPath);
                     fs.unlinkSync(fullExportPath);
                 }
-                logger_1.debug('Saving', fullExportPath);
                 if (ext === '.puml') {
+                    logger_1.debug('Saving', fullExportPath);
                     fs.writeFileSync(fullExportPath, puml);
                 }
-                if (ext === '.svg') {
+                if (ext === '.svg' || ext === '.png') {
+                    logger_1.debug('Converting', fullExportPath);
                     generator.convertToSVG(puml).then(svg => {
+                        logger_1.debug('Saving', fullExportPath);
                         fs.writeFileSync(fullExportPath, svg);
                     }).catch(err => {
                         throw err;

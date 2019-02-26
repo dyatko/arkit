@@ -2,6 +2,8 @@ import { execSync } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs'
 
+jest.setTimeout(60000)
+
 describe('Acceptance test', () => {
   const arkit = path.join(__dirname, '../index.js')
 

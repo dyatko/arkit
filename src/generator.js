@@ -6,6 +6,10 @@ const logger_1 = require("./logger");
 const https = require("https");
 const generator_base_1 = require("./generator.base");
 class Generator extends generator_base_1.GeneratorBase {
+    constructor() {
+        super(...arguments);
+        this.requestChain = Promise.resolve();
+    }
     generatePlantUML(output) {
         logger_1.debug('Generating components...');
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
@@ -141,24 +145,34 @@ skinparam rectangle {
     }
     convertToSVG(puml) {
         return new Promise((resolve, reject) => {
-            const req = https
-                .request({
-                hostname: 'arkit.herokuapp.com',
-                port: 443,
-                path: '/svg',
-                method: 'post',
-                headers: {
-                    'Content-Type': 'text/plain',
-                    'Content-Length': puml.length
-                }
-            }, res => {
-                let svg = [''];
-                res.on('data', data => svg.push(data));
-                res.on('end', () => resolve(svg.join('')));
-            })
-                .on('error', reject);
-            req.write(puml);
-            req.end();
+            this.requestChain = this.requestChain.then(() => {
+                return new Promise(requestResolve => {
+                    const req = https
+                        .request({
+                        hostname: 'arkit.herokuapp.com',
+                        port: 443,
+                        path: '/svg',
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                            'Content-Length': puml.length
+                        }
+                    }, res => {
+                        let svg = [''];
+                        res.on('data', data => svg.push(data));
+                        res.on('end', () => {
+                            requestResolve();
+                            resolve(svg.join(''));
+                        });
+                    })
+                        .on('error', err => {
+                        requestResolve();
+                        reject(err);
+                    });
+                    req.write(puml);
+                    req.end();
+                });
+            });
         });
     }
 }

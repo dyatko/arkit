@@ -54,14 +54,15 @@ export const arkit = (options?: Options): Promise<string[]> => {
           fs.unlinkSync(fullExportPath)
         }
 
-        debug('Saving', fullExportPath)
-
         if (ext === '.puml') {
+          debug('Saving', fullExportPath)
           fs.writeFileSync(fullExportPath, puml)
         }
 
-        if (ext === '.svg') {
+        if (ext === '.svg' || ext === '.png') {
+          debug('Converting', fullExportPath)
           generator.convertToSVG(puml).then(svg => {
+            debug('Saving', fullExportPath)
             fs.writeFileSync(fullExportPath, svg)
           }).catch(err => {
             throw err

@@ -1,6 +1,8 @@
 import * as path from 'path'
 import { arkit } from '../src/arkit'
 
+jest.setTimeout(60000)
+
 describe('Arkit', () => {
   test('Sample', () => {
     const directory = path.join(__dirname, './sample')

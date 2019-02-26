@@ -254,12 +254,16 @@ export class Parser {
   }
 
   private walkSync (p: string): string[] {
-    if (fs.statSync(p).isDirectory()) {
-      return fs.readdirSync(p).reduce(
-        (paths, f) => [...paths, ...this.walkSync(path.join(p, f))]
-        , [] as string[])
-    } else {
-      return [p]
+    try {
+      if (fs.statSync(p).isDirectory()) {
+        return fs.readdirSync(p).reduce(
+          (paths, f) => [...paths, ...this.walkSync(path.join(p, f))]
+          , [] as string[])
+      }
+    } catch (e) {
+      trace(e)
     }
+
+    return [p]
   }
 }

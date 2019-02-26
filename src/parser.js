@@ -184,12 +184,15 @@ class Parser {
         }
     }
     walkSync(p) {
-        if (fs.statSync(p).isDirectory()) {
-            return fs.readdirSync(p).reduce((paths, f) => [...paths, ...this.walkSync(path.join(p, f))], []);
+        try {
+            if (fs.statSync(p).isDirectory()) {
+                return fs.readdirSync(p).reduce((paths, f) => [...paths, ...this.walkSync(path.join(p, f))], []);
+            }
         }
-        else {
-            return [p];
+        catch (e) {
+            logger_1.trace(e);
         }
+        return [p];
     }
 }
 exports.Parser = Parser;
