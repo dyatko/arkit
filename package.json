@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture",
   "main": "index.js",
   "scripts": {
