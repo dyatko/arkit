@@ -30,7 +30,7 @@ export enum Context {
 }
 
 export class GeneratorBase {
-  private config: Config
+  protected config: Config
   private files: Files
 
   constructor (

@@ -8,7 +8,7 @@ const DEFAULT_COMPONENTS = {
 };
 exports.DEFAULT_CONFIG = {
     components: DEFAULT_COMPONENTS,
-    excludePatterns: ['node_modules/**', 'test/**', '**/*.test.*', '**/*.spec.*'],
+    excludePatterns: ['node_modules/**', 'test/**', 'tests/**', '**/*.test.*', '**/*.spec.*'],
     output: {}
 };
 class Config {
@@ -23,7 +23,7 @@ class Config {
         if (!this.components.length) {
             this.components.push(DEFAULT_COMPONENTS);
         }
-        this.outputs = this.array((userConfig && userConfig.output) || exports.DEFAULT_CONFIG.output);
+        this.outputs = this.getOutputs(options, userConfig);
         if (userConfig && userConfig.excludePatterns) {
             this.excludePatterns.push(...userConfig.excludePatterns);
         }
@@ -38,6 +38,19 @@ class Config {
                 this.excludePatterns.push(...component.excludePatterns);
             }
         }
+    }
+    getOutputs(options, userConfig) {
+        const generatedSchema = {};
+        if (options.output && options.output.length) {
+            generatedSchema.path = options.output;
+        }
+        if (options.first && options.first.length) {
+            generatedSchema.groups = [{ first: true, patterns: options.first }];
+        }
+        if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
+            return this.array(generatedSchema);
+        }
+        return this.array(userConfig.output);
     }
     safeRequire(path) {
         try {

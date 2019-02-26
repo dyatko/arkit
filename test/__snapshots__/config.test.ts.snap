@@ -16,6 +16,7 @@ Config {
   "excludePatterns": Array [
     "node_modules/**",
     "test/**",
+    "tests/**",
     "**/*.test.*",
     "**/*.spec.*",
   ],

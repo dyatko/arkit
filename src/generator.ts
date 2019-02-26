@@ -1,7 +1,8 @@
 import * as path from 'path'
+import * as fs from 'fs'
+import * as https from 'https'
 import { OutputDirection, OutputSchema } from './schema'
 import { debug, trace } from './logger'
-import * as https from 'https'
 import {
   Component,
   Context,
@@ -178,10 +179,49 @@ skinparam rectangle {
     return puml.join('\n')
   }
 
+  convert (pathOrType: string, puml: string): Promise<string> {
+    const fullExportPath = path.join(this.config.directory, pathOrType)
+    const ext = path.extname(fullExportPath)
+    const shouldConvertAndSave = ['.png', '.svg'].includes(ext)
+    const shouldConvertAndOutput = ['png', 'svg'].includes(pathOrType)
+
+    if (fs.existsSync(fullExportPath)) {
+      debug('Removing', fullExportPath)
+      fs.unlinkSync(fullExportPath)
+    }
+
+    if (shouldConvertAndSave || shouldConvertAndOutput) {
+      debug('Converting', fullExportPath)
+      return this.convertToImage(puml, ext || pathOrType).then(image => {
+        if (shouldConvertAndSave) {
+          debug('Saving', fullExportPath)
+          fs.writeFileSync(fullExportPath, image)
+        }
+
+        return image
+      }).catch(err => {
+        throw err
+      })
+    } else {
+      if (ext === '.puml') {
+        debug('Saving', fullExportPath)
+        fs.writeFileSync(fullExportPath, puml)
+      }
+
+      return Promise.resolve(puml)
+    }
+  }
+
   requestChain: Promise<any> = Promise.resolve()
 
-  convertToSVG (puml: string): Promise<string> {
+  convertToImage (puml: string, format: string): Promise<string> {
     return new Promise((resolve, reject) => {
+      const path = format.match(/\w{3}/)
+
+      if (!path) {
+        return reject(new Error(`Cannot identify image format from ${format}`))
+      }
+
       this.requestChain = this.requestChain.then(() => {
         return new Promise(requestResolve => {
           const req = https
@@ -189,7 +229,7 @@ skinparam rectangle {
               {
                 hostname: 'arkit.herokuapp.com',
                 port: 443,
-                path: '/svg',
+                path: `/${path[0]}`,
                 method: 'post',
                 headers: {
                   'Content-Type': 'text/plain',

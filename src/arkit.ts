@@ -13,12 +13,14 @@ export interface Options {
 
 const getOptions = (options?: Options): Options => {
   const opts: Options = {
-    ...options,
-    directory: (options && options.directory) || ''
+    directory: (options && options.directory) || '',
+    output: (options && options.output) || [],
+    first: (options && options.first) || []
   }
   const directory = path.isAbsolute(opts.directory) ? opts.directory : path.join(process.cwd(), opts.directory)
 
   return {
+    ...opts,
     directory
   }
 }
@@ -41,43 +43,17 @@ export const arkit = (options?: Options): Promise<string[]> => {
 
   const generator = new Generator(config, files)
 
-  return Promise.all(config.outputs.map(output => {
+  return Promise.all(config.outputs.reduce((promises, output) => {
     const puml = generator.generatePlantUML(output)
 
-    if (output.path) {
+    if (output.path && output.path.length) {
       for (const outputPath of config.array(output.path)!) {
-        const fullExportPath = path.join(config.directory, outputPath)
-        const ext = path.extname(fullExportPath)
-
-        if (fs.existsSync(fullExportPath)) {
-          debug('Removing', fullExportPath)
-          fs.unlinkSync(fullExportPath)
-        }
-
-        if (ext === '.puml') {
-          debug('Saving', fullExportPath)
-          fs.writeFileSync(fullExportPath, puml)
-        }
-
-        if (ext === '.svg' || ext === '.png') {
-          debug('Converting', fullExportPath)
-          generator.convertToSVG(puml).then(svg => {
-            debug('Saving', fullExportPath)
-            fs.writeFileSync(fullExportPath, svg)
-          }).catch(err => {
-            throw err
-          })
-        }
+        promises.push(generator.convert(outputPath, puml))
       }
-
-      return puml
+    } else {
+      promises.push(generator.convert('svg', puml))
     }
 
-    return generator.convertToSVG(puml).then(svg => {
-      console.log(svg)
-      return puml
-    }).catch(err => {
-      throw err
-    })
-  }))
+    return promises
+  }, [] as Promise<string>[]))
 }

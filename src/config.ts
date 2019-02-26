@@ -10,7 +10,7 @@ const DEFAULT_COMPONENTS: ComponentSchema = {
 
 export const DEFAULT_CONFIG: ConfigSchema = {
   components: DEFAULT_COMPONENTS,
-  excludePatterns: ['node_modules/**', 'test/**', '**/*.test.*', '**/*.spec.*'],
+  excludePatterns: ['node_modules/**', 'test/**', 'tests/**', '**/*.test.*', '**/*.spec.*'],
   output: {}
 }
 
@@ -33,7 +33,7 @@ export class Config {
       this.components.push(DEFAULT_COMPONENTS)
     }
 
-    this.outputs = this.array((userConfig && userConfig.output) || DEFAULT_CONFIG.output)!
+    this.outputs = this.getOutputs(options, userConfig)
 
     if (userConfig && userConfig.excludePatterns) {
       this.excludePatterns.push(...userConfig.excludePatterns)
@@ -49,6 +49,24 @@ export class Config {
         this.excludePatterns.push(...component.excludePatterns)
       }
     }
+  }
+
+  getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
+    const generatedSchema: OutputSchema = {}
+
+    if (options.output && options.output.length) {
+      generatedSchema.path = options.output
+    }
+
+    if (options.first && options.first.length) {
+      generatedSchema.groups = [{ first: true, patterns: options.first }]
+    }
+
+    if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
+      return this.array(generatedSchema)!
+    }
+
+    return this.array(userConfig.output)!
   }
 
   safeRequire<T> (path: string): T | undefined {

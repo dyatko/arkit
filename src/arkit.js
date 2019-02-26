@@ -1,17 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
 const path = require("path");
 const logger_1 = require("./logger");
 const config_1 = require("./config");
 const parser_1 = require("./parser");
 const generator_1 = require("./generator");
 const getOptions = (options) => {
-    const opts = Object.assign({}, options, { directory: (options && options.directory) || '' });
-    const directory = path.isAbsolute(opts.directory) ? opts.directory : path.join(process.cwd(), opts.directory);
-    return {
-        directory
+    const opts = {
+        directory: (options && options.directory) || '',
+        output: (options && options.output) || [],
+        first: (options && options.first) || []
     };
+    const directory = path.isAbsolute(opts.directory) ? opts.directory : path.join(process.cwd(), opts.directory);
+    return Object.assign({}, opts, { directory });
 };
 exports.arkit = (options) => {
     const opts = getOptions(options);
@@ -25,37 +26,16 @@ exports.arkit = (options) => {
     logger_1.trace('Parsed files');
     logger_1.trace(files);
     const generator = new generator_1.Generator(config, files);
-    return Promise.all(config.outputs.map(output => {
+    return Promise.all(config.outputs.reduce((promises, output) => {
         const puml = generator.generatePlantUML(output);
-        if (output.path) {
+        if (output.path && output.path.length) {
             for (const outputPath of config.array(output.path)) {
-                const fullExportPath = path.join(config.directory, outputPath);
-                const ext = path.extname(fullExportPath);
-                if (fs.existsSync(fullExportPath)) {
-                    logger_1.debug('Removing', fullExportPath);
-                    fs.unlinkSync(fullExportPath);
-                }
-                if (ext === '.puml') {
-                    logger_1.debug('Saving', fullExportPath);
-                    fs.writeFileSync(fullExportPath, puml);
-                }
-                if (ext === '.svg' || ext === '.png') {
-                    logger_1.debug('Converting', fullExportPath);
-                    generator.convertToSVG(puml).then(svg => {
-                        logger_1.debug('Saving', fullExportPath);
-                        fs.writeFileSync(fullExportPath, svg);
-                    }).catch(err => {
-                        throw err;
-                    });
-                }
+                promises.push(generator.convert(outputPath, puml));
             }
-            return puml;
         }
-        return generator.convertToSVG(puml).then(svg => {
-            console.log(svg);
-            return puml;
-        }).catch(err => {
-            throw err;
-        });
-    }));
+        else {
+            promises.push(generator.convert('svg', puml));
+        }
+        return promises;
+    }, []));
 };

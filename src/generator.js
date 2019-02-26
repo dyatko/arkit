@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
+const fs = require("fs");
+const https = require("https");
 const schema_1 = require("./schema");
 const logger_1 = require("./logger");
-const https = require("https");
 const generator_base_1 = require("./generator.base");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
@@ -143,15 +144,48 @@ skinparam rectangle {
     `);
         return puml.join('\n');
     }
-    convertToSVG(puml) {
+    convert(pathOrType, puml) {
+        const fullExportPath = path.join(this.config.directory, pathOrType);
+        const ext = path.extname(fullExportPath);
+        const shouldConvertAndSave = ['.png', '.svg'].includes(ext);
+        const shouldConvertAndOutput = ['png', 'svg'].includes(pathOrType);
+        if (fs.existsSync(fullExportPath)) {
+            logger_1.debug('Removing', fullExportPath);
+            fs.unlinkSync(fullExportPath);
+        }
+        if (shouldConvertAndSave || shouldConvertAndOutput) {
+            logger_1.debug('Converting', fullExportPath);
+            return this.convertToImage(puml, ext || pathOrType).then(image => {
+                if (shouldConvertAndSave) {
+                    logger_1.debug('Saving', fullExportPath);
+                    fs.writeFileSync(fullExportPath, image);
+                }
+                return image;
+            }).catch(err => {
+                throw err;
+            });
+        }
+        else {
+            if (ext === '.puml') {
+                logger_1.debug('Saving', fullExportPath);
+                fs.writeFileSync(fullExportPath, puml);
+            }
+            return Promise.resolve(puml);
+        }
+    }
+    convertToImage(puml, format) {
         return new Promise((resolve, reject) => {
+            const path = format.match(/\w{3}/);
+            if (!path) {
+                return reject(new Error(`Cannot identify image format from ${format}`));
+            }
             this.requestChain = this.requestChain.then(() => {
                 return new Promise(requestResolve => {
                     const req = https
                         .request({
                         hostname: 'arkit.herokuapp.com',
                         port: 443,
-                        path: '/svg',
+                        path: `/${path[0]}`,
                         method: 'post',
                         headers: {
                             'Content-Type': 'text/plain',
