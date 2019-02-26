@@ -19,7 +19,7 @@
 
 Add arkit to your project using NPM or Yarn:
 
-```console
+```sh
 npm install arkit --save-dev
 yarn add arkit --dev
 ```
@@ -31,7 +31,7 @@ Arkit can be configured using basic CLI arguments or advanced JSON, JS module or
 ##### CLI arguments
 
 ```console
-$ npx arkit --help
+user@machine:~$ npx arkit --help
 Usage: arkit [options] [dir]
 
 A CLI tool to visualise a JavaScript, TypeScript or Flow codebase architecture
@@ -58,7 +58,10 @@ Options:
         "patterns": ["**/*.ts", "**/*.tsx"]
     }
   ],
-  "excludePatterns": ["node_modules/**", "test/**", "tests/**", "**/*.test.*", "**/*.spec.*"]
+  "excludePatterns": ["node_modules/**", "test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
+  "output": {
+    "path": "arkit.svg"
+  }
 }
 ```
 
