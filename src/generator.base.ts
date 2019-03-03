@@ -228,7 +228,6 @@ export class GeneratorBase {
 
   protected getComponentName (filename: string, componentConfig: ComponentSchema): string {
     const nameFormat = componentConfig.format
-    const a = 1
 
     if (nameFormat === ComponentNameFormat.FULL_NAME) {
       return path.basename(filename)

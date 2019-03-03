@@ -50,7 +50,7 @@ class Generator extends generator_base_1.GeneratorBase {
     generatePlantUMLComponent(component, context) {
         const puml = [];
         const hasLayer = component.layer !== generator_base_1.EMPTY_LAYER;
-        const safeName = component.name.replace(/[./-]/g, '_');
+        const safeName = component.name.replace(/[^\w]/g, '_');
         if (hasLayer) {
             puml.push(`(${component.name})`);
         }

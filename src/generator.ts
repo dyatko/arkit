@@ -69,7 +69,7 @@ export class Generator extends GeneratorBase {
   ): string {
     const puml: string[] = []
     const hasLayer = component.layer !== EMPTY_LAYER
-    const safeName = component.name.replace(/[./-]/g, '_')
+    const safeName = component.name.replace(/[^\w]/g, '_')
 
     if (hasLayer) {
       puml.push(`(${component.name})`)

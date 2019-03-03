@@ -165,7 +165,6 @@ class GeneratorBase {
     }
     getComponentName(filename, componentConfig) {
         const nameFormat = componentConfig.format;
-        const a = 1;
         if (nameFormat === schema_1.ComponentNameFormat.FULL_NAME) {
             return path.basename(filename);
         }
