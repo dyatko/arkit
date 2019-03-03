@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es2015",
     "types": ["node", "jest"],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "outDir": "dist/",
+    "declaration": true
   },
-  "include": ["./src/*",
-    "./src/index.ts"
+  "include": [
+    "./src/*"
   ],
-  "exclude": ["./test/*", "./node_modules/*"]
+  "exclude": [
+    "./test/*",
+    "./dist/*",
+    "./node_modules/*"
+  ]
 }

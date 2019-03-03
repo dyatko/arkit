@@ -41,7 +41,7 @@ export enum ComponentNameFormat {
   COMPLETE_PATH = 'complete'
 }
 
-export interface OutputSchema extends ComponentFilters {
+export interface OutputSchema {
   /** Output path or paths, e.g. ["architecture.puml", "architecture.svg"] */
   path?: string | string[]
 

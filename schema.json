@@ -87,13 +87,6 @@
         },
         "OutputSchema": {
             "properties": {
-                "components": {
-                    "description": "List of components, e.g. [\"Service\", \"Model\"]",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "direction": {
                     "$ref": "https://raw.githubusercontent.com/dyatko/arkit/master/schema.json#/definitions/OutputDirection",
                     "default": "vertical",
@@ -126,13 +119,6 @@
                         }
                     ],
                     "description": "Output path or paths, e.g. [\"architecture.puml\", \"architecture.svg\"]"
-                },
-                "patterns": {
-                    "description": "File patterns, e.g. [\"services\\/*.ts\", \"**\\/*.model.ts\"]",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
                 }
             },
             "type": "object"

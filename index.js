@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const arkit = require('./src/arkit').arkit
+const { arkit } = require('./dist/arkit')
 
 if (require.main === module) {
   const cli = require('commander')

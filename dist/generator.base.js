@@ -144,8 +144,8 @@ class GeneratorBase {
     }
     findComponentSchema(output, filename) {
         const componentSchema = this.config.components.find(componentSchema => {
-            const outputFilters = [output, ...this.config.array(output.groups) || []];
-            const includedInOutput = outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
+            const outputFilters = this.config.array(output.groups) || [];
+            const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
             if (includedInOutput) {
                 return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns);
             }

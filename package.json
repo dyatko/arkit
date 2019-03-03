@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "index.js",
   "scripts": {
@@ -53,6 +53,7 @@
     "nanomatch": "^1.2.13",
     "pino": "^5.11.1",
     "pino-pretty": "^2.5.0",
+    "recursive-readdir-synchronous": "0.0.4",
     "resolve": "^1.10.0",
     "ts-morph": "^1.2.0",
     "tsconfig-paths": "^3.8.0"
@@ -79,7 +80,7 @@
   "eslintIgnore": [
     "node_modules/*",
     "test/*",
-    "src/*.js"
+    "dist/*"
   ],
   "eslintConfig": {
     "extends": "standard",

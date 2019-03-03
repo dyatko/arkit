@@ -201,8 +201,8 @@ export class GeneratorBase {
 
   protected findComponentSchema (output: OutputSchema, filename: string): ComponentSchema {
     const componentSchema = this.config.components.find(componentSchema => {
-      const outputFilters: ComponentFilters[] = [output, ...this.config.array(output.groups) || []]
-      const includedInOutput = outputFilters.some(
+      const outputFilters: ComponentFilters[] = this.config.array(output.groups) || []
+      const includedInOutput = !outputFilters.length || outputFilters.some(
         outputFilter => this.verifyComponentFilters(outputFilter, componentSchema)
       )
 

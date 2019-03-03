@@ -14,6 +14,7 @@ import { sync as resolve } from 'resolve'
 import { debug, trace, warn } from './logger'
 import { Config } from './config'
 import { loadConfig, createMatchPath, MatchPath } from 'tsconfig-paths'
+import * as readdir from 'recursive-readdir-synchronous'
 
 interface Imports {
   [file: string]: string[]
@@ -57,9 +58,9 @@ export class Parser {
     this.project.addExistingDirectory(this.config.directory)
 
     debug('Searching files...')
-    const allFilePaths = this.walkSync(this.config.directory)
+    const allFilePaths = readdir(this.config.directory, this.config.excludePatterns)
       .map(filepath => path.relative(this.config.directory, filepath))
-    const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns, { ignore: this.config.excludePatterns })
+    const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns)
       .map(filepath => path.join(this.config.directory, filepath))
     trace(suitableFilePaths)
 
@@ -251,19 +252,5 @@ export class Parser {
         return fullPath
       }
     }
-  }
-
-  private walkSync (p: string): string[] {
-    try {
-      if (fs.statSync(p).isDirectory()) {
-        return fs.readdirSync(p).reduce(
-          (paths, f) => [...paths, ...this.walkSync(path.join(p, f))]
-          , [] as string[])
-      }
-    } catch (e) {
-      trace(e)
-    }
-
-    return [p]
   }
 }

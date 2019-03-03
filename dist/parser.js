@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
 const path = require("path");
 const nanomatch = require("nanomatch");
 const os_1 = require("os");
@@ -8,6 +7,7 @@ const ts_morph_1 = require("ts-morph");
 const resolve_1 = require("resolve");
 const logger_1 = require("./logger");
 const tsconfig_paths_1 = require("tsconfig-paths");
+const readdir = require("recursive-readdir-synchronous");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
@@ -25,9 +25,9 @@ class Parser {
         logger_1.debug('Adding directory...', this.config.directory);
         this.project.addExistingDirectory(this.config.directory);
         logger_1.debug('Searching files...');
-        const allFilePaths = this.walkSync(this.config.directory)
+        const allFilePaths = readdir(this.config.directory, this.config.excludePatterns)
             .map(filepath => path.relative(this.config.directory, filepath));
-        const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns, { ignore: this.config.excludePatterns })
+        const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns)
             .map(filepath => path.join(this.config.directory, filepath));
         logger_1.trace(suitableFilePaths);
         logger_1.debug(`Adding ${suitableFilePaths.length} files`);
@@ -182,17 +182,6 @@ class Parser {
                 return fullPath;
             }
         }
-    }
-    walkSync(p) {
-        try {
-            if (fs.statSync(p).isDirectory()) {
-                return fs.readdirSync(p).reduce((paths, f) => [...paths, ...this.walkSync(path.join(p, f))], []);
-            }
-        }
-        catch (e) {
-            logger_1.trace(e);
-        }
-        return [p];
     }
 }
 exports.Parser = Parser;
