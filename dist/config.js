@@ -6,11 +6,6 @@ const DEFAULT_COMPONENTS = {
     type: 'Component',
     patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
 };
-exports.DEFAULT_CONFIG = {
-    components: DEFAULT_COMPONENTS,
-    excludePatterns: ['node_modules/**', 'test/**', 'tests/**', '**/*.test.*', '**/*.spec.*'],
-    output: {}
-};
 class Config {
     constructor(options) {
         this.patterns = [];
@@ -50,9 +45,6 @@ class Config {
         }
         if (userConfig && userConfig.excludePatterns) {
             excludePatterns.push(...userConfig.excludePatterns);
-        }
-        else if (!userConfig && exports.DEFAULT_CONFIG.excludePatterns) {
-            excludePatterns.push(...exports.DEFAULT_CONFIG.excludePatterns);
         }
         for (const component of this.components) {
             if (component.excludePatterns) {

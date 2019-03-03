@@ -8,12 +8,6 @@ const DEFAULT_COMPONENTS: ComponentSchema = {
   patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
 }
 
-export const DEFAULT_CONFIG: ConfigSchema = {
-  components: DEFAULT_COMPONENTS,
-  excludePatterns: ['node_modules/**', 'test/**', 'tests/**', '**/*.test.*', '**/*.spec.*'],
-  output: {}
-}
-
 export class Config {
   directory: string
   components: ComponentSchema[]
@@ -70,8 +64,6 @@ export class Config {
 
     if (userConfig && userConfig.excludePatterns) {
       excludePatterns.push(...userConfig.excludePatterns)
-    } else if (!userConfig && DEFAULT_CONFIG.excludePatterns) {
-      excludePatterns.push(...DEFAULT_CONFIG.excludePatterns)
     }
 
     for (const component of this.components) {

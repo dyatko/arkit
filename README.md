@@ -37,7 +37,7 @@ arkit [directory]
 Options:
   -o, --output     Output file paths or type, e.g. arkit.svg or puml
   -f, --first      First component file patterns, e.g. src/index.js
-  -e, --exclude    File patterns to exclude, e.g. "node_modules/**"
+  -e, --exclude    File patterns to exclude, e.g. "node_modules"
   -d, --directory  Working directory                              [default: "."]
   -h, --help       Show help                                           [boolean]
   -v, --version    Show version number                                 [boolean]

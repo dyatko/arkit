@@ -26,7 +26,7 @@ const cli = yargs
     coerce: splitByComma
 })
     .option('exclude', {
-    description: 'File patterns to exclude, e.g. "node_modules/**"',
+    description: 'File patterns to exclude, e.g. "node_modules"',
     coerce: splitByComma
 })
     .option('output', {
@@ -46,6 +46,12 @@ exports.arkit = (options) => {
     const opts = Object.assign({}, cli.argv, options);
     if (!path.isAbsolute(opts.directory)) {
         opts.directory = path.join(process.cwd(), opts.directory);
+    }
+    if (!opts.exclude || !opts.exclude.length) {
+        opts.exclude = [
+            'node_modules', 'test', 'tests',
+            '**/*.test.*', '**/*.spec.*'
+        ];
     }
     logger_1.debug('Options');
     logger_1.debug(opts);

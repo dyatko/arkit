@@ -1,6 +1,5 @@
 import { Options } from './arkit';
-import { ComponentSchema, ConfigSchema, OutputSchema } from './schema';
-export declare const DEFAULT_CONFIG: ConfigSchema;
+import { ComponentSchema, OutputSchema } from './schema';
 export declare class Config {
     directory: string;
     components: ComponentSchema[];

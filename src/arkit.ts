@@ -33,7 +33,7 @@ const cli = yargs
     coerce: splitByComma
   })
   .option('exclude', {
-    description: 'File patterns to exclude, e.g. "node_modules/**"',
+    description: 'File patterns to exclude, e.g. "node_modules"',
     coerce: splitByComma
   })
   .option('output', {
@@ -58,6 +58,13 @@ export const arkit = (options?: Options): Promise<string[]> => {
 
   if (!path.isAbsolute(opts.directory)) {
     opts.directory = path.join(process.cwd(), opts.directory)
+  }
+
+  if (!opts.exclude || !opts.exclude.length) {
+    opts.exclude = [
+      'node_modules', 'test', 'tests',
+      '**/*.test.*', '**/*.spec.*'
+    ]
   }
 
   debug('Options')
