@@ -24,6 +24,18 @@ class Parser {
         });
         logger_1.debug('Adding directory...', this.config.directory);
         this.project.addExistingDirectory(this.config.directory);
+    }
+    resolveTsConfigPaths() {
+        const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
+        if (tsConfig.resultType === 'success') {
+            this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
+            logger_1.debug('Found TypeScript config', this.tsConfigFilePath);
+            logger_1.debug('Registering ts-config paths...');
+            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
+            logger_1.debug(tsConfig.paths);
+        }
+    }
+    addFiles() {
         logger_1.debug('Searching files...');
         const allFilePaths = readdir(this.config.directory, [
             (filepath) => {
@@ -42,18 +54,14 @@ class Parser {
             this.sourceFiles.set(sourceFile.getFilePath(), sourceFile);
         });
     }
-    resolveTsConfigPaths() {
-        const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
-        if (tsConfig.resultType === 'success') {
-            this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
-            logger_1.debug('Found TypeScript config', this.tsConfigFilePath);
-            logger_1.debug('Registering ts-config paths...');
-            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
-            logger_1.debug(tsConfig.paths);
-        }
+    removeFiles() {
+        logger_1.debug(`Removing ${this.sourceFiles.size} files`);
+        this.sourceFiles.forEach(sourceFile => this.project.removeSourceFile(sourceFile));
+        this.sourceFiles.clear();
     }
     parse() {
-        logger_1.debug('Parsing', this.sourceFiles.size, 'files');
+        this.addFiles();
+        logger_1.info('Parsing', this.sourceFiles.size, 'files');
         const files = {};
         for (const [fullPath, sourceFile] of this.sourceFiles) {
             const filePath = path.relative(this.config.directory, fullPath);
@@ -64,6 +72,7 @@ class Parser {
             logger_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
             files[filePath] = { exports, imports };
         }
+        this.removeFiles();
         return files;
     }
     getImports(sourceFile, statements) {

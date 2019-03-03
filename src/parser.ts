@@ -55,7 +55,26 @@ export class Parser {
 
     debug('Adding directory...', this.config.directory)
     this.project.addExistingDirectory(this.config.directory)
+  }
 
+  private resolveTsConfigPaths () {
+    const tsConfig = loadConfig(this.config.directory)
+
+    if (tsConfig.resultType === 'success') {
+      this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath)
+      debug('Found TypeScript config', this.tsConfigFilePath)
+      debug('Registering ts-config paths...')
+      this.tsResolve = createMatchPath(
+        tsConfig.absoluteBaseUrl,
+        tsConfig.paths,
+        tsConfig.mainFields,
+        tsConfig.addMatchAll
+      )
+      debug(tsConfig.paths)
+    }
+  }
+
+  private addFiles () {
     debug('Searching files...')
     const allFilePaths = readdir(this.config.directory, [
       (filepath: string): boolean => {
@@ -77,25 +96,20 @@ export class Parser {
     })
   }
 
-  private resolveTsConfigPaths () {
-    const tsConfig = loadConfig(this.config.directory)
+  private removeFiles () {
+    debug(`Removing ${this.sourceFiles.size} files`)
 
-    if (tsConfig.resultType === 'success') {
-      this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath)
-      debug('Found TypeScript config', this.tsConfigFilePath)
-      debug('Registering ts-config paths...')
-      this.tsResolve = createMatchPath(
-        tsConfig.absoluteBaseUrl,
-        tsConfig.paths,
-        tsConfig.mainFields,
-        tsConfig.addMatchAll
-      )
-      debug(tsConfig.paths)
-    }
+    this.sourceFiles.forEach(sourceFile =>
+      this.project.removeSourceFile(sourceFile)
+    )
+
+    this.sourceFiles.clear()
   }
 
   parse (): Files {
-    debug('Parsing', this.sourceFiles.size, 'files')
+    this.addFiles()
+
+    info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
 
     for (const [fullPath, sourceFile] of this.sourceFiles) {
@@ -108,6 +122,8 @@ export class Parser {
       debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
       files[filePath] = { exports, imports }
     }
+
+    this.removeFiles()
 
     return files
   }

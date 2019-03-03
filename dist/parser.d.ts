@@ -20,6 +20,8 @@ export declare class Parser {
     private tsResolutionCache;
     constructor(config: Config);
     private resolveTsConfigPaths;
+    private addFiles;
+    private removeFiles;
     parse(): Files;
     private getImports;
     private addImportedFile;
