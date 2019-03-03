@@ -91,9 +91,11 @@ export class Parser {
     debug(suitableFilePaths)
 
     info(`Adding ${suitableFilePaths.length} files`)
-    this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
-      this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
-    })
+    this.project
+      .addExistingSourceFiles(suitableFilePaths)
+      .forEach(sourceFile => {
+        this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
+      })
   }
 
   private removeFiles () {
@@ -147,9 +149,7 @@ export class Parser {
             sourceFileImports.push(namedImport)
           }
         }
-      }
-
-      if (TypeGuards.isImportDeclaration(statement) || TypeGuards.isExportDeclaration(statement)) {
+      } else if (TypeGuards.isImportDeclaration(statement) || TypeGuards.isExportDeclaration(statement)) {
         let moduleSpecifier: string | undefined
 
         try {
@@ -175,7 +175,7 @@ export class Parser {
         }
       }
 
-      if (TypeGuards.isImportDeclaration(statement) && sourceFileImports && structure) {
+      if (sourceFileImports && structure && TypeGuards.isImportDeclaration(statement)) {
         const importStructure = structure as ImportDeclarationStructure
 
         if (importStructure.namespaceImport) {

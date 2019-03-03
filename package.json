@@ -77,7 +77,8 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testPathIgnorePatterns": [
-      "test/react-dom"
+      "/test\/react-dom/",
+      "/node_modules/"
     ],
     "verbose": true
   },

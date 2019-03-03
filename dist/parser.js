@@ -50,7 +50,9 @@ class Parser {
             .map(filepath => path.join(this.config.directory, filepath));
         logger_1.debug(suitableFilePaths);
         logger_1.info(`Adding ${suitableFilePaths.length} files`);
-        this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
+        this.project
+            .addExistingSourceFiles(suitableFilePaths)
+            .forEach(sourceFile => {
             this.sourceFiles.set(sourceFile.getFilePath(), sourceFile);
         });
     }
@@ -90,7 +92,7 @@ class Parser {
                     }
                 }
             }
-            if (ts_morph_1.TypeGuards.isImportDeclaration(statement) || ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
+            else if (ts_morph_1.TypeGuards.isImportDeclaration(statement) || ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
                 let moduleSpecifier;
                 try {
                     structure = statement.getStructure();
@@ -111,7 +113,7 @@ class Parser {
                     sourceFileImports = this.addImportedFile(importedFile, imports);
                 }
             }
-            if (ts_morph_1.TypeGuards.isImportDeclaration(statement) && sourceFileImports && structure) {
+            if (sourceFileImports && structure && ts_morph_1.TypeGuards.isImportDeclaration(statement)) {
                 const importStructure = structure;
                 if (importStructure.namespaceImport) {
                     sourceFileImports.push(importStructure.namespaceImport);
