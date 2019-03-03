@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
@@ -14,7 +14,7 @@
     "prepare": "npm run build && npm run test"
   },
   "engines": {
-    "node": ">= 6.16.0"
+    "node": ">= 8.15.0"
   },
   "bin": {
     "arkit": "index.js"
