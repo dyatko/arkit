@@ -11,6 +11,20 @@ class Generator extends generator_base_1.GeneratorBase {
         super(...arguments);
         this.requestChain = Promise.resolve();
     }
+    generate() {
+        return Promise.all(this.config.outputs.reduce((promises, output) => {
+            const puml = this.generatePlantUML(output);
+            if (output.path && output.path.length) {
+                for (const outputPath of this.config.array(output.path)) {
+                    promises.push(this.convert(outputPath, puml));
+                }
+            }
+            else {
+                promises.push(this.convert('svg', puml));
+            }
+            return promises;
+        }, []));
+    }
     generatePlantUML(output) {
         logger_1.debug('Generating components...');
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));

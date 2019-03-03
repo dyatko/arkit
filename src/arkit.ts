@@ -75,18 +75,5 @@ export const arkit = (options?: Options): Promise<string[]> => {
   trace(files)
 
   const generator = new Generator(config, files)
-
-  return Promise.all(config.outputs.reduce((promises, output) => {
-    const puml = generator.generatePlantUML(output)
-
-    if (output.path && output.path.length) {
-      for (const outputPath of config.array(output.path)!) {
-        promises.push(generator.convert(outputPath, puml))
-      }
-    } else {
-      promises.push(generator.convert('svg', puml))
-    }
-
-    return promises
-  }, [] as Promise<string>[]))
+  return generator.generate()
 }

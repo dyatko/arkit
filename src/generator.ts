@@ -12,7 +12,23 @@ import {
 } from './generator.base'
 
 export class Generator extends GeneratorBase {
-  generatePlantUML (output: OutputSchema): string {
+  generate (): Promise<string[]> {
+    return Promise.all(this.config.outputs.reduce((promises, output) => {
+      const puml = this.generatePlantUML(output)
+
+      if (output.path && output.path.length) {
+        for (const outputPath of this.config.array(output.path)!) {
+          promises.push(this.convert(outputPath, puml))
+        }
+      } else {
+        promises.push(this.convert('svg', puml))
+      }
+
+      return promises
+    }, [] as Promise<string>[]))
+  }
+
+  private generatePlantUML (output: OutputSchema): string {
     debug('Generating components...')
     const components = this.sortComponentsByName(
       this.resolveConflictingComponentNames(this.generateComponents(output))
@@ -183,7 +199,7 @@ skinparam rectangle {
 `
   }
 
-  convert (pathOrType: string, puml: string): Promise<string> {
+  private convert (pathOrType: string, puml: string): Promise<string> {
     const fullExportPath = path.join(this.config.directory, pathOrType)
     const ext = path.extname(fullExportPath)
     const shouldConvertAndSave = ['.png', '.svg'].includes(ext)

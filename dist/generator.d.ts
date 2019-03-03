@@ -1,7 +1,7 @@
-import { OutputSchema } from './schema';
 import { GeneratorBase } from './generator.base';
 export declare class Generator extends GeneratorBase {
-    generatePlantUML(output: OutputSchema): string;
+    generate(): Promise<string[]>;
+    private generatePlantUML;
     private generatePlantUMLLayer;
     private generatePlantUMLComponent;
     private generatePlantUMLRelationships;
@@ -12,7 +12,7 @@ export declare class Generator extends GeneratorBase {
      */
     private generatePlantUMLSkin;
     private generatePlantUMLSkinParams;
-    convert(pathOrType: string, puml: string): Promise<string>;
+    private convert;
     requestChain: Promise<any>;
     convertToImage(puml: string, format: string): Promise<string>;
     private request;
