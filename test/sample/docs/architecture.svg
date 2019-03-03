@@ -22,7 +22,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle "base.component" as base_component
 rectangle "component" as component

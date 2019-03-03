@@ -19,7 +19,7 @@ export class Config {
   components: ComponentSchema[]
   outputs: OutputSchema[]
   patterns: string[] = []
-  excludePatterns: string[] = []
+  excludePatterns: string[]
   extensions = ['.js', '.ts', '.jsx', '.tsx']
 
   constructor (options: Options) {
@@ -34,24 +34,16 @@ export class Config {
     }
 
     this.outputs = this.getOutputs(options, userConfig)
-
-    if (userConfig && userConfig.excludePatterns) {
-      this.excludePatterns.push(...userConfig.excludePatterns)
-    } else if (!userConfig && DEFAULT_CONFIG.excludePatterns) {
-      this.excludePatterns.push(...DEFAULT_CONFIG.excludePatterns)
-    }
+    this.excludePatterns = this.getExcludePatterns(options, userConfig)
 
     for (const component of this.components) {
       if (component.patterns) {
         this.patterns.push(...component.patterns)
       }
-      if (component.excludePatterns) {
-        this.excludePatterns.push(...component.excludePatterns)
-      }
     }
   }
 
-  getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
+  private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
     const generatedSchema: OutputSchema = {}
 
     if (options.output && options.output.length) {
@@ -67,6 +59,28 @@ export class Config {
     }
 
     return this.array(userConfig.output)!
+  }
+
+  private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {
+    const excludePatterns: string[] = []
+
+    if (options.exclude) {
+      excludePatterns.push(...options.exclude)
+    }
+
+    if (userConfig && userConfig.excludePatterns) {
+      excludePatterns.push(...userConfig.excludePatterns)
+    } else if (!userConfig && DEFAULT_CONFIG.excludePatterns) {
+      excludePatterns.push(...DEFAULT_CONFIG.excludePatterns)
+    }
+
+    for (const component of this.components) {
+      if (component.excludePatterns) {
+        excludePatterns.push(...component.excludePatterns)
+      }
+    }
+
+    return excludePatterns
   }
 
   safeRequire<T> (path: string): T | undefined {

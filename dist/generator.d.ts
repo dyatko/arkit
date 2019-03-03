@@ -11,7 +11,9 @@ export declare class Generator extends GeneratorBase {
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
      */
     private generatePlantUMLSkin;
+    private generatePlantUMLSkinParams;
     convert(pathOrType: string, puml: string): Promise<string>;
     requestChain: Promise<any>;
     convertToImage(puml: string, format: string): Promise<string>;
+    private request;
 }

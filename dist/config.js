@@ -14,7 +14,6 @@ exports.DEFAULT_CONFIG = {
 class Config {
     constructor(options) {
         this.patterns = [];
-        this.excludePatterns = [];
         this.extensions = ['.js', '.ts', '.jsx', '.tsx'];
         this.directory = options.directory;
         const userConfigPath = path.join(this.directory, 'arkit');
@@ -24,18 +23,10 @@ class Config {
             this.components.push(DEFAULT_COMPONENTS);
         }
         this.outputs = this.getOutputs(options, userConfig);
-        if (userConfig && userConfig.excludePatterns) {
-            this.excludePatterns.push(...userConfig.excludePatterns);
-        }
-        else if (!userConfig && exports.DEFAULT_CONFIG.excludePatterns) {
-            this.excludePatterns.push(...exports.DEFAULT_CONFIG.excludePatterns);
-        }
+        this.excludePatterns = this.getExcludePatterns(options, userConfig);
         for (const component of this.components) {
             if (component.patterns) {
                 this.patterns.push(...component.patterns);
-            }
-            if (component.excludePatterns) {
-                this.excludePatterns.push(...component.excludePatterns);
             }
         }
     }
@@ -51,6 +42,24 @@ class Config {
             return this.array(generatedSchema);
         }
         return this.array(userConfig.output);
+    }
+    getExcludePatterns(options, userConfig) {
+        const excludePatterns = [];
+        if (options.exclude) {
+            excludePatterns.push(...options.exclude);
+        }
+        if (userConfig && userConfig.excludePatterns) {
+            excludePatterns.push(...userConfig.excludePatterns);
+        }
+        else if (!userConfig && exports.DEFAULT_CONFIG.excludePatterns) {
+            excludePatterns.push(...exports.DEFAULT_CONFIG.excludePatterns);
+        }
+        for (const component of this.components) {
+            if (component.excludePatterns) {
+                excludePatterns.push(...component.excludePatterns);
+            }
+        }
+        return excludePatterns;
     }
     safeRequire(path) {
         try {

@@ -1,5 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CLI Angular2 Todo exclude should output correct puml 1`] = `
+"@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 20
+skinparam ranksep 20
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
+
+'oval
+skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
+  borderThickness 1
+}
+
+
+rectangle \\"<b>main</b>\\" as main
+rectangle \\"<b>main.bundle</b>\\" as main_bundle
+rectangle \\"main.module\\" as main_module
+rectangle \\"pipes/index\\" as pipes_index
+rectangle \\"routes\\" as routes
+rectangle \\"todo-store.service\\" as todo_store_service
+rectangle \\"todo.model\\" as todo_model
+rectangle \\"trim.pipe\\" as trim_pipe
+rectangle \\"<b>webpack.config</b>\\" as webpack_config
+
+main => main_module
+main_module --> pipes_index
+main_module --> routes
+main_module --> todo_store_service
+pipes_index --> trim_pipe
+todo_store_service ---> todo_model
+
+@enduml
+"
+`;
+
 exports[`CLI Angular2 Todo no args should output correct svg 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"no\\"?><svg xmlns=\\"http://www.w3.org/2000/svg\\" xmlns:xlink=\\"http://www.w3.org/1999/xlink\\" contentScriptType=\\"application/ecmascript\\" contentStyleType=\\"text/css\\" height=\\"403px\\" preserveAspectRatio=\\"none\\" style=\\"width:1053px;height:403px;\\" version=\\"1.1\\" viewBox=\\"0 0 1053 403\\" width=\\"1053px\\" zoomAndPan=\\"magnify\\"><defs/><g><!--entity app_component--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"118\\" x=\\"6\\" y=\\"179\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"98\\" x=\\"16\\" y=\\"203.0068\\">app.component</text><!--entity components_index--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"135\\" x=\\"416.5\\" y=\\"122\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"115\\" x=\\"426.5\\" y=\\"146.0068\\">components/index</text><!--entity main--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"53\\" x=\\"599.5\\" y=\\"8\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" font-weight=\\"bold\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"33\\" x=\\"609.5\\" y=\\"32.0068\\">main</text><!--entity main_bundle--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"104\\" x=\\"791\\" y=\\"8\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" font-weight=\\"bold\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"84\\" x=\\"801\\" y=\\"32.0068\\">main.bundle</text><!--entity main_module--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"98\\" x=\\"673\\" y=\\"8\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"78\\" x=\\"683\\" y=\\"32.0068\\">main.module</text><!--entity pipes_index--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"89\\" x=\\"630.5\\" y=\\"65\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"69\\" x=\\"640.5\\" y=\\"89.0068\\">pipes/index</text><!--entity routes--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"59\\" x=\\"739.5\\" y=\\"65\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"39\\" x=\\"749.5\\" y=\\"89.0068\\">routes</text><!--entity todo_footer_component--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"166\\" x=\\"144\\" y=\\"179\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"146\\" x=\\"154\\" y=\\"203.0068\\">todo-footer.component</text><!--entity todo_header_component--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"171\\" x=\\"330.5\\" y=\\"179\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"151\\" x=\\"340.5\\" y=\\"203.0068\\">todo-header.component</text><!--entity todo_item_component--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"155\\" x=\\"521.5\\" y=\\"179\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"135\\" x=\\"531.5\\" y=\\"203.0068\\">todo-item.component</text><!--entity todo_list_component--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"144\\" x=\\"697\\" y=\\"179\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"124\\" x=\\"707\\" y=\\"203.0068\\">todo-list.component</text><!--entity todo_store_service--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"131\\" x=\\"526.5\\" y=\\"278\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"111\\" x=\\"536.5\\" y=\\"302.0068\\">todo-store.service</text><!--entity todo_model--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"90\\" x=\\"547\\" y=\\"356\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"70\\" x=\\"557\\" y=\\"380.0068\\">todo.model</text><!--entity trim_pipe--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"73\\" x=\\"638.5\\" y=\\"122\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"53\\" x=\\"648.5\\" y=\\"146.0068\\">trim.pipe</text><!--entity webpack_config--><rect fill=\\"#F8F8F8\\" height=\\"36.8984\\" rx=\\"2\\" ry=\\"2\\" style=\\"stroke: #000000; stroke-width: 1.0;\\" width=\\"127\\" x=\\"915.5\\" y=\\"8\\"/><text fill=\\"#000000\\" font-family=\\"Tahoma, sans-serif\\" font-size=\\"14\\" font-weight=\\"bold\\" lengthAdjust=\\"spacingAndGlyphs\\" textLength=\\"107\\" x=\\"925.5\\" y=\\"32.0068\\">webpack.config</text><!--link components_index to app_component--><path d=\\"M416.4537,144.8625 C345.633,150.1508 231.3276,160.7098 134,179 C132.5145,179.2792 131.014,179.5737 129.5034,179.8814 \\" fill=\\"none\\" id=\\"components_index-app_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"124.3351,180.9759,133.9685,183.0246,129.2266,179.9401,132.3112,175.1982,124.3351,180.9759\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link components_index to todo_footer_component--><path d=\\"M416.4763,155.4761 C385.5605,162.3329 348.5146,170.5493 315.4127,177.8909 \\" fill=\\"none\\" id=\\"components_index-todo_footer_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"310.1355,179.0614,319.7881,181.0176,315.0169,177.9787,318.0558,173.2074,310.1355,179.0614\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link components_index to todo_header_component--><path d=\\"M461.7343,159.1639 C455.4473,164.4339 448.5502,170.2153 442.0617,175.6542 \\" fill=\\"none\\" id=\\"components_index-todo_header_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"438.0835,178.9888,447.5504,176.2727,441.9154,175.7768,442.4112,170.1417,438.0835,178.9888\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link components_index to todo_item_component--><path d=\\"M521.3372,159.0063 C532.6854,164.631 545.2332,170.8504 556.8738,176.6201 \\" fill=\\"none\\" id=\\"components_index-todo_item_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"561.4566,178.8915,555.1692,171.3107,556.9767,176.671,551.6164,178.4785,561.4566,178.8915\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link components_index to todo_list_component--><path d=\\"M551.8979,152.8986 C591.1434,160.2006 641.4238,169.7865 686,179 C687.8434,179.381 689.709,179.77 691.5901,180.1651 \\" fill=\\"none\\" id=\\"components_index-todo_list_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"696.601,181.2244,688.6229,175.4494,691.7091,180.1903,686.9683,183.2764,696.601,181.2244\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link main to main_module--><path d=\\"M652.625,26.5 C657.7062,26.5 662.7874,26.5 667.8685,26.5 \\" fill=\\"none\\" id=\\"main-main_module\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><polygon fill=\\"#383838\\" points=\\"672.9497,26.5,663.9497,22.5,667.9497,26.5,663.9497,30.5,672.9497,26.5\\" style=\\"stroke: #383838; stroke-width: 2.0;\\"/><!--link main_module to components_index--><path d=\\"M672.8908,43.3874 C655.9159,49.6567 636.9166,57.1627 620,65 C584.6757,81.3654 546.0084,103.2411 518.9649,119.2315 \\" fill=\\"none\\" id=\\"main_module-components_index\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"514.391,121.9454,524.1722,120.7928,518.691,119.394,520.0899,113.9128,514.391,121.9454\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link main_module to pipes_index--><path d=\\"M706.6104,45.1639 C702.429,50.235 697.8571,55.7797 693.5221,61.0371 \\" fill=\\"none\\" id=\\"main_module-pipes_index\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"690.2636,64.9888,699.0753,60.5896,693.4445,61.1311,692.903,55.5002,690.2636,64.9888\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link main_module to routes--><path d=\\"M737.3896,45.1639 C741.571,50.235 746.1429,55.7797 750.4779,61.0371 \\" fill=\\"none\\" id=\\"main_module-routes\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"753.7364,64.9888,751.097,55.5002,750.5555,61.1311,744.9247,60.5896,753.7364,64.9888\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link main_module to todo_store_service--><path d=\\"M771.1156,41.1074 C814.8619,57.5074 872,88.8198 872,140.5 C872,140.5 872,140.5 872,236.5 C872,257.8437 746.0008,277.5517 663.0475,288.214 \\" fill=\\"none\\" id=\\"main_module-todo_store_service\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"657.6476,288.9031,667.0816,291.7315,662.6074,288.2701,666.0688,283.7959,657.6476,288.9031\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link pipes_index to trim_pipe--><path d=\\"M675,102.1639 C675,106.8373 675,111.9128 675,116.7951 \\" fill=\\"none\\" id=\\"pipes_index-trim_pipe\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"675,121.9888,679,112.9888,675,116.9888,671,112.9888,675,121.9888\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link routes to todo_list_component--><path d=\\"M769,102.0698 C769,121.6126 769,152.437 769,173.74 \\" fill=\\"none\\" id=\\"routes-todo_list_component\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"769,178.9382,773,169.9382,769,173.9382,765,169.9382,769,178.9382\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link todo_footer_component to todo_store_service--><path d=\\"M295.2255,216.005 C359.6773,233.4864 455.9469,259.5979 521.2224,277.3028 \\" fill=\\"none\\" id=\\"todo_footer_component-todo_store_service\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"526.2599,278.6691,518.621,272.4524,521.4343,277.3601,516.5266,280.1734,526.2599,278.6691\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link todo_header_component to todo_store_service--><path d=\\"M449.1043,216.1211 C479.0953,232.9911 523.25,257.8281 554.5263,275.421 \\" fill=\\"none\\" id=\\"todo_header_component-todo_store_service\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"559.0442,277.9624,553.1611,270.0637,554.6863,275.5111,549.239,277.0363,559.0442,277.9624\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link todo_list_component to todo_store_service--><path d=\\"M735.7077,216.1211 C705.5462,232.9911 661.1406,257.8281 629.6866,275.421 \\" fill=\\"none\\" id=\\"todo_list_component-todo_store_service\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"625.1431,277.9624,634.9505,277.0602,629.5069,275.5217,631.0454,270.0781,625.1431,277.9624\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--link todo_store_service to todo_model--><path d=\\"M592,315.3816 C592,326.0164 592,339.3996 592,350.7418 \\" fill=\\"none\\" id=\\"todo_store_service-todo_model\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><polygon fill=\\"#383838\\" points=\\"592,355.7923,596,346.7923,592,350.7923,588,346.7923,592,355.7923\\" style=\\"stroke: #383838; stroke-width: 0.7;\\"/><!--
 @startuml
@@ -25,7 +75,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"app.component\\" as app_component
 rectangle \\"components/index\\" as components_index
@@ -100,7 +150,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"application\\" as application
 rectangle \\"<b>express</b>\\" as express
@@ -145,15 +195,18 @@ Country: US
 `;
 
 exports[`CLI Options should output help 1`] = `
-"Usage: index [options] [dir]
-
-Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
+"arkit [directory]
 
 Options:
-  -V, --version            output the version number
-  -f, --first [file ...]   First component file patterns, e.g. src/index.js
-  -o, --output [file ...]  Output file paths or type, e.g. arkit.svg or puml
-  -h, --help               output usage information
+  -o, --output     Output file paths or type, e.g. arkit.svg or puml
+  -f, --first      First component file patterns, e.g. src/index.js
+  -e, --exclude    File patterns to exclude, e.g. \\"node_modules/**\\"
+  -d, --directory  Working directory                              [default: \\".\\"]
+  -h, --help       Show help                                           [boolean]
+  -v, --version    Show version number                                 [boolean]
+
+Visualises JavaScript, TypeScript and Flow codebases as meaningful and
+committable architecture diagrams https://www.npmjs.com/arkit
 "
 `;
 
@@ -182,7 +235,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"<b>index</b>\\" as index
 rectangle \\"<b>server</b>\\" as server
@@ -476,7 +529,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"Main\\" {
   (main.view)
@@ -525,7 +578,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"base.component\\" as base_component
 rectangle \\"component\\" as component

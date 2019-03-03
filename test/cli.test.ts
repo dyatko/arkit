@@ -46,6 +46,15 @@ describe('CLI', () => {
         expect(execSync(arkit).toString()).toMatchSnapshot()
       })
     })
+
+    describe('exclude', () => {
+      test('should output correct puml', () => {
+        const dir = path.join(__dirname, './angular2_es2015')
+
+        process.chdir(dir)
+        expect(execSync(`${arkit} -o puml -e "app/components/**"`).toString()).toMatchSnapshot()
+      })
+    })
   })
 
   describe('Express', () => {

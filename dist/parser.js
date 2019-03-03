@@ -25,9 +25,16 @@ class Parser {
         logger_1.debug('Adding directory...', this.config.directory);
         this.project.addExistingDirectory(this.config.directory);
         logger_1.debug('Searching files...');
-        const allFilePaths = readdir(this.config.directory, this.config.excludePatterns)
-            .map(filepath => path.relative(this.config.directory, filepath));
-        const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns)
+        const allFilePaths = readdir(this.config.directory, [
+            (filepath) => {
+                const relativePath = path.relative(this.config.directory, filepath);
+                return !!this.config.excludePatterns.length &&
+                    !!nanomatch(relativePath, this.config.excludePatterns).length;
+            }
+        ]);
+        const suitableFilePaths = allFilePaths
+            .map(filepath => path.relative(this.config.directory, filepath))
+            .filter(filepath => nanomatch(filepath, this.config.patterns).length)
             .map(filepath => path.join(this.config.directory, filepath));
         logger_1.trace(suitableFilePaths);
         logger_1.debug(`Adding ${suitableFilePaths.length} files`);

@@ -32,12 +32,15 @@ Arkit can be configured using basic CLI arguments or advanced JSON, JS module or
 
 ```console
 user@machine:~$ npx arkit --help
-Usage: arkit [options] [dir]
+arkit [directory]
+
 Options:
-  -V, --version            output the version number
-  -f, --first [file ...]   First component file patterns, e.g. src/index.js
-  -o, --output [file ...]  Output file paths or type, e.g. arkit.svg or puml
-  -h, --help               output usage information
+  -o, --output     Output file paths or type, e.g. arkit.svg or puml
+  -f, --first      First component file patterns, e.g. src/index.js
+  -e, --exclude    File patterns to exclude, e.g. "node_modules/**"
+  -d, --directory  Working directory                              [default: "."]
+  -h, --help       Show help                                           [boolean]
+  -v, --version    Show version number                                 [boolean]
 ```
 
 ##### Advanced arkit.json with JSON schema

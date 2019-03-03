@@ -10,7 +10,7 @@
     "build": "npm run compile && npm run build-schema",
     "jest": "jest",
     "test": "npm run lint && npm run jest",
-    "prepare": "npm run test && npm run build"
+    "prepare": "npm run build && npm run test"
   },
   "engines": {
     "node": ">= 6.16.0"
@@ -27,12 +27,13 @@
   "bugs": {
     "url": "https://github.com/dyatko/arkit/issues"
   },
-  "homepage": "https://github.com/dyatko/arkit#readme",
+  "homepage": "https://www.npmjs.com/arkit",
   "devDependencies": {
     "@types/jest": "24.0.9",
     "@types/node": "11.10.4",
     "@types/pino": "5.8.5",
     "@types/resolve": "0.0.8",
+    "@types/yargs": "^12.0.9",
     "@typescript-eslint/eslint-plugin": "1.4.2",
     "@typescript-eslint/parser": "1.4.2",
     "eslint": "5.15.0",
@@ -43,12 +44,12 @@
     "prettier": "1.16.4",
     "standard": "12.0.1",
     "ts-jest": "24.0.0",
+    "tslint": "^5.13.1",
     "tslint-config-standard": "8.0.1",
     "typescript-json-schema": "0.36.0",
     "weak": "1.0.1"
   },
   "dependencies": {
-    "commander": "^2.19.0",
     "debug": "^4.1.1",
     "nanomatch": "^1.2.13",
     "pino": "^5.11.1",
@@ -56,7 +57,8 @@
     "recursive-readdir-synchronous": "0.0.4",
     "resolve": "^1.10.0",
     "ts-morph": "^1.2.0",
-    "tsconfig-paths": "^3.8.0"
+    "tsconfig-paths": "^3.8.0",
+    "yargs": "^13.2.1"
   },
   "jest": {
     "moduleFileExtensions": [

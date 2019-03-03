@@ -24,7 +24,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle "Main" {
   (main.view)

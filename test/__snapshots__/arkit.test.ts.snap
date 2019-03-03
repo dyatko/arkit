@@ -26,7 +26,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"app.component\\" as app_component
 rectangle \\"components/index\\" as components_index
@@ -102,7 +102,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"application\\" as application
 rectangle \\"<b>express</b>\\" as express
@@ -175,7 +175,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"Main\\" {
   (main.view)
@@ -221,7 +221,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    
+
 
 rectangle \\"base.component\\" as base_component
 rectangle \\"component\\" as component

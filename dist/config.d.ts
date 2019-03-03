@@ -9,7 +9,8 @@ export declare class Config {
     excludePatterns: string[];
     extensions: string[];
     constructor(options: Options);
-    getOutputs(options: Options, userConfig?: ConfigSchema): OutputSchema[];
+    private getOutputs;
+    private getExcludePatterns;
     safeRequire<T>(path: string): T | undefined;
     array<T>(input?: T | T[]): T[] | undefined;
 }

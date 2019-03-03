@@ -1,4 +1,3 @@
-import * as fs from 'fs'
 import * as path from 'path'
 import * as nanomatch from 'nanomatch'
 import { EOL } from 'os'
@@ -58,9 +57,17 @@ export class Parser {
     this.project.addExistingDirectory(this.config.directory)
 
     debug('Searching files...')
-    const allFilePaths = readdir(this.config.directory, this.config.excludePatterns)
+    const allFilePaths = readdir(this.config.directory, [
+      (filepath: string): boolean => {
+        const relativePath = path.relative(this.config.directory, filepath)
+        return !!this.config.excludePatterns.length &&
+          !!nanomatch(relativePath, this.config.excludePatterns).length
+      }
+    ])
+
+    const suitableFilePaths = allFilePaths
       .map(filepath => path.relative(this.config.directory, filepath))
-    const suitableFilePaths = nanomatch(allFilePaths, this.config.patterns)
+      .filter(filepath => nanomatch(filepath, this.config.patterns).length)
       .map(filepath => path.join(this.config.directory, filepath))
     trace(suitableFilePaths)
 

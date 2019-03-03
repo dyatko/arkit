@@ -119,7 +119,11 @@ class Generator extends generator_base_1.GeneratorBase {
         else {
             puml.push('top to bottom direction');
         }
-        puml.push(`
+        puml.push(this.generatePlantUMLSkinParams());
+        return puml.join('\n');
+    }
+    generatePlantUMLSkinParams() {
+        return `
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
@@ -141,8 +145,7 @@ skinparam usecase {
 skinparam rectangle {
   borderThickness 1
 }
-    `);
-        return puml.join('\n');
+`;
     }
     convert(pathOrType, puml) {
         const fullExportPath = path.join(this.config.directory, pathOrType);
@@ -180,33 +183,36 @@ skinparam rectangle {
                 return reject(new Error(`Cannot identify image format from ${format}`));
             }
             this.requestChain = this.requestChain.then(() => {
-                return new Promise(requestResolve => {
-                    const req = https
-                        .request({
-                        hostname: 'arkit.herokuapp.com',
-                        port: 443,
-                        path: `/${path[0]}`,
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'text/plain',
-                            'Content-Length': puml.length
-                        }
-                    }, res => {
-                        let svg = [''];
-                        res.on('data', data => svg.push(data));
-                        res.on('end', () => {
-                            requestResolve();
-                            resolve(svg.join(''));
-                        });
-                    })
-                        .on('error', err => {
-                        requestResolve();
-                        reject(err);
-                    });
-                    req.write(puml);
-                    req.end();
-                });
+                return this.request(`/${path[0]}`, puml)
+                    .then(svg => resolve(svg))
+                    .catch(err => logger_1.debug(err));
             });
+        });
+    }
+    request(path, payload) {
+        return new Promise((resolve, reject) => {
+            const req = https
+                .request({
+                path,
+                hostname: 'arkit.herokuapp.com',
+                port: 443,
+                method: 'post',
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Content-Length': payload.length
+                }
+            }, res => {
+                let svg = [''];
+                res.on('data', data => svg.push(data));
+                res.on('end', () => {
+                    resolve(svg.join(''));
+                });
+            })
+                .on('error', err => {
+                reject(err);
+            });
+            req.write(payload);
+            req.end();
         });
     }
 }
