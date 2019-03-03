@@ -1,5 +1,4 @@
-import { Options } from './arkit';
-import { ComponentSchema, OutputSchema } from './schema';
+import { ComponentSchema, Options, OutputSchema } from './schema';
 export declare class Config {
     directory: string;
     components: ComponentSchema[];
@@ -13,3 +12,4 @@ export declare class Config {
     safeRequire<T>(path: string): T | undefined;
     array<T>(input?: T | T[]): T[] | undefined;
 }
+//# sourceMappingURL=config.d.ts.map

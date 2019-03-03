@@ -10,7 +10,7 @@ import {
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
-import { debug, trace, warn } from './logger'
+import { debug, info, trace, warn } from './logger'
 import { Config } from './config'
 import { loadConfig, createMatchPath, MatchPath } from 'tsconfig-paths'
 import * as readdir from 'recursive-readdir-synchronous'
@@ -69,9 +69,9 @@ export class Parser {
       .map(filepath => path.relative(this.config.directory, filepath))
       .filter(filepath => nanomatch(filepath, this.config.patterns).length)
       .map(filepath => path.join(this.config.directory, filepath))
-    trace(suitableFilePaths)
+    debug(suitableFilePaths)
 
-    debug(`Adding ${suitableFilePaths.length} files`)
+    info(`Adding ${suitableFilePaths.length} files`)
     this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
       this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
     })
@@ -105,7 +105,7 @@ export class Parser {
       const exports = this.getExports(sourceFile, statements)
       const imports = this.getImports(sourceFile, statements)
 
-      debug(Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
+      debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
       files[filePath] = { exports, imports }
     }
 

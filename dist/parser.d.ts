@@ -28,3 +28,4 @@ export declare class Parser {
     private resolveTsModule;
 }
 export {};
+//# sourceMappingURL=parser.d.ts.map

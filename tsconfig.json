@@ -6,7 +6,8 @@
     "types": ["node", "jest"],
     "strictNullChecks": true,
     "outDir": "dist/",
-    "declaration": true
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "./src/*"

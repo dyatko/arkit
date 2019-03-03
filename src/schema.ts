@@ -1,3 +1,10 @@
+export interface Options {
+  directory: string,
+  output?: string[],
+  first?: string[],
+  exclude?: string[]
+}
+
 /**
  * Configuration
  */

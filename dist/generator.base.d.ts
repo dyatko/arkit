@@ -34,3 +34,4 @@ export declare class GeneratorBase {
     protected getComponentName(filename: string, componentConfig: ComponentSchema): string;
     protected getAllComponents(layers: Layers, sortByName?: boolean): Component[];
 }
+//# sourceMappingURL=generator.base.d.ts.map

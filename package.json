@@ -1,8 +1,9 @@
 {
   "name": "arkit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
-  "main": "index.js",
+  "main": "./dist/arkit.js",
+  "types": "./dist/arkit.d.ts",
   "scripts": {
     "compile": "tsc --project .",
     "lint": "eslint --ext .ts .",

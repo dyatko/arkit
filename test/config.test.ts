@@ -3,7 +3,7 @@ import { Config } from '../src/config'
 
 describe('Config', () => {
   test('Sample', () => {
-    const directory = path.join(__dirname, './sample')
+    const directory = path.resolve(__dirname, './sample')
     const config = new Config({directory})
 
     expect(config.directory).toBe(directory)
@@ -12,7 +12,7 @@ describe('Config', () => {
   })
 
   test('Angular2 Todo', () => {
-    const directory = path.join(__dirname, './angular2_es2015')
+    const directory = path.resolve(__dirname, './angular2_es2015')
     const config = new Config({directory})
 
     expect(config.directory).toBe(directory)
@@ -21,7 +21,7 @@ describe('Config', () => {
   })
 
   test('Express', () => {
-    const directory = path.join(__dirname, './express')
+    const directory = path.resolve(__dirname, './express')
     const config = new Config({directory})
 
     expect(config.directory).toBe(directory)

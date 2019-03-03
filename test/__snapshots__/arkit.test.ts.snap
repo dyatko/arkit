@@ -250,3 +250,63 @@ Country: US
 --></g></svg>",
 ]
 `;
+
+exports[`Arkit itself 1`] = `
+Array [
+  "@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 20
+skinparam ranksep 20
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 14
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowThickness 0.7
+skinparam packageTitleAlignment left
+
+'oval
+skinparam usecase {
+  borderThickness 0.4
+  fontSize 12
+}
+
+'rectangle
+skinparam rectangle {
+  borderThickness 1
+}
+
+
+rectangle \\"<b>arkit</b>\\" as arkit
+rectangle \\"config\\" as config
+rectangle \\"generator\\" as generator
+rectangle \\"generator.base\\" as generator_base
+rectangle \\"<b>index</b>\\" as index
+rectangle \\"logger\\" as logger
+rectangle \\"parser\\" as parser
+rectangle \\"schema\\" as schema
+
+arkit => config
+arkit => generator
+arkit => logger
+arkit => parser
+arkit => schema
+config --> logger
+config --> schema
+generator --> generator_base
+generator --> logger
+generator --> schema
+generator_base --> config
+generator_base --> logger
+generator_base --> parser
+generator_base --> schema
+parser --> config
+parser --> logger
+
+@enduml",
+]
+`;

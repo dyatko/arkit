@@ -42,26 +42,41 @@ const cli = yargs
     v: 'version',
     _: 'directory'
 });
+const getAbsolute = (filepath) => {
+    return !path.isAbsolute(filepath) ? path.resolve(process.cwd(), filepath) : filepath;
+};
+const convertToRelative = (paths, root) => {
+    return paths.map(filepath => {
+        return path.relative(root, getAbsolute(filepath));
+    });
+};
 exports.arkit = (options) => {
     const opts = Object.assign({}, cli.argv, options);
-    if (!path.isAbsolute(opts.directory)) {
-        opts.directory = path.join(process.cwd(), opts.directory);
+    opts.directory = getAbsolute(opts.directory);
+    if (opts.first) {
+        opts.first = convertToRelative(opts.first, opts.directory);
     }
-    if (!opts.exclude || !opts.exclude.length) {
+    if (opts.output) {
+        opts.output = convertToRelative(opts.output, opts.directory);
+    }
+    if (opts.exclude) {
+        opts.exclude = convertToRelative(opts.exclude, opts.directory);
+    }
+    else {
         opts.exclude = [
             'node_modules', 'test', 'tests',
             '**/*.test.*', '**/*.spec.*'
         ];
     }
-    logger_1.debug('Options');
-    logger_1.debug(opts);
+    logger_1.info('Options');
+    logger_1.info(opts);
     const config = new config_1.Config(opts);
-    logger_1.debug('Config');
-    logger_1.debug(config);
+    logger_1.info('Config');
+    logger_1.info(config);
     const parser = new parser_1.Parser(config);
     const files = parser.parse();
-    logger_1.trace('Parsed files');
-    logger_1.trace(files);
+    logger_1.debug('Parsed files');
+    logger_1.debug(files);
     const generator = new generator_1.Generator(config, files);
     return generator.generate();
 };

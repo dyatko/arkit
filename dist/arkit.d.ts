@@ -1,7 +1,3 @@
-export interface Options {
-    directory: string;
-    output?: string[];
-    first?: string[];
-    exclude?: string[];
-}
+import { Options } from './schema';
 export declare const arkit: (options?: Options | undefined) => Promise<string[]>;
+//# sourceMappingURL=arkit.d.ts.map

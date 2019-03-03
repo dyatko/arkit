@@ -36,8 +36,8 @@ class Parser {
             .map(filepath => path.relative(this.config.directory, filepath))
             .filter(filepath => nanomatch(filepath, this.config.patterns).length)
             .map(filepath => path.join(this.config.directory, filepath));
-        logger_1.trace(suitableFilePaths);
-        logger_1.debug(`Adding ${suitableFilePaths.length} files`);
+        logger_1.debug(suitableFilePaths);
+        logger_1.info(`Adding ${suitableFilePaths.length} files`);
         this.project.addExistingSourceFiles(suitableFilePaths).forEach(sourceFile => {
             this.sourceFiles.set(sourceFile.getFilePath(), sourceFile);
         });
@@ -61,7 +61,7 @@ class Parser {
             logger_1.debug(filePath, statements.length, 'statements');
             const exports = this.getExports(sourceFile, statements);
             const imports = this.getImports(sourceFile, statements);
-            logger_1.debug(Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
+            logger_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
             files[filePath] = { exports, imports };
         }
         return files;

@@ -11,7 +11,7 @@ class Config {
         this.patterns = [];
         this.extensions = ['.js', '.ts', '.jsx', '.tsx'];
         this.directory = options.directory;
-        const userConfigPath = path.join(this.directory, 'arkit');
+        const userConfigPath = path.resolve(this.directory, 'arkit');
         const userConfig = this.safeRequire(userConfigPath);
         this.components = this.array(userConfig && userConfig.components) || [];
         if (!this.components.length) {
@@ -31,7 +31,10 @@ class Config {
             generatedSchema.path = options.output;
         }
         if (options.first && options.first.length) {
-            generatedSchema.groups = [{ first: true, patterns: options.first }];
+            generatedSchema.groups = [
+                { first: true, patterns: options.first },
+                {}
+            ];
         }
         if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
             return this.array(generatedSchema);

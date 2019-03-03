@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as https from 'https'
 import { OutputDirection, OutputSchema } from './schema'
-import { debug, trace } from './logger'
+import { debug, info } from './logger'
 import {
   Component,
   Context,
@@ -29,15 +29,15 @@ export class Generator extends GeneratorBase {
   }
 
   private generatePlantUML (output: OutputSchema): string {
-    debug('Generating components...')
+    info('Generating components...')
     const components = this.sortComponentsByName(
       this.resolveConflictingComponentNames(this.generateComponents(output))
     )
-    trace(Array.from(components.values()))
+    debug(Array.from(components.values()))
 
-    debug('Generating layers...')
+    info('Generating layers...')
     const layers = this.generateLayers(output, components)
-    trace(Array.from(layers.keys()))
+    debug(Array.from(layers.keys()))
 
     const puml = ['@startuml']
 
@@ -200,7 +200,7 @@ skinparam rectangle {
   }
 
   private convert (pathOrType: string, puml: string): Promise<string> {
-    const fullExportPath = path.join(this.config.directory, pathOrType)
+    const fullExportPath = path.resolve(this.config.directory, pathOrType)
     const ext = path.extname(fullExportPath)
     const shouldConvertAndSave = ['.png', '.svg'].includes(ext)
     const shouldConvertAndOutput = ['png', 'svg'].includes(pathOrType)

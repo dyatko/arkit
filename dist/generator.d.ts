@@ -17,3 +17,4 @@ export declare class Generator extends GeneratorBase {
     convertToImage(puml: string, format: string): Promise<string>;
     private request;
 }
+//# sourceMappingURL=generator.d.ts.map

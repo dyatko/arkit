@@ -1,16 +1,10 @@
 import * as path from 'path'
 import * as yargs from 'yargs'
-import { debug, trace } from './logger'
+import { debug, info } from './logger'
 import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
-
-export interface Options {
-  directory: string,
-  output?: string[],
-  first?: string[],
-  exclude?: string[]
-}
+import { Options } from './schema'
 
 const parseDirectory = (directory: string | string[]): string => {
   if (directory instanceof Array) directory = directory[0]
@@ -50,36 +44,54 @@ const cli = yargs
     _: 'directory'
   })
 
+const getAbsolute = (filepath: string): string => {
+  return !path.isAbsolute(filepath) ? path.resolve(process.cwd(), filepath) : filepath
+}
+
+const convertToRelative = (paths: string[], root: string): string[] => {
+  return paths.map(filepath => {
+    return path.relative(root, getAbsolute(filepath))
+  })
+}
+
 export const arkit = (options?: Options): Promise<string[]> => {
   const opts: Options = {
     ...cli.argv,
     ...options
   }
 
-  if (!path.isAbsolute(opts.directory)) {
-    opts.directory = path.join(process.cwd(), opts.directory)
+  opts.directory = getAbsolute(opts.directory)
+
+  if (opts.first) {
+    opts.first = convertToRelative(opts.first, opts.directory)
   }
 
-  if (!opts.exclude || !opts.exclude.length) {
+  if (opts.output) {
+    opts.output = convertToRelative(opts.output, opts.directory)
+  }
+
+  if (opts.exclude) {
+    opts.exclude = convertToRelative(opts.exclude, opts.directory)
+  } else {
     opts.exclude = [
       'node_modules', 'test', 'tests',
       '**/*.test.*', '**/*.spec.*'
     ]
   }
 
-  debug('Options')
-  debug(opts)
+  info('Options')
+  info(opts)
 
   const config = new Config(opts)
 
-  debug('Config')
-  debug(config)
+  info('Config')
+  info(config)
 
   const parser = new Parser(config)
   const files = parser.parse()
 
-  trace('Parsed files')
-  trace(files)
+  debug('Parsed files')
+  debug(files)
 
   const generator = new Generator(config, files)
   return generator.generate()

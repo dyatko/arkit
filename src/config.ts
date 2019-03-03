@@ -1,7 +1,6 @@
 import * as path from 'path'
 import { trace } from './logger'
-import { Options } from './arkit'
-import { ComponentSchema, ConfigSchema, OutputSchema } from './schema'
+import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
 
 const DEFAULT_COMPONENTS: ComponentSchema = {
   type: 'Component',
@@ -18,7 +17,7 @@ export class Config {
 
   constructor (options: Options) {
     this.directory = options.directory
-    const userConfigPath = path.join(this.directory, 'arkit')
+    const userConfigPath = path.resolve(this.directory, 'arkit')
     const userConfig = this.safeRequire<ConfigSchema>(userConfigPath)
 
     this.components = this.array(userConfig && userConfig.components) || []
@@ -45,7 +44,10 @@ export class Config {
     }
 
     if (options.first && options.first.length) {
-      generatedSchema.groups = [{ first: true, patterns: options.first }]
+      generatedSchema.groups = [
+        { first: true, patterns: options.first },
+        {}
+      ]
     }
 
     if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {

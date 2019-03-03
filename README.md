@@ -17,11 +17,22 @@
 
 ### Usage
 
-Add arkit to your project using NPM or Yarn:
+Add arkit to your project using NPM or Yarn and try it out:
 
 ```sh
 npm install arkit --save-dev
 yarn add arkit --dev
+```
+
+```sh
+# Run arkit against your source folder and save result as SVG
+npx arkit -o arkit.svg src/
+
+# Also you can specify starting source files
+npx arkit -o puml -f src/main.js
+
+# And get some more with debugging and file exclusions
+LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
 ```
 
 ### Configuration
@@ -61,7 +72,7 @@ Options:
 }
 ```
 
-**See all possible JSON configuration options in the examples below**
+**See more possible JSON configuration options in the examples below**
 
 ### Real-world examples
 

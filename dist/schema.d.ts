@@ -1,3 +1,9 @@
+export interface Options {
+    directory: string;
+    output?: string[];
+    first?: string[];
+    exclude?: string[];
+}
 /**
  * Configuration
  */
@@ -74,3 +80,4 @@ export declare enum OutputDirection {
     HORIZONTAL = "horizontal",
     VERTICAL = "vertical"
 }
+//# sourceMappingURL=schema.d.ts.map
