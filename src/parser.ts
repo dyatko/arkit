@@ -6,13 +6,13 @@ import {
   ImportDeclarationStructure,
   Project,
   SourceFile,
-  Statement,
+  Statement, ts,
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
 import { debug, info, trace, warn } from './logger'
 import { Config } from './config'
-import { loadConfig, createMatchPath, MatchPath } from 'tsconfig-paths'
+import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
 import * as readdir from 'recursive-readdir-synchronous'
 
 interface Imports {
@@ -37,24 +37,15 @@ const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES)
 const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`)
 
 export class Parser {
+  private config: Config
   private project: Project
   private sourceFiles = new Map<string, SourceFile>()
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
   private tsResolutionCache = new Map<string, string | undefined>()
 
-  constructor (
-    private config: Config
-  ) {
-    this.resolveTsConfigPaths()
-
-    this.project = new Project({
-      tsConfigFilePath: this.tsConfigFilePath,
-      addFilesFromTsConfig: false
-    })
-
-    debug('Adding directory...', this.config.directory)
-    this.project.addExistingDirectory(this.config.directory)
+  constructor (config: Config) {
+    this.config = config
   }
 
   private resolveTsConfigPaths () {
@@ -74,58 +65,75 @@ export class Parser {
     }
   }
 
-  private addFiles () {
-    debug('Searching files...')
-    const allFilePaths = readdir(this.config.directory, [
-      (filepath: string): boolean => {
-        const relativePath = path.relative(this.config.directory, filepath)
-        return !!this.config.excludePatterns.length &&
-          !!nanomatch(relativePath, this.config.excludePatterns).length
-      }
+  private prepareProject () {
+    this.resolveTsConfigPaths()
+
+    this.project = new Project({
+      compilerOptions: {
+        target: ts.ScriptTarget.Latest,
+        noEmit: true,
+        skipLibCheck: true,
+        allowJs: true
+      },
+      tsConfigFilePath: this.tsConfigFilePath,
+      addFilesFromTsConfig: false,
+      skipFileDependencyResolution: true
+    })
+
+    info('Searching files...')
+    readdir(this.config.directory, [
+      this.shouldNotExclude.bind(this)
     ])
-
-    const suitableFilePaths = allFilePaths
-      .map(filepath => path.relative(this.config.directory, filepath))
-      .filter(filepath => nanomatch(filepath, this.config.patterns).length)
-      .map(filepath => path.join(this.config.directory, filepath))
-    debug(suitableFilePaths)
-
-    info(`Adding ${suitableFilePaths.length} files`)
-    this.project
-      .addExistingSourceFiles(suitableFilePaths)
-      .forEach(sourceFile => {
-        this.sourceFiles.set(sourceFile.getFilePath(), sourceFile)
+      .filter(this.shouldInclude.bind(this))
+      .forEach(fullPath => {
+        debug(`Adding ${fullPath}`)
+        this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
       })
+
+    this.project.resolveSourceFileDependencies()
   }
 
-  private removeFiles () {
-    debug(`Removing ${this.sourceFiles.size} files`)
-
-    this.sourceFiles.forEach(sourceFile =>
+  private cleanProject () {
+    for (const [filepath, sourceFile] of this.sourceFiles.entries()) {
+      this.sourceFiles.delete(filepath)
       this.project.removeSourceFile(sourceFile)
-    )
+    }
 
+    this.tsResolve = undefined
+    this.tsConfigFilePath = undefined
     this.sourceFiles.clear()
+    this.tsResolutionCache.clear()
+  }
+
+  private shouldInclude (filepath: string): boolean {
+    return !!nanomatch(path.relative(this.config.directory, filepath), this.config.patterns).length
+  }
+
+  private shouldNotExclude (filepath: string): boolean {
+    const relativePath = path.relative(this.config.directory, filepath)
+    return !!this.config.excludePatterns.length &&
+      !!nanomatch(relativePath, this.config.excludePatterns).length
   }
 
   parse (): Files {
-    this.addFiles()
+    this.prepareProject()
 
     info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
 
-    for (const [fullPath, sourceFile] of this.sourceFiles) {
+    for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
       const filePath = path.relative(this.config.directory, fullPath)
       const statements = sourceFile.getStatements()
+
       debug(filePath, statements.length, 'statements')
       const exports = this.getExports(sourceFile, statements)
       const imports = this.getImports(sourceFile, statements)
-
       debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
+
       files[filePath] = { exports, imports }
     }
 
-    this.removeFiles()
+    this.cleanProject()
 
     return files
   }

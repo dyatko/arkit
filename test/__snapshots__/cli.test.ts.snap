@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CLI Angular2 Todo exclude should output correct puml 1`] = `
+exports[`CLI Angular2 Todo exclude and puml should output correct puml 1`] = `
 "@startuml
 
 scale max 1920 width

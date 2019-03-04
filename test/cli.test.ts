@@ -47,7 +47,7 @@ describe('CLI', () => {
       })
     })
 
-    describe('exclude', () => {
+    describe('exclude and puml', () => {
       test('should output correct puml', () => {
         const dir = path.resolve(__dirname, './angular2_es2015')
 

@@ -4,18 +4,6 @@ import { arkit } from '../src/arkit'
 jest.setTimeout(60000)
 
 describe('Arkit', () => {
-  test('itself', () => {
-    const directory = path.resolve(__dirname, '..')
-
-    return arkit({
-      directory,
-      output: ['puml'],
-      exclude: ['node_modules', 'test', 'dist', 'coverage']
-    }).then(output => {
-      expect(output).toMatchSnapshot()
-    })
-  })
-
   test('Sample', () => {
     const directory = path.resolve(__dirname, './sample')
 
