@@ -50,7 +50,7 @@ const convertToRelative = (paths, root) => {
         return path.relative(root, getAbsolute(filepath));
     });
 };
-exports.arkit = (options) => {
+const getOptions = (options) => {
     const opts = Object.assign({}, cli.argv, options);
     opts.directory = getAbsolute(opts.directory);
     if (opts.first) {
@@ -68,6 +68,10 @@ exports.arkit = (options) => {
             '**/*.test.*', '**/*.spec.*'
         ];
     }
+    return opts;
+};
+exports.arkit = (options) => {
+    const opts = getOptions(options);
     logger_1.info('Options');
     logger_1.info(opts);
     const config = new config_1.Config(opts);

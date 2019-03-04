@@ -54,7 +54,7 @@ const convertToRelative = (paths: string[], root: string): string[] => {
   })
 }
 
-export const arkit = (options?: Options): Promise<string[]> => {
+const getOptions = (options?: Options): Options => {
   const opts: Options = {
     ...cli.argv,
     ...options
@@ -79,6 +79,11 @@ export const arkit = (options?: Options): Promise<string[]> => {
     ]
   }
 
+  return opts
+}
+
+export const arkit = (options?: Options): Promise<string[]> => {
+  const opts = getOptions(options)
   info('Options')
   info(opts)
 
