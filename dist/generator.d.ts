@@ -14,7 +14,7 @@ export declare class Generator extends GeneratorBase {
     private generatePlantUMLSkinParams;
     private convert;
     requestChain: Promise<any>;
-    convertToImage(puml: string, format: string): Promise<string>;
+    convertToImage(puml: string, format: string): Promise<Buffer>;
     private request;
 }
 //# sourceMappingURL=generator.d.ts.map

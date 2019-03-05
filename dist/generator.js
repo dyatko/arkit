@@ -174,10 +174,10 @@ skinparam rectangle {
             logger_1.debug('Converting', fullExportPath);
             return this.convertToImage(puml, ext || pathOrType).then(image => {
                 if (shouldConvertAndSave) {
-                    logger_1.debug('Saving', fullExportPath);
+                    logger_1.debug('Saving', fullExportPath, image.length);
                     fs.writeFileSync(fullExportPath, image);
                 }
-                return image;
+                return image.toString();
             }).catch(err => {
                 throw err;
             });
@@ -198,7 +198,7 @@ skinparam rectangle {
             }
             this.requestChain = this.requestChain.then(() => {
                 return this.request(`/${path[0]}`, puml)
-                    .then(svg => resolve(svg))
+                    .then(result => resolve(result))
                     .catch(err => logger_1.debug(err));
             });
         });
@@ -216,10 +216,10 @@ skinparam rectangle {
                     'Content-Length': payload.length
                 }
             }, res => {
-                let svg = [''];
-                res.on('data', data => svg.push(data));
+                const data = [];
+                res.on('data', chunk => data.push(chunk));
                 res.on('end', () => {
-                    resolve(svg.join(''));
+                    resolve(Buffer.concat(data));
                 });
             })
                 .on('error', err => {

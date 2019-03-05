@@ -214,11 +214,11 @@ skinparam rectangle {
       debug('Converting', fullExportPath)
       return this.convertToImage(puml, ext || pathOrType).then(image => {
         if (shouldConvertAndSave) {
-          debug('Saving', fullExportPath)
+          debug('Saving', fullExportPath, image.length)
           fs.writeFileSync(fullExportPath, image)
         }
 
-        return image
+        return image.toString()
       }).catch(err => {
         throw err
       })
@@ -234,7 +234,7 @@ skinparam rectangle {
 
   requestChain: Promise<any> = Promise.resolve()
 
-  convertToImage (puml: string, format: string): Promise<string> {
+  convertToImage (puml: string, format: string): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       const path = format.match(/\w{3}/)
 
@@ -244,13 +244,13 @@ skinparam rectangle {
 
       this.requestChain = this.requestChain.then(() => {
         return this.request(`/${path[0]}`, puml)
-          .then(svg => resolve(svg))
+          .then(result => resolve(result))
           .catch(err => debug(err))
       })
     })
   }
 
-  private request (path, payload): Promise<string> {
+  private request (path, payload): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       const req = https
         .request(
@@ -265,11 +265,11 @@ skinparam rectangle {
             }
           },
           res => {
-            let svg = ['']
+            const data: Buffer[] = []
 
-            res.on('data', data => svg.push(data))
+            res.on('data', chunk => data.push(chunk))
             res.on('end', () => {
-              resolve(svg.join(''))
+              resolve(Buffer.concat(data))
             })
           }
         )
