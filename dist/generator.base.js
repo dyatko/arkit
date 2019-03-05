@@ -118,11 +118,12 @@ class GeneratorBase {
         }
         for (const name in componentsByName) {
             const components = componentsByName[name];
-            const differentFilenames = new Set(components.map(component => component.filename));
-            const shouldPrefixWithDirectory = differentFilenames.size > 1 || name === 'index';
+            const isIndex = name === 'index';
+            const shouldPrefixWithDirectory = components.length > 1 || isIndex;
             if (shouldPrefixWithDirectory) {
                 for (const component of components) {
-                    const dir = path.basename(path.dirname(component.filename));
+                    const componentPath = path.dirname(component.filename);
+                    const dir = componentPath !== this.config.directory ? path.basename(componentPath) : '';
                     component.name = path.join(dir, component.name);
                 }
             }
