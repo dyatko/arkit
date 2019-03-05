@@ -42,7 +42,7 @@ As you satisfied with results, add arkit command to your build script, so it wil
 
 Arkit can be configured using basic CLI arguments or advanced JSON, JS module or package.json configuration.
 
-##### Basic CLI arguments
+#### Basic CLI arguments
 
 ```console
 user@machine:~$ npx arkit --help
@@ -57,7 +57,7 @@ Options:
   -v, --version    Show version number                                 [boolean]
 ```
 
-##### Advanced arkit.json with JSON schema
+#### Advanced arkit.json with JSON schema
 
 ```json
 {
@@ -79,11 +79,11 @@ Options:
 
 ### Real-world examples
 
-##### [Express.js](test/express) using `npx arkit`
+#### [Express.js](test/express) using `npx arkit`
 ![Express architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
 
-##### Arkit itself using `arkit -o dist/arkit.png -f dist/arkit.js dist/`
+#### Arkit itself using `arkit -o dist/arkit.png -f dist/arkit.js dist/`
 ![Arkit architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/dist/arkit.png?sanitize=true)
 
-##### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
+#### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
 ![ReactDOM architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
