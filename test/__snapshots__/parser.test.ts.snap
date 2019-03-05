@@ -64,10 +64,10 @@ Object {
   "app/main.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/rxjs/index.js": Array [],
       "app/main.module.js": Array [
         "MainModule",
       ],
+      "node_modules/rxjs/index.js": Array [],
     },
   },
   "app/main.module.js": Object {
@@ -145,9 +145,6 @@ Object {
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/yargs/index.js": Array [
-        "yargs",
-      ],
       "config.ts": Array [
         "Config",
       ],
@@ -157,6 +154,9 @@ Object {
       "logger.ts": Array [
         "debug",
         "info",
+      ],
+      "node_modules/yargs/index.js": Array [
+        "yargs",
       ],
       "parser.ts": Array [
         "Parser",
@@ -193,15 +193,15 @@ Object {
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/nanomatch/index.js": Array [
-        "nanomatch",
-      ],
       "config.ts": Array [
         "Config",
       ],
       "logger.ts": Array [
         "trace",
         "warn",
+      ],
+      "node_modules/nanomatch/index.js": Array [
+        "nanomatch",
       ],
       "parser.ts": Array [
         "Files",
@@ -268,7 +268,7 @@ Object {
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/pino/pino.js": Array [
+      "node_modules/pino/pino.js": Array [
         "pino",
       ],
     },
@@ -276,29 +276,6 @@ Object {
   "parser.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/nanomatch/index.js": Array [
-        "nanomatch",
-      ],
-      "/Users/marat/Dev/arkit/node_modules/recursive-readdir-synchronous/index.js": Array [
-        "readdir",
-      ],
-      "/Users/marat/Dev/arkit/node_modules/resolve/index.js": Array [
-        "sync",
-      ],
-      "/Users/marat/Dev/arkit/node_modules/ts-morph/dist/main.js": Array [
-        "ExportDeclarationStructure",
-        "ImportDeclarationStructure",
-        "Project",
-        "SourceFile",
-        "Statement",
-        "ts",
-        "TypeGuards",
-      ],
-      "/Users/marat/Dev/arkit/node_modules/tsconfig-paths/lib/index.js": Array [
-        "createMatchPath",
-        "loadConfig",
-        "MatchPath",
-      ],
       "config.ts": Array [
         "Config",
       ],
@@ -307,6 +284,29 @@ Object {
         "info",
         "trace",
         "warn",
+      ],
+      "node_modules/nanomatch/index.js": Array [
+        "nanomatch",
+      ],
+      "node_modules/recursive-readdir-synchronous/index.js": Array [
+        "readdir",
+      ],
+      "node_modules/resolve/index.js": Array [
+        "sync",
+      ],
+      "node_modules/ts-morph/dist/main.js": Array [
+        "ExportDeclarationStructure",
+        "ImportDeclarationStructure",
+        "Project",
+        "SourceFile",
+        "Statement",
+        "ts",
+        "TypeGuards",
+      ],
+      "node_modules/tsconfig-paths/lib/index.js": Array [
+        "createMatchPath",
+        "loadConfig",
+        "MatchPath",
       ],
       "os": Array [
         "EOL",
@@ -328,10 +328,10 @@ Object {
   "application.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
       "http": Array [],
       "middleware/init.js": Array [],
       "middleware/query.js": Array [],
+      "node_modules/debug/src/index.js": Array [],
       "path": Array [
         "resolve",
       ],
@@ -365,7 +365,7 @@ Object {
   "middleware/query.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/qs/lib/index.js": Array [],
+      "node_modules/qs/lib/index.js": Array [],
     },
   },
   "request.js": Object {
@@ -380,10 +380,10 @@ Object {
   "response.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/safe-buffer/index.js": Array [
+      "http": Array [],
+      "node_modules/safe-buffer/index.js": Array [
         "Buffer",
       ],
-      "http": Array [],
       "path": Array [],
       "utils.js": Array [
         "isAbsolute",
@@ -396,7 +396,7 @@ Object {
   "router/index.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
+      "node_modules/debug/src/index.js": Array [],
       "router/layer.js": Array [],
       "router/route.js": Array [],
     },
@@ -404,21 +404,21 @@ Object {
   "router/layer.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
+      "node_modules/debug/src/index.js": Array [],
     },
   },
   "router/route.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
+      "node_modules/debug/src/index.js": Array [],
       "router/layer.js": Array [],
     },
   },
   "utils.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/qs/lib/index.js": Array [],
-      "/Users/marat/Dev/arkit/node_modules/safe-buffer/index.js": Array [
+      "node_modules/qs/lib/index.js": Array [],
+      "node_modules/safe-buffer/index.js": Array [
         "Buffer",
       ],
       "querystring": Array [],
@@ -427,8 +427,8 @@ Object {
   "view.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
       "fs": Array [],
+      "node_modules/debug/src/index.js": Array [],
       "path": Array [],
     },
   },

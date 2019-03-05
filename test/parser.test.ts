@@ -4,7 +4,10 @@ import { Files, Parser } from "../src/parser";
 
 const cleanSnapshot = (directory: string, files: Files): Files => {
   const re = new RegExp(directory + '/?', 'g')
-  return JSON.parse(JSON.stringify(files).replace(re, ''))
+  const cleanFiles = JSON.parse(JSON.stringify(files).replace(re, ''))
+  const parentDirectory = path.resolve(directory, '..')
+
+  return parentDirectory === '/' ? cleanFiles : cleanSnapshot(parentDirectory, cleanFiles)
 }
 
 describe('Parser', () => {
