@@ -3,6 +3,13 @@ import { Config } from '../src/config'
 import { Parser } from '../src/parser'
 
 describe('Parser', () => {
+  test('Arkit', () => {
+    const directory = path.resolve(__dirname, '../src')
+    const parser = new Parser(new Config({directory}))
+
+    expect(parser.parse()).toMatchSnapshot()
+  })
+
   test('Sample', () => {
     const directory = path.resolve(__dirname, './sample')
     const config = new Config({directory})

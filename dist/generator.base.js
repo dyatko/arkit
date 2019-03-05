@@ -147,20 +147,23 @@ class GeneratorBase {
             const outputFilters = this.config.array(output.groups) || [];
             const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
             if (includedInOutput) {
-                return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns);
+                return !!componentSchema.patterns && nanomatch.some(path.relative(this.config.directory, filename), componentSchema.patterns);
             }
             else {
                 return false;
             }
         });
         if (!componentSchema) {
-            throw new Error(`Component schema not found: ${filename}`);
+            logger_1.warn(`Component schema not found: ${filename}`);
         }
         return componentSchema;
     }
     verifyComponentFilters(filters, component) {
-        const matchesPatterns = !('filename' in component) || !filters.patterns || nanomatch.some(component.filename, filters.patterns);
-        const matchesComponents = !filters.components || filters.components.some(type => type === component.type);
+        const matchesPatterns = !('filename' in component) ||
+            !filters.patterns ||
+            nanomatch.some(path.relative(this.config.directory, component.filename), filters.patterns);
+        const matchesComponents = !filters.components ||
+            filters.components.some(type => type === component.type);
         return matchesPatterns && matchesComponents;
     }
     getComponentName(filename, componentConfig) {

@@ -10,7 +10,7 @@
     "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://raw.githubusercontent.com/dyatko/arkit/master/schema.json' -o schema.json",
     "build": "npm run compile && npm run build-schema",
     "lint": "eslint --ext .ts .",
-    "jest": "jest",
+    "jest": "jest --coverage",
     "test": "npm run lint && npm run jest",
     "prepack": "npm run build && npm run test"
   },
@@ -76,7 +76,6 @@
       "ts",
       "node"
     ],
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/*.ts"
     ],

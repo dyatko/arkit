@@ -130,7 +130,7 @@ export class Parser {
       const imports = this.getImports(sourceFile, statements)
       debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
 
-      files[filePath] = { exports, imports }
+      files[fullPath] = { exports, imports }
     }
 
     this.cleanProject()
@@ -141,7 +141,6 @@ export class Parser {
   private getImports (sourceFile: SourceFile, statements: Statement[]): Imports {
     return statements.reduce((imports, statement) => {
       let sourceFileImports: string[] | undefined
-      let structure: ImportDeclarationStructure | ExportDeclarationStructure | undefined
 
       if (TypeGuards.isVariableStatement(statement) || TypeGuards.isExpressionStatement(statement)) {
         const text = statement.getText()
@@ -150,8 +149,7 @@ export class Parser {
         )
 
         if (moduleSpecifier) {
-          const importedFile: SourceFile | undefined = this.resolveModule(moduleSpecifier, sourceFile)
-          sourceFileImports = this.addImportedFile(importedFile, imports)
+          sourceFileImports = this.addModule(imports, moduleSpecifier, sourceFile)
 
           if (sourceFileImports && namedImport) {
             sourceFileImports.push(namedImport)
@@ -159,6 +157,7 @@ export class Parser {
         }
       } else if (TypeGuards.isImportDeclaration(statement) || TypeGuards.isExportDeclaration(statement)) {
         let moduleSpecifier: string | undefined
+        let structure: ImportDeclarationStructure | ExportDeclarationStructure | undefined
 
         try {
           structure = statement.getStructure()
@@ -175,33 +174,29 @@ export class Parser {
         }
 
         if (moduleSpecifier) {
-          const importedFile: SourceFile | undefined =
-            (structure && statement.getModuleSpecifierSourceFile()) ||
-            this.resolveModule(moduleSpecifier, sourceFile)
-
-          sourceFileImports = this.addImportedFile(importedFile, imports)
-        }
-      }
-
-      if (sourceFileImports && structure && TypeGuards.isImportDeclaration(statement)) {
-        const importStructure = structure as ImportDeclarationStructure
-
-        if (importStructure.namespaceImport) {
-          sourceFileImports.push(importStructure.namespaceImport)
+          sourceFileImports = this.addModule(imports, moduleSpecifier, sourceFile)
         }
 
-        if (importStructure.defaultImport) {
-          sourceFileImports.push(importStructure.defaultImport)
-        }
+        if (sourceFileImports && structure && TypeGuards.isImportDeclaration(statement)) {
+          const importStructure = structure as ImportDeclarationStructure
 
-        if (importStructure.namedImports instanceof Array) {
-          sourceFileImports.push(...importStructure.namedImports.map(namedImport =>
-            typeof namedImport === 'string' ? namedImport : namedImport.name
-          ))
-        }
+          if (importStructure.namespaceImport) {
+            sourceFileImports.push(importStructure.namespaceImport)
+          }
 
-        if (!sourceFileImports.length && !importStructure.namedImports) {
-          warn('IMPORT', sourceFile.getBaseName(), structure)
+          if (importStructure.defaultImport) {
+            sourceFileImports.push(importStructure.defaultImport)
+          }
+
+          if (importStructure.namedImports instanceof Array) {
+            sourceFileImports.push(...importStructure.namedImports.map(namedImport =>
+              typeof namedImport === 'string' ? namedImport : namedImport.name
+            ))
+          }
+
+          if (!sourceFileImports.length && !importStructure.namedImports) {
+            warn('IMPORT', sourceFile.getBaseName(), structure)
+          }
         }
       }
 
@@ -244,27 +239,34 @@ export class Parser {
     }, [] as Exports)
   }
 
-  private resolveModule (moduleSpecifier: string, sourceFile: SourceFile): SourceFile | undefined {
-    let modulePath: string | undefined
-
-    if (!this.tsResolutionCache.has(moduleSpecifier)) {
-      try {
-        modulePath = resolve(moduleSpecifier, {
-          basedir: sourceFile.getDirectoryPath(),
-          extensions: this.config.extensions
-        })
-      } catch (e) {
-        modulePath = this.resolveTsModule(moduleSpecifier)
-        this.tsResolutionCache.set(moduleSpecifier, modulePath)
-      }
-    } else {
-      modulePath = this.tsResolutionCache.get(moduleSpecifier)
-    }
+  private addModule (imports: Imports, moduleSpecifier: string, sourceFile: SourceFile): string[] | undefined {
+    const modulePath = this.getModulePath(moduleSpecifier, sourceFile)
 
     if (modulePath) {
-      return this.sourceFiles.get(modulePath)
+      if (!imports[modulePath]) {
+        imports[modulePath] = []
+      }
+
+      return imports[modulePath]
     } else {
       trace('Import not found', sourceFile.getBaseName(), moduleSpecifier)
+    }
+  }
+
+  private getModulePath (moduleSpecifier: string, sourceFile: SourceFile): string | undefined {
+    if (this.tsResolutionCache.has(moduleSpecifier)) {
+      return this.tsResolutionCache.get(moduleSpecifier)
+    }
+
+    try {
+      return resolve(moduleSpecifier, {
+        basedir: sourceFile.getDirectoryPath(),
+        extensions: this.config.extensions
+      })
+    } catch (e) {
+      const modulePath = this.resolveTsModule(moduleSpecifier)
+      this.tsResolutionCache.set(moduleSpecifier, modulePath)
+      return modulePath
     }
   }
 
