@@ -1,4 +1,4 @@
-import { List, Model } from '../models/model'
+import { List, Model, CONSTANT, a, b1, b2, b3, c } from '../models/model'
 
 class Singleton {
   model: Model = {

@@ -208,6 +208,12 @@ Object {
       "models/model.ts": Array [
         "List",
         "Model",
+        "CONSTANT",
+        "a",
+        "b1",
+        "b2",
+        "b3",
+        "c",
       ],
     },
   },
@@ -220,7 +226,14 @@ Object {
     },
   },
   "models/model.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      Array [
+        "CONSTANT",
+      ],
+      Array [
+        "{ a, b: [b1, b2, b3], c }",
+      ],
+    ],
     "imports": Object {},
   },
   "views/base.component.js": Object {
