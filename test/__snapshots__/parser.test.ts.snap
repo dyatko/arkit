@@ -2,134 +2,134 @@
 
 exports[`Parser Angular2 Todo 1`] = `
 Object {
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/app/app.component.js": Object {
+  "app/components/app/app.component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/app/app.template.html": Array [
+      "app/components/app/app.template.html": Array [
         "template",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/index.js": Object {
+  "app/components/index.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/app/app.component.js": Array [],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-footer/todo-footer.component.js": Array [],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-header/todo-header.component.js": Array [],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-item/todo-item.component.js": Array [],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-list/todo-list.component.js": Array [],
+      "app/components/app/app.component.js": Array [],
+      "app/components/todo-footer/todo-footer.component.js": Array [],
+      "app/components/todo-header/todo-header.component.js": Array [],
+      "app/components/todo-item/todo-item.component.js": Array [],
+      "app/components/todo-list/todo-list.component.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-footer/todo-footer.component.js": Object {
+  "app/components/todo-footer/todo-footer.component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-footer/todo-footer.template.html": Array [
+      "app/components/todo-footer/todo-footer.template.html": Array [
         "template",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-header/todo-header.component.js": Object {
+  "app/components/todo-header/todo-header.component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-header/todo-header.template.html": Array [
+      "app/components/todo-header/todo-header.template.html": Array [
         "template",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-item/todo-item.component.js": Object {
+  "app/components/todo-item/todo-item.component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-item/todo-item.template.html": Array [
+      "app/components/todo-item/todo-item.template.html": Array [
         "template",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-list/todo-list.component.js": Object {
+  "app/components/todo-list/todo-list.component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-list/todo-list.template.html": Array [
+      "app/components/todo-list/todo-list.template.html": Array [
         "template",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/main.js": Object {
+  "app/main.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/rxjs/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/main.module.js": Array [
+      "app/main.module.js": Array [
         "MainModule",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/main.module.js": Object {
+  "app/main.module.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/index.js": Array [
+      "app/components/index.js": Array [
         "AppComponent",
         "TodoListComponent",
         "TodoFooterComponent",
         "TodoHeaderComponent",
         "TodoItemComponent",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/pipes/index.js": Array [
+      "app/pipes/index.js": Array [
         "TrimPipe",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/routes.js": Array [
+      "app/routes.js": Array [
         "routes",
       ],
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/models/todo.model.js": Object {
+  "app/models/todo.model.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/pipes/index.js": Object {
+  "app/pipes/index.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/pipes/trim/trim.pipe.js": Array [],
+      "app/pipes/trim/trim.pipe.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/pipes/trim/trim.pipe.js": Object {
+  "app/pipes/trim/trim.pipe.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/routes.js": Object {
+  "app/routes.js": Object {
     "exports": Array [
       Array [
         "routes",
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/components/todo-list/todo-list.component.js": Array [
+      "app/components/todo-list/todo-list.component.js": Array [
         "TodoListComponent",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/app/services/todo-store.service.js": Object {
+  "app/services/todo-store.service.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/angular2_es2015/app/models/todo.model.js": Array [
+      "app/models/todo.model.js": Array [
         "TodoModel",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/main.bundle.js": Object {
+  "main.bundle.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/angular2_es2015/webpack.config.js": Object {
+  "webpack.config.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
@@ -138,7 +138,7 @@ Object {
 
 exports[`Parser Arkit 1`] = `
 Object {
-  "/Users/marat/Dev/arkit/src/arkit.ts": Object {
+  "arkit.ts": Object {
     "exports": Array [
       Array [
         "arkit",
@@ -148,45 +148,45 @@ Object {
       "/Users/marat/Dev/arkit/node_modules/yargs/index.js": Array [
         "yargs",
       ],
-      "/Users/marat/Dev/arkit/src/config.ts": Array [
+      "config.ts": Array [
         "Config",
       ],
-      "/Users/marat/Dev/arkit/src/generator.ts": Array [
+      "generator.ts": Array [
         "Generator",
       ],
-      "/Users/marat/Dev/arkit/src/logger.ts": Array [
+      "logger.ts": Array [
         "debug",
         "info",
       ],
-      "/Users/marat/Dev/arkit/src/parser.ts": Array [
+      "parser.ts": Array [
         "Parser",
-      ],
-      "/Users/marat/Dev/arkit/src/schema.ts": Array [
-        "Options",
       ],
       "path": Array [
         "path",
       ],
+      "schema.ts": Array [
+        "Options",
+      ],
     },
   },
-  "/Users/marat/Dev/arkit/src/config.ts": Object {
+  "config.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/src/logger.ts": Array [
+      "logger.ts": Array [
         "trace",
       ],
-      "/Users/marat/Dev/arkit/src/schema.ts": Array [
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
         "ComponentSchema",
         "ConfigSchema",
         "Options",
         "OutputSchema",
       ],
-      "path": Array [
-        "path",
-      ],
     },
   },
-  "/Users/marat/Dev/arkit/src/generator.base.ts": Object {
+  "generator.base.ts": Object {
     "exports": Array [
       Array [
         "EMPTY_LAYER",
@@ -196,57 +196,57 @@ Object {
       "/Users/marat/Dev/arkit/node_modules/nanomatch/index.js": Array [
         "nanomatch",
       ],
-      "/Users/marat/Dev/arkit/src/config.ts": Array [
+      "config.ts": Array [
         "Config",
       ],
-      "/Users/marat/Dev/arkit/src/logger.ts": Array [
+      "logger.ts": Array [
         "trace",
         "warn",
       ],
-      "/Users/marat/Dev/arkit/src/parser.ts": Array [
+      "parser.ts": Array [
         "Files",
       ],
-      "/Users/marat/Dev/arkit/src/schema.ts": Array [
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
         "ComponentFilters",
         "ComponentNameFormat",
         "ComponentSchema",
         "OutputSchema",
       ],
-      "path": Array [
-        "path",
-      ],
     },
   },
-  "/Users/marat/Dev/arkit/src/generator.ts": Object {
+  "generator.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/src/generator.base.ts": Array [
+      "fs": Array [
+        "fs",
+      ],
+      "generator.base.ts": Array [
         "Component",
         "Context",
         "EMPTY_LAYER",
         "GeneratorBase",
         "Layers",
       ],
-      "/Users/marat/Dev/arkit/src/logger.ts": Array [
-        "debug",
-        "info",
-      ],
-      "/Users/marat/Dev/arkit/src/schema.ts": Array [
-        "OutputDirection",
-        "OutputSchema",
-      ],
-      "fs": Array [
-        "fs",
-      ],
       "https": Array [
         "https",
+      ],
+      "logger.ts": Array [
+        "debug",
+        "info",
       ],
       "path": Array [
         "path",
       ],
+      "schema.ts": Array [
+        "OutputDirection",
+        "OutputSchema",
+      ],
     },
   },
-  "/Users/marat/Dev/arkit/src/logger.ts": Object {
+  "logger.ts": Object {
     "exports": Array [
       Array [
         "fatal",
@@ -273,7 +273,7 @@ Object {
       ],
     },
   },
-  "/Users/marat/Dev/arkit/src/parser.ts": Object {
+  "parser.ts": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/nanomatch/index.js": Array [
@@ -299,10 +299,10 @@ Object {
         "loadConfig",
         "MatchPath",
       ],
-      "/Users/marat/Dev/arkit/src/config.ts": Array [
+      "config.ts": Array [
         "Config",
       ],
-      "/Users/marat/Dev/arkit/src/logger.ts": Array [
+      "logger.ts": Array [
         "debug",
         "info",
         "trace",
@@ -316,7 +316,7 @@ Object {
       ],
     },
   },
-  "/Users/marat/Dev/arkit/src/schema.ts": Object {
+  "schema.ts": Object {
     "exports": Array [],
     "imports": Object {},
   },
@@ -325,50 +325,50 @@ Object {
 
 exports[`Parser Express 1`] = `
 Object {
-  "/Users/marat/Dev/arkit/test/express/application.js": Object {
+  "application.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/middleware/init.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/middleware/query.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/utils.js": Array [
+      "http": Array [],
+      "middleware/init.js": Array [],
+      "middleware/query.js": Array [],
+      "path": Array [
+        "resolve",
+      ],
+      "router/index.js": Array [],
+      "utils.js": Array [
         "compileETag",
         "compileQueryParser",
         "compileTrust",
       ],
-      "/Users/marat/Dev/arkit/test/express/view.js": Array [],
-      "http": Array [],
-      "path": Array [
-        "resolve",
-      ],
+      "view.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/express.js": Object {
+  "express.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/express/application.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/middleware/query.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/request.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/response.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/route.js": Array [],
+      "application.js": Array [],
       "events": Array [
         "EventEmitter",
       ],
+      "middleware/query.js": Array [],
+      "request.js": Array [],
+      "response.js": Array [],
+      "router/index.js": Array [],
+      "router/route.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/middleware/init.js": Object {
+  "middleware/init.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/express/middleware/query.js": Object {
+  "middleware/query.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/qs/lib/index.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/request.js": Object {
+  "request.js": Object {
     "exports": Array [],
     "imports": Object {
       "http": Array [],
@@ -377,44 +377,44 @@ Object {
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/response.js": Object {
+  "response.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/safe-buffer/index.js": Array [
         "Buffer",
       ],
-      "/Users/marat/Dev/arkit/test/express/utils.js": Array [
+      "http": Array [],
+      "path": Array [],
+      "utils.js": Array [
         "isAbsolute",
         "normalizeType",
         "normalizeTypes",
         "setCharset",
       ],
-      "http": Array [],
-      "path": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/router/index.js": Object {
+  "router/index.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/layer.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/route.js": Array [],
+      "router/layer.js": Array [],
+      "router/route.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/router/layer.js": Object {
+  "router/layer.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/router/route.js": Object {
+  "router/route.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
-      "/Users/marat/Dev/arkit/test/express/router/layer.js": Array [],
+      "router/layer.js": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/utils.js": Object {
+  "utils.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/qs/lib/index.js": Array [],
@@ -424,7 +424,7 @@ Object {
       "querystring": Array [],
     },
   },
-  "/Users/marat/Dev/arkit/test/express/view.js": Object {
+  "view.js": Object {
     "exports": Array [],
     "imports": Object {
       "/Users/marat/Dev/arkit/node_modules/debug/src/index.js": Array [],
@@ -437,14 +437,14 @@ Object {
 
 exports[`Parser Sample 1`] = `
 Object {
-  "/Users/marat/Dev/arkit/test/sample/controllers/singleton.ts": Object {
+  "controllers/singleton.ts": Object {
     "exports": Array [
       Array [
         "singleton",
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/sample/models/model.ts": Array [
+      "models/model.ts": Array [
         "List",
         "Model",
         "CONSTANT",
@@ -456,15 +456,15 @@ Object {
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/sample/main.ts": Object {
+  "main.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/sample/views/main.view.js": Array [
+      "views/main.view.js": Array [
         "mainView",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/sample/models/model.ts": Object {
+  "models/model.ts": Object {
     "exports": Array [
       Array [
         "CONSTANT",
@@ -475,29 +475,29 @@ Object {
     ],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/sample/views/base.component.js": Object {
+  "views/base.component.js": Object {
     "exports": Array [],
     "imports": Object {},
   },
-  "/Users/marat/Dev/arkit/test/sample/views/component.js": Object {
+  "views/component.js": Object {
     "exports": Array [],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/sample/views/base.component.js": Array [
+      "views/base.component.js": Array [
         "BaseComponent",
       ],
     },
   },
-  "/Users/marat/Dev/arkit/test/sample/views/main.view.js": Object {
+  "views/main.view.js": Object {
     "exports": Array [
       Array [
         "mainView",
       ],
     ],
     "imports": Object {
-      "/Users/marat/Dev/arkit/test/sample/controllers/singleton.ts": Array [
+      "controllers/singleton.ts": Array [
         "singleton",
       ],
-      "/Users/marat/Dev/arkit/test/sample/views/component.js": Array [
+      "views/component.js": Array [
         "Component",
       ],
     },

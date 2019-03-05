@@ -86,7 +86,7 @@ Options:
 #### [Express.js](test/express) using `npx arkit`
 ![Express architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
 
-#### Arkit itself using `arkit -o dist/arkit.png -f dist/arkit.js dist/`
+#### Arkit itself using `arkit -o dist/arkit.png src/`
 ![Arkit architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/dist/arkit.png?sanitize=true)
 
 #### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
