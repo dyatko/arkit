@@ -1,6 +1,6 @@
 import { Config } from './config'
 import { ComponentFilters, ComponentNameFormat, ComponentSchema, OutputSchema } from './schema'
-import { trace, warn } from "./logger";
+import { trace, warn } from './logger'
 import * as path from 'path'
 import { Files } from './parser'
 import * as nanomatch from 'nanomatch'
