@@ -16,12 +16,10 @@ describe('CLI', () => {
   describe('Arkit', () => {
     describe('png and first', () => {
       test('should generate correct png', () => {
-        const dir = path.resolve(__dirname, './..')
-        const pngPath = path.resolve(dir, './dist/arkit.png')
+        const pngPath = path.resolve(__dirname, '../dist/arkit.png')
 
         if (fs.existsSync(pngPath)) fs.unlinkSync(pngPath)
 
-        process.chdir(dir)
         execSync(`npm run architecture`)
         const stat = fs.statSync(pngPath)
 
