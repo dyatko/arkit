@@ -28,12 +28,15 @@ yarn add arkit --dev
 # Run arkit against your source folder and save result as SVG
 npx arkit -o arkit.svg src/
 
-# Also you can specify starting source files
+# Also you can specify output format and source files to start from
 npx arkit -o puml -f src/main.js
 
 # And get some more with debugging and file exclusions
 LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
 ```
+
+First results might look messy since it's better to generate diagrams per feature, architectural layer, etc.
+As you satisfied with results, add arkit command to your build script, so it will keep your architecture diagrams up-to-date.
 
 ### Configuration
 
@@ -76,8 +79,11 @@ Options:
 
 ### Real-world examples
 
-##### Simple diagram: [Express.js](test/express) with zero config
-![Express example](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
+##### [Express.js](test/express) using `npx arkit`
+![Express architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
 
-##### Complex diagram: [ReactDOM](test/react-dom) with [JSON config](test/react-dom/arkit.json)
-![ReactDOM example](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
+##### Arkit itself using `arkit -o dist/arkit.png -f dist/arkit.js dist/`
+![Arkit architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/dist/arkit.png?sanitize=true)
+
+##### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
+![ReactDOM architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
