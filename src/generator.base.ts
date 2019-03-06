@@ -1,6 +1,6 @@
 import { Config } from './config'
 import { ComponentFilters, ComponentNameFormat, ComponentSchema, OutputSchema } from './schema'
-import { trace } from './logger'
+import { trace, warn } from './logger'
 import * as path from 'path'
 import { Files } from './parser'
 import * as nanomatch from 'nanomatch'
@@ -165,14 +165,13 @@ export class GeneratorBase {
 
     for (const name in componentsByName) {
       const components = componentsByName[name]
-      const differentFilenames = new Set(
-        components.map(component => component.filename)
-      )
-      const shouldPrefixWithDirectory = differentFilenames.size > 1 || name === 'index'
+      const isIndex = name === 'index'
+      const shouldPrefixWithDirectory = components.length > 1 || isIndex
 
       if (shouldPrefixWithDirectory) {
         for (const component of components) {
-          const dir = path.basename(path.dirname(component.filename))
+          const componentPath = path.dirname(component.filename)
+          const dir = componentPath !== this.config.directory ? path.basename(componentPath) : ''
           component.name = path.join(dir, component.name)
         }
       }
@@ -199,7 +198,7 @@ export class GeneratorBase {
     return sortedComponents
   }
 
-  protected findComponentSchema (output: OutputSchema, filename: string): ComponentSchema {
+  protected findComponentSchema (output: OutputSchema, filename: string): ComponentSchema | undefined {
     const componentSchema = this.config.components.find(componentSchema => {
       const outputFilters: ComponentFilters[] = this.config.array(output.groups) || []
       const includedInOutput = !outputFilters.length || outputFilters.some(
@@ -207,22 +206,29 @@ export class GeneratorBase {
       )
 
       if (includedInOutput) {
-        return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns)
+        return !!componentSchema.patterns && nanomatch.some(path.relative(this.config.directory, filename), componentSchema.patterns)
       } else {
         return false
       }
     })
 
     if (!componentSchema) {
-      throw new Error(`Component schema not found: ${filename}`)
+      warn(`Component schema not found: ${filename}`)
     }
 
     return componentSchema
   }
 
   protected verifyComponentFilters (filters: ComponentFilters, component: Component | ComponentSchema): boolean {
-    const matchesPatterns = !('filename' in component) || !filters.patterns || nanomatch.some(component.filename, filters.patterns)
-    const matchesComponents = !filters.components || filters.components.some(type => type === component.type)
+    const matchesPatterns =
+      !('filename' in component) ||
+      !filters.patterns ||
+      nanomatch.some(path.relative(this.config.directory, component.filename), filters.patterns)
+
+    const matchesComponents =
+      !filters.components ||
+      filters.components.some(type => type === component.type)
+
     return matchesPatterns && matchesComponents
   }
 

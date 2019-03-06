@@ -4,7 +4,11 @@ exports[`Parser Angular2 Todo 1`] = `
 Object {
   "app/components/app/app.component.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "app/components/app/app.template.html": Array [
+        "template",
+      ],
+    },
   },
   "app/components/index.js": Object {
     "exports": Array [],
@@ -19,6 +23,9 @@ Object {
   "app/components/todo-footer/todo-footer.component.js": Object {
     "exports": Array [],
     "imports": Object {
+      "app/components/todo-footer/todo-footer.template.html": Array [
+        "template",
+      ],
       "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
@@ -27,6 +34,9 @@ Object {
   "app/components/todo-header/todo-header.component.js": Object {
     "exports": Array [],
     "imports": Object {
+      "app/components/todo-header/todo-header.template.html": Array [
+        "template",
+      ],
       "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
@@ -34,11 +44,18 @@ Object {
   },
   "app/components/todo-item/todo-item.component.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "app/components/todo-item/todo-item.template.html": Array [
+        "template",
+      ],
+    },
   },
   "app/components/todo-list/todo-list.component.js": Object {
     "exports": Array [],
     "imports": Object {
+      "app/components/todo-list/todo-list.template.html": Array [
+        "template",
+      ],
       "app/services/todo-store.service.js": Array [
         "TodoStoreService",
       ],
@@ -50,6 +67,7 @@ Object {
       "app/main.module.js": Array [
         "MainModule",
       ],
+      "node_modules/rxjs/index.js": Array [],
     },
   },
   "app/main.module.js": Object {
@@ -118,13 +136,208 @@ Object {
 }
 `;
 
+exports[`Parser Arkit 1`] = `
+Object {
+  "arkit.ts": Object {
+    "exports": Array [
+      Array [
+        "arkit",
+      ],
+    ],
+    "imports": Object {
+      "config.ts": Array [
+        "Config",
+      ],
+      "generator.ts": Array [
+        "Generator",
+      ],
+      "logger.ts": Array [
+        "debug",
+        "info",
+      ],
+      "node_modules/yargs/index.js": Array [
+        "yargs",
+      ],
+      "parser.ts": Array [
+        "Parser",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "Options",
+      ],
+    },
+  },
+  "config.ts": Object {
+    "exports": Array [],
+    "imports": Object {
+      "logger.ts": Array [
+        "trace",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "ComponentSchema",
+        "ConfigSchema",
+        "Options",
+        "OutputSchema",
+      ],
+    },
+  },
+  "generator.base.ts": Object {
+    "exports": Array [
+      Array [
+        "EMPTY_LAYER",
+      ],
+    ],
+    "imports": Object {
+      "config.ts": Array [
+        "Config",
+      ],
+      "logger.ts": Array [
+        "trace",
+        "warn",
+      ],
+      "node_modules/nanomatch/index.js": Array [
+        "nanomatch",
+      ],
+      "parser.ts": Array [
+        "Files",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "ComponentFilters",
+        "ComponentNameFormat",
+        "ComponentSchema",
+        "OutputSchema",
+      ],
+    },
+  },
+  "generator.ts": Object {
+    "exports": Array [],
+    "imports": Object {
+      "fs": Array [
+        "fs",
+      ],
+      "generator.base.ts": Array [
+        "Component",
+        "Context",
+        "EMPTY_LAYER",
+        "GeneratorBase",
+        "Layers",
+      ],
+      "https": Array [
+        "https",
+      ],
+      "logger.ts": Array [
+        "debug",
+        "info",
+      ],
+      "node_modules/plantuml-encoder-decoder/index.js": Array [
+        "encode",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "OutputDirection",
+        "OutputSchema",
+      ],
+    },
+  },
+  "logger.ts": Object {
+    "exports": Array [
+      Array [
+        "fatal",
+      ],
+      Array [
+        "error",
+      ],
+      Array [
+        "warn",
+      ],
+      Array [
+        "info",
+      ],
+      Array [
+        "debug",
+      ],
+      Array [
+        "trace",
+      ],
+    ],
+    "imports": Object {
+      "node_modules/pino/pino.js": Array [
+        "pino",
+      ],
+    },
+  },
+  "parser.ts": Object {
+    "exports": Array [],
+    "imports": Object {
+      "config.ts": Array [
+        "Config",
+      ],
+      "logger.ts": Array [
+        "debug",
+        "info",
+        "trace",
+        "warn",
+      ],
+      "node_modules/nanomatch/index.js": Array [
+        "nanomatch",
+      ],
+      "node_modules/recursive-readdir-synchronous/index.js": Array [
+        "readdir",
+      ],
+      "node_modules/resolve/index.js": Array [
+        "sync",
+      ],
+      "node_modules/ts-morph/dist/main.js": Array [
+        "ExportDeclarationStructure",
+        "ImportDeclarationStructure",
+        "Project",
+        "SourceFile",
+        "Statement",
+        "ts",
+        "TypeGuards",
+      ],
+      "node_modules/tsconfig-paths/lib/index.js": Array [
+        "createMatchPath",
+        "loadConfig",
+        "MatchPath",
+      ],
+      "os": Array [
+        "EOL",
+      ],
+      "path": Array [
+        "path",
+      ],
+    },
+  },
+  "schema.ts": Object {
+    "exports": Array [],
+    "imports": Object {},
+  },
+}
+`;
+
 exports[`Parser Express 1`] = `
 Object {
   "application.js": Object {
     "exports": Array [],
     "imports": Object {
+      "http": Array [],
       "middleware/init.js": Array [],
       "middleware/query.js": Array [],
+      "node_modules/debug/src/index.js": Array [],
+      "path": Array [
+        "resolve",
+      ],
       "router/index.js": Array [],
       "utils.js": Array [
         "compileETag",
@@ -138,6 +351,9 @@ Object {
     "exports": Array [],
     "imports": Object {
       "application.js": Array [],
+      "events": Array [
+        "EventEmitter",
+      ],
       "middleware/query.js": Array [],
       "request.js": Array [],
       "response.js": Array [],
@@ -151,15 +367,27 @@ Object {
   },
   "middleware/query.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "node_modules/qs/lib/index.js": Array [],
+    },
   },
   "request.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "http": Array [],
+      "net": Array [
+        "isIP",
+      ],
+    },
   },
   "response.js": Object {
     "exports": Array [],
     "imports": Object {
+      "http": Array [],
+      "node_modules/safe-buffer/index.js": Array [
+        "Buffer",
+      ],
+      "path": Array [],
       "utils.js": Array [
         "isAbsolute",
         "normalizeType",
@@ -171,27 +399,41 @@ Object {
   "router/index.js": Object {
     "exports": Array [],
     "imports": Object {
+      "node_modules/debug/src/index.js": Array [],
       "router/layer.js": Array [],
       "router/route.js": Array [],
     },
   },
   "router/layer.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "node_modules/debug/src/index.js": Array [],
+    },
   },
   "router/route.js": Object {
     "exports": Array [],
     "imports": Object {
+      "node_modules/debug/src/index.js": Array [],
       "router/layer.js": Array [],
     },
   },
   "utils.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "node_modules/qs/lib/index.js": Array [],
+      "node_modules/safe-buffer/index.js": Array [
+        "Buffer",
+      ],
+      "querystring": Array [],
+    },
   },
   "view.js": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "fs": Array [],
+      "node_modules/debug/src/index.js": Array [],
+      "path": Array [],
+    },
   },
 }
 `;

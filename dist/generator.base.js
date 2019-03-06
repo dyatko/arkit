@@ -118,11 +118,12 @@ class GeneratorBase {
         }
         for (const name in componentsByName) {
             const components = componentsByName[name];
-            const differentFilenames = new Set(components.map(component => component.filename));
-            const shouldPrefixWithDirectory = differentFilenames.size > 1 || name === 'index';
+            const isIndex = name === 'index';
+            const shouldPrefixWithDirectory = components.length > 1 || isIndex;
             if (shouldPrefixWithDirectory) {
                 for (const component of components) {
-                    const dir = path.basename(path.dirname(component.filename));
+                    const componentPath = path.dirname(component.filename);
+                    const dir = componentPath !== this.config.directory ? path.basename(componentPath) : '';
                     component.name = path.join(dir, component.name);
                 }
             }
@@ -147,20 +148,23 @@ class GeneratorBase {
             const outputFilters = this.config.array(output.groups) || [];
             const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
             if (includedInOutput) {
-                return !!componentSchema.patterns && nanomatch.some(filename, componentSchema.patterns);
+                return !!componentSchema.patterns && nanomatch.some(path.relative(this.config.directory, filename), componentSchema.patterns);
             }
             else {
                 return false;
             }
         });
         if (!componentSchema) {
-            throw new Error(`Component schema not found: ${filename}`);
+            logger_1.warn(`Component schema not found: ${filename}`);
         }
         return componentSchema;
     }
     verifyComponentFilters(filters, component) {
-        const matchesPatterns = !('filename' in component) || !filters.patterns || nanomatch.some(component.filename, filters.patterns);
-        const matchesComponents = !filters.components || filters.components.some(type => type === component.type);
+        const matchesPatterns = !('filename' in component) ||
+            !filters.patterns ||
+            nanomatch.some(path.relative(this.config.directory, component.filename), filters.patterns);
+        const matchesComponents = !filters.components ||
+            filters.components.some(type => type === component.type);
         return matchesPatterns && matchesComponents;
     }
     getComponentName(filename, componentConfig) {

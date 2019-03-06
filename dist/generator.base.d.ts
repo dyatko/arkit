@@ -29,7 +29,7 @@ export declare class GeneratorBase {
     private collectImportedFilenames;
     protected resolveConflictingComponentNames(components: Components): Components;
     protected sortComponentsByName(components: Components): Components;
-    protected findComponentSchema(output: OutputSchema, filename: string): ComponentSchema;
+    protected findComponentSchema(output: OutputSchema, filename: string): ComponentSchema | undefined;
     protected verifyComponentFilters(filters: ComponentFilters, component: Component | ComponentSchema): boolean;
     protected getComponentName(filename: string, componentConfig: ComponentSchema): string;
     protected getAllComponents(layers: Layers, sortByName?: boolean): Component[];

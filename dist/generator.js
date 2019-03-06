@@ -6,6 +6,7 @@ const https = require("https");
 const schema_1 = require("./schema");
 const logger_1 = require("./logger");
 const generator_base_1 = require("./generator.base");
+const plantuml_encoder_decoder_1 = require("plantuml-encoder-decoder");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
         super(...arguments);
@@ -13,7 +14,11 @@ class Generator extends generator_base_1.GeneratorBase {
     }
     generate() {
         return Promise.all(this.config.outputs.reduce((promises, output) => {
-            const puml = this.generatePlantUML(output);
+            let puml = this.generatePlantUML(output);
+            const encoded = plantuml_encoder_decoder_1.encode(puml);
+            puml = `${puml}
+
+' https://arkit.herokuapp.com/svg/${encoded}`;
             if (output.path && output.path.length) {
                 for (const outputPath of this.config.array(output.path)) {
                     promises.push(this.convert(outputPath, puml));

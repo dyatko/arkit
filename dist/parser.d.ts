@@ -28,7 +28,8 @@ export declare class Parser {
     private getImports;
     private addImportedFile;
     private getExports;
-    private resolveModule;
+    private addModule;
+    private getModulePath;
     private resolveTsModule;
 }
 export {};

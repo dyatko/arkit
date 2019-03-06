@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/dyatko/arkit/master/arkit.svg?sanitize=true" alt="arkit" valign="top" /> `🇸🇪arkitektur`
+<img src="https://arkit.js.org/arkit.svg" alt="arkit" valign="top" /> `🇸🇪arkitektur`
 
 ## Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
@@ -63,7 +63,7 @@ Options:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/dyatko/arkit/master/schema.json",
+  "$schema": "https://arkit.js.org/schema.json",
   "components": [
     {
         "type": "Component",
@@ -84,10 +84,10 @@ Options:
 ### Real-world examples
 
 #### [Express.js](test/express) using `npx arkit`
-![Express architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/express/express.svg?sanitize=true)
+![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
 
-#### Arkit itself using `arkit -o dist/arkit.png -f dist/arkit.js dist/`
-![Arkit architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/dist/arkit.png?sanitize=true)
+#### Arkit itself using `arkit -o dist/arkit.png src/`
+![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
 
 #### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
-![ReactDOM architecture diagram](https://raw.githubusercontent.com/dyatko/arkit/master/test/react-dom/arkit.svg?sanitize=true)
+![ReactDOM architecture diagram](https://arkit.js.org/test/react-dom/arkit.svg)
