@@ -237,6 +237,9 @@ Object {
         "debug",
         "info",
       ],
+      "node_modules/plantuml-encoder-decoder/index.js": Array [
+        "encode",
+      ],
       "path": Array [
         "path",
       ],

@@ -10,11 +10,17 @@ import {
   GeneratorBase,
   Layers
 } from './generator.base'
+import { encode } from 'plantuml-encoder-decoder'
 
 export class Generator extends GeneratorBase {
   generate (): Promise<string[]> {
     return Promise.all(this.config.outputs.reduce((promises, output) => {
-      const puml = this.generatePlantUML(output)
+      let puml = this.generatePlantUML(output)
+      const encoded = encode(puml)
+
+      puml = `${puml}
+
+' https://arkit.herokuapp.com/svg/${encoded}`
 
       if (output.path && output.path.length) {
         for (const outputPath of this.config.array(output.path)!) {
