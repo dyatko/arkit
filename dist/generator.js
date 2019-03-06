@@ -33,10 +33,10 @@ class Generator extends generator_base_1.GeneratorBase {
     generatePlantUML(output) {
         logger_1.info('Generating components...');
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
-        logger_1.debug(Array.from(components.values()));
+        logger_1.trace(Array.from(components.values()));
         logger_1.info('Generating layers...');
         const layers = this.generateLayers(output, components);
-        logger_1.debug(Array.from(layers.keys()));
+        logger_1.trace(Array.from(layers.keys()));
         const puml = ['@startuml'];
         puml.push(this.generatePlantUMLSkin(output, layers));
         for (const [layer, components] of layers.entries()) {

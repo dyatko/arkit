@@ -152,8 +152,8 @@ Object {
         "Generator",
       ],
       "logger.ts": Array [
-        "debug",
         "info",
+        "trace",
       ],
       "node_modules/yargs/index.js": Array [
         "yargs",
@@ -236,6 +236,7 @@ Object {
       "logger.ts": Array [
         "debug",
         "info",
+        "trace",
       ],
       "node_modules/plantuml-encoder-decoder/index.js": Array [
         "encode",

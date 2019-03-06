@@ -22,16 +22,15 @@ const cli = yargs
     coerce: parseDirectory
 })
     .option('first', {
-    description: 'First component file patterns, e.g. src/index.js',
-    coerce: splitByComma
+    description: 'File patterns to start with',
+    string: true
 })
     .option('exclude', {
-    description: 'File patterns to exclude, e.g. "node_modules"',
-    coerce: splitByComma
+    description: 'File patterns to exclude',
+    default: 'node_modules,test,tests,**/*.test.*,**/*.spec.*'
 })
     .option('output', {
-    description: 'Output file paths or type, e.g. arkit.svg or puml',
-    coerce: splitByComma
+    description: 'Output type or file path to save'
 })
     .alias({
     o: 'output',
@@ -41,6 +40,11 @@ const cli = yargs
     h: 'help',
     v: 'version',
     _: 'directory'
+})
+    .coerce({
+    exclude: splitByComma,
+    first: splitByComma,
+    output: splitByComma
 });
 const getAbsolute = (filepath) => {
     return !path.isAbsolute(filepath) ? path.resolve(process.cwd(), filepath) : filepath;
@@ -62,12 +66,6 @@ const getOptions = (options) => {
     if (opts.exclude) {
         opts.exclude = convertToRelative(opts.exclude, opts.directory);
     }
-    else {
-        opts.exclude = [
-            'node_modules', 'test', 'tests',
-            '**/*.test.*', '**/*.spec.*'
-        ];
-    }
     return opts;
 };
 exports.arkit = (options) => {
@@ -79,8 +77,8 @@ exports.arkit = (options) => {
     logger_1.info(config);
     const parser = new parser_1.Parser(config);
     const files = parser.parse();
-    logger_1.debug('Parsed files');
-    logger_1.debug(files);
+    logger_1.trace('Parsed files');
+    logger_1.trace(files);
     const generator = new generator_1.Generator(config, files);
     return generator.generate();
 };

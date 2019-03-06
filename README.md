@@ -83,11 +83,11 @@ Options:
 
 ### Real-world examples
 
-#### [Express.js](test/express) using `npx arkit`
+#### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
 
 #### Arkit itself using `arkit -o dist/arkit.png src/`
 ![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
 
-#### [ReactDOM](test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
+#### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
 ![ReactDOM architecture diagram](https://arkit.js.org/test/react-dom/arkit.svg)

@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as https from 'https'
 import { OutputDirection, OutputSchema } from './schema'
-import { debug, info } from './logger'
+import { debug, info, trace } from './logger'
 import {
   Component,
   Context,
@@ -39,11 +39,11 @@ export class Generator extends GeneratorBase {
     const components = this.sortComponentsByName(
       this.resolveConflictingComponentNames(this.generateComponents(output))
     )
-    debug(Array.from(components.values()))
+    trace(Array.from(components.values()))
 
     info('Generating layers...')
     const layers = this.generateLayers(output, components)
-    debug(Array.from(layers.keys()))
+    trace(Array.from(layers.keys()))
 
     const puml = ['@startuml']
 
