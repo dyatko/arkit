@@ -51,9 +51,10 @@ user@machine:~$ npx arkit --help
 arkit [directory]
 
 Options:
-  -o, --output     Output file paths or type, e.g. arkit.svg or puml
-  -f, --first      First component file patterns, e.g. src/index.js
-  -e, --exclude    File patterns to exclude, e.g. "node_modules"
+  -o, --output     Output type or file path to save
+  -f, --first      File patterns to start with                          [string]
+  -e, --exclude    File patterns to exclude
+                    [default: "node_modules,test,tests,**/*.test.*,**/*.spec.*"]
   -d, --directory  Working directory                              [default: "."]
   -h, --help       Show help                                           [boolean]
   -v, --version    Show version number                                 [boolean]
