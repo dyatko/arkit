@@ -17,19 +17,21 @@
 
 ### Usage
 
-Add arkit to your project using NPM or Yarn and try it out:
-
 ```sh
+# Run arkit straight away
+npx arkit
+
+# Or add it to your project as a dev dependency
 npm install arkit --save-dev
 yarn add arkit --dev
 ```
 
 ```sh
 # Run arkit against your source folder and save result as SVG
-npx arkit -o arkit.svg src/
+npx arkit src/ -o arkit.svg
 
-# Also you can specify output format and source files to start from
-npx arkit -o puml -f src/main.js
+# You can also specify source files to start from and output format
+npx arkit -f src/main.js -o puml
 
 # And get some more with debugging and file exclusions
 LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
@@ -87,7 +89,7 @@ Options:
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
 
-#### Arkit itself using `arkit -o dist/arkit.png src/`
+#### Arkit itself using `npx arkit -o dist/arkit.png src/`
 ![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
 
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)

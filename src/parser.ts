@@ -42,7 +42,6 @@ export class Parser {
   private sourceFiles = new Map<string, SourceFile>()
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
-  private tsResolutionCache = new Map<string, string | undefined>()
 
   constructor (config: Config) {
     this.config = config
@@ -102,7 +101,6 @@ export class Parser {
     this.tsResolve = undefined
     this.tsConfigFilePath = undefined
     this.sourceFiles.clear()
-    this.tsResolutionCache.clear()
   }
 
   private shouldInclude (filepath: string): boolean {
@@ -216,12 +214,17 @@ export class Parser {
     return statements.reduce((exports, statement) => {
       if (TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
         if (TypeGuards.isVariableStatement(statement)) {
-          const structure = statement.getStructure()
+          try {
+            const structure = statement.getStructure()
 
-          exports = [
-            ...exports,
-            structure.declarations.map(declaration => declaration.name)
-          ]
+            exports = [
+              ...exports,
+              structure.declarations.map(declaration => declaration.name)
+            ]
+          } catch (e) {
+            warn(e)
+            warn(statement.getText())
+          }
         } else if (
           TypeGuards.isInterfaceDeclaration(statement) ||
           TypeGuards.isClassDeclaration(statement) ||
@@ -229,7 +232,12 @@ export class Parser {
           TypeGuards.isFunctionDeclaration(statement) ||
           TypeGuards.isTypeAliasDeclaration(statement)
         ) {
-          trace('EXPORT', sourceFile.getBaseName(), statement.getStructure())
+          try {
+            trace('EXPORT', sourceFile.getBaseName(), statement.getStructure())
+          } catch (e) {
+            warn(e)
+            warn(statement.getText())
+          }
         } else {
           warn('EXPORT Unknown type', sourceFile.getBaseName(), statement)
         }
@@ -254,19 +262,14 @@ export class Parser {
   }
 
   private getModulePath (moduleSpecifier: string, sourceFile: SourceFile): string | undefined {
-    if (this.tsResolutionCache.has(moduleSpecifier)) {
-      return this.tsResolutionCache.get(moduleSpecifier)
-    }
-
     try {
+      trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions)
       return resolve(moduleSpecifier, {
         basedir: sourceFile.getDirectoryPath(),
         extensions: this.config.extensions
       })
     } catch (e) {
-      const modulePath = this.resolveTsModule(moduleSpecifier)
-      this.tsResolutionCache.set(moduleSpecifier, modulePath)
-      return modulePath
+      return this.resolveTsModule(moduleSpecifier)
     }
   }
 

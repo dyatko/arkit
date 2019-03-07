@@ -201,7 +201,7 @@ Options:
   -o, --output     Output type or file path to save
   -f, --first      File patterns to start with                          [string]
   -e, --exclude    File patterns to exclude
-                    [default: \\"node_modules,test,tests,**/*.test.*,**/*.spec.*\\"]
+    [default: \\"node_modules,test,tests,dist,**/*.test.*,**/*.spec.*,**/*.min.*\\"]
   -d, --directory  Working directory                              [default: \\".\\"]
   -h, --help       Show help                                           [boolean]
   -v, --version    Show version number                                 [boolean]

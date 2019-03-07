@@ -28,7 +28,7 @@ const cli = yargs
   })
   .option('exclude', {
     description: 'File patterns to exclude',
-    default: 'node_modules,test,tests,**/*.test.*,**/*.spec.*'
+    default: 'node_modules,test,tests,dist,**/*.test.*,**/*.spec.*,**/*.min.*'
   })
   .option('output', {
     description: 'Output type or file path to save'

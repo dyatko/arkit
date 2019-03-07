@@ -17,7 +17,6 @@ export declare class Parser {
     private sourceFiles;
     private tsResolve?;
     private tsConfigFilePath?;
-    private tsResolutionCache;
     constructor(config: Config);
     private resolveTsConfigPaths;
     private prepareProject;

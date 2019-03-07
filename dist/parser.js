@@ -15,7 +15,6 @@ const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`
 class Parser {
     constructor(config) {
         this.sourceFiles = new Map();
-        this.tsResolutionCache = new Map();
         this.config = config;
     }
     resolveTsConfigPaths() {
@@ -60,7 +59,6 @@ class Parser {
         this.tsResolve = undefined;
         this.tsConfigFilePath = undefined;
         this.sourceFiles.clear();
-        this.tsResolutionCache.clear();
     }
     shouldInclude(filepath) {
         return !!nanomatch(path.relative(this.config.directory, filepath), this.config.patterns).length;
@@ -149,18 +147,30 @@ class Parser {
         return statements.reduce((exports, statement) => {
             if (ts_morph_1.TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
                 if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
-                    const structure = statement.getStructure();
-                    exports = [
-                        ...exports,
-                        structure.declarations.map(declaration => declaration.name)
-                    ];
+                    try {
+                        const structure = statement.getStructure();
+                        exports = [
+                            ...exports,
+                            structure.declarations.map(declaration => declaration.name)
+                        ];
+                    }
+                    catch (e) {
+                        logger_1.warn(e);
+                        logger_1.warn(statement.getText());
+                    }
                 }
                 else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isClassDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isEnumDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isFunctionDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isTypeAliasDeclaration(statement)) {
-                    logger_1.trace('EXPORT', sourceFile.getBaseName(), statement.getStructure());
+                    try {
+                        logger_1.trace('EXPORT', sourceFile.getBaseName(), statement.getStructure());
+                    }
+                    catch (e) {
+                        logger_1.warn(e);
+                        logger_1.warn(statement.getText());
+                    }
                 }
                 else {
                     logger_1.warn('EXPORT Unknown type', sourceFile.getBaseName(), statement);
@@ -182,19 +192,15 @@ class Parser {
         }
     }
     getModulePath(moduleSpecifier, sourceFile) {
-        if (this.tsResolutionCache.has(moduleSpecifier)) {
-            return this.tsResolutionCache.get(moduleSpecifier);
-        }
         try {
+            logger_1.trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
             return resolve_1.sync(moduleSpecifier, {
                 basedir: sourceFile.getDirectoryPath(),
                 extensions: this.config.extensions
             });
         }
         catch (e) {
-            const modulePath = this.resolveTsModule(moduleSpecifier);
-            this.tsResolutionCache.set(moduleSpecifier, modulePath);
-            return modulePath;
+            return this.resolveTsModule(moduleSpecifier);
         }
     }
     resolveTsModule(moduleSpecifier) {
