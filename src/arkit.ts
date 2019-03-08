@@ -4,7 +4,7 @@ import { info, trace } from './logger'
 import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
-import { Options } from './schema'
+import { Options, OutputFormat } from './schema'
 
 const parseDirectory = (directory: string | string[]): string => {
   if (directory instanceof Array) directory = directory[0]
@@ -52,8 +52,11 @@ const getAbsolute = (filepath: string): string => {
   return !path.isAbsolute(filepath) ? path.resolve(process.cwd(), filepath) : filepath
 }
 
-const convertToRelative = (paths: string[], root: string): string[] => {
+const convertToRelative = (paths: string[], root: string, excludes: string[] = []): string[] => {
   return paths.map(filepath => {
+    if (excludes.includes(filepath)) {
+      return filepath
+    }
     return path.relative(root, getAbsolute(filepath))
   })
 }
@@ -71,7 +74,7 @@ const getOptions = (options?: Options): Options => {
   }
 
   if (opts.output) {
-    opts.output = convertToRelative(opts.output, opts.directory)
+    opts.output = convertToRelative(opts.output, opts.directory, Object.values(OutputFormat))
   }
 
   if (opts.exclude) {

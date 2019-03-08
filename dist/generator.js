@@ -6,7 +6,6 @@ const https = require("https");
 const schema_1 = require("./schema");
 const logger_1 = require("./logger");
 const generator_base_1 = require("./generator.base");
-const plantuml_encoder_decoder_1 = require("plantuml-encoder-decoder");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
         super(...arguments);
@@ -15,10 +14,9 @@ class Generator extends generator_base_1.GeneratorBase {
     generate() {
         return Promise.all(this.config.outputs.reduce((promises, output) => {
             let puml = this.generatePlantUML(output);
-            const encoded = plantuml_encoder_decoder_1.encode(puml);
             puml = `${puml}
 
-' https://arkit.herokuapp.com/svg/${encoded}`;
+' View and edit on https://arkit.herokuapp.com`;
             if (output.path && output.path.length) {
                 for (const outputPath of this.config.array(output.path)) {
                     promises.push(this.convert(outputPath, puml));
@@ -169,14 +167,14 @@ skinparam rectangle {
     convert(pathOrType, puml) {
         const fullExportPath = path.resolve(this.config.directory, pathOrType);
         const ext = path.extname(fullExportPath);
-        const shouldConvertAndSave = ['.png', '.svg'].includes(ext);
-        const shouldConvertAndOutput = ['png', 'svg'].includes(pathOrType);
+        const shouldConvertAndSave = Object.values(schema_1.OutputFormat).includes(ext.replace('.', ''));
+        const shouldConvertAndOutput = Object.values(schema_1.OutputFormat).includes(pathOrType);
         if (fs.existsSync(fullExportPath)) {
             logger_1.debug('Removing', fullExportPath);
             fs.unlinkSync(fullExportPath);
         }
         if (shouldConvertAndSave || shouldConvertAndOutput) {
-            logger_1.debug('Converting', fullExportPath);
+            logger_1.debug('Converting', ext ? fullExportPath : pathOrType);
             return this.convertToImage(puml, ext || pathOrType).then(image => {
                 if (shouldConvertAndSave) {
                     logger_1.debug('Saving', fullExportPath, image.length);

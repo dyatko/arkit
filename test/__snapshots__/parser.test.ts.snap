@@ -166,6 +166,7 @@ Object {
       ],
       "schema.ts": Array [
         "Options",
+        "OutputFormat",
       ],
     },
   },
@@ -238,14 +239,12 @@ Object {
         "info",
         "trace",
       ],
-      "node_modules/plantuml-encoder-decoder/index.js": Array [
-        "encode",
-      ],
       "path": Array [
         "path",
       ],
       "schema.ts": Array [
         "OutputDirection",
+        "OutputFormat",
         "OutputSchema",
       ],
     },

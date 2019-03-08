@@ -6,6 +6,7 @@ const logger_1 = require("./logger");
 const config_1 = require("./config");
 const parser_1 = require("./parser");
 const generator_1 = require("./generator");
+const schema_1 = require("./schema");
 const parseDirectory = (directory) => {
     if (directory instanceof Array)
         directory = directory[0];
@@ -49,8 +50,11 @@ const cli = yargs
 const getAbsolute = (filepath) => {
     return !path.isAbsolute(filepath) ? path.resolve(process.cwd(), filepath) : filepath;
 };
-const convertToRelative = (paths, root) => {
+const convertToRelative = (paths, root, excludes = []) => {
     return paths.map(filepath => {
+        if (excludes.includes(filepath)) {
+            return filepath;
+        }
         return path.relative(root, getAbsolute(filepath));
     });
 };
@@ -61,7 +65,7 @@ const getOptions = (options) => {
         opts.first = convertToRelative(opts.first, opts.directory);
     }
     if (opts.output) {
-        opts.output = convertToRelative(opts.output, opts.directory);
+        opts.output = convertToRelative(opts.output, opts.directory, Object.values(schema_1.OutputFormat));
     }
     if (opts.exclude) {
         opts.exclude = convertToRelative(opts.exclude, opts.directory);

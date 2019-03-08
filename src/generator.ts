@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import * as https from 'https'
-import { OutputDirection, OutputSchema } from './schema'
+import { OutputDirection, OutputFormat, OutputSchema } from './schema'
 import { debug, info, trace } from './logger'
 import {
   Component,
@@ -10,17 +10,15 @@ import {
   GeneratorBase,
   Layers
 } from './generator.base'
-import { encode } from 'plantuml-encoder-decoder'
 
 export class Generator extends GeneratorBase {
   generate (): Promise<string[]> {
     return Promise.all(this.config.outputs.reduce((promises, output) => {
       let puml = this.generatePlantUML(output)
-      const encoded = encode(puml)
 
       puml = `${puml}
 
-' https://arkit.herokuapp.com/svg/${encoded}`
+' View and edit on https://arkit.herokuapp.com`
 
       if (output.path && output.path.length) {
         for (const outputPath of this.config.array(output.path)!) {
@@ -208,8 +206,8 @@ skinparam rectangle {
   private convert (pathOrType: string, puml: string): Promise<string> {
     const fullExportPath = path.resolve(this.config.directory, pathOrType)
     const ext = path.extname(fullExportPath)
-    const shouldConvertAndSave = ['.png', '.svg'].includes(ext)
-    const shouldConvertAndOutput = ['png', 'svg'].includes(pathOrType)
+    const shouldConvertAndSave = Object.values(OutputFormat).includes(ext.replace('.', ''))
+    const shouldConvertAndOutput = Object.values(OutputFormat).includes(pathOrType)
 
     if (fs.existsSync(fullExportPath)) {
       debug('Removing', fullExportPath)
@@ -217,7 +215,7 @@ skinparam rectangle {
     }
 
     if (shouldConvertAndSave || shouldConvertAndOutput) {
-      debug('Converting', fullExportPath)
+      debug('Converting', ext ? fullExportPath : pathOrType)
       return this.convertToImage(puml, ext || pathOrType).then(image => {
         if (shouldConvertAndSave) {
           debug('Saving', fullExportPath, image.length)

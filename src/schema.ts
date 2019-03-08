@@ -97,3 +97,8 @@ export enum OutputDirection {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical'
 }
+
+export enum OutputFormat {
+  SVG = 'svg',
+  PNG = 'png'
+}

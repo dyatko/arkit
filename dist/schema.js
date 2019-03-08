@@ -14,3 +14,8 @@ var OutputDirection;
     OutputDirection["HORIZONTAL"] = "horizontal";
     OutputDirection["VERTICAL"] = "vertical";
 })(OutputDirection = exports.OutputDirection || (exports.OutputDirection = {}));
+var OutputFormat;
+(function (OutputFormat) {
+    OutputFormat["SVG"] = "svg";
+    OutputFormat["PNG"] = "png";
+})(OutputFormat = exports.OutputFormat || (exports.OutputFormat = {}));
