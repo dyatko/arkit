@@ -96,6 +96,6 @@ Options:
 ![ReactDOM architecture diagram](https://arkit.js.org/test/react-dom/arkit.svg)
 
 ### Stargazers map
-![GitHub stargazer map](https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image)
-
 Give [GitHub repo](https://github.com/dyatko/arkit) a star to get on the map.
+
+<img src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image" alt="GitHub stargazer map" height="320" align="center" />
