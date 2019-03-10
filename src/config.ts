@@ -1,6 +1,6 @@
 import * as path from 'path'
-import { trace } from './logger'
 import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
+import { array, safeRequire } from './utils'
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
@@ -24,9 +24,9 @@ export class Config {
   constructor (options: Options) {
     this.directory = options.directory
     const userConfigPath = path.resolve(this.directory, 'arkit')
-    const userConfig = this.safeRequire<ConfigSchema>(userConfigPath)
+    const userConfig = safeRequire<ConfigSchema>(userConfigPath)
 
-    this.components = this.array(userConfig && userConfig.components) || []
+    this.components = array(userConfig && userConfig.components) || []
 
     if (!this.components.length) {
       this.components.push(...DEFAULT_COMPONENTS)
@@ -43,35 +43,30 @@ export class Config {
   }
 
   private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
-    const generatedSchema: OutputSchema = {}
     const userConfigOutput = userConfig && userConfig.output
+    const outputOption = options.output && options.output.length ? options.output : undefined
+    const firstOption = options.first && options.first.length ? options.first : undefined
+    const shouldGenerateOutput = outputOption || firstOption || !userConfigOutput
 
-    if (options.output && options.output.length) {
-      generatedSchema.path = options.output
+    if (!shouldGenerateOutput) {
+      return array(userConfigOutput)!
     }
 
-    if (!userConfigOutput) {
-      generatedSchema.groups = [
-        { type: 'Dependencies', components: ['Dependency'] },
-        {} // everything else
-      ]
-    }
+    const firstGroup = firstOption ? [{
+      first: true,
+      patterns: firstOption
+    }] : []
 
-    if (options.first && options.first.length) {
-      generatedSchema.groups = [
-        {
-          first: true,
-          patterns: options.first
-        },
-        ...(generatedSchema.groups || [])
-      ]
-    }
-
-    if (Object.keys(generatedSchema).length || !userConfigOutput) {
-      return this.array(generatedSchema)!
-    }
-
-    return this.array(userConfigOutput)!
+    return [
+      {
+        path: outputOption,
+        groups: [
+          ...firstGroup,
+          { type: 'Dependencies', components: ['Dependency'] },
+          {} // everything else
+        ]
+      }
+    ]
   }
 
   private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {
@@ -92,19 +87,5 @@ export class Config {
     }
 
     return excludePatterns
-  }
-
-  safeRequire<T> (path: string): T | undefined {
-    try {
-      return require(path)
-    } catch (e) {
-      trace(e.toString())
-    }
-  }
-
-  array<T> (input?: T | T[]): T[] | undefined {
-    if (input) {
-      return ([] as T[]).concat(input)
-    }
   }
 }

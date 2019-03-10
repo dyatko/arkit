@@ -173,9 +173,6 @@ Object {
   "config.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "logger.ts": Array [
-        "trace",
-      ],
       "path": Array [
         "path",
       ],
@@ -185,14 +182,14 @@ Object {
         "Options",
         "OutputSchema",
       ],
+      "utils.ts": Array [
+        "array",
+        "safeRequire",
+      ],
     },
   },
   "generator.base.ts": Object {
-    "exports": Array [
-      Array [
-        "EMPTY_LAYER",
-      ],
-    ],
+    "exports": Array [],
     "imports": Object {
       "config.ts": Array [
         "Config",
@@ -200,12 +197,6 @@ Object {
       "logger.ts": Array [
         "trace",
         "warn",
-      ],
-      "node_modules/nanomatch/index.js": Array [
-        "nanomatch",
-      ],
-      "parser.ts": Array [
-        "Files",
       ],
       "path": Array [
         "path",
@@ -216,6 +207,18 @@ Object {
         "ComponentSchema",
         "OutputSchema",
       ],
+      "types.ts": Array [
+        "Files",
+        "Component",
+        "Components",
+        "EMPTY_LAYER",
+        "Layers",
+      ],
+      "utils.ts": Array [
+        "array",
+        "match",
+        "verifyComponentFilters",
+      ],
     },
   },
   "generator.ts": Object {
@@ -225,11 +228,7 @@ Object {
         "fs",
       ],
       "generator.base.ts": Array [
-        "Component",
-        "Context",
-        "EMPTY_LAYER",
         "GeneratorBase",
-        "Layers",
       ],
       "https": Array [
         "https",
@@ -246,6 +245,15 @@ Object {
         "OutputDirection",
         "OutputFormat",
         "OutputSchema",
+      ],
+      "types.ts": Array [
+        "Component",
+        "Context",
+        "EMPTY_LAYER",
+        "Layers",
+      ],
+      "utils.ts": Array [
+        "array",
       ],
     },
   },
@@ -282,17 +290,11 @@ Object {
       "config.ts": Array [
         "Config",
       ],
-      "fs": Array [
-        "fs",
-      ],
       "logger.ts": Array [
         "debug",
         "info",
         "trace",
         "warn",
-      ],
-      "node_modules/nanomatch/index.js": Array [
-        "nanomatch",
       ],
       "node_modules/resolve/index.js": Array [
         "sync",
@@ -317,11 +319,71 @@ Object {
       "path": Array [
         "path",
       ],
+      "types.ts": Array [
+        "Exports",
+        "Files",
+        "Imports",
+      ],
+      "utils.ts": Array [
+        "find",
+        "getPaths",
+      ],
     },
   },
   "schema.ts": Object {
     "exports": Array [],
     "imports": Object {},
+  },
+  "types.ts": Object {
+    "exports": Array [
+      Array [
+        "EMPTY_LAYER",
+      ],
+    ],
+    "imports": Object {},
+  },
+  "utils.ts": Object {
+    "exports": Array [
+      Array [
+        "getPaths",
+      ],
+      Array [
+        "match",
+      ],
+      Array [
+        "find",
+      ],
+      Array [
+        "safeRequire",
+      ],
+      Array [
+        "array",
+      ],
+      Array [
+        "verifyComponentFilters",
+      ],
+    ],
+    "imports": Object {
+      "fs": Array [
+        "fs",
+      ],
+      "logger.ts": Array [
+        "trace",
+      ],
+      "node_modules/nanomatch/index.js": Array [
+        "nanomatch",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "ComponentFilters",
+        "ComponentSchema",
+      ],
+      "types.ts": Array [
+        "Component",
+      ],
+    },
   },
 }
 `;

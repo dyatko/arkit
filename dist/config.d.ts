@@ -9,7 +9,5 @@ export declare class Config {
     constructor(options: Options);
     private getOutputs;
     private getExcludePatterns;
-    safeRequire<T>(path: string): T | undefined;
-    array<T>(input?: T | T[]): T[] | undefined;
 }
 //# sourceMappingURL=config.d.ts.map

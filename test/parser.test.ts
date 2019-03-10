@@ -1,6 +1,7 @@
 import * as path from 'path'
 import { Config } from '../src/config'
-import { Files, Parser } from "../src/parser";
+import { Parser } from "../src/parser";
+import { Files } from "../src/types";
 
 const cleanSnapshot = (directory: string, files: Files): Files => {
   const re = new RegExp(directory + '/?', 'g')

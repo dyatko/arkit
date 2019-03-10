@@ -4,12 +4,9 @@ import * as https from 'https'
 import { OutputDirection, OutputFormat, OutputSchema } from './schema'
 import { debug, info, trace } from './logger'
 import {
-  Component,
-  Context,
-  EMPTY_LAYER,
-  GeneratorBase,
-  Layers
-} from './generator.base'
+  GeneratorBase } from './generator.base'
+import { array } from './utils'
+import { Component, Context, EMPTY_LAYER, Layers } from './types'
 
 export class Generator extends GeneratorBase {
   generate (): Promise<string[]> {
@@ -21,7 +18,7 @@ export class Generator extends GeneratorBase {
 ' View and edit on https://arkit.herokuapp.com`
 
       if (output.path && output.path.length) {
-        for (const outputPath of this.config.array(output.path)!) {
+        for (const outputPath of array(output.path)!) {
           promises.push(this.convert(outputPath, puml))
         }
       } else {

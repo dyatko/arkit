@@ -1,16 +1,5 @@
 import { Config } from './config';
-interface Imports {
-    [file: string]: string[];
-}
-interface Exports extends Array<string> {
-}
-export interface File {
-    imports: Imports;
-    exports: Exports;
-}
-export interface Files {
-    [file: string]: File;
-}
+import { Files } from './types';
 export declare class Parser {
     private config;
     private project;
@@ -21,10 +10,7 @@ export declare class Parser {
     constructor(config: Config);
     private resolveTsConfigPaths;
     private prepareProject;
-    private getPaths;
     private cleanProject;
-    private shouldInclude;
-    private shouldExclude;
     parse(): Files;
     private getImports;
     private getExports;
@@ -32,5 +18,4 @@ export declare class Parser {
     private getModulePath;
     private resolveTsModule;
 }
-export {};
 //# sourceMappingURL=parser.d.ts.map

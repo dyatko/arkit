@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const fs = require("fs");
-const nanomatch = require("nanomatch");
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const resolve_1 = require("resolve");
 const logger_1 = require("./logger");
 const tsconfig_paths_1 = require("tsconfig-paths");
+const utils_1 = require("./utils");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
@@ -42,7 +41,7 @@ class Parser {
             skipFileDependencyResolution: true
         });
         logger_1.info('Searching files...');
-        this.getPaths().forEach(fullPath => {
+        utils_1.getPaths(this.config.directory, '', this.config.patterns, this.config.excludePatterns).forEach(fullPath => {
             logger_1.trace(`Adding ${fullPath}`);
             if (fullPath.endsWith('**')) {
                 this.sourceFolders.push(fullPath);
@@ -53,30 +52,6 @@ class Parser {
         });
         this.project.resolveSourceFileDependencies();
     }
-    getPaths(directory = '') {
-        const root = path.join(this.config.directory, directory);
-        return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
-            const filePath = path.join(directory, fileName);
-            if (!this.shouldExclude(filePath)) {
-                const fullPath = path.join(root, fileName);
-                const stats = fs.statSync(fullPath);
-                if (stats.isFile()) {
-                    if (this.shouldInclude(filePath)) {
-                        suitablePaths.push(fullPath);
-                    }
-                }
-                else if (stats.isDirectory()) {
-                    if (this.shouldInclude(filePath)) {
-                        suitablePaths.push(path.join(fullPath, '**'));
-                    }
-                    else {
-                        suitablePaths.push(...this.getPaths(filePath));
-                    }
-                }
-            }
-            return suitablePaths;
-        }, []);
-    }
     cleanProject() {
         for (const [filepath, sourceFile] of this.sourceFiles.entries()) {
             this.sourceFiles.delete(filepath);
@@ -86,13 +61,6 @@ class Parser {
         this.tsConfigFilePath = undefined;
         this.sourceFiles.clear();
         this.sourceFolders = [];
-    }
-    shouldInclude(filepath) {
-        return !!nanomatch(filepath, this.config.patterns).length;
-    }
-    shouldExclude(filepath) {
-        const patterns = this.config.excludePatterns;
-        return !!patterns.length && !!nanomatch(filepath, patterns).length;
     }
     parse() {
         this.prepareProject();
@@ -206,7 +174,7 @@ class Parser {
     addModule(imports, moduleSpecifier, sourceFile) {
         const modulePath = this.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            const folder = this.sourceFolders.find(sourceFolder => nanomatch(modulePath, sourceFolder).length);
+            const folder = utils_1.find(modulePath, this.sourceFolders);
             const realModulePath = folder || modulePath;
             if (!imports[realModulePath]) {
                 imports[realModulePath] = [];

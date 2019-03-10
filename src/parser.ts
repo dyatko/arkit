@@ -1,35 +1,20 @@
 import * as path from 'path'
-import * as fs from 'fs'
-import * as nanomatch from 'nanomatch'
 import { EOL } from 'os'
 import {
   ExportDeclarationStructure,
   ImportDeclarationStructure,
   Project,
   SourceFile,
-  Statement, ts,
+  Statement,
+  ts,
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
 import { debug, info, trace, warn } from './logger'
 import { Config } from './config'
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
-
-interface Imports {
-  [file: string]: string[]
-}
-
-interface Exports extends Array<string> {
-}
-
-export interface File {
-  imports: Imports
-  exports: Exports
-}
-
-export interface Files {
-  [file: string]: File
-}
+import { find, getPaths } from './utils'
+import { Exports, Files, Imports } from './types'
 
 const QUOTES = `(?:'|")`
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`
@@ -81,7 +66,12 @@ export class Parser {
     })
 
     info('Searching files...')
-    this.getPaths().forEach(fullPath => {
+    getPaths(
+      this.config.directory,
+      '',
+      this.config.patterns,
+      this.config.excludePatterns
+    ).forEach(fullPath => {
       trace(`Adding ${fullPath}`)
       if (fullPath.endsWith('**')) {
         this.sourceFolders.push(fullPath)
@@ -91,33 +81,6 @@ export class Parser {
     })
 
     this.project.resolveSourceFileDependencies()
-  }
-
-  private getPaths (directory = ''): string[] {
-    const root = path.join(this.config.directory, directory)
-
-    return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
-      const filePath = path.join(directory, fileName)
-
-      if (!this.shouldExclude(filePath)) {
-        const fullPath = path.join(root, fileName)
-        const stats = fs.statSync(fullPath)
-
-        if (stats.isFile()) {
-          if (this.shouldInclude(filePath)) {
-            suitablePaths.push(fullPath)
-          }
-        } else if (stats.isDirectory()) {
-          if (this.shouldInclude(filePath)) {
-            suitablePaths.push(path.join(fullPath, '**'))
-          } else {
-            suitablePaths.push(...this.getPaths(filePath))
-          }
-        }
-      }
-
-      return suitablePaths
-    }, [] as string[])
   }
 
   private cleanProject () {
@@ -130,15 +93,6 @@ export class Parser {
     this.tsConfigFilePath = undefined
     this.sourceFiles.clear()
     this.sourceFolders = []
-  }
-
-  private shouldInclude (filepath: string): boolean {
-    return !!nanomatch(filepath, this.config.patterns).length
-  }
-
-  private shouldExclude (filepath: string): boolean {
-    const patterns = this.config.excludePatterns
-    return !!patterns.length && !!nanomatch(filepath, patterns).length
   }
 
   parse (): Files {
@@ -278,9 +232,7 @@ export class Parser {
     const modulePath = this.getModulePath(moduleSpecifier, sourceFile)
 
     if (modulePath) {
-      const folder = this.sourceFolders.find(
-        sourceFolder => nanomatch(modulePath, sourceFolder).length
-      )
+      const folder = find(modulePath, this.sourceFolders)
       const realModulePath = folder || modulePath
 
       if (!imports[realModulePath]) {

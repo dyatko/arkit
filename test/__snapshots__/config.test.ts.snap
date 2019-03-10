@@ -37,6 +37,7 @@ Config {
         },
         Object {},
       ],
+      "path": undefined,
     },
   ],
   "patterns": Array [

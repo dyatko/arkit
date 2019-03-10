@@ -3,13 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const schema_1 = require("./schema");
 const logger_1 = require("./logger");
 const path = require("path");
-const nanomatch = require("nanomatch");
-exports.EMPTY_LAYER = Symbol('__empty_layer__');
-var Context;
-(function (Context) {
-    Context[Context["LAYER"] = 0] = "LAYER";
-    Context[Context["RELATIONSHIP"] = 1] = "RELATIONSHIP";
-})(Context = exports.Context || (exports.Context = {}));
+const utils_1 = require("./utils");
+const types_1 = require("./types");
 class GeneratorBase {
     constructor(config, files) {
         this.config = config;
@@ -26,7 +21,7 @@ class GeneratorBase {
                     filename,
                     isImported: false,
                     type: schema.type,
-                    layer: exports.EMPTY_LAYER,
+                    layer: types_1.EMPTY_LAYER,
                     imports: Object.keys(this.files[filename].imports)
                 });
             }
@@ -43,18 +38,18 @@ class GeneratorBase {
         return components;
     }
     generateLayers(output, allComponents) {
-        const groups = this.config.array(output.groups) || [{}];
+        const groups = utils_1.array(output.groups) || [{}];
         const ungroupedComponents = new Map(allComponents);
         const grouppedComponents = new Map();
         const layers = new Map();
         groups.forEach(group => {
-            const layerType = group.type || exports.EMPTY_LAYER;
+            const layerType = group.type || types_1.EMPTY_LAYER;
             if (!layers.has(layerType)) {
                 layers.set(layerType, new Set());
             }
             Array.from(ungroupedComponents.entries())
                 .filter(([filename, component]) => {
-                return this.verifyComponentFilters(group, component);
+                return utils_1.verifyComponentFilters(group, component, this.config.directory);
             })
                 .forEach(([filename, component]) => {
                 component.layer = layerType;
@@ -146,10 +141,10 @@ class GeneratorBase {
     }
     findComponentSchema(output, filename) {
         const componentSchema = this.config.components.find(componentSchema => {
-            const outputFilters = this.config.array(output.groups) || [];
-            const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => this.verifyComponentFilters(outputFilter, componentSchema));
+            const outputFilters = utils_1.array(output.groups) || [];
+            const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
             if (includedInOutput) {
-                return !!componentSchema.patterns && nanomatch.some(path.relative(this.config.directory, filename), componentSchema.patterns);
+                return !!componentSchema.patterns && utils_1.match(path.relative(this.config.directory, filename), componentSchema.patterns);
             }
             else {
                 return false;
@@ -159,14 +154,6 @@ class GeneratorBase {
             logger_1.warn(`Component schema not found: ${filename}`);
         }
         return componentSchema;
-    }
-    verifyComponentFilters(filters, component) {
-        const matchesPatterns = !('filename' in component) ||
-            !filters.patterns ||
-            nanomatch.some(path.relative(this.config.directory, component.filename), filters.patterns);
-        const matchesComponents = !filters.components ||
-            filters.components.some(type => type === component.type);
-        return matchesPatterns && matchesComponents;
     }
     getComponentName(filename, componentConfig) {
         const nameFormat = componentConfig.format;

@@ -2,32 +2,8 @@ import { Config } from './config'
 import { ComponentFilters, ComponentNameFormat, ComponentSchema, OutputSchema } from './schema'
 import { trace, warn } from './logger'
 import * as path from 'path'
-import { Files } from './parser'
-import * as nanomatch from 'nanomatch'
-
-export const EMPTY_LAYER = Symbol('__empty_layer__')
-
-export interface Component {
-  name: string
-  type: string
-  filename: string
-  imports: string[]
-  layer: string | typeof EMPTY_LAYER
-  isImported: boolean
-  first?: boolean
-  last?: boolean
-}
-
-export interface Components extends Map<string, Component> {
-}
-
-export interface Layers extends Map<string | typeof EMPTY_LAYER, Set<Component>> {
-}
-
-export enum Context {
-  LAYER,
-  RELATIONSHIP
-}
+import { array, match, verifyComponentFilters } from './utils'
+import { Files, Component, Components, EMPTY_LAYER, Layers } from './types'
 
 export class GeneratorBase {
   protected config: Config
@@ -75,7 +51,7 @@ export class GeneratorBase {
   }
 
   protected generateLayers (output: OutputSchema, allComponents: Components): Layers {
-    const groups = this.config.array(output.groups) || [{}]
+    const groups = array(output.groups) || [{}]
     const ungroupedComponents: Components = new Map(allComponents)
     const grouppedComponents = new Map<string, Component>()
     const layers: Layers = new Map()
@@ -89,7 +65,7 @@ export class GeneratorBase {
 
       Array.from(ungroupedComponents.entries())
         .filter(([filename, component]) => {
-          return this.verifyComponentFilters(group, component)
+          return verifyComponentFilters(group, component, this.config.directory)
         })
         .forEach(([filename, component]) => {
           component.layer = layerType
@@ -201,13 +177,13 @@ export class GeneratorBase {
 
   protected findComponentSchema (output: OutputSchema, filename: string): ComponentSchema | undefined {
     const componentSchema = this.config.components.find(componentSchema => {
-      const outputFilters: ComponentFilters[] = this.config.array(output.groups) || []
+      const outputFilters: ComponentFilters[] = array(output.groups) || []
       const includedInOutput = !outputFilters.length || outputFilters.some(
-        outputFilter => this.verifyComponentFilters(outputFilter, componentSchema)
+        outputFilter => verifyComponentFilters(outputFilter, componentSchema, this.config.directory)
       )
 
       if (includedInOutput) {
-        return !!componentSchema.patterns && nanomatch.some(path.relative(this.config.directory, filename), componentSchema.patterns)
+        return !!componentSchema.patterns && match(path.relative(this.config.directory, filename), componentSchema.patterns)
       } else {
         return false
       }
@@ -218,19 +194,6 @@ export class GeneratorBase {
     }
 
     return componentSchema
-  }
-
-  protected verifyComponentFilters (filters: ComponentFilters, component: Component | ComponentSchema): boolean {
-    const matchesPatterns =
-      !('filename' in component) ||
-      !filters.patterns ||
-      nanomatch.some(path.relative(this.config.directory, component.filename), filters.patterns)
-
-    const matchesComponents =
-      !filters.components ||
-      filters.components.some(type => type === component.type)
-
-    return matchesPatterns && matchesComponents
   }
 
   protected getComponentName (filename: string, componentConfig: ComponentSchema): string {
