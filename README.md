@@ -104,7 +104,7 @@ Options:
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
 
-#### Arkit itself using `npx arkit -o dist/arkit.png -f src/arkit.ts`
+#### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit -o dist/arkit.png -f src/arkit.ts`
 ![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
 
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
