@@ -28,7 +28,6 @@ class Parser {
         }
     }
     prepareProject() {
-        this.resolveTsConfigPaths();
         this.project = new ts_morph_1.Project({
             compilerOptions: {
                 target: ts_morph_1.ts.ScriptTarget.Latest,
@@ -63,14 +62,12 @@ class Parser {
         this.sourceFolders = [];
     }
     parse() {
+        this.resolveTsConfigPaths();
         this.prepareProject();
         logger_1.info('Parsing', this.sourceFiles.size, 'files');
         const files = {};
         for (const fullPath of this.sourceFolders) {
-            files[fullPath] = {
-                exports: [],
-                imports: {}
-            };
+            files[fullPath] = { exports: [], imports: {} };
         }
         for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
             const filePath = path.relative(this.config.directory, fullPath);

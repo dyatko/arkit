@@ -51,8 +51,6 @@ export class Parser {
   }
 
   private prepareProject () {
-    this.resolveTsConfigPaths()
-
     this.project = new Project({
       compilerOptions: {
         target: ts.ScriptTarget.Latest,
@@ -96,16 +94,14 @@ export class Parser {
   }
 
   parse (): Files {
+    this.resolveTsConfigPaths()
     this.prepareProject()
 
     info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
 
     for (const fullPath of this.sourceFolders) {
-      files[fullPath] = {
-        exports: [],
-        imports: {}
-      }
+      files[fullPath] = { exports: [], imports: {} }
     }
 
     for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
