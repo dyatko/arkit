@@ -43,8 +43,6 @@ LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
 First results might look messy since it's better to generate diagrams per feature, architectural layer, etc.
 As you satisfied with results, add arkit command to your build script, so it will keep your architecture diagrams up-to-date.
 
----
-
 ## Configuration
 
 Arkit can be configured using basic CLI arguments or advanced JSON, JS module or package.json configuration.
@@ -84,8 +82,6 @@ Options:
 ```
 
 **See more possible JSON configuration options in the examples below**
-
----
 
 ## Real-world examples
 
