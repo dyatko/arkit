@@ -67,7 +67,7 @@ export class Generator extends GeneratorBase {
     const puml = ['']
     const isLayer = layer !== EMPTY_LAYER
 
-    if (isLayer) puml.push(`rectangle "${layer}" {`)
+    if (isLayer) puml.push(`package "${layer}" {`)
 
     for (const component of components) {
       const componentPuml = [
@@ -88,10 +88,13 @@ export class Generator extends GeneratorBase {
     context: Context
   ): string {
     const puml: string[] = []
+    const isDirectory = component.filename.endsWith('**')
     const hasLayer = component.layer !== EMPTY_LAYER
     const safeName = component.name.replace(/[^\w]/g, '_')
 
-    if (hasLayer) {
+    if (isDirectory) {
+      puml.push(`[${component.name}]`)
+    } else if (hasLayer) {
       puml.push(`(${component.name})`)
     } else {
       if (context === Context.RELATIONSHIP) {
@@ -184,21 +187,26 @@ skinparam shadowing false
 skinparam nodesep 20
 skinparam ranksep 20
 skinparam defaultFontName Tahoma
-skinparam defaultFontSize 14
+skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
 skinparam arrowThickness 0.7
 skinparam packageTitleAlignment left
 
-'oval
+' oval
 skinparam usecase {
   borderThickness 0.4
   fontSize 12
 }
 
-'rectangle
+' rectangle
 skinparam rectangle {
-  borderThickness 1
+  borderThickness 0.6
+}
+
+' component
+skinparam component {
+  borderThickness 0.6
 }
 `
   }

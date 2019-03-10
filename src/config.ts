@@ -2,10 +2,16 @@ import * as path from 'path'
 import { trace } from './logger'
 import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
 
-const DEFAULT_COMPONENTS: ComponentSchema = {
-  type: 'Component',
-  patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-}
+const DEFAULT_COMPONENTS: ComponentSchema[] = [
+  {
+    type: 'Component',
+    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+  },
+  {
+    type: 'Dependency',
+    patterns: ['node_modules/*']
+  }
+]
 
 export class Config {
   directory: string
@@ -23,7 +29,7 @@ export class Config {
     this.components = this.array(userConfig && userConfig.components) || []
 
     if (!this.components.length) {
-      this.components.push(DEFAULT_COMPONENTS)
+      this.components.push(...DEFAULT_COMPONENTS)
     }
 
     this.outputs = this.getOutputs(options, userConfig)
@@ -38,23 +44,34 @@ export class Config {
 
   private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
     const generatedSchema: OutputSchema = {}
+    const userConfigOutput = userConfig && userConfig.output
 
     if (options.output && options.output.length) {
       generatedSchema.path = options.output
     }
 
-    if (options.first && options.first.length) {
+    if (!userConfigOutput) {
       generatedSchema.groups = [
-        { first: true, patterns: options.first },
-        {}
+        { type: 'Dependencies', components: ['Dependency'] },
+        {} // everything else
       ]
     }
 
-    if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
+    if (options.first && options.first.length) {
+      generatedSchema.groups = [
+        {
+          first: true,
+          patterns: options.first
+        },
+        ...(generatedSchema.groups || [])
+      ]
+    }
+
+    if (Object.keys(generatedSchema).length || !userConfigOutput) {
       return this.array(generatedSchema)!
     }
 
-    return this.array(userConfig.output)!
+    return this.array(userConfigOutput)!
   }
 
   private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {

@@ -282,6 +282,9 @@ Object {
       "config.ts": Array [
         "Config",
       ],
+      "fs": Array [
+        "fs",
+      ],
       "logger.ts": Array [
         "debug",
         "info",
@@ -290,9 +293,6 @@ Object {
       ],
       "node_modules/nanomatch/index.js": Array [
         "nanomatch",
-      ],
-      "node_modules/recursive-readdir-synchronous/index.js": Array [
-        "readdir",
       ],
       "node_modules/resolve/index.js": Array [
         "sync",

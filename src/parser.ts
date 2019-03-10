@@ -1,4 +1,5 @@
 import * as path from 'path'
+import * as fs from 'fs'
 import * as nanomatch from 'nanomatch'
 import { EOL } from 'os'
 import {
@@ -13,7 +14,6 @@ import { sync as resolve } from 'resolve'
 import { debug, info, trace, warn } from './logger'
 import { Config } from './config'
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
-import * as readdir from 'recursive-readdir-synchronous'
 
 interface Imports {
   [file: string]: string[]
@@ -40,6 +40,7 @@ export class Parser {
   private config: Config
   private project: Project
   private sourceFiles = new Map<string, SourceFile>()
+  private sourceFolders: string[] = []
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
 
@@ -80,16 +81,43 @@ export class Parser {
     })
 
     info('Searching files...')
-    readdir(this.config.directory, [
-      this.shouldNotExclude.bind(this)
-    ])
-      .filter(this.shouldInclude.bind(this))
-      .forEach(fullPath => {
-        debug(`Adding ${fullPath}`)
+    this.getPaths().forEach(fullPath => {
+      trace(`Adding ${fullPath}`)
+      if (fullPath.endsWith('**')) {
+        this.sourceFolders.push(fullPath)
+      } else {
         this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
-      })
+      }
+    })
 
     this.project.resolveSourceFileDependencies()
+  }
+
+  private getPaths (directory = ''): string[] {
+    const root = path.join(this.config.directory, directory)
+
+    return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
+      const filePath = path.join(directory, fileName)
+
+      if (!this.shouldExclude(filePath)) {
+        const fullPath = path.join(root, fileName)
+        const stats = fs.statSync(fullPath)
+
+        if (stats.isFile()) {
+          if (this.shouldInclude(filePath)) {
+            suitablePaths.push(fullPath)
+          }
+        } else if (stats.isDirectory()) {
+          if (this.shouldInclude(filePath)) {
+            suitablePaths.push(path.join(fullPath, '**'))
+          } else {
+            suitablePaths.push(...this.getPaths(filePath))
+          }
+        }
+      }
+
+      return suitablePaths
+    }, [] as string[])
   }
 
   private cleanProject () {
@@ -101,16 +129,16 @@ export class Parser {
     this.tsResolve = undefined
     this.tsConfigFilePath = undefined
     this.sourceFiles.clear()
+    this.sourceFolders = []
   }
 
   private shouldInclude (filepath: string): boolean {
-    return !!nanomatch(path.relative(this.config.directory, filepath), this.config.patterns).length
+    return !!nanomatch(filepath, this.config.patterns).length
   }
 
-  private shouldNotExclude (filepath: string): boolean {
-    const relativePath = path.relative(this.config.directory, filepath)
-    return !!this.config.excludePatterns.length &&
-      !!nanomatch(relativePath, this.config.excludePatterns).length
+  private shouldExclude (filepath: string): boolean {
+    const patterns = this.config.excludePatterns
+    return !!patterns.length && !!nanomatch(filepath, patterns).length
   }
 
   parse (): Files {
@@ -118,6 +146,13 @@ export class Parser {
 
     info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
+
+    for (const fullPath of this.sourceFolders) {
+      files[fullPath] = {
+        exports: [],
+        imports: {}
+      }
+    }
 
     for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
       const filePath = path.relative(this.config.directory, fullPath)
@@ -202,14 +237,6 @@ export class Parser {
     }, {} as Imports)
   }
 
-  private addImportedFile (importedFile: SourceFile | undefined, imports: Imports): string[] | undefined {
-    if (importedFile) {
-      const filePath = path.relative(this.config.directory, importedFile.getFilePath())
-      if (!imports[filePath]) imports[filePath] = []
-      return imports[filePath]
-    }
-  }
-
   private getExports (sourceFile: SourceFile, statements: Statement[]): Exports {
     return statements.reduce((exports, statement) => {
       if (TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
@@ -251,11 +278,16 @@ export class Parser {
     const modulePath = this.getModulePath(moduleSpecifier, sourceFile)
 
     if (modulePath) {
-      if (!imports[modulePath]) {
-        imports[modulePath] = []
+      const folder = this.sourceFolders.find(
+        sourceFolder => nanomatch(modulePath, sourceFolder).length
+      )
+      const realModulePath = folder || modulePath
+
+      if (!imports[realModulePath]) {
+        imports[realModulePath] = []
       }
 
-      return imports[modulePath]
+      return imports[realModulePath]
     } else {
       trace('Import not found', sourceFile.getBaseName(), moduleSpecifier)
     }

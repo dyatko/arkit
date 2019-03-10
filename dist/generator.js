@@ -51,7 +51,7 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [''];
         const isLayer = layer !== generator_base_1.EMPTY_LAYER;
         if (isLayer)
-            puml.push(`rectangle "${layer}" {`);
+            puml.push(`package "${layer}" {`);
         for (const component of components) {
             const componentPuml = [
                 this.generatePlantUMLComponent(component, generator_base_1.Context.LAYER)
@@ -66,9 +66,13 @@ class Generator extends generator_base_1.GeneratorBase {
     }
     generatePlantUMLComponent(component, context) {
         const puml = [];
+        const isDirectory = component.filename.endsWith('**');
         const hasLayer = component.layer !== generator_base_1.EMPTY_LAYER;
         const safeName = component.name.replace(/[^\w]/g, '_');
-        if (hasLayer) {
+        if (isDirectory) {
+            puml.push(`[${component.name}]`);
+        }
+        else if (hasLayer) {
             puml.push(`(${component.name})`);
         }
         else {
@@ -146,21 +150,26 @@ skinparam shadowing false
 skinparam nodesep 20
 skinparam ranksep 20
 skinparam defaultFontName Tahoma
-skinparam defaultFontSize 14
+skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
 skinparam arrowThickness 0.7
 skinparam packageTitleAlignment left
 
-'oval
+' oval
 skinparam usecase {
   borderThickness 0.4
   fontSize 12
 }
 
-'rectangle
+' rectangle
 skinparam rectangle {
-  borderThickness 1
+  borderThickness 0.6
+}
+
+' component
+skinparam component {
+  borderThickness 0.6
 }
 `;
     }

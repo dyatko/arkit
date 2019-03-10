@@ -43,10 +43,11 @@ export class GeneratorBase {
 
   protected generateComponents (output: OutputSchema): Components {
     const components = Object.keys(this.files).reduce((components, filename) => {
-      const schema = this.findComponentSchema(output, filename)
+      const filepath = filename.endsWith('**') ? path.dirname(filename) : filename
+      const schema = this.findComponentSchema(output, filepath)
 
       if (schema) {
-        const name = this.getComponentName(filename, schema)
+        const name = this.getComponentName(filepath, schema)
 
         components.set(filename, {
           name,

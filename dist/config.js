@@ -2,10 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const logger_1 = require("./logger");
-const DEFAULT_COMPONENTS = {
-    type: 'Component',
-    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-};
+const DEFAULT_COMPONENTS = [
+    {
+        type: 'Component',
+        patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+    },
+    {
+        type: 'Dependency',
+        patterns: ['node_modules/*']
+    }
+];
 class Config {
     constructor(options) {
         this.patterns = [];
@@ -15,7 +21,7 @@ class Config {
         const userConfig = this.safeRequire(userConfigPath);
         this.components = this.array(userConfig && userConfig.components) || [];
         if (!this.components.length) {
-            this.components.push(DEFAULT_COMPONENTS);
+            this.components.push(...DEFAULT_COMPONENTS);
         }
         this.outputs = this.getOutputs(options, userConfig);
         this.excludePatterns = this.getExcludePatterns(options, userConfig);
@@ -27,19 +33,29 @@ class Config {
     }
     getOutputs(options, userConfig) {
         const generatedSchema = {};
+        const userConfigOutput = userConfig && userConfig.output;
         if (options.output && options.output.length) {
             generatedSchema.path = options.output;
         }
-        if (options.first && options.first.length) {
+        if (!userConfigOutput) {
             generatedSchema.groups = [
-                { first: true, patterns: options.first },
-                {}
+                { type: 'Dependencies', components: ['Dependency'] },
+                {} // everything else
             ];
         }
-        if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
+        if (options.first && options.first.length) {
+            generatedSchema.groups = [
+                {
+                    first: true,
+                    patterns: options.first
+                },
+                ...(generatedSchema.groups || [])
+            ];
+        }
+        if (Object.keys(generatedSchema).length || !userConfigOutput) {
             return this.array(generatedSchema);
         }
-        return this.array(userConfig.output);
+        return this.array(userConfigOutput);
     }
     getExcludePatterns(options, userConfig) {
         const excludePatterns = [];
