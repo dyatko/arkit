@@ -6,6 +6,10 @@
       "patterns": ["*.js"]
     },
     {
+      "type": "Shared",
+      "patterns": ["src/shared"]
+    },
+    {
       "type": "Component",
       "patterns": ["src/**/*.js"],
       "excludePatterns": ["**/__tests__/**", "**/*-test.js"]
@@ -40,11 +44,7 @@
         "patterns": ["src/server/**"]
       },
       {
-        "type": "Shared",
-        "patterns": ["src/shared/**"]
-      },
-      {
-        "components": ["Component", "Entry"]
+        "components": ["Component", "Entry", "Shared"]
       }
     ]
   }
