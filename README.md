@@ -1,13 +1,16 @@
-<img src="https://arkit.js.org/arkit.svg" alt="arkit" valign="top" /> `🇸🇪arkitektur`
+<p align="center">
+  <img src="https://arkit.js.org/arkit.svg" alt="arkit" valign="top" /> <code>🇸🇪arkitektur</code>
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/arkit"><img src="https://img.shields.io/npm/v/arkit.svg?label=%20&style=flat-square" alt="Arkit NPM package" /></a>
+  <a href="https://www.npmjs.com/arkit"><img src="https://img.shields.io/npm/dw/arkit.svg?style=flat-square" alt="Download arkit" /></a>
+  <a href="https://travis-ci.org/dyatko/arkit"><img src="https://img.shields.io/travis/dyatko/arkit.svg?style=flat-square" alt="Build status" /></a>
+  <a href="https://codeclimate.com/github/dyatko/arkit/code"><img src="https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square" alt="Test coverage" /></a>
+  <a href="https://codeclimate.com/github/dyatko/arkit/issues"><img src="https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square" alt="Technical debt" /></a>
+  <img src="https://img.shields.io/npm/types/arkit.svg?style=flat-square" alt="Typescript definitions" />
+</p>
 
 ## Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
-
-[![npm](https://img.shields.io/npm/v/arkit.svg?label=%20&style=flat-square)](https://www.npmjs.com/package/arkit)
-[![npm](https://img.shields.io/npm/dw/arkit.svg?style=flat-square)](https://www.npmjs.com/package/arkit)
-[![Travis](https://img.shields.io/travis/dyatko/arkit.svg?style=flat-square)](https://travis-ci.org/dyatko/arkit)
-[![Test coverage](https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/code)
-[![Technical debt](https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square)](https://codeclimate.com/github/dyatko/arkit/issues)
-![npm type definitions](https://img.shields.io/npm/types/arkit.svg?style=flat-square)
 
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
