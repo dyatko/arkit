@@ -166,12 +166,12 @@ skinparam usecase {
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.6
+  borderThickness 0.8
 }
 
 ' component
 skinparam component {
-  borderThickness 0.6
+  borderThickness 1.2
 }
 `;
     }

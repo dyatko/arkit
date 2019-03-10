@@ -37,7 +37,7 @@ npx arkit src/ -o arkit.svg
 npx arkit -f src/main.js -o puml
 
 # And get some more with debugging and file exclusions
-LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
+LEVEL=info npx arkit -e "node_modules,test,dist,coverage" -o puml
 ```
 
 If your project is huge and first diagrams look messy, it's better to generate them per feature, architectural layer, etc.

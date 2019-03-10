@@ -28,14 +28,6 @@
         "patterns": ["src/events/**/*Event.*"]
       },
       {
-        "type": "EventPlugins",
-        "patterns": ["src/events/**/*EventPlugin*"]
-      },
-      {
-        "type": "Events-related",
-        "patterns": ["src/events/**"]
-      },
-      {
         "type": "Client",
         "patterns": ["src/client/**"]
       },
