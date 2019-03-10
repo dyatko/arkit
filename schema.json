@@ -93,18 +93,11 @@
                     "description": "Direction, e.g. \"horizontal\", \"vertical\""
                 },
                 "groups": {
-                    "anyOf": [
-                        {
-                            "$ref": "https://arkit.js.org/schema.json#/definitions/GroupSchema"
-                        },
-                        {
-                            "items": {
-                                "$ref": "https://arkit.js.org/schema.json#/definitions/GroupSchema"
-                            },
-                            "type": "array"
-                        }
-                    ],
-                    "description": "Optional groups of components"
+                    "description": "Optional groups of components",
+                    "items": {
+                        "$ref": "https://arkit.js.org/schema.json#/definitions/GroupSchema"
+                    },
+                    "type": "array"
                 },
                 "path": {
                     "anyOf": [

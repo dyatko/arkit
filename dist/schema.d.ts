@@ -43,7 +43,7 @@ export interface OutputSchema {
     /** Output path or paths, e.g. ["architecture.puml", "architecture.svg"] */
     path?: string | string[];
     /** Optional groups of components */
-    groups?: GroupSchema | GroupSchema[];
+    groups?: GroupSchema[];
     /**
      * Direction, e.g. "horizontal", "vertical"
      * @default "vertical"

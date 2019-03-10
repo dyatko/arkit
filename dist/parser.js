@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const nanomatch = require("nanomatch");
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const resolve_1 = require("resolve");
 const logger_1 = require("./logger");
 const tsconfig_paths_1 = require("tsconfig-paths");
-const readdir = require("recursive-readdir-synchronous");
+const utils_1 = require("./utils");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
@@ -15,6 +14,7 @@ const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`
 class Parser {
     constructor(config) {
         this.sourceFiles = new Map();
+        this.sourceFolders = [];
         this.config = config;
     }
     resolveTsConfigPaths() {
@@ -28,7 +28,6 @@ class Parser {
         }
     }
     prepareProject() {
-        this.resolveTsConfigPaths();
         this.project = new ts_morph_1.Project({
             compilerOptions: {
                 target: ts_morph_1.ts.ScriptTarget.Latest,
@@ -41,13 +40,14 @@ class Parser {
             skipFileDependencyResolution: true
         });
         logger_1.info('Searching files...');
-        readdir(this.config.directory, [
-            this.shouldNotExclude.bind(this)
-        ])
-            .filter(this.shouldInclude.bind(this))
-            .forEach(fullPath => {
-            logger_1.debug(`Adding ${fullPath}`);
-            this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath));
+        utils_1.getPaths(this.config.directory, '', this.config.patterns, this.config.excludePatterns).forEach(fullPath => {
+            logger_1.trace(`Adding ${fullPath}`);
+            if (fullPath.endsWith('**')) {
+                this.sourceFolders.push(fullPath);
+            }
+            else {
+                this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath));
+            }
         });
         this.project.resolveSourceFileDependencies();
     }
@@ -59,19 +59,16 @@ class Parser {
         this.tsResolve = undefined;
         this.tsConfigFilePath = undefined;
         this.sourceFiles.clear();
-    }
-    shouldInclude(filepath) {
-        return !!nanomatch(path.relative(this.config.directory, filepath), this.config.patterns).length;
-    }
-    shouldNotExclude(filepath) {
-        const relativePath = path.relative(this.config.directory, filepath);
-        return !!this.config.excludePatterns.length &&
-            !!nanomatch(relativePath, this.config.excludePatterns).length;
+        this.sourceFolders = [];
     }
     parse() {
+        this.resolveTsConfigPaths();
         this.prepareProject();
         logger_1.info('Parsing', this.sourceFiles.size, 'files');
         const files = {};
+        for (const fullPath of this.sourceFolders) {
+            files[fullPath] = { exports: [], imports: {} };
+        }
         for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
             const filePath = path.relative(this.config.directory, fullPath);
             const statements = sourceFile.getStatements();
@@ -135,14 +132,6 @@ class Parser {
             return imports;
         }, {});
     }
-    addImportedFile(importedFile, imports) {
-        if (importedFile) {
-            const filePath = path.relative(this.config.directory, importedFile.getFilePath());
-            if (!imports[filePath])
-                imports[filePath] = [];
-            return imports[filePath];
-        }
-    }
     getExports(sourceFile, statements) {
         return statements.reduce((exports, statement) => {
             if (ts_morph_1.TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
@@ -182,10 +171,12 @@ class Parser {
     addModule(imports, moduleSpecifier, sourceFile) {
         const modulePath = this.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            if (!imports[modulePath]) {
-                imports[modulePath] = [];
+            const folder = utils_1.find(modulePath, this.sourceFolders);
+            const realModulePath = folder || modulePath;
+            if (!imports[realModulePath]) {
+                imports[realModulePath] = [];
             }
-            return imports[modulePath];
+            return imports[realModulePath];
         }
         else {
             logger_1.trace('Import not found', sourceFile.getBaseName(), moduleSpecifier);

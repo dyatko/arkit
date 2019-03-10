@@ -53,7 +53,7 @@ export interface OutputSchema {
   path?: string | string[]
 
   /** Optional groups of components */
-  groups?: GroupSchema | GroupSchema[]
+  groups?: GroupSchema[]
 
   /**
    * Direction, e.g. "horizontal", "vertical"

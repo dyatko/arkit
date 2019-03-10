@@ -1,11 +1,11 @@
 {
   "name": "arkit",
-  "version": "1.2.9",
+  "version": "1.3.0",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
   "scripts": {
-    "architecture": "./index.js -o dist/arkit.png src/",
+    "architecture": "./index.js -o dist/arkit.png -f src/arkit.ts",
     "compile": "tsc --project .",
     "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://arkit.js.org/schema.json' -o schema.json",
     "build": "npm run compile && npm run build-schema",
@@ -55,7 +55,6 @@
     "nanomatch": "^1.2.13",
     "pino": "^5.11.1",
     "pino-pretty": "^2.5.0",
-    "recursive-readdir-synchronous": "0.0.4",
     "resolve": "^1.10.0",
     "ts-morph": "^1.3.0",
     "tsconfig-paths": "^3.8.0",

@@ -12,6 +12,12 @@ Config {
       ],
       "type": "Component",
     },
+    Object {
+      "patterns": Array [
+        "node_modules/*",
+      ],
+      "type": "Dependency",
+    },
   ],
   "excludePatterns": Array [],
   "extensions": Array [
@@ -21,13 +27,25 @@ Config {
     ".tsx",
   ],
   "outputs": Array [
-    Object {},
+    Object {
+      "groups": Array [
+        Object {
+          "components": Array [
+            "Dependency",
+          ],
+          "type": "Dependencies",
+        },
+        Object {},
+      ],
+      "path": undefined,
+    },
   ],
   "patterns": Array [
     "**/*.ts",
     "**/*.js",
     "**/*.jsx",
     "**/*.tsx",
+    "node_modules/*",
   ],
 }
 `;
@@ -43,6 +61,12 @@ Config {
         "**/*.tsx",
       ],
       "type": "Component",
+    },
+    Object {
+      "patterns": Array [
+        "node_modules/*",
+      ],
+      "type": "Dependency",
     },
   ],
   "excludePatterns": Array [],
@@ -64,6 +88,7 @@ Config {
     "**/*.js",
     "**/*.jsx",
     "**/*.tsx",
+    "node_modules/*",
   ],
 }
 `;

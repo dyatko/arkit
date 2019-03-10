@@ -8,30 +8,35 @@ skinparam shadowing false
 skinparam nodesep 20
 skinparam ranksep 20
 skinparam defaultFontName Tahoma
-skinparam defaultFontSize 14
+skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
 skinparam arrowThickness 0.7
 skinparam packageTitleAlignment left
 
-'oval
+' oval
 skinparam usecase {
   borderThickness 0.4
   fontSize 12
 }
 
-'rectangle
+' rectangle
 skinparam rectangle {
-  borderThickness 1
+  borderThickness 0.6
+}
+
+' component
+skinparam component {
+  borderThickness 0.6
 }
 
 
-rectangle "Main" {
+package "Main" {
   (main.view)
   (singleton)
 }
 
-rectangle "Base" {
+package "Base" {
   (base.component)
   (component)
   (model)

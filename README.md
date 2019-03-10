@@ -40,8 +40,9 @@ npx arkit -f src/main.js -o puml
 LEVEL=info npx arkit -o puml -e "node_modules/,test,dist,coverage"
 ```
 
-First results might look messy since it's better to generate diagrams per feature, architectural layer, etc.
-As you satisfied with results, add arkit command to your build script, so it will keep your architecture diagrams up-to-date.
+If your project is huge and first diagrams look messy, it's better to generate them per feature, architectural layer, etc.
+
+Once you satisfied with results, add arkit command to your build script, so it will keep your architecture diagrams up-to-date.
 
 ## Configuration
 
@@ -57,7 +58,7 @@ Options:
   -o, --output     Output type or file path to save
   -f, --first      File patterns to start with                          [string]
   -e, --exclude    File patterns to exclude
-                    [default: "node_modules,test,tests,**/*.test.*,**/*.spec.*"]
+        [default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"]
   -d, --directory  Working directory                              [default: "."]
   -h, --help       Show help                                           [boolean]
   -v, --version    Show version number                                 [boolean]
@@ -70,14 +71,29 @@ Options:
   "$schema": "https://arkit.js.org/schema.json",
   "components": [
     {
-        "type": "Component",
-        "patterns": ["**/*.ts", "**/*.tsx"]
+      "type": "Component",
+      "patterns": ["**/*.ts", "**/*.tsx"]
+    },
+    {
+      "type": "Dependency",
+      "patterns": ["node_modules/*"]
     }
   ],
-  "excludePatterns": ["node_modules/**", "test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
-  "output": {
-    "path": "arkit.svg"
-  }
+  "excludePatterns": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
+  "output": [
+    {
+      "path": "arkit.svg",
+      "groups": [
+        {
+          "components": ["Component"]
+        },
+        {
+          "type": "Dependencies",
+          "components": ["Dependency"]
+        }
+      ]
+    }
+  ]
 }
 ```
 

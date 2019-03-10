@@ -1,11 +1,17 @@
 import * as path from 'path'
-import { trace } from './logger'
 import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
+import { array, safeRequire } from './utils'
 
-const DEFAULT_COMPONENTS: ComponentSchema = {
-  type: 'Component',
-  patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-}
+const DEFAULT_COMPONENTS: ComponentSchema[] = [
+  {
+    type: 'Component',
+    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+  },
+  {
+    type: 'Dependency',
+    patterns: ['node_modules/*']
+  }
+]
 
 export class Config {
   directory: string
@@ -18,12 +24,12 @@ export class Config {
   constructor (options: Options) {
     this.directory = options.directory
     const userConfigPath = path.resolve(this.directory, 'arkit')
-    const userConfig = this.safeRequire<ConfigSchema>(userConfigPath)
+    const userConfig = safeRequire<ConfigSchema>(userConfigPath)
 
-    this.components = this.array(userConfig && userConfig.components) || []
+    this.components = array(userConfig && userConfig.components) || []
 
     if (!this.components.length) {
-      this.components.push(DEFAULT_COMPONENTS)
+      this.components.push(...DEFAULT_COMPONENTS)
     }
 
     this.outputs = this.getOutputs(options, userConfig)
@@ -37,24 +43,30 @@ export class Config {
   }
 
   private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
-    const generatedSchema: OutputSchema = {}
+    const userConfigOutput = userConfig && userConfig.output
+    const outputOption = options.output && options.output.length ? options.output : undefined
+    const firstOption = options.first && options.first.length ? options.first : undefined
+    const shouldGenerateOutput = outputOption || firstOption || !userConfigOutput
 
-    if (options.output && options.output.length) {
-      generatedSchema.path = options.output
+    if (!shouldGenerateOutput) {
+      return array(userConfigOutput)!
     }
 
-    if (options.first && options.first.length) {
-      generatedSchema.groups = [
-        { first: true, patterns: options.first },
-        {}
-      ]
-    }
+    const firstGroup = firstOption ? [{
+      first: true,
+      patterns: firstOption
+    }] : []
 
-    if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
-      return this.array(generatedSchema)!
-    }
-
-    return this.array(userConfig.output)!
+    return [
+      {
+        path: outputOption,
+        groups: [
+          ...firstGroup,
+          { type: 'Dependencies', components: ['Dependency'] },
+          {} // everything else
+        ]
+      }
+    ]
   }
 
   private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {
@@ -75,19 +87,5 @@ export class Config {
     }
 
     return excludePatterns
-  }
-
-  safeRequire<T> (path: string): T | undefined {
-    try {
-      return require(path)
-    } catch (e) {
-      trace(e.toString())
-    }
-  }
-
-  array<T> (input?: T | T[]): T[] | undefined {
-    if (input) {
-      return ([] as T[]).concat(input)
-    }
   }
 }

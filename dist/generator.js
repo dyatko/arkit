@@ -6,6 +6,8 @@ const https = require("https");
 const schema_1 = require("./schema");
 const logger_1 = require("./logger");
 const generator_base_1 = require("./generator.base");
+const utils_1 = require("./utils");
+const types_1 = require("./types");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
         super(...arguments);
@@ -18,7 +20,7 @@ class Generator extends generator_base_1.GeneratorBase {
 
 ' View and edit on https://arkit.herokuapp.com`;
             if (output.path && output.path.length) {
-                for (const outputPath of this.config.array(output.path)) {
+                for (const outputPath of utils_1.array(output.path)) {
                     promises.push(this.convert(outputPath, puml));
                 }
             }
@@ -49,12 +51,12 @@ class Generator extends generator_base_1.GeneratorBase {
         if (!components.size)
             return '';
         const puml = [''];
-        const isLayer = layer !== generator_base_1.EMPTY_LAYER;
+        const isLayer = layer !== types_1.EMPTY_LAYER;
         if (isLayer)
-            puml.push(`rectangle "${layer}" {`);
+            puml.push(`package "${layer}" {`);
         for (const component of components) {
             const componentPuml = [
-                this.generatePlantUMLComponent(component, generator_base_1.Context.LAYER)
+                this.generatePlantUMLComponent(component, types_1.Context.LAYER)
             ];
             if (isLayer)
                 componentPuml.unshift('  ');
@@ -66,13 +68,17 @@ class Generator extends generator_base_1.GeneratorBase {
     }
     generatePlantUMLComponent(component, context) {
         const puml = [];
-        const hasLayer = component.layer !== generator_base_1.EMPTY_LAYER;
+        const isDirectory = component.filename.endsWith('**');
+        const hasLayer = component.layer !== types_1.EMPTY_LAYER;
         const safeName = component.name.replace(/[^\w]/g, '_');
-        if (hasLayer) {
+        if (isDirectory) {
+            puml.push(`[${component.name}]`);
+        }
+        else if (hasLayer) {
             puml.push(`(${component.name})`);
         }
         else {
-            if (context === generator_base_1.Context.RELATIONSHIP) {
+            if (context === types_1.Context.RELATIONSHIP) {
                 puml.push(safeName);
             }
             else {
@@ -98,9 +104,9 @@ class Generator extends generator_base_1.GeneratorBase {
                     const connectionSign = this.getConnectionSign(component, importedComponent);
                     const connection = connectionSign.repeat(connectionLength) + '>';
                     const relationshipUML = [
-                        this.generatePlantUMLComponent(component, generator_base_1.Context.RELATIONSHIP),
+                        this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
                         connection,
-                        this.generatePlantUMLComponent(importedComponent, generator_base_1.Context.RELATIONSHIP)
+                        this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
                     ];
                     puml.push(relationshipUML.join(' '));
                 }
@@ -117,7 +123,7 @@ class Generator extends generator_base_1.GeneratorBase {
     getConnectionSign(component, importedComponent) {
         if (!component.isImported)
             return '=';
-        if (component.layer === importedComponent.layer && component.layer !== generator_base_1.EMPTY_LAYER)
+        if (component.layer === importedComponent.layer && component.layer !== types_1.EMPTY_LAYER)
             return '.';
         return '-';
     }
@@ -146,21 +152,26 @@ skinparam shadowing false
 skinparam nodesep 20
 skinparam ranksep 20
 skinparam defaultFontName Tahoma
-skinparam defaultFontSize 14
+skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
 skinparam arrowThickness 0.7
 skinparam packageTitleAlignment left
 
-'oval
+' oval
 skinparam usecase {
   borderThickness 0.4
   fontSize 12
 }
 
-'rectangle
+' rectangle
 skinparam rectangle {
-  borderThickness 1
+  borderThickness 0.6
+}
+
+' component
+skinparam component {
+  borderThickness 0.6
 }
 `;
     }

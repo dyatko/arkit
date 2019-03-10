@@ -1,35 +1,20 @@
 import * as path from 'path'
-import * as nanomatch from 'nanomatch'
 import { EOL } from 'os'
 import {
   ExportDeclarationStructure,
   ImportDeclarationStructure,
   Project,
   SourceFile,
-  Statement, ts,
+  Statement,
+  ts,
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
 import { debug, info, trace, warn } from './logger'
 import { Config } from './config'
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
-import * as readdir from 'recursive-readdir-synchronous'
-
-interface Imports {
-  [file: string]: string[]
-}
-
-interface Exports extends Array<string> {
-}
-
-export interface File {
-  imports: Imports
-  exports: Exports
-}
-
-export interface Files {
-  [file: string]: File
-}
+import { find, getPaths } from './utils'
+import { Exports, Files, Imports } from './types'
 
 const QUOTES = `(?:'|")`
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`
@@ -40,6 +25,7 @@ export class Parser {
   private config: Config
   private project: Project
   private sourceFiles = new Map<string, SourceFile>()
+  private sourceFolders: string[] = []
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
 
@@ -65,8 +51,6 @@ export class Parser {
   }
 
   private prepareProject () {
-    this.resolveTsConfigPaths()
-
     this.project = new Project({
       compilerOptions: {
         target: ts.ScriptTarget.Latest,
@@ -80,14 +64,19 @@ export class Parser {
     })
 
     info('Searching files...')
-    readdir(this.config.directory, [
-      this.shouldNotExclude.bind(this)
-    ])
-      .filter(this.shouldInclude.bind(this))
-      .forEach(fullPath => {
-        debug(`Adding ${fullPath}`)
+    getPaths(
+      this.config.directory,
+      '',
+      this.config.patterns,
+      this.config.excludePatterns
+    ).forEach(fullPath => {
+      trace(`Adding ${fullPath}`)
+      if (fullPath.endsWith('**')) {
+        this.sourceFolders.push(fullPath)
+      } else {
         this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
-      })
+      }
+    })
 
     this.project.resolveSourceFileDependencies()
   }
@@ -101,23 +90,19 @@ export class Parser {
     this.tsResolve = undefined
     this.tsConfigFilePath = undefined
     this.sourceFiles.clear()
-  }
-
-  private shouldInclude (filepath: string): boolean {
-    return !!nanomatch(path.relative(this.config.directory, filepath), this.config.patterns).length
-  }
-
-  private shouldNotExclude (filepath: string): boolean {
-    const relativePath = path.relative(this.config.directory, filepath)
-    return !!this.config.excludePatterns.length &&
-      !!nanomatch(relativePath, this.config.excludePatterns).length
+    this.sourceFolders = []
   }
 
   parse (): Files {
+    this.resolveTsConfigPaths()
     this.prepareProject()
 
     info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
+
+    for (const fullPath of this.sourceFolders) {
+      files[fullPath] = { exports: [], imports: {} }
+    }
 
     for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
       const filePath = path.relative(this.config.directory, fullPath)
@@ -202,14 +187,6 @@ export class Parser {
     }, {} as Imports)
   }
 
-  private addImportedFile (importedFile: SourceFile | undefined, imports: Imports): string[] | undefined {
-    if (importedFile) {
-      const filePath = path.relative(this.config.directory, importedFile.getFilePath())
-      if (!imports[filePath]) imports[filePath] = []
-      return imports[filePath]
-    }
-  }
-
   private getExports (sourceFile: SourceFile, statements: Statement[]): Exports {
     return statements.reduce((exports, statement) => {
       if (TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
@@ -251,11 +228,14 @@ export class Parser {
     const modulePath = this.getModulePath(moduleSpecifier, sourceFile)
 
     if (modulePath) {
-      if (!imports[modulePath]) {
-        imports[modulePath] = []
+      const folder = find(modulePath, this.sourceFolders)
+      const realModulePath = folder || modulePath
+
+      if (!imports[realModulePath]) {
+        imports[realModulePath] = []
       }
 
-      return imports[modulePath]
+      return imports[realModulePath]
     } else {
       trace('Import not found', sourceFile.getBaseName(), moduleSpecifier)
     }

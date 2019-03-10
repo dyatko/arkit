@@ -1,21 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const logger_1 = require("./logger");
-const DEFAULT_COMPONENTS = {
-    type: 'Component',
-    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-};
+const utils_1 = require("./utils");
+const DEFAULT_COMPONENTS = [
+    {
+        type: 'Component',
+        patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
+    },
+    {
+        type: 'Dependency',
+        patterns: ['node_modules/*']
+    }
+];
 class Config {
     constructor(options) {
         this.patterns = [];
         this.extensions = ['.js', '.ts', '.jsx', '.tsx'];
         this.directory = options.directory;
         const userConfigPath = path.resolve(this.directory, 'arkit');
-        const userConfig = this.safeRequire(userConfigPath);
-        this.components = this.array(userConfig && userConfig.components) || [];
+        const userConfig = utils_1.safeRequire(userConfigPath);
+        this.components = utils_1.array(userConfig && userConfig.components) || [];
         if (!this.components.length) {
-            this.components.push(DEFAULT_COMPONENTS);
+            this.components.push(...DEFAULT_COMPONENTS);
         }
         this.outputs = this.getOutputs(options, userConfig);
         this.excludePatterns = this.getExcludePatterns(options, userConfig);
@@ -26,20 +32,27 @@ class Config {
         }
     }
     getOutputs(options, userConfig) {
-        const generatedSchema = {};
-        if (options.output && options.output.length) {
-            generatedSchema.path = options.output;
+        const userConfigOutput = userConfig && userConfig.output;
+        const outputOption = options.output && options.output.length ? options.output : undefined;
+        const firstOption = options.first && options.first.length ? options.first : undefined;
+        const shouldGenerateOutput = outputOption || firstOption || !userConfigOutput;
+        if (!shouldGenerateOutput) {
+            return utils_1.array(userConfigOutput);
         }
-        if (options.first && options.first.length) {
-            generatedSchema.groups = [
-                { first: true, patterns: options.first },
-                {}
-            ];
-        }
-        if (Object.keys(generatedSchema).length || !userConfig || !userConfig.output) {
-            return this.array(generatedSchema);
-        }
-        return this.array(userConfig.output);
+        const firstGroup = firstOption ? [{
+                first: true,
+                patterns: firstOption
+            }] : [];
+        return [
+            {
+                path: outputOption,
+                groups: [
+                    ...firstGroup,
+                    { type: 'Dependencies', components: ['Dependency'] },
+                    {} // everything else
+                ]
+            }
+        ];
     }
     getExcludePatterns(options, userConfig) {
         const excludePatterns = [];
@@ -55,19 +68,6 @@ class Config {
             }
         }
         return excludePatterns;
-    }
-    safeRequire(path) {
-        try {
-            return require(path);
-        }
-        catch (e) {
-            logger_1.trace(e.toString());
-        }
-    }
-    array(input) {
-        if (input) {
-            return [].concat(input);
-        }
     }
 }
 exports.Config = Config;
