@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/npm/types/arkit.svg?style=flat-square" alt="Typescript definitions" />
 </p>
 
-## Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
+# Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
 - Supports JavaScript, Node.js, TypeScript and Flow code
 - Identifies, connects and groups configured architectural components
@@ -18,7 +18,7 @@
 - Exports codebase visualisation as SVG, PNG or Plant UML diagram
 - Integrates into development flow, so your CI, VCS, README and PRs are happy
 
-### Usage
+## Usage
 
 ```sh
 # Run arkit straight away
@@ -45,7 +45,7 @@ As you satisfied with results, add arkit command to your build script, so it wil
 
 ---
 
-### Configuration
+## Configuration
 
 Arkit can be configured using basic CLI arguments or advanced JSON, JS module or package.json configuration.
 
@@ -87,7 +87,7 @@ Options:
 
 ---
 
-### Real-world examples
+## Real-world examples
 
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
@@ -98,7 +98,13 @@ Options:
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
 ![ReactDOM architecture diagram](https://arkit.js.org/test/react-dom/arkit.svg)
 
-### Stargazers map
-[Give a star](https://github.com/dyatko/arkit) to get on the map.
+## Contribution
 
-<img src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image" alt="GitHub stargazer map" height="320" align="center" />
+The tool is under active development, so please feel free to contribute with suggestions and pull requests. Your feedback is priceless.
+
+#### Fun stats, stargazers map
+
+<p align="center">
+    <img src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image" alt="GitHub stargazer map" height="320" /><br />
+    <a href="https://github.com/dyatko/arkit">Give a Github star</a> to get on the map.
+</p>
