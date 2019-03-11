@@ -137,10 +137,7 @@ class Parser {
                 if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        exports = [
-                            ...exports,
-                            structure.declarations.map(declaration => declaration.name)
-                        ];
+                        exports.push(...structure.declarations.map(declaration => declaration.name));
                     }
                     catch (e) {
                         utils_1.warn(e);
@@ -150,10 +147,22 @@ class Parser {
                 else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isClassDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isEnumDeclaration(statement) ||
-                    ts_morph_1.TypeGuards.isFunctionDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isTypeAliasDeclaration(statement)) {
                     try {
-                        utils_1.trace('EXPORT', sourceFile.getBaseName(), statement.getStructure());
+                        const structure = statement.getStructure();
+                        if (structure.name) {
+                            exports.push(structure.name);
+                        }
+                    }
+                    catch (e) {
+                        utils_1.warn(e);
+                        utils_1.warn(statement.getText());
+                    }
+                }
+                else if (ts_morph_1.TypeGuards.isFunctionDeclaration(statement)) {
+                    try {
+                        const structure = statement.getStructure();
+                        utils_1.trace('EXPORT', sourceFile.getBaseName(), structure);
                     }
                     catch (e) {
                         utils_1.warn(e);

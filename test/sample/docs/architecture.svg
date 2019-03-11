@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="290px" preserveAspectRatio="none" style="width:218px;height:290px;" version="1.1" viewBox="0 0 218 290" width="218px" zoomAndPan="magnify"><defs/><g><!--entity _base_component--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="112" x="6" y="170"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="92" x="16" y="192.0059">base.component</text><!--entity _component--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="83" x="39.5" y="116"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="49.5" y="138.0059">component</text><!--entity _main_ts--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="65" x="84.5" y="8"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="94.5" y="30.0059">main.ts</text><!--entity _main_view--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="74" x="80" y="62"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="90" y="84.0059">main.view</text><!--entity _model--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="53" x="146.5" y="245"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="33" x="156.5" y="267.0059">model</text><!--entity _singleton--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="69" x="138.5" y="170"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="49" x="148.5" y="192.0059">singleton</text><!--link _component to _base_component--><path d="M74.9883,150.0859 C73.3249,154.8135 71.4958,160.012 69.7486,164.9777 " fill="none" id="_component-_base_component" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="68.0378,169.8399,74.7984,162.6779,69.6975,165.1234,67.252,160.0224,68.0378,169.8399" style="stroke: #383838; stroke-width: 0.7;"/><!--link _main_ts to _main_view--><path d="M117,42.0859 C117,46.715 117,51.7956 117,56.6671 " fill="none" id="_main_ts-_main_view" style="stroke: #383838; stroke-width: 2.0;"/><polygon fill="#383838" points="117,61.8399,121,52.8399,117,56.8399,113,52.8399,117,61.8399" style="stroke: #383838; stroke-width: 2.0;"/><!--link _main_view to _component--><path d="M105.6094,96.0859 C102.3264,101.0105 98.7027,106.446 95.2685,111.5972 " fill="none" id="_main_view-_component" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="92.4401,115.8399,100.7605,110.5701,95.2135,111.6796,94.104,106.1326,92.4401,115.8399" style="stroke: #383838; stroke-width: 0.7;"/><!--link _main_view to _singleton--><path d="M125.9974,96.3521 C135.672,115.0102 151.0774,144.7207 161.5951,165.0048 " fill="none" id="_main_view-_singleton" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="164.025,169.691,163.433,159.8599,161.7233,165.2523,156.331,163.5426,164.025,169.691" style="stroke: #383838; stroke-width: 0.7;"/><!--link _singleton to _model--><path d="M173,204.0187 C173,214.5877 173,228.2879 173,239.7171 " fill="none" id="_singleton-_model" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="173,244.7891,177,235.7891,173,239.7891,169,235.7891,173,244.7891" style="stroke: #383838; stroke-width: 0.7;"/><script type="text/plantuml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="269px" preserveAspectRatio="none" style="width:235px;height:269px;" version="1.1" viewBox="0 0 235 269" width="235px" zoomAndPan="magnify"><defs/><g><ellipse cx="67.5426" cy="168.7085" fill="#F8F8F8" rx="61.5426" ry="14.7085" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="92" x="21.5426" y="172.4507">base.component</text><!--entity _component--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.6;" width="83" x="49" y="100"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="59" y="122.0059">component</text><ellipse cx="126.3198" cy="21.242" fill="#F8F8F8" rx="34.8198" ry="13.242" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="103.8198" y="24.9842">main.ts</text><ellipse cx="126.6838" cy="67.242" fill="#F8F8F8" rx="41.1838" ry="13.242" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="99.6838" y="70.9842">main.view</text><!--entity _model--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.6;" width="53" x="160" y="224"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="33" x="170" y="246.0059">model</text><ellipse cx="186.6482" cy="168.742" fill="#F8F8F8" rx="37.6482" ry="13.242" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="49" x="162.1482" y="172.4842">singleton</text><!--link _component to base.component--><path d="M82.8413,134.1488 C80.6851,138.9767 78.3254,144.2605 76.1173,149.2048 " fill="none" id="_component-base.component" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="73.9728,154.0066,81.2952,147.42,76.0117,149.4412,73.9905,144.1578,73.9728,154.0066" style="stroke: #383838; stroke-width: 0.6;"/><!--link <b>main.ts</b> to main.view--><path d="M126.5,34.0587 C126.5,38.5842 126.5,43.7455 126.5,48.6183 " fill="none" id="&lt;b&gt;main.ts&lt;/b&gt;-main.view" style="stroke: #383838; stroke-width: 1.0;"/><polygon fill="#383838" points="126.5,53.7489,130.5,44.7489,126.5,48.7489,122.5,44.7489,126.5,53.7489" style="stroke: #383838; stroke-width: 1.0;"/><!--link main.view to _component--><path d="M117.2291,79.8762 C113.8437,84.5782 109.9148,90.035 106.1284,95.2939 " fill="none" id="main.view-_component" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="102.9963,99.644,111.5011,94.6772,105.9177,95.5863,105.0087,90.0029,102.9963,99.644" style="stroke: #383838; stroke-width: 0.6;"/><!--link main.view to singleton--><path d="M134.099,79.855 C144.8288,98.0062 164.4408,131.1832 176.3901,151.3975 " fill="none" id="main.view-singleton" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="178.9627,155.7493,177.826,145.9663,176.4183,151.4451,170.9394,150.0374,178.9627,155.7493" style="stroke: #383838; stroke-width: 0.6;"/><!--link singleton to _model--><path d="M186.5,181.7976 C186.5,192.1707 186.5,206.8034 186.5,218.9257 " fill="none" id="singleton-_model" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="186.5,223.9476,190.5,214.9476,186.5,218.9476,182.5,214.9476,186.5,223.9476" style="stroke: #383838; stroke-width: 0.6;"/><script type="text/plantuml"><![CDATA[
 @startuml
 
 scale max 1920 width
@@ -12,35 +12,34 @@ skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.7
+skinparam arrowThickness 0.6
 skinparam packageTitleAlignment left
 
 skinparam usecase {
-  borderThickness 0.4
-  fontSize 12
+  borderThickness 0.6
 }
 
 skinparam rectangle {
-  borderThickness 0.8
+  borderThickness 0.6
 }
 
 skinparam component {
-  borderThickness 1.2
+  borderThickness 1
 }
 
 
-rectangle "base.component" as _base_component
+(base.component)
 rectangle "component" as _component
-rectangle "<b>main.ts</b>" as _main_ts
-rectangle "main.view" as _main_view
+(<b>main.ts</b>)
+(main.view)
 rectangle "model" as _model
-rectangle "singleton" as _singleton
+(singleton)
 
-_component --> _base_component
-_main_ts ==> _main_view
-_main_view --> _component
-_main_view ---> _singleton
-_singleton ---> _model
+_component --> (base.component)
+(<b>main.ts</b>) --[thickness=1]> (main.view)
+(main.view) --> _component
+(main.view) ---> (singleton)
+(singleton) ---> _model
 
 @enduml
 

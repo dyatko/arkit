@@ -11,23 +11,22 @@ skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.7
+skinparam arrowThickness 0.6
 skinparam packageTitleAlignment left
 
 ' oval
 skinparam usecase {
-  borderThickness 0.4
-  fontSize 12
+  borderThickness 0.6
 }
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.8
+  borderThickness 0.6
 }
 
 ' component
 skinparam component {
-  borderThickness 1.2
+  borderThickness 1
 }
 
 
@@ -38,17 +37,17 @@ package "Main" {
 
 package "Base" {
   (base.component)
-  (component)
-  (model)
+  rectangle "component" as _component
+  rectangle "model" as _model
 }
 
-rectangle "<b>main.ts</b>" as _main_ts
+(<b>main.ts</b>)
 
-(component) ..> (base.component)
-_main_ts ==> (main.view)
-(main.view) --> (component)
+_component ..> (base.component)
+(<b>main.ts</b>) --[thickness=1]> (main.view)
+(main.view) --> _component
 (main.view) ...> (singleton)
-(singleton) ---> (model)
+(singleton) ---> _model
 
 @enduml
 

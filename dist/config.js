@@ -52,7 +52,7 @@ class Config {
             { type: 'Dependencies', components: ['Dependency'] },
             {} // everything else
         ];
-        return userConfigOutput.map(output => (Object.assign({}, output, { path: output.path || outputOption, groups: output.groups || generatedGroups })));
+        return userConfigOutput.map(output => (Object.assign({}, output, { path: outputOption || output.path, groups: output.groups || generatedGroups })));
     }
     getExcludePatterns(options, userConfig) {
         const excludePatterns = [];

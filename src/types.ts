@@ -22,6 +22,7 @@ export interface Component {
   imports: string[]
   layer: string | typeof EMPTY_LAYER
   isImported: boolean
+  isClass: boolean
   first?: boolean
   last?: boolean
 }

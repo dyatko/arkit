@@ -67,7 +67,7 @@ export class Config implements ConfigBase {
 
     return userConfigOutput.map(output => ({
       ...output,
-      path: output.path || outputOption,
+      path: outputOption || output.path,
       groups: output.groups || generatedGroups
     }))
   }

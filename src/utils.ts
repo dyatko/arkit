@@ -77,3 +77,7 @@ export const verifyComponentFilters = (
 
   return matchesPatterns && matchesComponents
 }
+
+export const bold = (str: string): string => {
+  return `<b>${str}</b>`
+}

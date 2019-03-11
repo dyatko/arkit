@@ -1,9 +1,10 @@
 dist: xenial
 language: node_js
 node_js:
-  - "8.15.0"
+  - "10"
 cache:
   directories:
+    - node_modules
     - "$HOME/.npm"
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter

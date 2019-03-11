@@ -32,14 +32,18 @@ export class GeneratorBase {
 
       if (schema) {
         const name = this.getComponentName(filepath, schema)
+        const file = this.files[filename]
+        const imports = Object.keys(file.imports)
+        const isClass = file.exports.some(exp => !!exp.match(/^[A-Z]/))
 
         components.set(filename, {
           name,
           filename,
+          imports,
+          isClass,
           isImported: false,
           type: schema.type,
-          layer: EMPTY_LAYER,
-          imports: Object.keys(this.files[filename].imports)
+          layer: EMPTY_LAYER
         })
       }
 

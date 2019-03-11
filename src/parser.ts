@@ -192,10 +192,9 @@ export class Parser {
           try {
             const structure = statement.getStructure()
 
-            exports = [
-              ...exports,
-              structure.declarations.map(declaration => declaration.name)
-            ]
+            exports.push(
+              ...structure.declarations.map(declaration => declaration.name)
+            )
           } catch (e) {
             warn(e)
             warn(statement.getText())
@@ -204,11 +203,22 @@ export class Parser {
           TypeGuards.isInterfaceDeclaration(statement) ||
           TypeGuards.isClassDeclaration(statement) ||
           TypeGuards.isEnumDeclaration(statement) ||
-          TypeGuards.isFunctionDeclaration(statement) ||
           TypeGuards.isTypeAliasDeclaration(statement)
         ) {
           try {
-            trace('EXPORT', sourceFile.getBaseName(), statement.getStructure())
+            const structure = statement.getStructure()
+
+            if (structure.name) {
+              exports.push(structure.name)
+            }
+          } catch (e) {
+            warn(e)
+            warn(statement.getText())
+          }
+        } else if (TypeGuards.isFunctionDeclaration(statement)) {
+          try {
+            const structure = statement.getStructure()
+            trace('EXPORT', sourceFile.getBaseName(), structure)
           } catch (e) {
             warn(e)
             warn(statement.getText())

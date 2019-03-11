@@ -24,8 +24,8 @@
         "patterns":  ["index.js", "server.js"]
       },
       {
-        "type": "Event",
-        "patterns": ["src/events/**/*Event.*"]
+        "type": "Events",
+        "patterns": ["src/events/**"]
       },
       {
         "type": "Client",
