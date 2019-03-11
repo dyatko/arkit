@@ -89,7 +89,12 @@ class Generator extends generator_base_1.GeneratorBase {
                 puml.push(safeName);
             }
             else {
-                puml.push('rectangle "');
+                if (component.isClass) {
+                    puml.push('rectangle "');
+                }
+                else {
+                    puml.push('() "');
+                }
                 if (!component.isImported)
                     puml.push('<b>');
                 puml.push(name);

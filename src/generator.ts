@@ -101,7 +101,11 @@ export class Generator extends GeneratorBase {
       if (context === Context.RELATIONSHIP) {
         puml.push(safeName)
       } else {
-        puml.push('rectangle "')
+        if (component.isClass) {
+          puml.push('rectangle "')
+        } else {
+          puml.push('() "')
+        }
         if (!component.isImported) puml.push('<b>')
         puml.push(name)
         if (!component.isImported) puml.push('</b>')

@@ -3,7 +3,9 @@
 exports[`Parser Angular2 Todo 1`] = `
 Object {
   "app/components/app/app.component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "AppComponent",
+    ],
     "imports": Object {
       "app/components/app/app.template.html": Array [
         "template",
@@ -21,7 +23,9 @@ Object {
     },
   },
   "app/components/todo-footer/todo-footer.component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoFooterComponent",
+    ],
     "imports": Object {
       "app/components/todo-footer/todo-footer.template.html": Array [
         "template",
@@ -32,7 +36,9 @@ Object {
     },
   },
   "app/components/todo-header/todo-header.component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoHeaderComponent",
+    ],
     "imports": Object {
       "app/components/todo-header/todo-header.template.html": Array [
         "template",
@@ -43,7 +49,9 @@ Object {
     },
   },
   "app/components/todo-item/todo-item.component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoItemComponent",
+    ],
     "imports": Object {
       "app/components/todo-item/todo-item.template.html": Array [
         "template",
@@ -51,7 +59,9 @@ Object {
     },
   },
   "app/components/todo-list/todo-list.component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoListComponent",
+    ],
     "imports": Object {
       "app/components/todo-list/todo-list.template.html": Array [
         "template",
@@ -71,7 +81,9 @@ Object {
     },
   },
   "app/main.module.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "MainModule",
+    ],
     "imports": Object {
       "app/components/index.js": Array [
         "AppComponent",
@@ -92,7 +104,9 @@ Object {
     },
   },
   "app/models/todo.model.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoModel",
+    ],
     "imports": Object {},
   },
   "app/pipes/index.js": Object {
@@ -102,14 +116,14 @@ Object {
     },
   },
   "app/pipes/trim/trim.pipe.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TrimPipe",
+    ],
     "imports": Object {},
   },
   "app/routes.js": Object {
     "exports": Array [
-      Array [
-        "routes",
-      ],
+      "routes",
     ],
     "imports": Object {
       "app/components/todo-list/todo-list.component.js": Array [
@@ -118,7 +132,9 @@ Object {
     },
   },
   "app/services/todo-store.service.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "TodoStoreService",
+    ],
     "imports": Object {
       "app/models/todo.model.js": Array [
         "TodoModel",
@@ -140,9 +156,7 @@ exports[`Parser Arkit 1`] = `
 Object {
   "arkit.ts": Object {
     "exports": Array [
-      Array [
-        "arkit",
-      ],
+      "arkit",
     ],
     "imports": Object {
       "config.ts": Array [
@@ -171,7 +185,9 @@ Object {
     },
   },
   "config.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      "Config",
+    ],
     "imports": Object {
       "path": Array [
         "path",
@@ -191,7 +207,9 @@ Object {
     },
   },
   "generator.base.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      "GeneratorBase",
+    ],
     "imports": Object {
       "path": Array [
         "path",
@@ -218,7 +236,9 @@ Object {
     },
   },
   "generator.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      "Generator",
+    ],
     "imports": Object {
       "fs": Array [
         "fs",
@@ -251,24 +271,12 @@ Object {
   },
   "logger.ts": Object {
     "exports": Array [
-      Array [
-        "fatal",
-      ],
-      Array [
-        "error",
-      ],
-      Array [
-        "warn",
-      ],
-      Array [
-        "info",
-      ],
-      Array [
-        "debug",
-      ],
-      Array [
-        "trace",
-      ],
+      "fatal",
+      "error",
+      "warn",
+      "info",
+      "debug",
+      "trace",
     ],
     "imports": Object {
       "node_modules/pino/pino.js": Array [
@@ -277,7 +285,9 @@ Object {
     },
   },
   "parser.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      "Parser",
+    ],
     "imports": Object {
       "node_modules/resolve/index.js": Array [
         "sync",
@@ -319,14 +329,31 @@ Object {
     },
   },
   "schema.ts": Object {
-    "exports": Array [],
+    "exports": Array [
+      "Options",
+      "ConfigSchema",
+      "ComponentSchema",
+      "ComponentNameFormat",
+      "OutputSchema",
+      "GroupSchema",
+      "ComponentFilters",
+      "OutputDirection",
+      "OutputFormat",
+    ],
     "imports": Object {},
   },
   "types.ts": Object {
     "exports": Array [
-      Array [
-        "EMPTY_LAYER",
-      ],
+      "EMPTY_LAYER",
+      "Components",
+      "Layers",
+      "Context",
+      "Component",
+      "Imports",
+      "Exports",
+      "File",
+      "Files",
+      "ConfigBase",
     ],
     "imports": Object {
       "schema.ts": Array [
@@ -337,24 +364,12 @@ Object {
   },
   "utils.ts": Object {
     "exports": Array [
-      Array [
-        "getPaths",
-      ],
-      Array [
-        "match",
-      ],
-      Array [
-        "find",
-      ],
-      Array [
-        "safeRequire",
-      ],
-      Array [
-        "array",
-      ],
-      Array [
-        "verifyComponentFilters",
-      ],
+      "getPaths",
+      "match",
+      "find",
+      "safeRequire",
+      "array",
+      "verifyComponentFilters",
     ],
     "imports": Object {
       "fs": Array [
@@ -495,9 +510,7 @@ exports[`Parser Sample 1`] = `
 Object {
   "controllers/singleton.ts": Object {
     "exports": Array [
-      Array [
-        "singleton",
-      ],
+      "singleton",
     ],
     "imports": Object {
       "models/model.ts": Array [
@@ -522,12 +535,10 @@ Object {
   },
   "models/model.ts": Object {
     "exports": Array [
-      Array [
-        "CONSTANT",
-      ],
-      Array [
-        "{ a, b: [b1, b2, b3], c }",
-      ],
+      "Model",
+      "List",
+      "CONSTANT",
+      "{ a, b: [b1, b2, b3], c }",
     ],
     "imports": Object {},
   },
@@ -536,7 +547,9 @@ Object {
     "imports": Object {},
   },
   "views/component.js": Object {
-    "exports": Array [],
+    "exports": Array [
+      "Component",
+    ],
     "imports": Object {
       "views/base.component.js": Array [
         "BaseComponent",
@@ -545,9 +558,7 @@ Object {
   },
   "views/main.view.js": Object {
     "exports": Array [
-      Array [
-        "mainView",
-      ],
+      "mainView",
     ],
     "imports": Object {
       "controllers/singleton.ts": Array [
