@@ -70,12 +70,21 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [];
         const isDirectory = component.filename.endsWith('**');
         const hasLayer = component.layer !== types_1.EMPTY_LAYER;
-        const safeName = '_' + component.name.replace(/[^\w]/g, '_');
+        const name = component.name;
+        const safeName = '_' + name.replace(/[^\w]/g, '_');
         if (isDirectory) {
-            puml.push(`[${component.name}]`);
+            if (hasLayer) {
+                puml.push(`[${name}]`);
+            }
+            else if (context === types_1.Context.RELATIONSHIP) {
+                puml.push(safeName);
+            }
+            else {
+                puml.push(`[<b>${name}</b>] as ${safeName}`);
+            }
         }
         else if (hasLayer) {
-            puml.push(`(${component.name})`);
+            puml.push(`(${name})`);
         }
         else {
             if (context === types_1.Context.RELATIONSHIP) {
@@ -85,7 +94,7 @@ class Generator extends generator_base_1.GeneratorBase {
                 puml.push('rectangle "');
                 if (!component.isImported)
                     puml.push('<b>');
-                puml.push(component.name);
+                puml.push(name);
                 if (!component.isImported)
                     puml.push('</b>');
                 puml.push(`" as ${safeName}`);

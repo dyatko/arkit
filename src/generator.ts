@@ -3,8 +3,7 @@ import * as fs from 'fs'
 import * as https from 'https'
 import { OutputDirection, OutputFormat, OutputSchema } from './schema'
 import { debug, info, trace } from './logger'
-import {
-  GeneratorBase } from './generator.base'
+import { GeneratorBase } from './generator.base'
 import { array } from './utils'
 import { Component, Context, EMPTY_LAYER, Layers } from './types'
 
@@ -87,19 +86,26 @@ export class Generator extends GeneratorBase {
     const puml: string[] = []
     const isDirectory = component.filename.endsWith('**')
     const hasLayer = component.layer !== EMPTY_LAYER
-    const safeName = '_' + component.name.replace(/[^\w]/g, '_')
+    const name = component.name
+    const safeName = '_' + name.replace(/[^\w]/g, '_')
 
     if (isDirectory) {
-      puml.push(`[${component.name}]`)
+      if (hasLayer) {
+        puml.push(`[${name}]`)
+      } else if (context === Context.RELATIONSHIP) {
+        puml.push(safeName)
+      } else {
+        puml.push(`[<b>${name}</b>] as ${safeName}`)
+      }
     } else if (hasLayer) {
-      puml.push(`(${component.name})`)
+      puml.push(`(${name})`)
     } else {
       if (context === Context.RELATIONSHIP) {
         puml.push(safeName)
       } else {
         puml.push('rectangle "')
         if (!component.isImported) puml.push('<b>')
-        puml.push(component.name)
+        puml.push(name)
         if (!component.isImported) puml.push('</b>')
         puml.push(`" as ${safeName}`)
       }
