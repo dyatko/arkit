@@ -43,7 +43,7 @@ export class GeneratorBase {
           isClass,
           isImported: false,
           type: schema.type,
-          layer: EMPTY_LAYER,
+          layer: EMPTY_LAYER
         })
       }
 

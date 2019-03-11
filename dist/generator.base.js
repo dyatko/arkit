@@ -24,7 +24,7 @@ class GeneratorBase {
                     isClass,
                     isImported: false,
                     type: schema.type,
-                    layer: types_1.EMPTY_LAYER,
+                    layer: types_1.EMPTY_LAYER
                 });
             }
             return components;

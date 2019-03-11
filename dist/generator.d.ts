@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { GeneratorBase } from './generator.base';
 export declare class Generator extends GeneratorBase {
     generate(): Promise<string[]>;
