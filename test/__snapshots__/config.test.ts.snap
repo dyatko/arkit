@@ -85,6 +85,22 @@ Config {
   ],
   "outputs": Array [
     Object {
+      "groups": Array [
+        Object {
+          "components": Array [
+            "Component",
+          ],
+          "first": true,
+          "patterns": undefined,
+        },
+        Object {
+          "components": Array [
+            "Dependency",
+          ],
+          "type": "Dependencies",
+        },
+        Object {},
+      ],
       "path": Array [
         "express.svg",
       ],
@@ -170,6 +186,7 @@ Config {
       ],
     },
     Object {
+      "groups": undefined,
       "path": "./docs/architecture.svg",
     },
   ],

@@ -7,6 +7,7 @@ export declare class Config {
     excludePatterns: string[];
     extensions: string[];
     constructor(options: Options);
+    private getUserConfig;
     private getOutputs;
     private getExcludePatterns;
 }

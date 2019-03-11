@@ -1,6 +1,7 @@
 import * as path from 'path'
 import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
 import { array, safeRequire } from './utils'
+import { debug } from './logger'
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
@@ -23,15 +24,10 @@ export class Config {
 
   constructor (options: Options) {
     this.directory = options.directory
-    const userConfigPath = path.resolve(this.directory, 'arkit')
-    const userConfig = safeRequire<ConfigSchema>(userConfigPath)
+    const userConfig = this.getUserConfig()
+    const userComponents = userConfig && userConfig.components
 
-    this.components = array(userConfig && userConfig.components) || []
-
-    if (!this.components.length) {
-      this.components.push(...DEFAULT_COMPONENTS)
-    }
-
+    this.components = userComponents ? array(userComponents)! : DEFAULT_COMPONENTS
     this.outputs = this.getOutputs(options, userConfig)
     this.excludePatterns = this.getExcludePatterns(options, userConfig)
 
@@ -42,26 +38,39 @@ export class Config {
     }
   }
 
-  private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
-    const userConfigOutput = userConfig && userConfig.output
-    const outputOption = options.output && options.output.length ? options.output : undefined
-    const firstOption = options.first && options.first.length ? options.first : undefined
-    const shouldGenerateOutput = outputOption || firstOption || !userConfigOutput
+  private getUserConfig (): ConfigSchema | undefined {
+    const userConfigPath = path.resolve(this.directory, 'arkit')
+    const userConfig = safeRequire<ConfigSchema>(userConfigPath)
+    const packageJSONPath = path.resolve(this.directory, 'package')
+    const packageJSON = safeRequire<any>(packageJSONPath)
 
-    if (!shouldGenerateOutput) {
-      return array(userConfigOutput)!
+    if (userConfig) {
+      debug(`Found arkit config in ${userConfigPath}`)
+      return userConfig
     }
 
-    return [
-      {
-        path: outputOption,
-        groups: [
-          { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
-          { type: 'Dependencies', components: ['Dependency'] },
-          {} // everything else
-        ]
-      }
+    if (packageJSON && packageJSON.arkit) {
+      debug(`Found arkit config in ${packageJSONPath}`)
+      return packageJSON.arkit
+    }
+  }
+
+  private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
+    const userConfigOutput = array(userConfig && userConfig.output || [{}])!
+    const outputOption = options.output && options.output.length ? options.output : undefined
+    const firstOption = options.first && options.first.length ? options.first : undefined
+    const hasDefaultComponents = this.components === DEFAULT_COMPONENTS ? true : undefined
+    const generatedGroups = hasDefaultComponents && [
+      { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
+      { type: 'Dependencies', components: ['Dependency'] },
+      {} // everything else
     ]
+
+    return userConfigOutput.map(output => ({
+      ...output,
+      path: output.path || outputOption,
+      groups: output.groups || generatedGroups
+    }))
   }
 
   private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {

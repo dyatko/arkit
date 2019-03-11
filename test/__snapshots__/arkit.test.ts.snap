@@ -120,6 +120,7 @@ rectangle \\"router/index\\" as _router_index
 rectangle \\"utils\\" as _utils
 rectangle \\"view\\" as _view
 
+
 _application --> _init
 _application --> _query
 _application --> _router_index

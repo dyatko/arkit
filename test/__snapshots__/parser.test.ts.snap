@@ -173,6 +173,9 @@ Object {
   "config.ts": Object {
     "exports": Array [],
     "imports": Object {
+      "logger.ts": Array [
+        "debug",
+      ],
       "path": Array [
         "path",
       ],

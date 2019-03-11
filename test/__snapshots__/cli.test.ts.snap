@@ -135,8 +135,8 @@ _todo_store_service ---> _todo_model
 exports[`CLI Arkit png and first should generate correct png 1`] = `
 Object {
   "blksize": 4096,
-  "blocks": 104,
-  "size": 49540,
+  "blocks": 96,
+  "size": 48008,
 }
 `;
 
@@ -183,6 +183,7 @@ rectangle \\"route\\" as _route
 rectangle \\"router/index\\" as _router_index
 rectangle \\"utils\\" as _utils
 rectangle \\"view\\" as _view
+
 
 _application --> _init
 _application --> _query
