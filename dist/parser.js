@@ -4,9 +4,8 @@ const path = require("path");
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const resolve_1 = require("resolve");
-const logger_1 = require("./logger");
-const tsconfig_paths_1 = require("tsconfig-paths");
 const utils_1 = require("./utils");
+const tsconfig_paths_1 = require("tsconfig-paths");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
@@ -21,10 +20,10 @@ class Parser {
         const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
         if (tsConfig.resultType === 'success') {
             this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
-            logger_1.debug('Found TypeScript config', this.tsConfigFilePath);
-            logger_1.debug('Registering ts-config paths...');
+            utils_1.debug('Found TypeScript config', this.tsConfigFilePath);
+            utils_1.debug('Registering ts-config paths...');
             this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
-            logger_1.debug(tsConfig.paths);
+            utils_1.debug(tsConfig.paths);
         }
     }
     prepareProject() {
@@ -39,9 +38,9 @@ class Parser {
             addFilesFromTsConfig: false,
             skipFileDependencyResolution: true
         });
-        logger_1.info('Searching files...');
+        utils_1.info('Searching files...');
         utils_1.getPaths(this.config.directory, '', this.config.patterns, this.config.excludePatterns).forEach(fullPath => {
-            logger_1.trace(`Adding ${fullPath}`);
+            utils_1.trace(`Adding ${fullPath}`);
             if (fullPath.endsWith('**')) {
                 this.sourceFolders.push(fullPath);
             }
@@ -64,7 +63,7 @@ class Parser {
     parse() {
         this.resolveTsConfigPaths();
         this.prepareProject();
-        logger_1.info('Parsing', this.sourceFiles.size, 'files');
+        utils_1.info('Parsing', this.sourceFiles.size, 'files');
         const files = {};
         for (const fullPath of this.sourceFolders) {
             files[fullPath] = { exports: [], imports: {} };
@@ -72,10 +71,10 @@ class Parser {
         for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
             const filePath = path.relative(this.config.directory, fullPath);
             const statements = sourceFile.getStatements();
-            logger_1.debug(filePath, statements.length, 'statements');
+            utils_1.debug(filePath, statements.length, 'statements');
             const exports = this.getExports(sourceFile, statements);
             const imports = this.getImports(sourceFile, statements);
-            logger_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
+            utils_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
             files[fullPath] = { exports, imports };
         }
         this.cleanProject();
@@ -102,7 +101,7 @@ class Parser {
                     moduleSpecifier = structure.moduleSpecifier;
                 }
                 catch (e) {
-                    logger_1.warn(e);
+                    utils_1.warn(e);
                     const brokenLineNumber = statement.getStartLineNumber();
                     const brokenLine = sourceFile.getFullText().split(os_1.EOL)[brokenLineNumber - 1];
                     const moduleSpecifierMatch = TEXT_INSIDE_QUOTES_RE.exec(brokenLine);
@@ -125,7 +124,7 @@ class Parser {
                         sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === 'string' ? namedImport : namedImport.name));
                     }
                     if (!sourceFileImports.length && !importStructure.namedImports) {
-                        logger_1.warn('IMPORT', sourceFile.getBaseName(), structure);
+                        utils_1.warn('IMPORT', sourceFile.getBaseName(), structure);
                     }
                 }
             }
@@ -144,8 +143,8 @@ class Parser {
                         ];
                     }
                     catch (e) {
-                        logger_1.warn(e);
-                        logger_1.warn(statement.getText());
+                        utils_1.warn(e);
+                        utils_1.warn(statement.getText());
                     }
                 }
                 else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
@@ -154,15 +153,15 @@ class Parser {
                     ts_morph_1.TypeGuards.isFunctionDeclaration(statement) ||
                     ts_morph_1.TypeGuards.isTypeAliasDeclaration(statement)) {
                     try {
-                        logger_1.trace('EXPORT', sourceFile.getBaseName(), statement.getStructure());
+                        utils_1.trace('EXPORT', sourceFile.getBaseName(), statement.getStructure());
                     }
                     catch (e) {
-                        logger_1.warn(e);
-                        logger_1.warn(statement.getText());
+                        utils_1.warn(e);
+                        utils_1.warn(statement.getText());
                     }
                 }
                 else {
-                    logger_1.warn('EXPORT Unknown type', sourceFile.getBaseName(), statement);
+                    utils_1.warn('EXPORT Unknown type', sourceFile.getBaseName(), statement);
                 }
             }
             return exports;
@@ -179,12 +178,12 @@ class Parser {
             return imports[realModulePath];
         }
         else {
-            logger_1.trace('Import not found', sourceFile.getBaseName(), moduleSpecifier);
+            utils_1.trace('Import not found', sourceFile.getBaseName(), moduleSpecifier);
         }
     }
     getModulePath(moduleSpecifier, sourceFile) {
         try {
-            logger_1.trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
+            utils_1.trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
             return resolve_1.sync(moduleSpecifier, {
                 basedir: sourceFile.getDirectoryPath(),
                 extensions: this.config.extensions
@@ -197,7 +196,7 @@ class Parser {
     resolveTsModule(moduleSpecifier) {
         if (!this.tsResolve)
             return;
-        logger_1.trace('Resolve TS', moduleSpecifier);
+        utils_1.trace('Resolve TS', moduleSpecifier);
         const modulePath = this.tsResolve(moduleSpecifier);
         if (!modulePath)
             return;

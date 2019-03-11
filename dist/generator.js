@@ -3,10 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs");
 const https = require("https");
-const schema_1 = require("./schema");
-const logger_1 = require("./logger");
-const generator_base_1 = require("./generator.base");
 const utils_1 = require("./utils");
+const generator_base_1 = require("./generator.base");
 const types_1 = require("./types");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
@@ -31,12 +29,12 @@ class Generator extends generator_base_1.GeneratorBase {
         }, []));
     }
     generatePlantUML(output) {
-        logger_1.info('Generating components...');
+        utils_1.info('Generating components...');
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
-        logger_1.trace(Array.from(components.values()));
-        logger_1.info('Generating layers...');
+        utils_1.trace(Array.from(components.values()));
+        utils_1.info('Generating layers...');
         const layers = this.generateLayers(output, components);
-        logger_1.trace(Array.from(layers.keys()));
+        utils_1.trace(Array.from(layers.keys()));
         const puml = ['@startuml'];
         puml.push(this.generatePlantUMLSkin(output, layers));
         for (const [layer, components] of layers.entries()) {
@@ -143,9 +141,9 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [''];
         puml.push('scale max 1920 width');
         const direction = output.direction || this.getAllComponents(layers).length > 20
-            ? schema_1.OutputDirection.HORIZONTAL
-            : schema_1.OutputDirection.VERTICAL;
-        if (direction === schema_1.OutputDirection.HORIZONTAL) {
+            ? types_1.OutputDirection.HORIZONTAL
+            : types_1.OutputDirection.VERTICAL;
+        if (direction === types_1.OutputDirection.HORIZONTAL) {
             puml.push('left to right direction');
         }
         else {
@@ -187,17 +185,17 @@ skinparam component {
     convert(pathOrType, puml) {
         const fullExportPath = path.resolve(this.config.directory, pathOrType);
         const ext = path.extname(fullExportPath);
-        const shouldConvertAndSave = Object.values(schema_1.OutputFormat).includes(ext.replace('.', ''));
-        const shouldConvertAndOutput = Object.values(schema_1.OutputFormat).includes(pathOrType);
+        const shouldConvertAndSave = Object.values(types_1.OutputFormat).includes(ext.replace('.', ''));
+        const shouldConvertAndOutput = Object.values(types_1.OutputFormat).includes(pathOrType);
         if (fs.existsSync(fullExportPath)) {
-            logger_1.debug('Removing', fullExportPath);
+            utils_1.debug('Removing', fullExportPath);
             fs.unlinkSync(fullExportPath);
         }
         if (shouldConvertAndSave || shouldConvertAndOutput) {
-            logger_1.debug('Converting', ext ? fullExportPath : pathOrType);
+            utils_1.debug('Converting', ext ? fullExportPath : pathOrType);
             return this.convertToImage(puml, ext || pathOrType).then(image => {
                 if (shouldConvertAndSave) {
-                    logger_1.debug('Saving', fullExportPath, image.length);
+                    utils_1.debug('Saving', fullExportPath, image.length);
                     fs.writeFileSync(fullExportPath, image);
                 }
                 return image.toString();
@@ -207,7 +205,7 @@ skinparam component {
         }
         else {
             if (ext === '.puml') {
-                logger_1.debug('Saving', fullExportPath);
+                utils_1.debug('Saving', fullExportPath);
                 fs.writeFileSync(fullExportPath, puml);
             }
             return Promise.resolve(puml);
@@ -222,7 +220,7 @@ skinparam component {
             this.requestChain = this.requestChain.then(() => {
                 return this.request(`/${path[0]}`, puml)
                     .then(result => resolve(result))
-                    .catch(err => logger_1.debug(err));
+                    .catch(err => utils_1.debug(err));
             });
         });
     }

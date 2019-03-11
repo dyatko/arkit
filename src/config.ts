@@ -1,7 +1,6 @@
 import * as path from 'path'
-import { ComponentSchema, ConfigSchema, Options, OutputSchema } from './schema'
-import { array, safeRequire } from './utils'
-import { debug } from './logger'
+import { ComponentSchema, ConfigBase, ConfigSchema, Options, OutputSchema } from './types'
+import { debug, array, safeRequire } from './utils'
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
@@ -14,7 +13,7 @@ const DEFAULT_COMPONENTS: ComponentSchema[] = [
   }
 ]
 
-export class Config {
+export class Config implements ConfigBase {
   directory: string
   components: ComponentSchema[]
   outputs: OutputSchema[]
@@ -56,7 +55,7 @@ export class Config {
   }
 
   private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
-    const userConfigOutput = array(userConfig && userConfig.output || [{}])!
+    const userConfigOutput = array(userConfig && userConfig.output) || [{}]
     const outputOption = options.output && options.output.length ? options.output : undefined
     const firstOption = options.first && options.first.length ? options.first : undefined
     const hasDefaultComponents = this.components === DEFAULT_COMPONENTS ? true : undefined

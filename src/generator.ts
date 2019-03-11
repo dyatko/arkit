@@ -1,11 +1,9 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import * as https from 'https'
-import { OutputDirection, OutputFormat, OutputSchema } from './schema'
-import { debug, info, trace } from './logger'
+import { array, debug, info, trace } from './utils'
 import { GeneratorBase } from './generator.base'
-import { array } from './utils'
-import { Component, Context, EMPTY_LAYER, Layers } from './types'
+import { OutputDirection, OutputFormat, OutputSchema, Component, Context, EMPTY_LAYER, Layers } from './types'
 
 export class Generator extends GeneratorBase {
   generate (): Promise<string[]> {

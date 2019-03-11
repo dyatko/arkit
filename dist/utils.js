@@ -1,9 +1,13 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs");
 const logger_1 = require("./logger");
 const nanomatch = require("nanomatch");
+__export(require("./logger"));
 exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns) => {
     const root = path.join(mainDirectory, directory);
     return fs.readdirSync(root).reduce((suitablePaths, fileName) => {

@@ -1,3 +1,7 @@
+import { ComponentSchema, OutputSchema } from './schema'
+
+export * from './schema'
+
 export const EMPTY_LAYER = Symbol('__empty_layer__')
 
 export interface Components extends Map<string, Component> {
@@ -36,4 +40,13 @@ export interface File {
 
 export interface Files {
   [file: string]: File
+}
+
+export abstract class ConfigBase {
+  directory: string
+  components: ComponentSchema[]
+  outputs: OutputSchema[]
+  patterns: string[] = []
+  excludePatterns: string[]
+  extensions: string[]
 }

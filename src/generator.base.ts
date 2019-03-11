@@ -1,16 +1,24 @@
-import { Config } from './config'
-import { ComponentFilters, ComponentNameFormat, ComponentSchema, OutputSchema } from './schema'
-import { trace, warn } from './logger'
 import * as path from 'path'
-import { array, match, verifyComponentFilters } from './utils'
-import { Files, Component, Components, EMPTY_LAYER, Layers } from './types'
+import { trace, warn, array, match, verifyComponentFilters } from './utils'
+import {
+  ComponentFilters,
+  ComponentNameFormat,
+  ComponentSchema,
+  OutputSchema,
+  Files,
+  Component,
+  Components,
+  EMPTY_LAYER,
+  Layers,
+  ConfigBase
+} from './types'
 
 export class GeneratorBase {
-  protected config: Config
+  protected config: ConfigBase
   private files: Files
 
   constructor (
-    config: Config,
+    config: ConfigBase,
     files: Files
   ) {
     this.config = config

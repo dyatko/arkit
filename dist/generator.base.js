@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const schema_1 = require("./schema");
-const logger_1 = require("./logger");
 const path = require("path");
 const utils_1 = require("./utils");
 const types_1 = require("./types");
@@ -62,8 +60,8 @@ class GeneratorBase {
             });
         });
         if (ungroupedComponents.size) {
-            logger_1.trace('Ungrouped components');
-            logger_1.trace(Array.from(ungroupedComponents.values()));
+            utils_1.trace('Ungrouped components');
+            utils_1.trace(Array.from(ungroupedComponents.values()));
         }
         const filenamesFromFirstComponents = new Set();
         for (const component of grouppedComponents.values()) {
@@ -72,8 +70,8 @@ class GeneratorBase {
             }
         }
         if (filenamesFromFirstComponents.size) {
-            logger_1.trace('Filenames from first components');
-            logger_1.trace(Array.from(filenamesFromFirstComponents));
+            utils_1.trace('Filenames from first components');
+            utils_1.trace(Array.from(filenamesFromFirstComponents));
             for (const [filename, component] of allComponents) {
                 if (!filenamesFromFirstComponents.has(filename)) {
                     for (const components of layers.values()) {
@@ -85,8 +83,8 @@ class GeneratorBase {
             }
         }
         if (ungroupedComponents.size) {
-            logger_1.trace('Ungrouped components leftovers');
-            logger_1.trace(Array.from(ungroupedComponents.values()));
+            utils_1.trace('Ungrouped components leftovers');
+            utils_1.trace(Array.from(ungroupedComponents.values()));
         }
         return layers;
     }
@@ -151,13 +149,13 @@ class GeneratorBase {
             }
         });
         if (!componentSchema) {
-            logger_1.warn(`Component schema not found: ${filename}`);
+            utils_1.warn(`Component schema not found: ${filename}`);
         }
         return componentSchema;
     }
     getComponentName(filename, componentConfig) {
         const nameFormat = componentConfig.format;
-        if (nameFormat === schema_1.ComponentNameFormat.FULL_NAME) {
+        if (nameFormat === types_1.ComponentNameFormat.FULL_NAME) {
             return path.basename(filename);
         }
         return path.basename(filename, path.extname(filename));

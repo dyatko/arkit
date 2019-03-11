@@ -1,10 +1,8 @@
-import { Config } from './config';
-import { ComponentSchema, OutputSchema } from './schema';
-import { Files, Component, Components, Layers } from './types';
+import { ComponentSchema, OutputSchema, Files, Component, Components, Layers, ConfigBase } from './types';
 export declare class GeneratorBase {
-    protected config: Config;
+    protected config: ConfigBase;
     private files;
-    constructor(config: Config, files: Files);
+    constructor(config: ConfigBase, files: Files);
     protected generateComponents(output: OutputSchema): Components;
     protected generateLayers(output: OutputSchema, allComponents: Components): Layers;
     private collectImportedFilenames;

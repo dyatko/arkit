@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const utils_1 = require("./utils");
-const logger_1 = require("./logger");
 const DEFAULT_COMPONENTS = [
     {
         type: 'Dependency',
@@ -35,16 +34,16 @@ class Config {
         const packageJSONPath = path.resolve(this.directory, 'package');
         const packageJSON = utils_1.safeRequire(packageJSONPath);
         if (userConfig) {
-            logger_1.debug(`Found arkit config in ${userConfigPath}`);
+            utils_1.debug(`Found arkit config in ${userConfigPath}`);
             return userConfig;
         }
         if (packageJSON && packageJSON.arkit) {
-            logger_1.debug(`Found arkit config in ${packageJSONPath}`);
+            utils_1.debug(`Found arkit config in ${packageJSONPath}`);
             return packageJSON.arkit;
         }
     }
     getOutputs(options, userConfig) {
-        const userConfigOutput = utils_1.array(userConfig && userConfig.output || [{}]);
+        const userConfigOutput = utils_1.array(userConfig && userConfig.output) || [{}];
         const outputOption = options.output && options.output.length ? options.output : undefined;
         const firstOption = options.first && options.first.length ? options.first : undefined;
         const hasDefaultComponents = this.components === DEFAULT_COMPONENTS ? true : undefined;

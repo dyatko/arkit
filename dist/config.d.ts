@@ -1,5 +1,5 @@
-import { ComponentSchema, Options, OutputSchema } from './schema';
-export declare class Config {
+import { ComponentSchema, ConfigBase, Options, OutputSchema } from './types';
+export declare class Config implements ConfigBase {
     directory: string;
     components: ComponentSchema[];
     outputs: OutputSchema[];

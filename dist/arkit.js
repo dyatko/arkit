@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const yargs = require("yargs");
-const logger_1 = require("./logger");
+const utils_1 = require("./utils");
 const config_1 = require("./config");
 const parser_1 = require("./parser");
 const generator_1 = require("./generator");
-const schema_1 = require("./schema");
+const types_1 = require("./types");
 const parseDirectory = (directory) => {
     if (directory instanceof Array)
         directory = directory[0];
@@ -65,7 +65,7 @@ const getOptions = (options) => {
         opts.first = convertToRelative(opts.first, opts.directory);
     }
     if (opts.output) {
-        opts.output = convertToRelative(opts.output, opts.directory, Object.values(schema_1.OutputFormat));
+        opts.output = convertToRelative(opts.output, opts.directory, Object.values(types_1.OutputFormat));
     }
     if (opts.exclude) {
         opts.exclude = convertToRelative(opts.exclude, opts.directory);
@@ -74,15 +74,15 @@ const getOptions = (options) => {
 };
 exports.arkit = (options) => {
     const opts = getOptions(options);
-    logger_1.info('Options');
-    logger_1.info(opts);
+    utils_1.info('Options');
+    utils_1.info(opts);
     const config = new config_1.Config(opts);
-    logger_1.info('Config');
-    logger_1.info(config);
+    utils_1.info('Config');
+    utils_1.info(config);
     const parser = new parser_1.Parser(config);
     const files = parser.parse();
-    logger_1.trace('Parsed files');
-    logger_1.trace(files);
+    utils_1.trace('Parsed files');
+    utils_1.trace(files);
     const generator = new generator_1.Generator(config, files);
     return generator.generate();
 };

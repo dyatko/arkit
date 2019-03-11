@@ -135,8 +135,8 @@ _todo_store_service ---> _todo_model
 exports[`CLI Arkit png and first should generate correct png 1`] = `
 Object {
   "blksize": 4096,
-  "blocks": 96,
-  "size": 48008,
+  "blocks": 72,
+  "size": 34945,
 }
 `;
 

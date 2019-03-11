@@ -151,10 +151,6 @@ Object {
       "generator.ts": Array [
         "Generator",
       ],
-      "logger.ts": Array [
-        "info",
-        "trace",
-      ],
       "node_modules/yargs/index.js": Array [
         "yargs",
       ],
@@ -164,28 +160,31 @@ Object {
       "path": Array [
         "path",
       ],
-      "schema.ts": Array [
+      "types.ts": Array [
         "Options",
         "OutputFormat",
+      ],
+      "utils.ts": Array [
+        "info",
+        "trace",
       ],
     },
   },
   "config.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "logger.ts": Array [
-        "debug",
-      ],
       "path": Array [
         "path",
       ],
-      "schema.ts": Array [
+      "types.ts": Array [
         "ComponentSchema",
+        "ConfigBase",
         "ConfigSchema",
         "Options",
         "OutputSchema",
       ],
       "utils.ts": Array [
+        "debug",
         "array",
         "safeRequire",
       ],
@@ -194,30 +193,24 @@ Object {
   "generator.base.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "config.ts": Array [
-        "Config",
-      ],
-      "logger.ts": Array [
-        "trace",
-        "warn",
-      ],
       "path": Array [
         "path",
       ],
-      "schema.ts": Array [
+      "types.ts": Array [
         "ComponentFilters",
         "ComponentNameFormat",
         "ComponentSchema",
         "OutputSchema",
-      ],
-      "types.ts": Array [
         "Files",
         "Component",
         "Components",
         "EMPTY_LAYER",
         "Layers",
+        "ConfigBase",
       ],
       "utils.ts": Array [
+        "trace",
+        "warn",
         "array",
         "match",
         "verifyComponentFilters",
@@ -236,20 +229,13 @@ Object {
       "https": Array [
         "https",
       ],
-      "logger.ts": Array [
-        "debug",
-        "info",
-        "trace",
-      ],
       "path": Array [
         "path",
       ],
-      "schema.ts": Array [
+      "types.ts": Array [
         "OutputDirection",
         "OutputFormat",
         "OutputSchema",
-      ],
-      "types.ts": Array [
         "Component",
         "Context",
         "EMPTY_LAYER",
@@ -257,6 +243,9 @@ Object {
       ],
       "utils.ts": Array [
         "array",
+        "debug",
+        "info",
+        "trace",
       ],
     },
   },
@@ -290,15 +279,6 @@ Object {
   "parser.ts": Object {
     "exports": Array [],
     "imports": Object {
-      "config.ts": Array [
-        "Config",
-      ],
-      "logger.ts": Array [
-        "debug",
-        "info",
-        "trace",
-        "warn",
-      ],
       "node_modules/resolve/index.js": Array [
         "sync",
       ],
@@ -323,6 +303,7 @@ Object {
         "path",
       ],
       "types.ts": Array [
+        "ConfigBase",
         "Exports",
         "Files",
         "Imports",
@@ -330,6 +311,10 @@ Object {
       "utils.ts": Array [
         "find",
         "getPaths",
+        "debug",
+        "info",
+        "trace",
+        "warn",
       ],
     },
   },
@@ -343,7 +328,12 @@ Object {
         "EMPTY_LAYER",
       ],
     ],
-    "imports": Object {},
+    "imports": Object {
+      "schema.ts": Array [
+        "ComponentSchema",
+        "OutputSchema",
+      ],
+    },
   },
   "utils.ts": Object {
     "exports": Array [
@@ -379,12 +369,10 @@ Object {
       "path": Array [
         "path",
       ],
-      "schema.ts": Array [
-        "ComponentFilters",
-        "ComponentSchema",
-      ],
       "types.ts": Array [
         "Component",
+        "ComponentFilters",
+        "ComponentSchema",
       ],
     },
   },

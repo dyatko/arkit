@@ -1,5 +1,4 @@
-import { Config } from './config';
-import { Files } from './types';
+import { ConfigBase, Files } from './types';
 export declare class Parser {
     private config;
     private project;
@@ -7,7 +6,7 @@ export declare class Parser {
     private sourceFolders;
     private tsResolve?;
     private tsConfigFilePath?;
-    constructor(config: Config);
+    constructor(config: ConfigBase);
     private resolveTsConfigPaths;
     private prepareProject;
     private cleanProject;

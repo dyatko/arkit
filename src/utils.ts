@@ -1,9 +1,10 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { trace } from './logger'
-import { ComponentFilters, ComponentSchema } from './schema'
 import * as nanomatch from 'nanomatch'
-import { Component } from './types'
+import { Component, ComponentFilters, ComponentSchema } from './types'
+
+export * from './logger'
 
 export const getPaths = (
   mainDirectory: string,

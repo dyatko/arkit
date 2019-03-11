@@ -10,11 +10,9 @@ import {
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
-import { debug, info, trace, warn } from './logger'
-import { Config } from './config'
+import { find, getPaths, debug, info, trace, warn } from './utils'
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
-import { find, getPaths } from './utils'
-import { Exports, Files, Imports } from './types'
+import { ConfigBase, Exports, Files, Imports } from './types'
 
 const QUOTES = `(?:'|")`
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`
@@ -22,14 +20,14 @@ const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES)
 const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`)
 
 export class Parser {
-  private config: Config
+  private config: ConfigBase
   private project: Project
   private sourceFiles = new Map<string, SourceFile>()
   private sourceFolders: string[] = []
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
 
-  constructor (config: Config) {
+  constructor (config: ConfigBase) {
     this.config = config
   }
 

@@ -1,10 +1,10 @@
 import * as path from 'path'
 import * as yargs from 'yargs'
-import { info, trace } from './logger'
+import { info, trace } from './utils'
 import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
-import { Options, OutputFormat } from './schema'
+import { Options, OutputFormat } from './types'
 
 const parseDirectory = (directory: string | string[]): string => {
   if (directory instanceof Array) directory = directory[0]
