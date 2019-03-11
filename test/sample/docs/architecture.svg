@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="350px" preserveAspectRatio="none" style="width:203px;height:350px;" version="1.1" viewBox="0 0 203 350" width="203px" zoomAndPan="magnify"><defs/><g><!--entity _base_component--><ellipse cx="60" cy="237" fill="#F8F8F8" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="92" x="14" y="266.0059">base.component</text><!--entity _component--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="83" x="34.5" y="156"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="44.5" y="178.0059">component</text><!--entity _main_ts--><ellipse cx="112" cy="35" fill="#F8F8F8" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="89.5" y="64.0059">main.ts</text><!--entity _main_view--><ellipse cx="112" cy="109" fill="#F8F8F8" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="85" y="138.0059">main.view</text><!--entity _model--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="53" x="139.5" y="305"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="33" x="149.5" y="327.0059">model</text><!--entity _singleton--><ellipse cx="166" cy="237" fill="#F8F8F8" rx="8" ry="8" style="stroke: #383838; stroke-width: 2.0;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="49" x="141.5" y="266.0059">singleton</text><!--link _component to _base_component--><path d="M71.7123,190.1508 C69.1505,200.3979 65.9362,213.2553 63.5232,222.9071 " fill="none" id="_component-_base_component" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="62.2744,227.9026,68.3378,220.1415,63.4871,223.0519,60.5767,218.2012,62.2744,227.9026" style="stroke: #383838; stroke-width: 0.7;"/><!--link _main_ts to _main_view--><path d="M112,44.0739 C112,56.723 112,79.7829 112,94.7416 " fill="none" id="_main_ts-_main_view" style="stroke: #383838; stroke-width: 2.0;"/><polygon fill="#383838" points="112,99.8519,116,90.8519,112,94.8519,108,90.8519,112,99.8519" style="stroke: #383838; stroke-width: 2.0;"/><!--link _main_view to _component--><path d="M106.8421,118.1696 C101.9676,126.8354 94.4714,140.162 88.0899,151.5068 " fill="none" id="_main_view-_component" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="85.6163,155.9044,93.5149,150.0213,88.0676,151.5465,86.5423,146.0992,85.6163,155.9044" style="stroke: #383838; stroke-width: 0.7;"/><!--link _main_view to _singleton--><path d="M115.8835,118.2054 C125.2242,140.3464 148.9936,196.6886 160.106,223.0289 " fill="none" id="_main_view-_singleton" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="162.1516,227.878,162.3387,218.0309,160.2081,223.2712,154.9678,221.1406,162.1516,227.878" style="stroke: #383838; stroke-width: 0.7;"/><!--link _singleton to _model--><path d="M166,246.0965 C166,258.7493 166,282.0729 166,299.5398 " fill="none" id="_singleton-_model" style="stroke: #383838; stroke-width: 0.7;"/><polygon fill="#383838" points="166,304.7542,170,295.7542,166,299.7542,162,295.7542,166,304.7542" style="stroke: #383838; stroke-width: 0.7;"/><script type="text/plantuml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="265px" preserveAspectRatio="none" style="width:214px;height:265px;" version="1.1" viewBox="0 0 214 265" width="214px" zoomAndPan="magnify"><defs/><g><ellipse cx="60.9788" cy="165.3958" fill="#F8F8F8" rx="54.9788" ry="13.3958" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="80" x="20.9788" y="168.5344">base.component</text><!--entity _component--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="83" x="37.5" y="98"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="47.5" y="120.0059">component</text><ellipse cx="115.2487" cy="20.3885" fill="#F8F8F8" rx="27.7487" ry="12.3885" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="97.7487" y="23.5272">main.ts</text><ellipse cx="114.9411" cy="65.3885" fill="#F8F8F8" rx="36.9411" ry="12.3885" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="48" x="90.9411" y="68.5272">main.view</text><!--entity _model--><rect fill="#F8F8F8" height="34.4844" rx="2" ry="2" style="stroke: #000000; stroke-width: 0.8;" width="53" x="143.5" y="220"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="33" x="153.5" y="242.0059">model</text><ellipse cx="169.9056" cy="165.3885" fill="#F8F8F8" rx="33.4056" ry="12.3885" style="stroke: #383838; stroke-width: 0.6;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="43" x="148.4056" y="168.5272">singleton</text><!--link _component to base.component--><path d="M72.906,132.097 C71.1926,136.9042 69.3217,142.153 67.5812,147.0361 " fill="none" id="_component-base.component" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="65.8948,151.7674,72.6845,144.633,67.5737,147.0577,65.149,141.9468,65.8948,151.7674" style="stroke: #383838; stroke-width: 0.6;"/><!--link main.ts to main.view--><path d="M115,33.2748 C115,37.7782 115,42.9253 115,47.7642 " fill="none" id="main.ts-main.view" style="stroke: #383838; stroke-width: 2.0;"/><polygon fill="#383838" points="115,52.849,119,43.849,115,47.849,111,43.849,115,52.849" style="stroke: #383838; stroke-width: 2.0;"/><!--link main.view to _component--><path d="M106.1011,77.736 C102.5836,82.5726 98.4368,88.2744 94.4589,93.744 " fill="none" id="main.view-_component" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="91.4632,97.8631,99.9917,92.9371,94.404,93.8194,93.5218,88.2318,91.4632,97.8631" style="stroke: #383838; stroke-width: 0.6;"/><!--link main.view to singleton--><path d="M121.9658,78.1651 C131.8136,96.0702 149.8237,128.8158 160.7733,148.7242 " fill="none" id="main.view-singleton" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="163.2628,153.2506,162.4304,143.437,160.8532,148.8695,155.4206,147.2924,163.2628,153.2506" style="stroke: #383838; stroke-width: 0.6;"/><!--link singleton to _model--><path d="M170,178.2828 C170,188.3147 170,202.5309 170,214.4623 " fill="none" id="singleton-_model" style="stroke: #383838; stroke-width: 0.6;"/><polygon fill="#383838" points="170,219.7602,174,210.7602,170,214.7602,166,210.7602,170,219.7602" style="stroke: #383838; stroke-width: 0.6;"/><script type="text/plantuml"><![CDATA[
 @startuml
 
 scale max 1920 width
@@ -12,12 +12,12 @@ skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.7
+skinparam arrowThickness 0.6
 skinparam packageTitleAlignment left
 
 skinparam usecase {
-  borderThickness 0.4
-  fontSize 12
+  borderThickness 0.6
+  fontSize 11
 }
 
 skinparam rectangle {
@@ -29,18 +29,18 @@ skinparam component {
 }
 
 
-() "base.component" as _base_component
+(base.component)
 rectangle "component" as _component
-() "<b>main.ts</b>" as _main_ts
-() "main.view" as _main_view
+(main.ts)
+(main.view)
 rectangle "model" as _model
-() "singleton" as _singleton
+(singleton)
 
-_component --> _base_component
-_main_ts ==> _main_view
-_main_view --> _component
-_main_view ---> _singleton
-_singleton ---> _model
+_component --> (base.component)
+(main.ts) ==> (main.view)
+(main.view) --> _component
+(main.view) ---> (singleton)
+(singleton) ---> _model
 
 @enduml
 

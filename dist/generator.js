@@ -78,30 +78,24 @@ class Generator extends generator_base_1.GeneratorBase {
                 puml.push(safeName);
             }
             else {
-                puml.push(`[<b>${name}</b>] as ${safeName}`);
+                puml.push(`[${utils_1.bold(name)}] as ${safeName}`);
             }
         }
-        else if (hasLayer) {
+        else if (!component.isClass) {
             puml.push(`(${name})`);
         }
+        else if (context === types_1.Context.RELATIONSHIP) {
+            puml.push(safeName);
+        }
         else {
-            if (context === types_1.Context.RELATIONSHIP) {
-                puml.push(safeName);
+            puml.push('rectangle "');
+            if (!component.isImported) {
+                puml.push(utils_1.bold(name));
             }
             else {
-                if (component.isClass) {
-                    puml.push('rectangle "');
-                }
-                else {
-                    puml.push('() "');
-                }
-                if (!component.isImported)
-                    puml.push('<b>');
                 puml.push(name);
-                if (!component.isImported)
-                    puml.push('</b>');
-                puml.push(`" as ${safeName}`);
             }
+            puml.push(`" as ${safeName}`);
         }
         return puml.join('');
     }
@@ -167,13 +161,13 @@ skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.7
+skinparam arrowThickness 0.6
 skinparam packageTitleAlignment left
 
 ' oval
 skinparam usecase {
-  borderThickness 0.4
-  fontSize 12
+  borderThickness 0.6
+  fontSize 11
 }
 
 ' rectangle

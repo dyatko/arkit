@@ -59,3 +59,6 @@ exports.verifyComponentFilters = (filters, component, mainDirectory) => {
         filters.components.some(type => type === component.type);
     return matchesPatterns && matchesComponents;
 };
+exports.bold = (str) => {
+    return `<b>${str}</b>`;
+};

@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import * as https from 'https'
-import { array, debug, info, trace } from './utils'
+import { array, debug, info, trace, bold } from './utils'
 import { GeneratorBase } from './generator.base'
 import { OutputDirection, OutputFormat, OutputSchema, Component, Context, EMPTY_LAYER, Layers } from './types'
 
@@ -93,24 +93,20 @@ export class Generator extends GeneratorBase {
       } else if (context === Context.RELATIONSHIP) {
         puml.push(safeName)
       } else {
-        puml.push(`[<b>${name}</b>] as ${safeName}`)
+        puml.push(`[${bold(name)}] as ${safeName}`)
       }
-    } else if (hasLayer) {
+    } else if (!component.isClass) {
       puml.push(`(${name})`)
+    } else if (context === Context.RELATIONSHIP) {
+      puml.push(safeName)
     } else {
-      if (context === Context.RELATIONSHIP) {
-        puml.push(safeName)
+      puml.push('rectangle "')
+      if (!component.isImported) {
+        puml.push(bold(name))
       } else {
-        if (component.isClass) {
-          puml.push('rectangle "')
-        } else {
-          puml.push('() "')
-        }
-        if (!component.isImported) puml.push('<b>')
         puml.push(name)
-        if (!component.isImported) puml.push('</b>')
-        puml.push(`" as ${safeName}`)
       }
+      puml.push(`" as ${safeName}`)
     }
 
     return puml.join('')
@@ -195,13 +191,13 @@ skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.7
+skinparam arrowThickness 0.6
 skinparam packageTitleAlignment left
 
 ' oval
 skinparam usecase {
-  borderThickness 0.4
-  fontSize 12
+  borderThickness 0.6
+  fontSize 11
 }
 
 ' rectangle
