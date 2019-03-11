@@ -103,10 +103,10 @@ Options:
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](test/express/express.svg?sanitize=true)
 
-#### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit` and [JSON config in package.json](https://github.com/dyatko/arkit/blob/master/package.json#L17)
-![Arkit architecture diagram](dist/arkit.png?sanitize=true)
+#### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit` and [config in package.json](https://github.com/dyatko/arkit/blob/master/package.json#L17)
+![Arkit architecture diagram](dist/arkit.svg?sanitize=true)
 
-#### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
+#### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [config in arkit.json](test/react-dom/arkit.json)
 ![ReactDOM architecture diagram](test/react-dom/arkit.svg?sanitize=true)
 
 ## Contribution

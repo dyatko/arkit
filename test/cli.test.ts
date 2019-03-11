@@ -14,13 +14,18 @@ describe('CLI', () => {
   })
 
   describe('Arkit', () => {
-    describe('png and first', () => {
-      test('should generate correct png', () => {
-        const pngPath = path.resolve(__dirname, '../dist/arkit.png')
+    describe('package.json', () => {
+      const svgPath = path.resolve(__dirname, '../dist/arkit.svg')
+      const pngPath = path.resolve(__dirname, '../dist/arkit.png')
 
+      beforeAll(() => {
+        if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath)
         if (fs.existsSync(pngPath)) fs.unlinkSync(pngPath)
 
         execSync(`npm run architecture`)
+      })
+
+      test('should generate correct png', () => {
         const stat = fs.statSync(pngPath)
 
         expect({
@@ -28,6 +33,10 @@ describe('CLI', () => {
           blocks: stat.blocks,
           size: stat.size
         }).toMatchSnapshot()
+      })
+
+      test('should generate correct svg', () => {
+        expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot()
       })
     })
   })

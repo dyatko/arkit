@@ -16,9 +16,14 @@
   },
   "arkit": {
     "$schema": "https://arkit.js.org/schema.json",
-    "output": {
-      "path": "dist/arkit.png"
-    }
+    "output": [
+      {
+        "path": "dist/arkit.svg"
+      },
+      {
+        "path": "dist/arkit.png"
+      }
+    ]
   },
   "engines": {
     "node": ">= 8.15.0"

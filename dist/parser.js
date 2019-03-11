@@ -48,7 +48,6 @@ class Parser {
                 this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath));
             }
         });
-        this.project.resolveSourceFileDependencies();
     }
     cleanProject() {
         for (const [filepath, sourceFile] of this.sourceFiles.entries()) {

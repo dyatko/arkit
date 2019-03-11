@@ -75,8 +75,6 @@ export class Parser {
         this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
       }
     })
-
-    this.project.resolveSourceFileDependencies()
   }
 
   private cleanProject () {
