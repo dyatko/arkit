@@ -71,12 +71,12 @@ Options:
   "$schema": "https://arkit.js.org/schema.json",
   "components": [
     {
-      "type": "Component",
-      "patterns": ["**/*.ts", "**/*.tsx"]
-    },
-    {
       "type": "Dependency",
       "patterns": ["node_modules/*"]
+    },
+    {
+      "type": "Component",
+      "patterns": ["**/*.ts", "**/*.tsx"]
     }
   ],
   "excludePatterns": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
@@ -104,7 +104,7 @@ Options:
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
 ![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
 
-#### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit -o dist/arkit.png -f src/arkit.ts`
+#### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit -o dist/arkit.png`
 ![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
 
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)

@@ -4,12 +4,12 @@ import { array, safeRequire } from './utils'
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
-    type: 'Component',
-    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-  },
-  {
     type: 'Dependency',
     patterns: ['node_modules/*']
+  },
+  {
+    type: 'Component',
+    patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
   }
 ]
 
@@ -52,16 +52,11 @@ export class Config {
       return array(userConfigOutput)!
     }
 
-    const firstGroup = firstOption ? [{
-      first: true,
-      patterns: firstOption
-    }] : []
-
     return [
       {
         path: outputOption,
         groups: [
-          ...firstGroup,
+          { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
           { type: 'Dependencies', components: ['Dependency'] },
           {} // everything else
         ]

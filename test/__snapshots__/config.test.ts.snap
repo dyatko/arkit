@@ -5,18 +5,18 @@ Config {
   "components": Array [
     Object {
       "patterns": Array [
+        "node_modules/*",
+      ],
+      "type": "Dependency",
+    },
+    Object {
+      "patterns": Array [
         "**/*.ts",
         "**/*.js",
         "**/*.jsx",
         "**/*.tsx",
       ],
       "type": "Component",
-    },
-    Object {
-      "patterns": Array [
-        "node_modules/*",
-      ],
-      "type": "Dependency",
     },
   ],
   "excludePatterns": Array [],
@@ -31,6 +31,13 @@ Config {
       "groups": Array [
         Object {
           "components": Array [
+            "Component",
+          ],
+          "first": true,
+          "patterns": undefined,
+        },
+        Object {
+          "components": Array [
             "Dependency",
           ],
           "type": "Dependencies",
@@ -41,11 +48,11 @@ Config {
     },
   ],
   "patterns": Array [
+    "node_modules/*",
     "**/*.ts",
     "**/*.js",
     "**/*.jsx",
     "**/*.tsx",
-    "node_modules/*",
   ],
 }
 `;
@@ -55,18 +62,18 @@ Config {
   "components": Array [
     Object {
       "patterns": Array [
+        "node_modules/*",
+      ],
+      "type": "Dependency",
+    },
+    Object {
+      "patterns": Array [
         "**/*.ts",
         "**/*.js",
         "**/*.jsx",
         "**/*.tsx",
       ],
       "type": "Component",
-    },
-    Object {
-      "patterns": Array [
-        "node_modules/*",
-      ],
-      "type": "Dependency",
     },
   ],
   "excludePatterns": Array [],
@@ -84,11 +91,11 @@ Config {
     },
   ],
   "patterns": Array [
+    "node_modules/*",
     "**/*.ts",
     "**/*.js",
     "**/*.jsx",
     "**/*.tsx",
-    "node_modules/*",
   ],
 }
 `;

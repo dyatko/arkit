@@ -87,7 +87,7 @@ export class Generator extends GeneratorBase {
     const puml: string[] = []
     const isDirectory = component.filename.endsWith('**')
     const hasLayer = component.layer !== EMPTY_LAYER
-    const safeName = component.name.replace(/[^\w]/g, '_')
+    const safeName = '_' + component.name.replace(/[^\w]/g, '_')
 
     if (isDirectory) {
       puml.push(`[${component.name}]`)
@@ -148,7 +148,7 @@ export class Generator extends GeneratorBase {
   }
 
   private getConnectionSign (component: Component, importedComponent: Component): string {
-    if (!component.isImported) return '='
+    if (!component.isImported && !importedComponent.filename.endsWith('**')) return '='
     if (component.layer === importedComponent.layer && component.layer !== EMPTY_LAYER) return '.'
     return '-'
   }

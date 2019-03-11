@@ -42,10 +42,10 @@ package "Base" {
   (model)
 }
 
-rectangle "<b>main.ts</b>" as main_ts
+rectangle "<b>main.ts</b>" as _main_ts
 
 (component) ..> (base.component)
-main_ts ==> (main.view)
+_main_ts ==> (main.view)
 (main.view) --> (component)
 (main.view) ...> (singleton)
 (singleton) ---> (model)

@@ -4,12 +4,12 @@ const path = require("path");
 const utils_1 = require("./utils");
 const DEFAULT_COMPONENTS = [
     {
-        type: 'Component',
-        patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
-    },
-    {
         type: 'Dependency',
         patterns: ['node_modules/*']
+    },
+    {
+        type: 'Component',
+        patterns: ['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']
     }
 ];
 class Config {
@@ -39,15 +39,11 @@ class Config {
         if (!shouldGenerateOutput) {
             return utils_1.array(userConfigOutput);
         }
-        const firstGroup = firstOption ? [{
-                first: true,
-                patterns: firstOption
-            }] : [];
         return [
             {
                 path: outputOption,
                 groups: [
-                    ...firstGroup,
+                    { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
                     { type: 'Dependencies', components: ['Dependency'] },
                     {} // everything else
                 ]

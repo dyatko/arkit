@@ -70,7 +70,7 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [];
         const isDirectory = component.filename.endsWith('**');
         const hasLayer = component.layer !== types_1.EMPTY_LAYER;
-        const safeName = component.name.replace(/[^\w]/g, '_');
+        const safeName = '_' + component.name.replace(/[^\w]/g, '_');
         if (isDirectory) {
             puml.push(`[${component.name}]`);
         }
@@ -121,7 +121,7 @@ class Generator extends generator_base_1.GeneratorBase {
         return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels));
     }
     getConnectionSign(component, importedComponent) {
-        if (!component.isImported)
+        if (!component.isImported && !importedComponent.filename.endsWith('**'))
             return '=';
         if (component.layer === importedComponent.layer && component.layer !== types_1.EMPTY_LAYER)
             return '.';
