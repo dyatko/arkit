@@ -1,5 +1,4 @@
-/// <reference types="node" />
-import { GeneratorBase } from './generator.base';
+import { GeneratorBase } from "./generator.base";
 export declare class Generator extends GeneratorBase {
     generate(): Promise<string[]>;
     private generatePlantUML;
@@ -8,6 +7,7 @@ export declare class Generator extends GeneratorBase {
     private generatePlantUMLRelationships;
     private getConnectionLength;
     private getConnectionSign;
+    private getConnectionStyle;
     /**
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
      */

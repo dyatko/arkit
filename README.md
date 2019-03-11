@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://arkit.js.org/arkit.svg" alt="arkit" /><br /><code>🇸🇪arkitektur</code>
+  <img src="arkit.svg?sanitize=true" alt="arkit" /><br /><code>🇸🇪arkitektur</code>
 </p>
 <p align="center">
   <a href="https://www.npmjs.com/arkit"><img src="https://img.shields.io/npm/v/arkit.svg?label=%20&style=flat-square" alt="Arkit NPM package" /></a>
@@ -101,13 +101,13 @@ Options:
 ## Real-world examples
 
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
-![Express architecture diagram](https://arkit.js.org/test/express/express.svg)
+![Express architecture diagram](test/express/express.svg?sanitize=true)
 
 #### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit` and [JSON config in package.json](https://github.com/dyatko/arkit/blob/master/package.json#L17)
-![Arkit architecture diagram](https://arkit.js.org/dist/arkit.png)
+![Arkit architecture diagram](dist/arkit.png?sanitize=true)
 
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [JSON config](test/react-dom/arkit.json)
-![ReactDOM architecture diagram](https://arkit.js.org/test/react-dom/arkit.svg)
+![ReactDOM architecture diagram](test/react-dom/arkit.svg?sanitize=true)
 
 ## Contribution
 

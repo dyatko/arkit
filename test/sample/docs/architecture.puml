@@ -17,17 +17,16 @@ skinparam packageTitleAlignment left
 ' oval
 skinparam usecase {
   borderThickness 0.6
-  fontSize 11
 }
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.8
+  borderThickness 0.6
 }
 
 ' component
 skinparam component {
-  borderThickness 1.2
+  borderThickness 1
 }
 
 
@@ -42,10 +41,10 @@ package "Base" {
   rectangle "model" as _model
 }
 
-(main.ts)
+(<b>main.ts</b>)
 
 _component ..> (base.component)
-(main.ts) ==> (main.view)
+(<b>main.ts</b>) --[thickness=1]> (main.view)
 (main.view) --> _component
 (main.view) ...> (singleton)
 (singleton) ---> _model

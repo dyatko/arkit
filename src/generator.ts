@@ -1,9 +1,9 @@
-import * as path from 'path'
-import * as fs from 'fs'
-import * as https from 'https'
-import { array, debug, info, trace, bold } from './utils'
-import { GeneratorBase } from './generator.base'
-import { OutputDirection, OutputFormat, OutputSchema, Component, Context, EMPTY_LAYER, Layers } from './types'
+import * as path from "path";
+import * as fs from "fs";
+import * as https from "https";
+import { array, bold, debug, info, trace } from "./utils";
+import { GeneratorBase } from "./generator.base";
+import { Component, Context, EMPTY_LAYER, Layers, OutputDirection, OutputFormat, OutputSchema } from "./types";
 
 export class Generator extends GeneratorBase {
   generate (): Promise<string[]> {
@@ -84,8 +84,12 @@ export class Generator extends GeneratorBase {
     const puml: string[] = []
     const isDirectory = component.filename.endsWith('**')
     const hasLayer = component.layer !== EMPTY_LAYER
-    const name = component.name
+    let name = component.name
     const safeName = '_' + name.replace(/[^\w]/g, '_')
+
+    if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
+      name = bold(name)
+    }
 
     if (isDirectory) {
       if (hasLayer) {
@@ -93,20 +97,14 @@ export class Generator extends GeneratorBase {
       } else if (context === Context.RELATIONSHIP) {
         puml.push(safeName)
       } else {
-        puml.push(`[${bold(name)}] as ${safeName}`)
+        puml.push(`[${name}] as ${safeName}`)
       }
     } else if (!component.isClass) {
       puml.push(`(${name})`)
     } else if (context === Context.RELATIONSHIP) {
       puml.push(safeName)
     } else {
-      puml.push('rectangle "')
-      if (!component.isImported) {
-        puml.push(bold(name))
-      } else {
-        puml.push(name)
-      }
-      puml.push(`" as ${safeName}`)
+      puml.push(`rectangle "${name}" as ${safeName}`)
     }
 
     return puml.join('')
@@ -125,7 +123,8 @@ export class Generator extends GeneratorBase {
         if (importedComponent) {
           const connectionLength = this.getConnectionLength(component, importedComponent)
           const connectionSign = this.getConnectionSign(component, importedComponent)
-          const connection = connectionSign.repeat(connectionLength) + '>'
+          const connectionStyle = this.getConnectionStyle(component)
+          const connection = connectionSign.repeat(connectionLength) + connectionStyle + '>'
           const relationshipUML = [
             this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
             connection,
@@ -152,9 +151,13 @@ export class Generator extends GeneratorBase {
   }
 
   private getConnectionSign (component: Component, importedComponent: Component): string {
-    if (!component.isImported && !importedComponent.filename.endsWith('**')) return '='
     if (component.layer === importedComponent.layer && component.layer !== EMPTY_LAYER) return '.'
     return '-'
+  }
+
+  private getConnectionStyle (component: Component): string {
+    if (!component.isImported) return '[thickness=1]'
+    return ''
   }
 
   /**
@@ -197,17 +200,16 @@ skinparam packageTitleAlignment left
 ' oval
 skinparam usecase {
   borderThickness 0.6
-  fontSize 11
 }
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.8
+  borderThickness 0.6
 }
 
 ' component
 skinparam component {
-  borderThickness 1.2
+  borderThickness 1
 }
 `
   }

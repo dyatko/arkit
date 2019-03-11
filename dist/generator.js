@@ -68,8 +68,11 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [];
         const isDirectory = component.filename.endsWith('**');
         const hasLayer = component.layer !== types_1.EMPTY_LAYER;
-        const name = component.name;
+        let name = component.name;
         const safeName = '_' + name.replace(/[^\w]/g, '_');
+        if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
+            name = utils_1.bold(name);
+        }
         if (isDirectory) {
             if (hasLayer) {
                 puml.push(`[${name}]`);
@@ -78,7 +81,7 @@ class Generator extends generator_base_1.GeneratorBase {
                 puml.push(safeName);
             }
             else {
-                puml.push(`[${utils_1.bold(name)}] as ${safeName}`);
+                puml.push(`[${name}] as ${safeName}`);
             }
         }
         else if (!component.isClass) {
@@ -88,14 +91,7 @@ class Generator extends generator_base_1.GeneratorBase {
             puml.push(safeName);
         }
         else {
-            puml.push('rectangle "');
-            if (!component.isImported) {
-                puml.push(utils_1.bold(name));
-            }
-            else {
-                puml.push(name);
-            }
-            puml.push(`" as ${safeName}`);
+            puml.push(`rectangle "${name}" as ${safeName}`);
         }
         return puml.join('');
     }
@@ -108,7 +104,8 @@ class Generator extends generator_base_1.GeneratorBase {
                 if (importedComponent) {
                     const connectionLength = this.getConnectionLength(component, importedComponent);
                     const connectionSign = this.getConnectionSign(component, importedComponent);
-                    const connection = connectionSign.repeat(connectionLength) + '>';
+                    const connectionStyle = this.getConnectionStyle(component);
+                    const connection = connectionSign.repeat(connectionLength) + connectionStyle + '>';
                     const relationshipUML = [
                         this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
                         connection,
@@ -127,11 +124,14 @@ class Generator extends generator_base_1.GeneratorBase {
         return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels));
     }
     getConnectionSign(component, importedComponent) {
-        if (!component.isImported && !importedComponent.filename.endsWith('**'))
-            return '=';
         if (component.layer === importedComponent.layer && component.layer !== types_1.EMPTY_LAYER)
             return '.';
         return '-';
+    }
+    getConnectionStyle(component) {
+        if (!component.isImported)
+            return '[thickness=1]';
+        return '';
     }
     /**
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
@@ -167,17 +167,16 @@ skinparam packageTitleAlignment left
 ' oval
 skinparam usecase {
   borderThickness 0.6
-  fontSize 11
 }
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.8
+  borderThickness 0.6
 }
 
 ' component
 skinparam component {
-  borderThickness 1.2
+  borderThickness 1
 }
 `;
     }
