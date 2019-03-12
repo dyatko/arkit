@@ -56,7 +56,7 @@ export class Generator extends GeneratorBase {
 
     const puml = ['@startuml']
 
-    puml.push(this.generatePlantUMLSkin(output, layers))
+    puml.push(this.generatePlantUMLSkin(output, layerComponents))
 
     for (const [layer, components] of layers.entries()) {
       puml.push(this.generatePlantUMLLayer(layer, components))
@@ -179,13 +179,13 @@ export class Generator extends GeneratorBase {
   /**
    * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
    */
-  private generatePlantUMLSkin (output: OutputSchema, layers: Layers): string {
+  private generatePlantUMLSkin (output: OutputSchema, components: Component[]): string {
     const puml = ['']
 
     puml.push('scale max 1920 width')
 
     const direction =
-      output.direction || this.getAllComponents(layers).length > 20
+      output.direction || components.length > 20
         ? OutputDirection.HORIZONTAL
         : OutputDirection.VERTICAL
 
@@ -195,17 +195,21 @@ export class Generator extends GeneratorBase {
       puml.push('top to bottom direction')
     }
 
-    puml.push(this.generatePlantUMLSkinParams())
+    puml.push(this.generatePlantUMLSkinParams(components))
 
     return puml.join('\n')
   }
 
-  private generatePlantUMLSkinParams (): string {
+  private generatePlantUMLSkinParams (components: Component[]): string {
+    const complexity = Math.min(1, components.length / 50)
+    const nodesep = 10 + Math.round(complexity * 20)
+    const ranksep = 20 + Math.round(complexity * 40)
+
     return `
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 20
-skinparam ranksep 60
+skinparam nodesep ${nodesep}
+skinparam ranksep ${ranksep}
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4

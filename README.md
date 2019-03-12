@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="arkit.svg?sanitize=true" alt="arkit" /><br /><code>🇸🇪arkitektur</code>
+  <img src="arkit.svg?sanitize=true" alt="arkit" /><br />
+  <code>🇸🇪arkitektur</code>
 </p>
 <p align="center">
   <a href="https://www.npmjs.com/arkit"><img src="https://img.shields.io/npm/v/arkit.svg?label=%20&style=flat-square" alt="Arkit NPM package" /></a>
