@@ -15,7 +15,7 @@ import {
 
 export class GeneratorBase {
   protected config: ConfigBase
-  private files: Files
+  protected files: Files
 
   constructor (
     config: ConfigBase,
@@ -188,7 +188,8 @@ export class GeneratorBase {
   }
 
   protected findComponentSchema (output: OutputSchema, filename: string): ComponentSchema | undefined {
-    const componentSchema = this.config.components.find(componentSchema => {
+    const componentSchemas = this.config.final.components as ComponentSchema[]
+    const componentSchema = componentSchemas.find(componentSchema => {
       const outputFilters: ComponentFilters[] = array(output.groups) || []
       const includedInOutput = !outputFilters.length || outputFilters.some(
         outputFilter => verifyComponentFilters(outputFilter, componentSchema, this.config.directory)

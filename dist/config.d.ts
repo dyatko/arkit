@@ -1,14 +1,13 @@
-import { ComponentSchema, ConfigBase, Options, OutputSchema } from './types';
+import { ConfigBase, ConfigSchema, Options } from './types';
 export declare class Config implements ConfigBase {
     directory: string;
-    components: ComponentSchema[];
-    outputs: OutputSchema[];
-    patterns: string[];
-    excludePatterns: string[];
+    final: ConfigSchema;
     extensions: string[];
     constructor(options: Options);
     private getUserConfig;
-    private getOutputs;
-    private getExcludePatterns;
+    private getFinalConfig;
+    private getFinalComponents;
+    private getFinalOutputs;
+    private getExcludedPatterns;
 }
 //# sourceMappingURL=config.d.ts.map

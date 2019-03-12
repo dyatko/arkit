@@ -142,7 +142,8 @@ class GeneratorBase {
         return sortedComponents;
     }
     findComponentSchema(output, filename) {
-        const componentSchema = this.config.components.find(componentSchema => {
+        const componentSchemas = this.config.final.components;
+        const componentSchema = componentSchemas.find(componentSchema => {
             const outputFilters = utils_1.array(output.groups) || [];
             const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
             if (includedInOutput) {

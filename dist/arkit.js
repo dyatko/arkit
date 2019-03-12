@@ -72,17 +72,21 @@ const getOptions = (options) => {
     }
     return opts;
 };
-exports.arkit = (options) => {
+exports.getConfig = (options) => {
     const opts = getOptions(options);
     utils_1.info('Options');
     utils_1.info(opts);
-    const config = new config_1.Config(opts);
-    utils_1.info('Config');
-    utils_1.info(config);
-    const parser = new parser_1.Parser(config);
-    const files = parser.parse();
+    return new config_1.Config(opts);
+};
+exports.getOutputs = (config) => {
+    const files = new parser_1.Parser(config).parse();
     utils_1.trace('Parsed files');
     utils_1.trace(files);
-    const generator = new generator_1.Generator(config, files);
-    return generator.generate();
+    return new generator_1.Generator(config, files).generate();
+};
+exports.arkit = (options) => {
+    const config = exports.getConfig(options);
+    utils_1.info('Config');
+    utils_1.info(config);
+    return exports.getOutputs(config);
 };

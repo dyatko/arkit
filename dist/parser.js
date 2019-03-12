@@ -6,6 +6,7 @@ const ts_morph_1 = require("ts-morph");
 const resolve_1 = require("resolve");
 const utils_1 = require("./utils");
 const tsconfig_paths_1 = require("tsconfig-paths");
+const ProgressBar = require("progress");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
@@ -27,19 +28,27 @@ class Parser {
         }
     }
     prepareProject() {
+        this.resolveTsConfigPaths();
         this.project = new ts_morph_1.Project({
-            compilerOptions: {
-                target: ts_morph_1.ts.ScriptTarget.Latest,
-                noEmit: true,
-                skipLibCheck: true,
-                allowJs: true
-            },
             tsConfigFilePath: this.tsConfigFilePath,
             addFilesFromTsConfig: false,
             skipFileDependencyResolution: true
         });
+        this.progress.tick();
+        const components = this.config.final.components;
+        const excludePatterns = [...this.config.final.excludePatterns];
+        const includePatterns = [];
+        components.forEach(component => {
+            includePatterns.push(...component.patterns);
+            if (component.excludePatterns) {
+                excludePatterns.push(...component.excludePatterns);
+            }
+        });
+        this.progress.tick();
         utils_1.info('Searching files...');
-        utils_1.getPaths(this.config.directory, '', this.config.patterns, this.config.excludePatterns).forEach(fullPath => {
+        const paths = utils_1.getPaths(this.config.directory, '', includePatterns, excludePatterns);
+        this.progress.total = paths.length * 2;
+        paths.forEach(fullPath => {
             utils_1.trace(`Adding ${fullPath}`);
             if (fullPath.endsWith('**')) {
                 this.sourceFolders.push(fullPath);
@@ -47,6 +56,7 @@ class Parser {
             else {
                 this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath));
             }
+            this.progress.tick();
         });
     }
     cleanProject() {
@@ -60,12 +70,17 @@ class Parser {
         this.sourceFolders = [];
     }
     parse() {
-        this.resolveTsConfigPaths();
+        this.progress = new ProgressBar('Parsing :bar', {
+            clear: true,
+            total: 10,
+            width: process.stdout.columns
+        });
         this.prepareProject();
         utils_1.info('Parsing', this.sourceFiles.size, 'files');
         const files = {};
         for (const fullPath of this.sourceFolders) {
             files[fullPath] = { exports: [], imports: {} };
+            this.progress.tick();
         }
         for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
             const filePath = path.relative(this.config.directory, fullPath);
@@ -75,8 +90,10 @@ class Parser {
             const imports = this.getImports(sourceFile, statements);
             utils_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
             files[fullPath] = { exports, imports };
+            this.progress.tick();
         }
         this.cleanProject();
+        this.progress.terminate();
         return files;
     }
     getImports(sourceFile, statements) {

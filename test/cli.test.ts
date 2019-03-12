@@ -6,10 +6,13 @@ jest.setTimeout(60000)
 
 describe('CLI', () => {
   const arkit = path.resolve(__dirname, '../index.js')
+  const exec = (command: string): string => {
+    return execSync(command).toString().split(__dirname).join('__dirname')
+  }
 
   describe('Options', () => {
     test('should output help', () => {
-      expect(execSync(`${arkit} -h`).toString()).toMatchSnapshot()
+      expect(exec(`${arkit} -h`)).toMatchSnapshot()
     })
   })
 
@@ -52,7 +55,7 @@ describe('CLI', () => {
         if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath)
 
         process.chdir(dir)
-        execSync(arkit)
+        exec(arkit)
       })
 
       test('should generate correct puml', () => {
@@ -71,7 +74,7 @@ describe('CLI', () => {
         const dir = path.resolve(__dirname, './angular2_es2015')
 
         process.chdir(dir)
-        expect(execSync(arkit).toString()).toMatchSnapshot()
+        expect(exec(arkit)).toMatchSnapshot()
       })
     })
 
@@ -80,7 +83,7 @@ describe('CLI', () => {
         const dir = path.resolve(__dirname, './angular2_es2015')
 
         process.chdir(dir)
-        expect(execSync(`${arkit} -o puml -e "app/components/**"`).toString()).toMatchSnapshot()
+        expect(exec(`${arkit} -o puml -e "app/components/**"`)).toMatchSnapshot()
       })
     })
   })

@@ -1,4 +1,4 @@
-import { ComponentSchema, OutputSchema } from './schema'
+import { ConfigSchema } from './schema'
 
 export * from './schema'
 
@@ -45,9 +45,6 @@ export interface Files {
 
 export abstract class ConfigBase {
   directory: string
-  components: ComponentSchema[]
-  outputs: OutputSchema[]
-  patterns: string[] = []
-  excludePatterns: string[]
+  final: ConfigSchema
   extensions: string[]
 }

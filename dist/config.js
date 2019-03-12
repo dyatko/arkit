@@ -14,19 +14,9 @@ const DEFAULT_COMPONENTS = [
 ];
 class Config {
     constructor(options) {
-        this.patterns = [];
         this.extensions = ['.js', '.ts', '.jsx', '.tsx'];
         this.directory = options.directory;
-        const userConfig = this.getUserConfig();
-        const userComponents = userConfig && userConfig.components;
-        this.components = userComponents ? utils_1.array(userComponents) : DEFAULT_COMPONENTS;
-        this.outputs = this.getOutputs(options, userConfig);
-        this.excludePatterns = this.getExcludePatterns(options, userConfig);
-        for (const component of this.components) {
-            if (component.patterns) {
-                this.patterns.push(...component.patterns);
-            }
-        }
+        this.final = this.getFinalConfig(options);
     }
     getUserConfig() {
         const userConfigPath = path.resolve(this.directory, 'arkit');
@@ -42,30 +32,41 @@ class Config {
             return packageJSON.arkit;
         }
     }
-    getOutputs(options, userConfig) {
-        const userConfigOutput = utils_1.array(userConfig && userConfig.output) || [{}];
+    getFinalConfig(options) {
+        const userConfig = this.getUserConfig();
+        return {
+            components: this.getFinalComponents(options, userConfig),
+            excludePatterns: this.getExcludedPatterns(options, userConfig),
+            output: this.getFinalOutputs(options, userConfig)
+        };
+    }
+    getFinalComponents(options, userConfig) {
+        const userComponents = userConfig && userConfig.components;
+        return userComponents ? utils_1.array(userComponents) : DEFAULT_COMPONENTS;
+    }
+    getFinalOutputs(options, userConfig) {
+        const initialOutputs = utils_1.array(userConfig && userConfig.output) || [{}];
         const outputOption = options.output && options.output.length ? options.output : undefined;
         const firstOption = options.first && options.first.length ? options.first : undefined;
-        const hasDefaultComponents = this.components === DEFAULT_COMPONENTS ? true : undefined;
-        const generatedGroups = hasDefaultComponents && [
-            { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
-            { type: 'Dependencies', components: ['Dependency'] },
-            {} // everything else
+        const userComponents = userConfig && userConfig.components;
+        const generatedGroups = [
+            { first: true, components: ['Component'] },
+            { type: 'Dependencies', components: ['Dependency'] }
         ];
-        return userConfigOutput.map(output => (Object.assign({}, output, { path: outputOption || output.path, groups: output.groups || generatedGroups })));
+        if (firstOption) {
+            generatedGroups[0].components = undefined;
+            generatedGroups[0].patterns = firstOption;
+            generatedGroups.push({}); // everything else
+        }
+        return initialOutputs.map(output => (Object.assign({}, output, { path: utils_1.array(outputOption || output.path || 'svg'), groups: output.groups || (!userComponents ? generatedGroups : undefined) })));
     }
-    getExcludePatterns(options, userConfig) {
+    getExcludedPatterns(options, userConfig) {
         const excludePatterns = [];
         if (options.exclude) {
             excludePatterns.push(...options.exclude);
         }
         if (userConfig && userConfig.excludePatterns) {
             excludePatterns.push(...userConfig.excludePatterns);
-        }
-        for (const component of this.components) {
-            if (component.excludePatterns) {
-                excludePatterns.push(...component.excludePatterns);
-            }
         }
         return excludePatterns;
     }

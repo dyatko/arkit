@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { ComponentSchema, ConfigBase, ConfigSchema, Options, OutputSchema } from './types'
+import { ComponentSchema, ConfigBase, ConfigSchema, GroupSchema, Options, OutputSchema } from './types'
 import { debug, array, safeRequire } from './utils'
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
@@ -15,26 +15,12 @@ const DEFAULT_COMPONENTS: ComponentSchema[] = [
 
 export class Config implements ConfigBase {
   directory: string
-  components: ComponentSchema[]
-  outputs: OutputSchema[]
-  patterns: string[] = []
-  excludePatterns: string[]
+  final: ConfigSchema
   extensions = ['.js', '.ts', '.jsx', '.tsx']
 
   constructor (options: Options) {
     this.directory = options.directory
-    const userConfig = this.getUserConfig()
-    const userComponents = userConfig && userConfig.components
-
-    this.components = userComponents ? array(userComponents)! : DEFAULT_COMPONENTS
-    this.outputs = this.getOutputs(options, userConfig)
-    this.excludePatterns = this.getExcludePatterns(options, userConfig)
-
-    for (const component of this.components) {
-      if (component.patterns) {
-        this.patterns.push(...component.patterns)
-      }
-    }
+    this.final = this.getFinalConfig(options)
   }
 
   private getUserConfig (): ConfigSchema | undefined {
@@ -54,25 +40,45 @@ export class Config implements ConfigBase {
     }
   }
 
-  private getOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
-    const userConfigOutput = array(userConfig && userConfig.output) || [{}]
+  private getFinalConfig (options: Options): ConfigSchema {
+    const userConfig = this.getUserConfig()
+
+    return {
+      components: this.getFinalComponents(options, userConfig),
+      excludePatterns: this.getExcludedPatterns(options, userConfig),
+      output: this.getFinalOutputs(options, userConfig)
+    }
+  }
+
+  private getFinalComponents (options: Options, userConfig?: ConfigSchema): ComponentSchema[] {
+    const userComponents = userConfig && userConfig.components
+    return userComponents ? array(userComponents)! : DEFAULT_COMPONENTS
+  }
+
+  private getFinalOutputs (options: Options, userConfig?: ConfigSchema): OutputSchema[] {
+    const initialOutputs = array(userConfig && userConfig.output) || [{}]
     const outputOption = options.output && options.output.length ? options.output : undefined
     const firstOption = options.first && options.first.length ? options.first : undefined
-    const hasDefaultComponents = this.components === DEFAULT_COMPONENTS ? true : undefined
-    const generatedGroups = hasDefaultComponents && [
-      { first: true, components: firstOption ? undefined : ['Component'], patterns: firstOption },
-      { type: 'Dependencies', components: ['Dependency'] },
-      {} // everything else
+    const userComponents = userConfig && userConfig.components
+    const generatedGroups: GroupSchema[] = [
+      { first: true, components: ['Component'] },
+      { type: 'Dependencies', components: ['Dependency'] }
     ]
 
-    return userConfigOutput.map(output => ({
+    if (firstOption) {
+      generatedGroups[0].components = undefined
+      generatedGroups[0].patterns = firstOption
+      generatedGroups.push({}) // everything else
+    }
+
+    return initialOutputs.map(output => ({
       ...output,
-      path: outputOption || output.path,
-      groups: output.groups || generatedGroups
+      path: array(outputOption || output.path || 'svg'),
+      groups: output.groups || (!userComponents ? generatedGroups : undefined)
     }))
   }
 
-  private getExcludePatterns (options: Options, userConfig?: ConfigSchema): string[] {
+  private getExcludedPatterns (options: Options, userConfig?: ConfigSchema): string[] {
     const excludePatterns: string[] = []
 
     if (options.exclude) {
@@ -81,12 +87,6 @@ export class Config implements ConfigBase {
 
     if (userConfig && userConfig.excludePatterns) {
       excludePatterns.push(...userConfig.excludePatterns)
-    }
-
-    for (const component of this.components) {
-      if (component.excludePatterns) {
-        excludePatterns.push(...component.excludePatterns)
-      }
     }
 
     return excludePatterns

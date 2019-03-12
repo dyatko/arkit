@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { GeneratorBase } from './generator.base';
 export declare class Generator extends GeneratorBase {
+    private progress;
     generate(): Promise<string[]>;
     private generatePlantUML;
     private generatePlantUMLLayer;

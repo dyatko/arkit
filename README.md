@@ -111,7 +111,7 @@ Options:
 
 ## Contribution
 
-The tool is under active development, so please feel free to contribute with suggestions and pull requests. Your feedback is priceless.
+The tool is under active development, so please feel free to [contribute with suggestions](https://github.com/dyatko/arkit/issues/new/choose) and pull requests. Your feedback is priceless.
 
 <h4 align="center">Fun stats, stargazers map</h4>
 

@@ -1,7 +1,7 @@
 import { ComponentSchema, OutputSchema, Files, Component, Components, Layers, ConfigBase } from './types';
 export declare class GeneratorBase {
     protected config: ConfigBase;
-    private files;
+    protected files: Files;
     constructor(config: ConfigBase, files: Files);
     protected generateComponents(output: OutputSchema): Components;
     protected generateLayers(output: OutputSchema, allComponents: Components): Layers;

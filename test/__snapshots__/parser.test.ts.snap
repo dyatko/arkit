@@ -156,6 +156,8 @@ exports[`Parser Arkit 1`] = `
 Object {
   "arkit.ts": Object {
     "exports": Array [
+      "getConfig",
+      "getOutputs",
       "arkit",
     ],
     "imports": Object {
@@ -196,6 +198,7 @@ Object {
         "ComponentSchema",
         "ConfigBase",
         "ConfigSchema",
+        "GroupSchema",
         "Options",
         "OutputSchema",
       ],
@@ -249,6 +252,9 @@ Object {
       "https": Array [
         "https",
       ],
+      "node_modules/progress/index.js": Array [
+        "ProgressBar",
+      ],
       "path": Array [
         "path",
       ],
@@ -290,6 +296,9 @@ Object {
       "Parser",
     ],
     "imports": Object {
+      "node_modules/progress/index.js": Array [
+        "ProgressBar",
+      ],
       "node_modules/resolve/index.js": Array [
         "sync",
       ],
@@ -299,7 +308,6 @@ Object {
         "Project",
         "SourceFile",
         "Statement",
-        "ts",
         "TypeGuards",
       ],
       "node_modules/tsconfig-paths/lib/index.js": Array [
@@ -314,6 +322,7 @@ Object {
         "path",
       ],
       "types.ts": Array [
+        "ComponentSchema",
         "ConfigBase",
         "Exports",
         "Files",
@@ -358,8 +367,7 @@ Object {
     ],
     "imports": Object {
       "schema.ts": Array [
-        "ComponentSchema",
-        "OutputSchema",
+        "ConfigSchema",
       ],
     },
   },

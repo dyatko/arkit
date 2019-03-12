@@ -1,4 +1,4 @@
-import { ComponentSchema, OutputSchema } from './schema';
+import { ConfigSchema } from './schema';
 export * from './schema';
 export declare const EMPTY_LAYER: unique symbol;
 export interface Components extends Map<string, Component> {
@@ -34,10 +34,7 @@ export interface Files {
 }
 export declare abstract class ConfigBase {
     directory: string;
-    components: ComponentSchema[];
-    outputs: OutputSchema[];
-    patterns: string[];
-    excludePatterns: string[];
+    final: ConfigSchema;
     extensions: string[];
 }
 //# sourceMappingURL=types.d.ts.map

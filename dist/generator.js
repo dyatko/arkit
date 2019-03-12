@@ -6,24 +6,34 @@ const https = require("https");
 const utils_1 = require("./utils");
 const generator_base_1 = require("./generator.base");
 const types_1 = require("./types");
+const ProgressBar = require("progress");
 class Generator extends generator_base_1.GeneratorBase {
     constructor() {
         super(...arguments);
         this.requestChain = Promise.resolve();
     }
     generate() {
-        return Promise.all(this.config.outputs.reduce((promises, output) => {
+        const outputs = this.config.final.output;
+        const total = outputs.reduce((total, output) => total + utils_1.array(output.path).length, outputs.length);
+        this.progress = new ProgressBar('Generating :bar', {
+            total,
+            clear: true,
+            width: process.stdout.columns
+        });
+        return Promise.all(outputs.reduce((promises, output) => {
             let puml = this.generatePlantUML(output);
+            this.progress.tick();
             puml = `${puml}
 
 ' View and edit on https://arkit.herokuapp.com`;
             if (output.path && output.path.length) {
                 for (const outputPath of utils_1.array(output.path)) {
-                    promises.push(this.convert(outputPath, puml));
+                    const promise = this.convert(outputPath, puml).then(value => {
+                        this.progress.tick();
+                        return value;
+                    });
+                    promises.push(promise);
                 }
-            }
-            else {
-                promises.push(this.convert('svg', puml));
             }
             return promises;
         }, []));
@@ -34,13 +44,14 @@ class Generator extends generator_base_1.GeneratorBase {
         utils_1.trace(Array.from(components.values()));
         utils_1.info('Generating layers...');
         const layers = this.generateLayers(output, components);
+        const layerComponents = this.getAllComponents(layers, true);
         utils_1.trace(Array.from(layers.keys()));
         const puml = ['@startuml'];
         puml.push(this.generatePlantUMLSkin(output, layers));
         for (const [layer, components] of layers.entries()) {
             puml.push(this.generatePlantUMLLayer(layer, components));
         }
-        puml.push(this.generatePlantUMLRelationships(layers));
+        puml.push(this.generatePlantUMLRelationships(layerComponents));
         puml.push('');
         puml.push('@enduml');
         return puml.join('\n');
@@ -95,9 +106,8 @@ class Generator extends generator_base_1.GeneratorBase {
         }
         return puml.join('');
     }
-    generatePlantUMLRelationships(layers) {
+    generatePlantUMLRelationships(components) {
         const puml = [''];
-        const components = this.getAllComponents(layers, true);
         for (const component of components) {
             for (const importedFilename of component.imports) {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);

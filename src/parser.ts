@@ -6,13 +6,13 @@ import {
   Project,
   SourceFile,
   Statement,
-  ts,
   TypeGuards
 } from 'ts-morph'
 import { sync as resolve } from 'resolve'
 import { find, getPaths, debug, info, trace, warn } from './utils'
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths'
-import { ConfigBase, Exports, Files, Imports } from './types'
+import { ComponentSchema, ConfigBase, Exports, Files, Imports } from './types'
+import * as ProgressBar from 'progress'
 
 const QUOTES = `(?:'|")`
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`
@@ -26,6 +26,7 @@ export class Parser {
   private sourceFolders: string[] = []
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
+  private progress: ProgressBar
 
   constructor (config: ConfigBase) {
     this.config = config
@@ -49,31 +50,40 @@ export class Parser {
   }
 
   private prepareProject () {
+    this.resolveTsConfigPaths()
+
     this.project = new Project({
-      compilerOptions: {
-        target: ts.ScriptTarget.Latest,
-        noEmit: true,
-        skipLibCheck: true,
-        allowJs: true
-      },
       tsConfigFilePath: this.tsConfigFilePath,
       addFilesFromTsConfig: false,
       skipFileDependencyResolution: true
     })
+    this.progress.tick()
+
+    const components = this.config.final.components as ComponentSchema[]
+    const excludePatterns = [...this.config.final.excludePatterns as string[]]
+    const includePatterns: string[] = []
+
+    components.forEach(component => {
+      includePatterns.push(...component.patterns)
+
+      if (component.excludePatterns) {
+        excludePatterns.push(...component.excludePatterns)
+      }
+    })
+    this.progress.tick()
 
     info('Searching files...')
-    getPaths(
-      this.config.directory,
-      '',
-      this.config.patterns,
-      this.config.excludePatterns
-    ).forEach(fullPath => {
+    const paths = getPaths(this.config.directory, '', includePatterns, excludePatterns)
+    this.progress.total = paths.length * 2
+
+    paths.forEach(fullPath => {
       trace(`Adding ${fullPath}`)
       if (fullPath.endsWith('**')) {
         this.sourceFolders.push(fullPath)
       } else {
         this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
       }
+      this.progress.tick()
     })
   }
 
@@ -90,7 +100,11 @@ export class Parser {
   }
 
   parse (): Files {
-    this.resolveTsConfigPaths()
+    this.progress = new ProgressBar('Parsing :bar', {
+      clear: true,
+      total: 10,
+      width: process.stdout.columns
+    })
     this.prepareProject()
 
     info('Parsing', this.sourceFiles.size, 'files')
@@ -98,6 +112,7 @@ export class Parser {
 
     for (const fullPath of this.sourceFolders) {
       files[fullPath] = { exports: [], imports: {} }
+      this.progress.tick()
     }
 
     for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
@@ -110,9 +125,11 @@ export class Parser {
       debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
 
       files[fullPath] = { exports, imports }
+      this.progress.tick()
     }
 
     this.cleanProject()
+    this.progress.terminate()
 
     return files
   }

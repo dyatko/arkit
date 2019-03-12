@@ -84,22 +84,26 @@ const getOptions = (options?: Options): Options => {
   return opts
 }
 
-export const arkit = (options?: Options): Promise<string[]> => {
+export const getConfig = (options?: Options): Config => {
   const opts = getOptions(options)
   info('Options')
   info(opts)
 
-  const config = new Config(opts)
+  return new Config(opts)
+}
 
-  info('Config')
-  info(config)
-
-  const parser = new Parser(config)
-  const files = parser.parse()
-
+export const getOutputs = (config: Config): Promise<string[]> => {
+  const files = new Parser(config).parse()
   trace('Parsed files')
   trace(files)
 
-  const generator = new Generator(config, files)
-  return generator.generate()
+  return new Generator(config, files).generate()
+}
+
+export const arkit = (options?: Options): Promise<string[]> => {
+  const config = getConfig(options)
+  info('Config')
+  info(config)
+
+  return getOutputs(config)
 }

@@ -1,1 +1,1 @@
-{"version":3,"file":"arkit.d.ts","sourceRoot":"","sources":["../src/arkit.ts"],"names":[],"mappings":"AAMA,OAAO,EAAE,OAAO,EAAgB,MAAM,SAAS,CAAA;AAgF/C,eAAO,MAAM,KAAK,sDAkBjB,CAAA"}
+{"version":3,"file":"arkit.d.ts","sourceRoot":"","sources":["../src/arkit.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAA;AAGjC,OAAO,EAAE,OAAO,EAAgB,MAAM,SAAS,CAAA;AAgF/C,eAAO,MAAM,SAAS,2CAMrB,CAAA;AAED,eAAO,MAAM,UAAU,uCAMtB,CAAA;AAED,eAAO,MAAM,KAAK,sDAMjB,CAAA"}

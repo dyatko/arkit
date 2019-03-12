@@ -2,200 +2,185 @@
 
 exports[`Config Angular2 Todo 1`] = `
 Config {
-  "components": Array [
-    Object {
-      "patterns": Array [
-        "node_modules/*",
-      ],
-      "type": "Dependency",
-    },
-    Object {
-      "patterns": Array [
-        "**/*.ts",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.tsx",
-      ],
-      "type": "Component",
-    },
-  ],
-  "excludePatterns": Array [],
   "extensions": Array [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
   ],
-  "outputs": Array [
-    Object {
-      "groups": Array [
-        Object {
-          "components": Array [
-            "Component",
-          ],
-          "first": true,
-          "patterns": undefined,
-        },
-        Object {
-          "components": Array [
-            "Dependency",
-          ],
-          "type": "Dependencies",
-        },
-        Object {},
-      ],
-      "path": undefined,
-    },
-  ],
-  "patterns": Array [
-    "node_modules/*",
-    "**/*.ts",
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.tsx",
-  ],
+  "final": Object {
+    "components": Array [
+      Object {
+        "patterns": Array [
+          "node_modules/*",
+        ],
+        "type": "Dependency",
+      },
+      Object {
+        "patterns": Array [
+          "**/*.ts",
+          "**/*.js",
+          "**/*.jsx",
+          "**/*.tsx",
+        ],
+        "type": "Component",
+      },
+    ],
+    "excludePatterns": Array [],
+    "output": Array [
+      Object {
+        "groups": Array [
+          Object {
+            "components": Array [
+              "Component",
+            ],
+            "first": true,
+          },
+          Object {
+            "components": Array [
+              "Dependency",
+            ],
+            "type": "Dependencies",
+          },
+        ],
+        "path": Array [
+          "svg",
+        ],
+      },
+    ],
+  },
 }
 `;
 
 exports[`Config Express 1`] = `
 Config {
-  "components": Array [
-    Object {
-      "patterns": Array [
-        "node_modules/*",
-      ],
-      "type": "Dependency",
-    },
-    Object {
-      "patterns": Array [
-        "**/*.ts",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.tsx",
-      ],
-      "type": "Component",
-    },
-  ],
-  "excludePatterns": Array [],
   "extensions": Array [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
   ],
-  "outputs": Array [
-    Object {
-      "groups": Array [
-        Object {
-          "components": Array [
-            "Component",
-          ],
-          "first": true,
-          "patterns": undefined,
-        },
-        Object {
-          "components": Array [
-            "Dependency",
-          ],
-          "type": "Dependencies",
-        },
-        Object {},
-      ],
-      "path": Array [
-        "express.svg",
-      ],
-    },
-  ],
-  "patterns": Array [
-    "node_modules/*",
-    "**/*.ts",
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.tsx",
-  ],
+  "final": Object {
+    "components": Array [
+      Object {
+        "patterns": Array [
+          "node_modules/*",
+        ],
+        "type": "Dependency",
+      },
+      Object {
+        "patterns": Array [
+          "**/*.ts",
+          "**/*.js",
+          "**/*.jsx",
+          "**/*.tsx",
+        ],
+        "type": "Component",
+      },
+    ],
+    "excludePatterns": Array [],
+    "output": Array [
+      Object {
+        "groups": Array [
+          Object {
+            "components": Array [
+              "Component",
+            ],
+            "first": true,
+          },
+          Object {
+            "components": Array [
+              "Dependency",
+            ],
+            "type": "Dependencies",
+          },
+        ],
+        "path": Array [
+          "express.svg",
+        ],
+      },
+    ],
+  },
 }
 `;
 
 exports[`Config Sample 1`] = `
 Config {
-  "components": Array [
-    Object {
-      "format": "full",
-      "patterns": Array [
-        "./main.ts",
-      ],
-      "type": "App",
-    },
-    Object {
-      "patterns": Array [
-        "**/*.view.**",
-      ],
-      "type": "View",
-    },
-    Object {
-      "patterns": Array [
-        "**/**component.**",
-      ],
-      "type": "Component",
-    },
-    Object {
-      "patterns": Array [
-        "**/controllers/*",
-      ],
-      "type": "Controller",
-    },
-    Object {
-      "patterns": Array [
-        "**/models/*",
-      ],
-      "type": "Model",
-    },
-  ],
-  "excludePatterns": Array [],
   "extensions": Array [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
   ],
-  "outputs": Array [
-    Object {
-      "groups": Array [
-        Object {
-          "components": Array [
-            "View",
-            "Controller",
-          ],
-          "type": "Main",
-        },
-        Object {
-          "components": Array [
-            "Component",
-            "Model",
-          ],
-          "type": "Base",
-        },
-        Object {
-          "patterns": Array [
-            "**/*",
-          ],
-        },
-      ],
-      "path": Array [
-        "./docs/architecture.puml",
-      ],
-    },
-    Object {
-      "groups": undefined,
-      "path": "./docs/architecture.svg",
-    },
-  ],
-  "patterns": Array [
-    "./main.ts",
-    "**/*.view.**",
-    "**/**component.**",
-    "**/controllers/*",
-    "**/models/*",
-  ],
+  "final": Object {
+    "components": Array [
+      Object {
+        "format": "full",
+        "patterns": Array [
+          "./main.ts",
+        ],
+        "type": "App",
+      },
+      Object {
+        "patterns": Array [
+          "**/*.view.**",
+        ],
+        "type": "View",
+      },
+      Object {
+        "patterns": Array [
+          "**/**component.**",
+        ],
+        "type": "Component",
+      },
+      Object {
+        "patterns": Array [
+          "**/controllers/*",
+        ],
+        "type": "Controller",
+      },
+      Object {
+        "patterns": Array [
+          "**/models/*",
+        ],
+        "type": "Model",
+      },
+    ],
+    "excludePatterns": Array [],
+    "output": Array [
+      Object {
+        "groups": Array [
+          Object {
+            "components": Array [
+              "View",
+              "Controller",
+            ],
+            "type": "Main",
+          },
+          Object {
+            "components": Array [
+              "Component",
+              "Model",
+            ],
+            "type": "Base",
+          },
+          Object {
+            "patterns": Array [
+              "**/*",
+            ],
+          },
+        ],
+        "path": Array [
+          "./docs/architecture.puml",
+        ],
+      },
+      Object {
+        "groups": undefined,
+        "path": Array [
+          "./docs/architecture.svg",
+        ],
+      },
+    ],
+  },
 }
 `;

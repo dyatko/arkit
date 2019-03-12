@@ -4,11 +4,24 @@ import * as https from 'https'
 import { array, bold, debug, info, trace } from './utils'
 import { GeneratorBase } from './generator.base'
 import { Component, Context, EMPTY_LAYER, Layers, OutputDirection, OutputFormat, OutputSchema } from './types'
+import * as ProgressBar from 'progress'
 
 export class Generator extends GeneratorBase {
+  private progress: ProgressBar
+
   generate (): Promise<string[]> {
-    return Promise.all(this.config.outputs.reduce((promises, output) => {
+    const outputs = this.config.final.output as OutputSchema[]
+    const total = outputs.reduce((total, output) => total + array(output.path)!.length, outputs.length)
+
+    this.progress = new ProgressBar('Generating :bar', {
+      total,
+      clear: true,
+      width: process.stdout.columns
+    })
+
+    return Promise.all(outputs.reduce((promises, output) => {
       let puml = this.generatePlantUML(output)
+      this.progress.tick()
 
       puml = `${puml}
 
@@ -16,10 +29,13 @@ export class Generator extends GeneratorBase {
 
       if (output.path && output.path.length) {
         for (const outputPath of array(output.path)!) {
-          promises.push(this.convert(outputPath, puml))
+          const promise = this.convert(outputPath, puml).then(value => {
+            this.progress.tick()
+            return value
+          })
+
+          promises.push(promise)
         }
-      } else {
-        promises.push(this.convert('svg', puml))
       }
 
       return promises
@@ -35,6 +51,7 @@ export class Generator extends GeneratorBase {
 
     info('Generating layers...')
     const layers = this.generateLayers(output, components)
+    const layerComponents = this.getAllComponents(layers, true)
     trace(Array.from(layers.keys()))
 
     const puml = ['@startuml']
@@ -45,7 +62,7 @@ export class Generator extends GeneratorBase {
       puml.push(this.generatePlantUMLLayer(layer, components))
     }
 
-    puml.push(this.generatePlantUMLRelationships(layers))
+    puml.push(this.generatePlantUMLRelationships(layerComponents))
     puml.push('')
     puml.push('@enduml')
 
@@ -110,9 +127,8 @@ export class Generator extends GeneratorBase {
     return puml.join('')
   }
 
-  private generatePlantUMLRelationships (layers: Layers): string {
+  private generatePlantUMLRelationships (components: Component[]): string {
     const puml = ['']
-    const components = this.getAllComponents(layers, true)
 
     for (const component of components) {
       for (const importedFilename of component.imports) {

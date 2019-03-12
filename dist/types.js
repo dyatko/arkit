@@ -11,8 +11,5 @@ var Context;
     Context[Context["RELATIONSHIP"] = 1] = "RELATIONSHIP";
 })(Context = exports.Context || (exports.Context = {}));
 class ConfigBase {
-    constructor() {
-        this.patterns = [];
-    }
 }
 exports.ConfigBase = ConfigBase;
