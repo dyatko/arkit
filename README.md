@@ -11,10 +11,10 @@
 
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
-- Supports JavaScript, Node.js, TypeScript and Flow code
-- Identifies, connects and groups configured architectural components
-- Visualises all components or some segments of the architecture
-- Exports codebase visualisation as SVG, PNG or Plant UML diagram
+- Associates source files with configured architectural components
+- Groups and presents components and dependencies between them
+- Supports JavaScript, TypeScript and Flow source code and Node.js modules
+- Exports codebase architecture visualisation as SVG, PNG or Plant UML diagram
 - Integrates into development flow, so your CI, VCS, README and PRs are happy
 
 ## Usage
