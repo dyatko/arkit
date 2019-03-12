@@ -162,12 +162,12 @@ export class Generator extends GeneratorBase {
 
     return Math.max(
       component.isImported ? 2 : 1,
-      Math.min(4, numberOfLevels)
+      Math.min(4, numberOfLevels - 1)
     )
   }
 
   private getConnectionSign (component: Component, importedComponent: Component): string {
-    if (component.layer === importedComponent.layer && component.layer !== EMPTY_LAYER) return '.'
+    if (component.layer === importedComponent.layer && component.layer !== EMPTY_LAYER) return '~'
     return '-'
   }
 
@@ -205,22 +205,23 @@ export class Generator extends GeneratorBase {
 skinparam monochrome true
 skinparam shadowing false
 skinparam nodesep 20
-skinparam ranksep 20
+skinparam ranksep 60
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
 skinparam dpi 150
-skinparam arrowThickness 0.6
+skinparam arrowColor black
+skinparam arrowThickness 0.55
 skinparam packageTitleAlignment left
 
 ' oval
 skinparam usecase {
-  borderThickness 0.6
+  borderThickness 0.5
 }
 
 ' rectangle
 skinparam rectangle {
-  borderThickness 0.6
+  borderThickness 0.5
 }
 
 ' component
