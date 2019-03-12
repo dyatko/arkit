@@ -7,6 +7,7 @@
   <a href="https://travis-ci.org/dyatko/arkit/branches"><img src="https://img.shields.io/travis/dyatko/arkit/master.svg?style=flat-square" alt="Build status" /></a>
   <a href="https://codeclimate.com/github/dyatko/arkit/code"><img src="https://img.shields.io/codeclimate/coverage/dyatko/arkit.svg?style=flat-square" alt="Test coverage" /></a>
   <a href="https://codeclimate.com/github/dyatko/arkit/issues"><img src="https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square" alt="Technical debt" /></a>
+  <a href="https://libraries.io/npm/arkit/dependents"><img src="https://img.shields.io/librariesio/dependents/npm/arkit.svg?style=flat-square" alt="Dependents" /></a>
 </p>
 
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
@@ -84,6 +85,7 @@ Options:
       "path": "arkit.svg",
       "groups": [
         {
+          "first": true,
           "components": ["Component"]
         },
         {
