@@ -117,7 +117,7 @@ export class Generator extends GeneratorBase {
     const puml: string[] = [];
     const isDirectory = component.filename.endsWith("**");
     const hasLayer = component.layer !== EMPTY_LAYER;
-    let name = component.name;
+    let name = component.name.replace(/\\/g, "/");
     const safeName = "_" + name.replace(/[^\w]/g, "_");
 
     if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {

@@ -79,7 +79,7 @@ class Generator extends generator_base_1.GeneratorBase {
         const puml = [];
         const isDirectory = component.filename.endsWith("**");
         const hasLayer = component.layer !== types_1.EMPTY_LAYER;
-        let name = component.name;
+        let name = component.name.replace(/\\/g, "/");
         const safeName = "_" + name.replace(/[^\w]/g, "_");
         if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
             name = utils_1.bold(name);
