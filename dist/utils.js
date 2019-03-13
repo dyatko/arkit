@@ -8,25 +8,57 @@ const fs = require("fs");
 const logger_1 = require("./logger");
 const nanomatch = require("nanomatch");
 __export(require("./logger"));
-exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns) => {
+exports.getStats = (path) => {
+    try {
+        const stats = fs.statSync(path);
+        return {
+            isDirectory: stats.isDirectory(),
+            isFile: stats.isFile()
+        };
+    }
+    catch (e) {
+        logger_1.warn(e);
+        return {
+            isDirectory: false,
+            isFile: false
+        };
+    }
+};
+exports.getMemoryUsage = () => {
+    const memoryUsage = process.memoryUsage();
+    return memoryUsage.heapUsed / memoryUsage.heapTotal;
+};
+exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns, history = []) => {
     const root = path.join(mainDirectory, directory);
+    if (history.includes(root)) {
+        logger_1.warn(`Skipping ${root} as it was parsed already`);
+        return [];
+    }
+    else {
+        history.push(root);
+    }
+    const usedMemory = exports.getMemoryUsage();
+    if (usedMemory > 0.95) {
+        logger_1.warn(`Stopping at ${root} since 95% of heap memory is used!`);
+        return [];
+    }
     return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
         const filePath = path.join(directory, fileName);
         const notExcluded = !excludePatterns.length || !exports.match(filePath, excludePatterns);
         if (notExcluded) {
             const fullPath = path.join(root, fileName);
-            const stats = fs.statSync(fullPath);
+            const stats = exports.getStats(fullPath);
             const isIncluded = exports.match(filePath, includePatterns);
-            if (stats.isDirectory()) {
+            if (stats.isDirectory) {
                 if (isIncluded) {
                     suitablePaths.push(path.join(fullPath, '**'));
                 }
                 else {
-                    const childPaths = exports.getPaths(mainDirectory, filePath, includePatterns, excludePatterns);
+                    const childPaths = exports.getPaths(mainDirectory, filePath, includePatterns, excludePatterns, history);
                     suitablePaths.push(...childPaths);
                 }
             }
-            else if (stats.isFile() && isIncluded) {
+            else if (stats.isFile && isIncluded) {
                 suitablePaths.push(fullPath);
             }
         }

@@ -375,6 +375,8 @@ Object {
   },
   "utils.ts": Object {
     "exports": Array [
+      "getStats",
+      "getMemoryUsage",
       "getPaths",
       "match",
       "find",
@@ -389,6 +391,7 @@ Object {
       ],
       "logger.ts": Array [
         "trace",
+        "warn",
       ],
       "node_modules/nanomatch/index.js": Array [
         "nanomatch",

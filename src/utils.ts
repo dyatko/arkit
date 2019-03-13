@@ -1,18 +1,54 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import { trace } from './logger'
+import { trace, warn } from './logger'
 import * as nanomatch from 'nanomatch'
 import { Component, ComponentFilters, ComponentSchema } from './types'
 
 export * from './logger'
 
+export const getStats = (path: string): { isDirectory: boolean, isFile: boolean } => {
+  try {
+    const stats = fs.statSync(path)
+    return {
+      isDirectory: stats.isDirectory(),
+      isFile: stats.isFile()
+    }
+  } catch (e) {
+    warn(e)
+    return {
+      isDirectory: false,
+      isFile: false
+    }
+  }
+}
+
+export const getMemoryUsage = (): number => {
+  const memoryUsage = process.memoryUsage()
+  return memoryUsage.heapUsed / memoryUsage.heapTotal
+}
+
 export const getPaths = (
   mainDirectory: string,
   directory: string,
   includePatterns: string[],
-  excludePatterns: string[]
+  excludePatterns: string[],
+  history: string[] = []
 ): string[] => {
   const root = path.join(mainDirectory, directory)
+
+  if (history.includes(root)) {
+    warn(`Skipping ${root} as it was parsed already`)
+    return []
+  } else {
+    history.push(root)
+  }
+
+  const usedMemory = getMemoryUsage()
+
+  if (usedMemory > 0.95) {
+    warn(`Stopping at ${root} since 95% of heap memory is used!`)
+    return []
+  }
 
   return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
     const filePath = path.join(directory, fileName)
@@ -20,17 +56,17 @@ export const getPaths = (
 
     if (notExcluded) {
       const fullPath = path.join(root, fileName)
-      const stats = fs.statSync(fullPath)
+      const stats = getStats(fullPath)
       const isIncluded = match(filePath, includePatterns)
 
-      if (stats.isDirectory()) {
+      if (stats.isDirectory) {
         if (isIncluded) {
           suitablePaths.push(path.join(fullPath, '**'))
         } else {
-          const childPaths = getPaths(mainDirectory, filePath, includePatterns, excludePatterns)
+          const childPaths = getPaths(mainDirectory, filePath, includePatterns, excludePatterns, history)
           suitablePaths.push(...childPaths)
         }
-      } else if (stats.isFile() && isIncluded) {
+      } else if (stats.isFile && isIncluded) {
         suitablePaths.push(fullPath)
       }
     }
