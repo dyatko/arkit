@@ -121,6 +121,11 @@
       "browser": false
     }
   },
+  "renovate": {
+    "extends": [
+      "config:base", ":automergeAll"
+    ]
+  },
   "keywords": [
     "architecture",
     "cli",
