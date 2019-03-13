@@ -20,7 +20,16 @@ if (require.main === module) {
   console.log(JSON.stringify(config.final, undefined, 2))
 
   getOutputs(config).then(outputs => {
-    outputs.forEach(output => console.log(output))
+    outputs.sort((a, b) => {
+      if ((a.path && b.path) || (!a.path && !b.path)) return 0
+      return a.path ? 1 : -1
+    }).forEach(output => {
+      if (output.path) {
+        console.log(`Saved ${output.path}`)
+      } else {
+        console.log(output)
+      }
+    })
   })
 } else {
   module.exports = arkit

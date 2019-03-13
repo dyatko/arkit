@@ -48,3 +48,7 @@ export abstract class ConfigBase {
   final: ConfigSchema
   extensions: string[]
 }
+
+export class SavedString extends String {
+  path?: string;
+}

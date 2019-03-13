@@ -3,13 +3,13 @@ import * as fs from 'fs'
 import * as https from 'https'
 import { array, bold, debug, info, trace } from './utils'
 import { GeneratorBase } from './generator.base'
-import { Component, Context, EMPTY_LAYER, Layers, OutputDirection, OutputFormat, OutputSchema } from './types'
+import { Component, Context, EMPTY_LAYER, OutputDirection, OutputFormat, OutputSchema, SavedString } from './types'
 import * as ProgressBar from 'progress'
 
 export class Generator extends GeneratorBase {
   private progress: ProgressBar
 
-  generate (): Promise<string[]> {
+  generate (): Promise<SavedString[]> {
     const outputs = this.config.final.output as OutputSchema[]
     const total = outputs.reduce((total, output) => total + array(output.path)!.length, outputs.length)
 
@@ -39,7 +39,7 @@ export class Generator extends GeneratorBase {
       }
 
       return promises
-    }, [] as Promise<string>[]))
+    }, [] as Promise<SavedString>[]))
   }
 
   private generatePlantUML (output: OutputSchema): string {
@@ -235,7 +235,7 @@ skinparam component {
 `
   }
 
-  private convert (pathOrType: string, puml: string): Promise<string> {
+  private convert (pathOrType: string, puml: string): Promise<SavedString> {
     const fullExportPath = path.resolve(this.config.directory, pathOrType)
     const ext = path.extname(fullExportPath)
     const shouldConvertAndSave = Object.values(OutputFormat).includes(ext.replace('.', ''))
@@ -251,7 +251,7 @@ skinparam component {
       return this.convertToImage(puml, ext || pathOrType).then(image => {
         if (shouldConvertAndSave) {
           debug('Saving', fullExportPath, image.length)
-          fs.writeFileSync(fullExportPath, image)
+          return this.save(fullExportPath, image)
         }
 
         return image.toString()
@@ -261,11 +261,20 @@ skinparam component {
     } else {
       if (ext === '.puml') {
         debug('Saving', fullExportPath)
-        fs.writeFileSync(fullExportPath, puml)
+        return this.save(fullExportPath, puml)
       }
 
       return Promise.resolve(puml)
     }
+  }
+
+  private save (path: string, data: Buffer | string): Promise<SavedString> {
+    const str = new SavedString(data.toString())
+
+    str.path = path
+    fs.writeFileSync(path, data)
+
+    return Promise.resolve(str)
   }
 
   requestChain: Promise<any> = Promise.resolve()

@@ -4,7 +4,7 @@ import { info, trace } from './utils'
 import { Config } from './config'
 import { Parser } from './parser'
 import { Generator } from './generator'
-import { Options, OutputFormat } from './types'
+import { Options, OutputFormat, SavedString } from './types'
 
 const parseDirectory = (directory: string | string[]): string => {
   if (directory instanceof Array) directory = directory[0]
@@ -92,7 +92,7 @@ export const getConfig = (options?: Options): Config => {
   return new Config(opts)
 }
 
-export const getOutputs = (config: Config): Promise<string[]> => {
+export const getOutputs = (config: Config): Promise<SavedString[]> => {
   const files = new Parser(config).parse()
   trace('Parsed files')
   trace(files)
@@ -100,7 +100,7 @@ export const getOutputs = (config: Config): Promise<string[]> => {
   return new Generator(config, files).generate()
 }
 
-export const arkit = (options?: Options): Promise<string[]> => {
+export const arkit = (options?: Options): Promise<SavedString[]> => {
   const config = getConfig(options)
   info('Config')
   info(config)

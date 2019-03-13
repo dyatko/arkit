@@ -13,3 +13,6 @@ var Context;
 class ConfigBase {
 }
 exports.ConfigBase = ConfigBase;
+class SavedString extends String {
+}
+exports.SavedString = SavedString;

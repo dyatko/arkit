@@ -208,7 +208,7 @@ skinparam component {
             return this.convertToImage(puml, ext || pathOrType).then(image => {
                 if (shouldConvertAndSave) {
                     utils_1.debug('Saving', fullExportPath, image.length);
-                    fs.writeFileSync(fullExportPath, image);
+                    return this.save(fullExportPath, image);
                 }
                 return image.toString();
             }).catch(err => {
@@ -218,10 +218,16 @@ skinparam component {
         else {
             if (ext === '.puml') {
                 utils_1.debug('Saving', fullExportPath);
-                fs.writeFileSync(fullExportPath, puml);
+                return this.save(fullExportPath, puml);
             }
             return Promise.resolve(puml);
         }
+    }
+    save(path, data) {
+        const str = new types_1.SavedString(data.toString());
+        str.path = path;
+        fs.writeFileSync(path, data);
+        return Promise.resolve(str);
     }
     convertToImage(puml, format) {
         return new Promise((resolve, reject) => {

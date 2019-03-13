@@ -1,8 +1,9 @@
 /// <reference types="node" />
 import { GeneratorBase } from './generator.base';
+import { SavedString } from './types';
 export declare class Generator extends GeneratorBase {
     private progress;
-    generate(): Promise<string[]>;
+    generate(): Promise<SavedString[]>;
     private generatePlantUML;
     private generatePlantUMLLayer;
     private generatePlantUMLComponent;
@@ -16,6 +17,7 @@ export declare class Generator extends GeneratorBase {
     private generatePlantUMLSkin;
     private generatePlantUMLSkinParams;
     private convert;
+    private save;
     requestChain: Promise<any>;
     convertToImage(puml: string, format: string): Promise<Buffer>;
     private request;

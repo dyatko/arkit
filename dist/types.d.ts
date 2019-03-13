@@ -37,4 +37,7 @@ export declare abstract class ConfigBase {
     final: ConfigSchema;
     extensions: string[];
 }
+export declare class SavedString extends String {
+    path?: string;
+}
 //# sourceMappingURL=types.d.ts.map

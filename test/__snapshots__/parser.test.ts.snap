@@ -179,6 +179,7 @@ Object {
       "types.ts": Array [
         "Options",
         "OutputFormat",
+        "SavedString",
       ],
       "utils.ts": Array [
         "info",
@@ -262,10 +263,10 @@ Object {
         "Component",
         "Context",
         "EMPTY_LAYER",
-        "Layers",
         "OutputDirection",
         "OutputFormat",
         "OutputSchema",
+        "SavedString",
       ],
       "utils.ts": Array [
         "array",
@@ -364,6 +365,7 @@ Object {
       "File",
       "Files",
       "ConfigBase",
+      "SavedString",
     ],
     "imports": Object {
       "schema.ts": Array [
