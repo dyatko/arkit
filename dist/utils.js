@@ -51,7 +51,7 @@ exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns, 
             const isIncluded = exports.match(filePath, includePatterns);
             if (stats.isDirectory) {
                 if (isIncluded) {
-                    suitablePaths.push(path.join(fullPath, '**'));
+                    suitablePaths.push(path.join(fullPath, "**"));
                 }
                 else {
                     const childPaths = exports.getPaths(mainDirectory, filePath, includePatterns, excludePatterns, history);
@@ -85,7 +85,7 @@ exports.array = (input) => {
     }
 };
 exports.verifyComponentFilters = (filters, component, mainDirectory) => {
-    const matchesPatterns = !('filename' in component) ||
+    const matchesPatterns = !("filename" in component) ||
         exports.match(path.relative(mainDirectory, component.filename), filters.patterns);
     const matchesComponents = !filters.components ||
         filters.components.some(type => type === component.type);

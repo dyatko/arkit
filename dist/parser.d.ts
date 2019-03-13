@@ -1,4 +1,4 @@
-import { ConfigBase, Files } from './types';
+import { ConfigBase, Files } from "./types";
 export declare class Parser {
     private config;
     private project;

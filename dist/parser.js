@@ -19,10 +19,10 @@ class Parser {
     }
     resolveTsConfigPaths() {
         const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
-        if (tsConfig.resultType === 'success') {
+        if (tsConfig.resultType === "success") {
             this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
-            utils_1.debug('Found TypeScript config', this.tsConfigFilePath);
-            utils_1.debug('Registering ts-config paths...');
+            utils_1.debug("Found TypeScript config", this.tsConfigFilePath);
+            utils_1.debug("Registering ts-config paths...");
             this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
             utils_1.debug(tsConfig.paths);
         }
@@ -35,7 +35,9 @@ class Parser {
             skipFileDependencyResolution: true
         });
         const components = this.config.final.components;
-        const excludePatterns = [...this.config.final.excludePatterns];
+        const excludePatterns = [
+            ...this.config.final.excludePatterns
+        ];
         const includePatterns = [];
         components.forEach(component => {
             includePatterns.push(...component.patterns);
@@ -43,9 +45,9 @@ class Parser {
                 excludePatterns.push(...component.excludePatterns);
             }
         });
-        utils_1.info('Searching files...');
-        utils_1.getPaths(this.config.directory, '', includePatterns, excludePatterns).forEach(path => {
-            if (path.endsWith('**')) {
+        utils_1.info("Searching files...");
+        utils_1.getPaths(this.config.directory, "", includePatterns, excludePatterns).forEach(path => {
+            if (path.endsWith("**")) {
                 this.folderPaths.push(path);
             }
             else {
@@ -62,12 +64,12 @@ class Parser {
     parse() {
         this.prepareProject();
         const files = {};
-        const progress = new ProgressBar('Parsing :bar', {
+        const progress = new ProgressBar("Parsing :bar", {
             clear: true,
             total: this.folderPaths.length + this.filePaths.length,
             width: process.stdout.columns
         });
-        utils_1.info('Parsing', progress.total, 'files');
+        utils_1.info("Parsing", progress.total, "files");
         this.folderPaths.forEach(fullPath => {
             files[fullPath] = { exports: [], imports: {} };
             progress.tick();
@@ -77,10 +79,10 @@ class Parser {
             const sourceFile = this.project.addExistingSourceFile(fullPath);
             const filePath = path.relative(this.config.directory, fullPath);
             const statements = sourceFile.getStatements();
-            utils_1.debug(filePath, statements.length, 'statements');
+            utils_1.debug(filePath, statements.length, "statements");
             const exports = this.getExports(sourceFile, statements);
             const imports = this.getImports(sourceFile, statements);
-            utils_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
+            utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
             files[fullPath] = { exports, imports };
             this.project.removeSourceFile(sourceFile);
             progress.tick();
@@ -92,7 +94,8 @@ class Parser {
     getImports(sourceFile, statements) {
         return statements.reduce((imports, statement) => {
             let sourceFileImports;
-            if (ts_morph_1.TypeGuards.isVariableStatement(statement) || ts_morph_1.TypeGuards.isExpressionStatement(statement)) {
+            if (ts_morph_1.TypeGuards.isVariableStatement(statement) ||
+                ts_morph_1.TypeGuards.isExpressionStatement(statement)) {
                 const text = statement.getText();
                 const [match, moduleSpecifier, namedImport] = Array.from(REQUIRE_RE.exec(text) || []);
                 if (moduleSpecifier) {
@@ -102,7 +105,8 @@ class Parser {
                     }
                 }
             }
-            else if (ts_morph_1.TypeGuards.isImportDeclaration(statement) || ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
+            else if (ts_morph_1.TypeGuards.isImportDeclaration(statement) ||
+                ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
                 let moduleSpecifier;
                 let structure;
                 try {
@@ -121,7 +125,9 @@ class Parser {
                 if (moduleSpecifier) {
                     sourceFileImports = this.addModule(imports, moduleSpecifier, sourceFile);
                 }
-                if (sourceFileImports && structure && ts_morph_1.TypeGuards.isImportDeclaration(statement)) {
+                if (sourceFileImports &&
+                    structure &&
+                    ts_morph_1.TypeGuards.isImportDeclaration(statement)) {
                     const importStructure = structure;
                     if (importStructure.namespaceImport) {
                         sourceFileImports.push(importStructure.namespaceImport);
@@ -130,10 +136,12 @@ class Parser {
                         sourceFileImports.push(importStructure.defaultImport);
                     }
                     if (importStructure.namedImports instanceof Array) {
-                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === 'string' ? namedImport : namedImport.name));
+                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === "string"
+                            ? namedImport
+                            : namedImport.name));
                     }
                     if (!sourceFileImports.length && !importStructure.namedImports) {
-                        utils_1.warn('IMPORT', sourceFile.getBaseName(), structure);
+                        utils_1.warn("IMPORT", sourceFile.getBaseName(), structure);
                     }
                 }
             }
@@ -142,7 +150,8 @@ class Parser {
     }
     getExports(sourceFile, statements) {
         return statements.reduce((exports, statement) => {
-            if (ts_morph_1.TypeGuards.isExportableNode(statement) && statement.hasExportKeyword()) {
+            if (ts_morph_1.TypeGuards.isExportableNode(statement) &&
+                statement.hasExportKeyword()) {
                 if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
                     try {
                         const structure = statement.getStructure();
@@ -171,7 +180,7 @@ class Parser {
                 else if (ts_morph_1.TypeGuards.isFunctionDeclaration(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        utils_1.trace('EXPORT', sourceFile.getBaseName(), structure);
+                        utils_1.trace("EXPORT", sourceFile.getBaseName(), structure);
                     }
                     catch (e) {
                         utils_1.warn(e);
@@ -179,7 +188,7 @@ class Parser {
                     }
                 }
                 else {
-                    utils_1.warn('EXPORT Unknown type', sourceFile.getBaseName(), statement);
+                    utils_1.warn("EXPORT Unknown type", sourceFile.getBaseName(), statement);
                 }
             }
             return exports;
@@ -196,7 +205,7 @@ class Parser {
             return imports[realModulePath];
         }
         else {
-            utils_1.trace('Import not found', sourceFile.getBaseName(), moduleSpecifier);
+            utils_1.trace("Import not found", sourceFile.getBaseName(), moduleSpecifier);
         }
     }
     getModulePath(moduleSpecifier, sourceFile) {
@@ -214,7 +223,7 @@ class Parser {
     resolveTsModule(moduleSpecifier) {
         if (!this.tsResolve)
             return;
-        utils_1.trace('Resolve TS', moduleSpecifier);
+        utils_1.trace("Resolve TS", moduleSpecifier);
         const modulePath = this.tsResolve(moduleSpecifier);
         if (!modulePath)
             return;

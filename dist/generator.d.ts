@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import { GeneratorBase } from './generator.base';
-import { SavedString } from './types';
+import { GeneratorBase } from "./generator.base";
+import { SavedString } from "./types";
 export declare class Generator extends GeneratorBase {
     private progress;
     generate(): Promise<SavedString[]>;

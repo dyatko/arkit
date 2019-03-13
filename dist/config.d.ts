@@ -1,4 +1,4 @@
-import { ConfigBase, ConfigSchema, Options } from './types';
+import { ConfigBase, ConfigSchema, Options } from "./types";
 export declare class Config implements ConfigBase {
     directory: string;
     final: ConfigSchema;

@@ -1,14 +1,15 @@
 {
   "name": "arkit",
-  "version": "1.3.15",
+  "version": "1.3.16",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
   "scripts": {
     "architecture": "./index.js",
+    "prettier": "prettier --write \"{src,test}/*.ts\"",
     "compile": "tsc --project .",
     "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://arkit.js.org/schema.json' -o schema.json",
-    "build": "npm run compile && npm run build-schema",
+    "build": "npm run prettier && npm run compile && npm run build-schema",
     "lint": "eslint --ext .ts .",
     "jest": "jest --coverage",
     "test": "npm run lint && npm run jest",
@@ -51,11 +52,12 @@
     "@typescript-eslint/eslint-plugin": "1.4.2",
     "@typescript-eslint/parser": "1.4.2",
     "eslint": "5.15.1",
-    "eslint-config-standard": "12.0.0",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-node": "8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
     "jest": "24.5.0",
-    "prettier": "1.16.4",
+    "prettier": "^1.16.4",
     "standard": "12.0.1",
     "ts-jest": "24.0.0",
     "tslint": "5.14.0",
@@ -104,19 +106,19 @@
     "dist/*"
   ],
   "eslintConfig": {
-    "extends": "standard",
+    "extends": "prettier",
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
       "project": "./tsconfig.json"
     },
     "plugins": [
+      "prettier",
       "@typescript-eslint"
     ],
-    "rules": {
-      "no-unused-vars": "off",
-      "promise/param-names": "off"
-    },
     "env": {
+      "es6": true,
       "node": true,
       "browser": false
     }

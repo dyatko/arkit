@@ -1,5 +1,5 @@
-import { ConfigSchema } from './schema';
-export * from './schema';
+import { ConfigSchema } from "./schema";
+export * from "./schema";
 export declare const EMPTY_LAYER: unique symbol;
 export interface Components extends Map<string, Component> {
 }

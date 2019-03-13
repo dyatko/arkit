@@ -1,31 +1,33 @@
-import * as path from 'path'
-import * as fs from 'fs'
-import { trace, warn } from './logger'
-import * as nanomatch from 'nanomatch'
-import { Component, ComponentFilters, ComponentSchema } from './types'
+import * as path from "path";
+import * as fs from "fs";
+import { trace, warn } from "./logger";
+import * as nanomatch from "nanomatch";
+import { Component, ComponentFilters, ComponentSchema } from "./types";
 
-export * from './logger'
+export * from "./logger";
 
-export const getStats = (path: string): { isDirectory: boolean, isFile: boolean } => {
+export const getStats = (
+  path: string
+): { isDirectory: boolean; isFile: boolean } => {
   try {
-    const stats = fs.statSync(path)
+    const stats = fs.statSync(path);
     return {
       isDirectory: stats.isDirectory(),
       isFile: stats.isFile()
-    }
+    };
   } catch (e) {
-    warn(e)
+    warn(e);
     return {
       isDirectory: false,
       isFile: false
-    }
+    };
   }
-}
+};
 
 export const getMemoryUsage = (): number => {
-  const memoryUsage = process.memoryUsage()
-  return memoryUsage.heapUsed / memoryUsage.heapTotal
-}
+  const memoryUsage = process.memoryUsage();
+  return memoryUsage.heapUsed / memoryUsage.heapTotal;
+};
 
 export const getPaths = (
   mainDirectory: string,
@@ -34,86 +36,98 @@ export const getPaths = (
   excludePatterns: string[],
   history: string[] = []
 ): string[] => {
-  const root = path.join(mainDirectory, directory)
+  const root = path.join(mainDirectory, directory);
 
   if (history.includes(root)) {
-    warn(`Skipping ${root} as it was parsed already`)
-    return []
+    warn(`Skipping ${root} as it was parsed already`);
+    return [];
   } else {
-    history.push(root)
+    history.push(root);
   }
 
-  const usedMemory = getMemoryUsage()
+  const usedMemory = getMemoryUsage();
 
   if (usedMemory > 0.95) {
-    warn(`Stopping at ${root} since 95% of heap memory is used!`)
-    return []
+    warn(`Stopping at ${root} since 95% of heap memory is used!`);
+    return [];
   }
 
-  return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
-    const filePath = path.join(directory, fileName)
-    const notExcluded = !excludePatterns.length || !match(filePath, excludePatterns)
+  return fs.readdirSync(root).reduce(
+    (suitablePaths, fileName) => {
+      const filePath = path.join(directory, fileName);
+      const notExcluded =
+        !excludePatterns.length || !match(filePath, excludePatterns);
 
-    if (notExcluded) {
-      const fullPath = path.join(root, fileName)
-      const stats = getStats(fullPath)
-      const isIncluded = match(filePath, includePatterns)
+      if (notExcluded) {
+        const fullPath = path.join(root, fileName);
+        const stats = getStats(fullPath);
+        const isIncluded = match(filePath, includePatterns);
 
-      if (stats.isDirectory) {
-        if (isIncluded) {
-          suitablePaths.push(path.join(fullPath, '**'))
-        } else {
-          const childPaths = getPaths(mainDirectory, filePath, includePatterns, excludePatterns, history)
-          suitablePaths.push(...childPaths)
+        if (stats.isDirectory) {
+          if (isIncluded) {
+            suitablePaths.push(path.join(fullPath, "**"));
+          } else {
+            const childPaths = getPaths(
+              mainDirectory,
+              filePath,
+              includePatterns,
+              excludePatterns,
+              history
+            );
+            suitablePaths.push(...childPaths);
+          }
+        } else if (stats.isFile && isIncluded) {
+          suitablePaths.push(fullPath);
         }
-      } else if (stats.isFile && isIncluded) {
-        suitablePaths.push(fullPath)
       }
-    }
 
-    return suitablePaths
-  }, [] as string[])
-}
+      return suitablePaths;
+    },
+    [] as string[]
+  );
+};
 
 export const match = (filepath: string, patterns?: string[]): boolean => {
-  return !patterns || !patterns.length || nanomatch.some(filepath, patterns)
-}
+  return !patterns || !patterns.length || nanomatch.some(filepath, patterns);
+};
 
-export const find = (filepath: string, patterns: string[]): string | undefined => {
-  return patterns.find(
-    pattern => nanomatch(filepath, pattern).length
-  )
-}
+export const find = (
+  filepath: string,
+  patterns: string[]
+): string | undefined => {
+  return patterns.find(pattern => nanomatch(filepath, pattern).length);
+};
 
-export const safeRequire = <T> (path: string): T | undefined => {
+export const safeRequire = <T>(path: string): T | undefined => {
   try {
-    return require(path)
+    return require(path);
   } catch (e) {
-    trace(e.toString())
+    trace(e.toString());
   }
-}
+};
 
-export const array = <T> (input?: T | T[]): T[] | undefined => {
+export const array = <T>(input?: T | T[]): T[] | undefined => {
   if (input) {
-    return ([] as T[]).concat(input)
+    return ([] as T[]).concat(input);
   }
-}
+};
 
 export const verifyComponentFilters = (
   filters: ComponentFilters,
   component: Component | ComponentSchema,
   mainDirectory: string
 ): boolean => {
-  const matchesPatterns = !('filename' in component) ||
-    match(path.relative(mainDirectory, component.filename), filters.patterns)
+  const matchesPatterns =
+    !("filename" in component) ||
+    match(path.relative(mainDirectory, component.filename), filters.patterns);
 
   const matchesComponents =
     !filters.components ||
-    filters.components.some(type => type === component.type)
+    filters.components.some(type => type === component.type);
 
-  return matchesPatterns && matchesComponents
-}
+  return matchesPatterns && matchesComponents;
+};
 
 export const bold = (str: string): string => {
-  return `<b>${str}</b>`
-}
+  return `<b>${str}</b>`;
+};

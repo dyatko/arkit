@@ -15,7 +15,7 @@ class Generator extends generator_base_1.GeneratorBase {
     generate() {
         const outputs = this.config.final.output;
         const total = outputs.reduce((total, output) => total + utils_1.array(output.path).length, outputs.length);
-        this.progress = new ProgressBar('Generating :bar', {
+        this.progress = new ProgressBar("Generating :bar", {
             total,
             clear: true,
             width: process.stdout.columns
@@ -39,27 +39,27 @@ class Generator extends generator_base_1.GeneratorBase {
         }, []));
     }
     generatePlantUML(output) {
-        utils_1.info('Generating components...');
+        utils_1.info("Generating components...");
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
         utils_1.trace(Array.from(components.values()));
-        utils_1.info('Generating layers...');
+        utils_1.info("Generating layers...");
         const layers = this.generateLayers(output, components);
         const layerComponents = this.getAllComponents(layers, true);
         utils_1.trace(Array.from(layers.keys()));
-        const puml = ['@startuml'];
+        const puml = ["@startuml"];
         puml.push(this.generatePlantUMLSkin(output, layerComponents));
         for (const [layer, components] of layers.entries()) {
             puml.push(this.generatePlantUMLLayer(layer, components));
         }
         puml.push(this.generatePlantUMLRelationships(layerComponents));
-        puml.push('');
-        puml.push('@enduml');
-        return puml.join('\n');
+        puml.push("");
+        puml.push("@enduml");
+        return puml.join("\n");
     }
     generatePlantUMLLayer(layer, components) {
         if (!components.size)
-            return '';
-        const puml = [''];
+            return "";
+        const puml = [""];
         const isLayer = layer !== types_1.EMPTY_LAYER;
         if (isLayer)
             puml.push(`package "${layer}" {`);
@@ -68,19 +68,19 @@ class Generator extends generator_base_1.GeneratorBase {
                 this.generatePlantUMLComponent(component, types_1.Context.LAYER)
             ];
             if (isLayer)
-                componentPuml.unshift('  ');
-            puml.push(componentPuml.join(''));
+                componentPuml.unshift("  ");
+            puml.push(componentPuml.join(""));
         }
         if (isLayer)
-            puml.push('}');
-        return puml.join('\n');
+            puml.push("}");
+        return puml.join("\n");
     }
     generatePlantUMLComponent(component, context) {
         const puml = [];
-        const isDirectory = component.filename.endsWith('**');
+        const isDirectory = component.filename.endsWith("**");
         const hasLayer = component.layer !== types_1.EMPTY_LAYER;
         let name = component.name;
-        const safeName = '_' + name.replace(/[^\w]/g, '_');
+        const safeName = "_" + name.replace(/[^\w]/g, "_");
         if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
             name = utils_1.bold(name);
         }
@@ -104,10 +104,10 @@ class Generator extends generator_base_1.GeneratorBase {
         else {
             puml.push(`rectangle "${name}" as ${safeName}`);
         }
-        return puml.join('');
+        return puml.join("");
     }
     generatePlantUMLRelationships(components) {
-        const puml = [''];
+        const puml = [""];
         for (const component of components) {
             for (const importedFilename of component.imports) {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
@@ -115,17 +115,17 @@ class Generator extends generator_base_1.GeneratorBase {
                     const connectionLength = this.getConnectionLength(component, importedComponent);
                     const connectionSign = this.getConnectionSign(component, importedComponent);
                     const connectionStyle = this.getConnectionStyle(component);
-                    const connection = connectionSign.repeat(connectionLength) + connectionStyle + '>';
+                    const connection = connectionSign.repeat(connectionLength) + connectionStyle + ">";
                     const relationshipUML = [
                         this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
                         connection,
                         this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
                     ];
-                    puml.push(relationshipUML.join(' '));
+                    puml.push(relationshipUML.join(" "));
                 }
             }
         }
-        return puml.join('\n');
+        return puml.join("\n");
     }
     getConnectionLength(component, importedComponent) {
         const numberOfLevels = path
@@ -134,32 +134,33 @@ class Generator extends generator_base_1.GeneratorBase {
         return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels - 1));
     }
     getConnectionSign(component, importedComponent) {
-        if (component.layer === importedComponent.layer && component.layer !== types_1.EMPTY_LAYER)
-            return '~';
-        return '-';
+        if (component.layer === importedComponent.layer &&
+            component.layer !== types_1.EMPTY_LAYER)
+            return "~";
+        return "-";
     }
     getConnectionStyle(component) {
         if (!component.isImported)
-            return '[thickness=1]';
-        return '';
+            return "[thickness=1]";
+        return "";
     }
     /**
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
      */
     generatePlantUMLSkin(output, components) {
-        const puml = [''];
-        puml.push('scale max 1920 width');
+        const puml = [""];
+        puml.push("scale max 1920 width");
         const direction = output.direction || components.length > 20
             ? types_1.OutputDirection.HORIZONTAL
             : types_1.OutputDirection.VERTICAL;
         if (direction === types_1.OutputDirection.HORIZONTAL) {
-            puml.push('left to right direction');
+            puml.push("left to right direction");
         }
         else {
-            puml.push('top to bottom direction');
+            puml.push("top to bottom direction");
         }
         puml.push(this.generatePlantUMLSkinParams(components));
-        return puml.join('\n');
+        return puml.join("\n");
     }
     generatePlantUMLSkinParams(components) {
         const complexity = Math.min(1, components.length / 50);
@@ -197,27 +198,29 @@ skinparam component {
     convert(pathOrType, puml) {
         const fullExportPath = path.resolve(this.config.directory, pathOrType);
         const ext = path.extname(fullExportPath);
-        const shouldConvertAndSave = Object.values(types_1.OutputFormat).includes(ext.replace('.', ''));
+        const shouldConvertAndSave = Object.values(types_1.OutputFormat).includes(ext.replace(".", ""));
         const shouldConvertAndOutput = Object.values(types_1.OutputFormat).includes(pathOrType);
         if (fs.existsSync(fullExportPath)) {
-            utils_1.debug('Removing', fullExportPath);
+            utils_1.debug("Removing", fullExportPath);
             fs.unlinkSync(fullExportPath);
         }
         if (shouldConvertAndSave || shouldConvertAndOutput) {
-            utils_1.debug('Converting', ext ? fullExportPath : pathOrType);
-            return this.convertToImage(puml, ext || pathOrType).then(image => {
+            utils_1.debug("Converting", ext ? fullExportPath : pathOrType);
+            return this.convertToImage(puml, ext || pathOrType)
+                .then(image => {
                 if (shouldConvertAndSave) {
-                    utils_1.debug('Saving', fullExportPath, image.length);
+                    utils_1.debug("Saving", fullExportPath, image.length);
                     return this.save(fullExportPath, image);
                 }
                 return image.toString();
-            }).catch(err => {
+            })
+                .catch(err => {
                 throw err;
             });
         }
         else {
-            if (ext === '.puml') {
-                utils_1.debug('Saving', fullExportPath);
+            if (ext === ".puml") {
+                utils_1.debug("Saving", fullExportPath);
                 return this.save(fullExportPath, puml);
             }
             return Promise.resolve(puml);
@@ -247,21 +250,21 @@ skinparam component {
             const req = https
                 .request({
                 path,
-                hostname: 'arkit.herokuapp.com',
+                hostname: "arkit.herokuapp.com",
                 port: 443,
-                method: 'post',
+                method: "post",
                 headers: {
-                    'Content-Type': 'text/plain',
-                    'Content-Length': payload.length
+                    "Content-Type": "text/plain",
+                    "Content-Length": payload.length
                 }
             }, res => {
                 const data = [];
-                res.on('data', chunk => data.push(chunk));
-                res.on('end', () => {
+                res.on("data", chunk => data.push(chunk));
+                res.on("end", () => {
                     resolve(Buffer.concat(data));
                 });
             })
-                .on('error', err => {
+                .on("error", err => {
                 reject(err);
             });
             req.write(payload);

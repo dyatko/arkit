@@ -1,5 +1,5 @@
-import { Component, ComponentFilters, ComponentSchema } from './types';
-export * from './logger';
+import { Component, ComponentFilters, ComponentSchema } from "./types";
+export * from "./logger";
 export declare const getStats: (path: string) => {
     isDirectory: boolean;
     isFile: boolean;

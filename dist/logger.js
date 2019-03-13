@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const pino = require("pino");
 const logger = pino({
-    name: 'arkit',
-    level: process.env.LEVEL || 'error',
+    name: "arkit",
+    level: process.env.LEVEL || "error",
     base: null,
     prettyPrint: {
         colorize: true,

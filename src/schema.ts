@@ -1,8 +1,8 @@
 export interface Options {
-  directory: string,
-  output?: string[],
-  first?: string[],
-  exclude?: string[]
+  directory: string;
+  output?: string[];
+  first?: string[];
+  exclude?: string[];
 }
 
 /**
@@ -10,13 +10,13 @@ export interface Options {
  */
 export interface ConfigSchema {
   /** Required list of component definitions */
-  components?: ComponentSchema | ComponentSchema[]
+  components?: ComponentSchema | ComponentSchema[];
 
   /** File patterns to exclude, e.g. ["node_modules/**"] */
-  excludePatterns?: string[]
+  excludePatterns?: string[];
 
   /** Optional output configurations */
-  output?: OutputSchema | OutputSchema[]
+  output?: OutputSchema | OutputSchema[];
 }
 
 /**
@@ -24,42 +24,42 @@ export interface ConfigSchema {
  */
 export interface ComponentSchema {
   /** Component type, e.g. "Model" */
-  type: string
+  type: string;
 
   /** File patterns to include, e.g. ["**\/*.model.ts"] */
-  patterns: string[]
+  patterns: string[];
 
   /** File patterns to exclude, e.g. ["**\/*.test.ts"] */
-  excludePatterns?: string[]
+  excludePatterns?: string[];
 
   /**
    * Filename format, e.g. "base", "full"
    * @default "base"
    */
-  format?: ComponentNameFormat
+  format?: ComponentNameFormat;
 }
 
 /**
  * Component name formats
  */
 export enum ComponentNameFormat {
-  BASE_NAME = 'base',
-  FULL_NAME = 'full',
-  COMPLETE_PATH = 'complete'
+  BASE_NAME = "base",
+  FULL_NAME = "full",
+  COMPLETE_PATH = "complete"
 }
 
 export interface OutputSchema {
   /** Output path or paths, e.g. ["architecture.puml", "architecture.svg"] */
-  path?: string | string[]
+  path?: string | string[];
 
   /** Optional groups of components */
-  groups?: GroupSchema[]
+  groups?: GroupSchema[];
 
   /**
    * Direction, e.g. "horizontal", "vertical"
    * @default "vertical"
    */
-  direction?: OutputDirection
+  direction?: OutputDirection;
 }
 
 /**
@@ -67,19 +67,19 @@ export interface OutputSchema {
  */
 export interface GroupSchema extends ComponentFilters {
   /** Component type, e.g. "Data-related" */
-  type?: string
+  type?: string;
 
   /**
    * First group
    * @default false
    */
-  first?: boolean
+  first?: boolean;
 
   /**
    * Last group
    * @default false
    */
-  last?: boolean
+  last?: boolean;
 }
 
 /**
@@ -87,18 +87,18 @@ export interface GroupSchema extends ComponentFilters {
  */
 export interface ComponentFilters {
   /** List of components, e.g. ["Service", "Model"] */
-  components?: string[]
+  components?: string[];
 
   /** File patterns, e.g. ["services\/*.ts", "**\/*.model.ts"] */
-  patterns?: string[]
+  patterns?: string[];
 }
 
 export enum OutputDirection {
-  HORIZONTAL = 'horizontal',
-  VERTICAL = 'vertical'
+  HORIZONTAL = "horizontal",
+  VERTICAL = "vertical"
 }
 
 export enum OutputFormat {
-  SVG = 'svg',
-  PNG = 'png'
+  SVG = "svg",
+  PNG = "png"
 }

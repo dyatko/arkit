@@ -4,7 +4,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./schema"));
-exports.EMPTY_LAYER = Symbol('__empty_layer__');
+exports.EMPTY_LAYER = Symbol("__empty_layer__");
 var Context;
 (function (Context) {
     Context[Context["LAYER"] = 0] = "LAYER";

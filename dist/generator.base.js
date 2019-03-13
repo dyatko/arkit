@@ -10,7 +10,9 @@ class GeneratorBase {
     }
     generateComponents(output) {
         const components = Object.keys(this.files).reduce((components, filename) => {
-            const filepath = filename.endsWith('**') ? path.dirname(filename) : filename;
+            const filepath = filename.endsWith("**")
+                ? path.dirname(filename)
+                : filename;
             const schema = this.findComponentSchema(output, filepath);
             if (schema) {
                 const name = this.getComponentName(filepath, schema);
@@ -64,7 +66,7 @@ class GeneratorBase {
             });
         });
         if (ungroupedComponents.size) {
-            utils_1.trace('Ungrouped components');
+            utils_1.trace("Ungrouped components");
             utils_1.trace(Array.from(ungroupedComponents.values()));
         }
         const filenamesFromFirstComponents = new Set();
@@ -74,7 +76,7 @@ class GeneratorBase {
             }
         }
         if (filenamesFromFirstComponents.size) {
-            utils_1.trace('Filenames from first components');
+            utils_1.trace("Filenames from first components");
             utils_1.trace(Array.from(filenamesFromFirstComponents));
             for (const [filename, component] of allComponents) {
                 if (!filenamesFromFirstComponents.has(filename)) {
@@ -87,7 +89,7 @@ class GeneratorBase {
             }
         }
         if (ungroupedComponents.size) {
-            utils_1.trace('Ungrouped components leftovers');
+            utils_1.trace("Ungrouped components leftovers");
             utils_1.trace(Array.from(ungroupedComponents.values()));
         }
         return layers;
@@ -116,12 +118,14 @@ class GeneratorBase {
         }
         for (const name in componentsByName) {
             const components = componentsByName[name];
-            const isIndex = name === 'index';
+            const isIndex = name === "index";
             const shouldPrefixWithDirectory = components.length > 1 || isIndex;
             if (shouldPrefixWithDirectory) {
                 for (const component of components) {
                     const componentPath = path.dirname(component.filename);
-                    const dir = componentPath !== this.config.directory ? path.basename(componentPath) : '';
+                    const dir = componentPath !== this.config.directory
+                        ? path.basename(componentPath)
+                        : "";
                     component.name = path.join(dir, component.name);
                 }
             }
@@ -145,9 +149,11 @@ class GeneratorBase {
         const componentSchemas = this.config.final.components;
         const componentSchema = componentSchemas.find(componentSchema => {
             const outputFilters = utils_1.array(output.groups) || [];
-            const includedInOutput = !outputFilters.length || outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
+            const includedInOutput = !outputFilters.length ||
+                outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
             if (includedInOutput) {
-                return !!componentSchema.patterns && utils_1.match(path.relative(this.config.directory, filename), componentSchema.patterns);
+                return (!!componentSchema.patterns &&
+                    utils_1.match(path.relative(this.config.directory, filename), componentSchema.patterns));
             }
             else {
                 return false;

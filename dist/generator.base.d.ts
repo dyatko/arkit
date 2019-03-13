@@ -1,4 +1,4 @@
-import { ComponentSchema, OutputSchema, Files, Component, Components, Layers, ConfigBase } from './types';
+import { ComponentSchema, OutputSchema, Files, Component, Components, Layers, ConfigBase } from "./types";
 export declare class GeneratorBase {
     protected config: ConfigBase;
     protected files: Files;
