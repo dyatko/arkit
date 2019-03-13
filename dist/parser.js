@@ -13,8 +13,8 @@ const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
 const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`);
 class Parser {
     constructor(config) {
-        this.sourceFiles = new Map();
-        this.sourceFolders = [];
+        this.filePaths = [];
+        this.folderPaths = [];
         this.config = config;
     }
     resolveTsConfigPaths() {
@@ -34,7 +34,6 @@ class Parser {
             addFilesFromTsConfig: false,
             skipFileDependencyResolution: true
         });
-        this.progress.tick();
         const components = this.config.final.components;
         const excludePatterns = [...this.config.final.excludePatterns];
         const includePatterns = [];
@@ -44,45 +43,38 @@ class Parser {
                 excludePatterns.push(...component.excludePatterns);
             }
         });
-        this.progress.tick();
         utils_1.info('Searching files...');
-        const paths = utils_1.getPaths(this.config.directory, '', includePatterns, excludePatterns);
-        this.progress.total = paths.length * 2;
-        paths.forEach(fullPath => {
-            utils_1.trace(`Adding ${fullPath}`);
-            if (fullPath.endsWith('**')) {
-                this.sourceFolders.push(fullPath);
+        utils_1.getPaths(this.config.directory, '', includePatterns, excludePatterns).forEach(path => {
+            if (path.endsWith('**')) {
+                this.folderPaths.push(path);
             }
             else {
-                this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath));
+                this.filePaths.push(path);
             }
-            this.progress.tick();
         });
     }
     cleanProject() {
-        for (const [filepath, sourceFile] of this.sourceFiles.entries()) {
-            this.sourceFiles.delete(filepath);
-            this.project.removeSourceFile(sourceFile);
-        }
         this.tsResolve = undefined;
         this.tsConfigFilePath = undefined;
-        this.sourceFiles.clear();
-        this.sourceFolders = [];
+        this.folderPaths = [];
+        this.filePaths = [];
     }
     parse() {
-        this.progress = new ProgressBar('Parsing :bar', {
+        this.prepareProject();
+        const files = {};
+        const progress = new ProgressBar('Parsing :bar', {
             clear: true,
-            total: 10,
+            total: this.folderPaths.length + this.filePaths.length,
             width: process.stdout.columns
         });
-        this.prepareProject();
-        utils_1.info('Parsing', this.sourceFiles.size, 'files');
-        const files = {};
-        for (const fullPath of this.sourceFolders) {
+        utils_1.info('Parsing', progress.total, 'files');
+        this.folderPaths.forEach(fullPath => {
             files[fullPath] = { exports: [], imports: {} };
-            this.progress.tick();
-        }
-        for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
+            progress.tick();
+        });
+        this.filePaths.forEach(fullPath => {
+            utils_1.trace(`Adding ${fullPath}`);
+            const sourceFile = this.project.addExistingSourceFile(fullPath);
             const filePath = path.relative(this.config.directory, fullPath);
             const statements = sourceFile.getStatements();
             utils_1.debug(filePath, statements.length, 'statements');
@@ -90,10 +82,11 @@ class Parser {
             const imports = this.getImports(sourceFile, statements);
             utils_1.debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports');
             files[fullPath] = { exports, imports };
-            this.progress.tick();
-        }
+            this.project.removeSourceFile(sourceFile);
+            progress.tick();
+        });
         this.cleanProject();
-        this.progress.terminate();
+        progress.terminate();
         return files;
     }
     getImports(sourceFile, statements) {
@@ -195,7 +188,7 @@ class Parser {
     addModule(imports, moduleSpecifier, sourceFile) {
         const modulePath = this.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            const folder = utils_1.find(modulePath, this.sourceFolders);
+            const folder = utils_1.find(modulePath, this.folderPaths);
             const realModulePath = folder || modulePath;
             if (!imports[realModulePath]) {
                 imports[realModulePath] = [];
@@ -227,7 +220,7 @@ class Parser {
             return;
         for (const ext of this.config.extensions) {
             const fullPath = `${modulePath}${ext}`;
-            if (this.sourceFiles.has(fullPath)) {
+            if (this.filePaths.includes(fullPath)) {
                 return fullPath;
             }
         }

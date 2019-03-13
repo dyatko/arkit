@@ -2,11 +2,10 @@ import { ConfigBase, Files } from './types';
 export declare class Parser {
     private config;
     private project;
-    private sourceFiles;
-    private sourceFolders;
+    private filePaths;
+    private folderPaths;
     private tsResolve?;
     private tsConfigFilePath?;
-    private progress;
     constructor(config: ConfigBase);
     private resolveTsConfigPaths;
     private prepareProject;

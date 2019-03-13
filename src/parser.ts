@@ -22,11 +22,10 @@ const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`
 export class Parser {
   private config: ConfigBase
   private project: Project
-  private sourceFiles = new Map<string, SourceFile>()
-  private sourceFolders: string[] = []
+  private filePaths: string[] = []
+  private folderPaths: string[] = []
   private tsResolve?: MatchPath
   private tsConfigFilePath?: string
-  private progress: ProgressBar
 
   constructor (config: ConfigBase) {
     this.config = config
@@ -57,7 +56,6 @@ export class Parser {
       addFilesFromTsConfig: false,
       skipFileDependencyResolution: true
     })
-    this.progress.tick()
 
     const components = this.config.final.components as ComponentSchema[]
     const excludePatterns = [...this.config.final.excludePatterns as string[]]
@@ -70,52 +68,45 @@ export class Parser {
         excludePatterns.push(...component.excludePatterns)
       }
     })
-    this.progress.tick()
 
     info('Searching files...')
-    const paths = getPaths(this.config.directory, '', includePatterns, excludePatterns)
-    this.progress.total = paths.length * 2
-
-    paths.forEach(fullPath => {
-      trace(`Adding ${fullPath}`)
-      if (fullPath.endsWith('**')) {
-        this.sourceFolders.push(fullPath)
+    getPaths(this.config.directory, '', includePatterns, excludePatterns).forEach(path => {
+      if (path.endsWith('**')) {
+        this.folderPaths.push(path)
       } else {
-        this.sourceFiles.set(fullPath, this.project.addExistingSourceFile(fullPath))
+        this.filePaths.push(path)
       }
-      this.progress.tick()
     })
   }
 
   private cleanProject () {
-    for (const [filepath, sourceFile] of this.sourceFiles.entries()) {
-      this.sourceFiles.delete(filepath)
-      this.project.removeSourceFile(sourceFile)
-    }
-
     this.tsResolve = undefined
     this.tsConfigFilePath = undefined
-    this.sourceFiles.clear()
-    this.sourceFolders = []
+    this.folderPaths = []
+    this.filePaths = []
   }
 
   parse (): Files {
-    this.progress = new ProgressBar('Parsing :bar', {
-      clear: true,
-      total: 10,
-      width: process.stdout.columns
-    })
     this.prepareProject()
 
-    info('Parsing', this.sourceFiles.size, 'files')
     const files: Files = {}
+    const progress = new ProgressBar('Parsing :bar', {
+      clear: true,
+      total: this.folderPaths.length + this.filePaths.length,
+      width: process.stdout.columns
+    })
 
-    for (const fullPath of this.sourceFolders) {
+    info('Parsing', progress.total, 'files')
+
+    this.folderPaths.forEach(fullPath => {
       files[fullPath] = { exports: [], imports: {} }
-      this.progress.tick()
-    }
+      progress.tick()
+    })
 
-    for (const [fullPath, sourceFile] of this.sourceFiles.entries()) {
+    this.filePaths.forEach(fullPath => {
+      trace(`Adding ${fullPath}`)
+
+      const sourceFile = this.project.addExistingSourceFile(fullPath)
       const filePath = path.relative(this.config.directory, fullPath)
       const statements = sourceFile.getStatements()
 
@@ -125,11 +116,13 @@ export class Parser {
       debug('-', Object.keys(exports).length, 'exports', Object.keys(imports).length, 'imports')
 
       files[fullPath] = { exports, imports }
-      this.progress.tick()
-    }
+      this.project.removeSourceFile(sourceFile)
+
+      progress.tick()
+    })
 
     this.cleanProject()
-    this.progress.terminate()
+    progress.terminate()
 
     return files
   }
@@ -251,7 +244,7 @@ export class Parser {
     const modulePath = this.getModulePath(moduleSpecifier, sourceFile)
 
     if (modulePath) {
-      const folder = find(modulePath, this.sourceFolders)
+      const folder = find(modulePath, this.folderPaths)
       const realModulePath = folder || modulePath
 
       if (!imports[realModulePath]) {
@@ -287,7 +280,7 @@ export class Parser {
     for (const ext of this.config.extensions) {
       const fullPath = `${modulePath}${ext}`
 
-      if (this.sourceFiles.has(fullPath)) {
+      if (this.filePaths.includes(fullPath)) {
         return fullPath
       }
     }
