@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs");
-const https = require("https");
 const utils_1 = require("./utils");
 const generator_base_1 = require("./generator.base");
 const types_1 = require("./types");
@@ -44,7 +43,7 @@ class Generator extends generator_base_1.GeneratorBase {
         utils_1.trace(Array.from(components.values()));
         utils_1.info("Generating layers...");
         const layers = this.generateLayers(output, components);
-        const layerComponents = this.getAllComponents(layers, true);
+        const layerComponents = utils_1.getAllComponents(layers, true);
         utils_1.trace(Array.from(layers.keys()));
         const puml = ["@startuml"];
         puml.push(this.generatePlantUMLSkin(output, layerComponents));
@@ -239,36 +238,10 @@ skinparam component {
                 return reject(new Error(`Cannot identify image format from ${format}`));
             }
             this.requestChain = this.requestChain.then(() => {
-                return this.request(`/${path[0]}`, puml)
+                return utils_1.request(`/${path[0]}`, puml)
                     .then(result => resolve(result))
                     .catch(err => utils_1.debug(err));
             });
-        });
-    }
-    request(path, payload) {
-        return new Promise((resolve, reject) => {
-            const req = https
-                .request({
-                path,
-                hostname: "arkit.herokuapp.com",
-                port: 443,
-                method: "post",
-                headers: {
-                    "Content-Type": "text/plain",
-                    "Content-Length": payload.length
-                }
-            }, res => {
-                const data = [];
-                res.on("data", chunk => data.push(chunk));
-                res.on("end", () => {
-                    resolve(Buffer.concat(data));
-                });
-            })
-                .on("error", err => {
-                reject(err);
-            });
-            req.write(payload);
-            req.end();
         });
     }
 }

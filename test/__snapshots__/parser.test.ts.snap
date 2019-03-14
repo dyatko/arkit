@@ -250,9 +250,6 @@ Object {
       "generator.base.ts": Array [
         "GeneratorBase",
       ],
-      "https": Array [
-        "https",
-      ],
       "node_modules/progress/index.js": Array [
         "ProgressBar",
       ],
@@ -272,7 +269,9 @@ Object {
         "array",
         "bold",
         "debug",
+        "getAllComponents",
         "info",
+        "request",
         "trace",
       ],
     },
@@ -384,10 +383,15 @@ Object {
       "array",
       "verifyComponentFilters",
       "bold",
+      "request",
+      "getAllComponents",
     ],
     "imports": Object {
       "fs": Array [
         "fs",
+      ],
+      "https": Array [
+        "https",
       ],
       "logger.ts": Array [
         "trace",
@@ -403,6 +407,7 @@ Object {
         "Component",
         "ComponentFilters",
         "ComponentSchema",
+        "Layers",
       ],
     },
   },

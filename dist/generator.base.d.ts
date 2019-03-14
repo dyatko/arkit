@@ -1,4 +1,4 @@
-import { ComponentSchema, OutputSchema, Files, Component, Components, Layers, ConfigBase } from "./types";
+import { ComponentSchema, OutputSchema, Files, Components, Layers, ConfigBase } from "./types";
 export declare class GeneratorBase {
     protected config: ConfigBase;
     protected files: Files;
@@ -10,6 +10,5 @@ export declare class GeneratorBase {
     protected sortComponentsByName(components: Components): Components;
     protected findComponentSchema(output: OutputSchema, filename: string): ComponentSchema | undefined;
     protected getComponentName(filename: string, componentConfig: ComponentSchema): string;
-    protected getAllComponents(layers: Layers, sortByName?: boolean): Component[];
 }
 //# sourceMappingURL=generator.base.d.ts.map

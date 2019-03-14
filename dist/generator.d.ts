@@ -20,6 +20,5 @@ export declare class Generator extends GeneratorBase {
     private save;
     requestChain: Promise<any>;
     convertToImage(puml: string, format: string): Promise<Buffer>;
-    private request;
 }
 //# sourceMappingURL=generator.d.ts.map

@@ -1,7 +1,14 @@
 import * as path from "path";
 import * as fs from "fs";
-import * as https from "https";
-import { array, bold, debug, info, trace } from "./utils";
+import {
+  array,
+  bold,
+  debug,
+  getAllComponents,
+  info,
+  request,
+  trace
+} from "./utils";
 import { GeneratorBase } from "./generator.base";
 import {
   Component,
@@ -67,7 +74,7 @@ export class Generator extends GeneratorBase {
 
     info("Generating layers...");
     const layers = this.generateLayers(output, components);
-    const layerComponents = this.getAllComponents(layers, true);
+    const layerComponents = getAllComponents(layers, true);
     trace(Array.from(layers.keys()));
 
     const puml = ["@startuml"];
@@ -333,42 +340,10 @@ skinparam component {
       }
 
       this.requestChain = this.requestChain.then(() => {
-        return this.request(`/${path[0]}`, puml)
+        return request(`/${path[0]}`, puml)
           .then(result => resolve(result))
           .catch(err => debug(err));
       });
-    });
-  }
-
-  private request(path, payload): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const req = https
-        .request(
-          {
-            path,
-            hostname: "arkit.herokuapp.com",
-            port: 443,
-            method: "post",
-            headers: {
-              "Content-Type": "text/plain",
-              "Content-Length": payload.length
-            }
-          },
-          res => {
-            const data: Buffer[] = [];
-
-            res.on("data", chunk => data.push(chunk));
-            res.on("end", () => {
-              resolve(Buffer.concat(data));
-            });
-          }
-        )
-        .on("error", err => {
-          reject(err);
-        });
-
-      req.write(payload);
-      req.end();
     });
   }
 }

@@ -1,4 +1,5 @@
-import { Component, ComponentFilters, ComponentSchema } from "./types";
+/// <reference types="node" />
+import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
 export * from "./logger";
 export declare const getStats: (path: string) => {
     isDirectory: boolean;
@@ -10,6 +11,8 @@ export declare const match: (filepath: string, patterns?: string[] | undefined) 
 export declare const find: (filepath: string, patterns: string[]) => string | undefined;
 export declare const safeRequire: <T>(path: string) => T | undefined;
 export declare const array: <T>(input?: T | T[] | undefined) => T[] | undefined;
-export declare const verifyComponentFilters: (filters: ComponentFilters, component: ComponentSchema | Component, mainDirectory: string) => boolean;
+export declare const verifyComponentFilters: (filters: ComponentFilters, component: Component | ComponentSchema, mainDirectory: string) => boolean;
 export declare const bold: (str: string) => string;
+export declare const request: (path: any, payload: any) => Promise<Buffer>;
+export declare const getAllComponents: (layers: Layers, sortByName?: boolean) => Component[];
 //# sourceMappingURL=utils.d.ts.map

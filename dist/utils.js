@@ -7,6 +7,7 @@ const path = require("path");
 const fs = require("fs");
 const logger_1 = require("./logger");
 const nanomatch = require("nanomatch");
+const https = require("https");
 __export(require("./logger"));
 exports.getStats = (path) => {
     try {
@@ -93,4 +94,37 @@ exports.verifyComponentFilters = (filters, component, mainDirectory) => {
 };
 exports.bold = (str) => {
     return `<b>${str}</b>`;
+};
+exports.request = (path, payload) => {
+    return new Promise((resolve, reject) => {
+        const req = https
+            .request({
+            path,
+            hostname: "arkit.herokuapp.com",
+            port: 443,
+            method: "post",
+            headers: {
+                "Content-Type": "text/plain",
+                "Content-Length": payload.length
+            }
+        }, res => {
+            const data = [];
+            res.on("data", chunk => data.push(chunk));
+            res.on("end", () => {
+                resolve(Buffer.concat(data));
+            });
+        })
+            .on("error", err => {
+            reject(err);
+        });
+        req.write(payload);
+        req.end();
+    });
+};
+exports.getAllComponents = (layers, sortByName = false) => {
+    const components = [].concat(...[...layers.values()].map(components => [...components]));
+    if (sortByName) {
+        components.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return components;
 };

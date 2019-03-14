@@ -2,7 +2,8 @@ import * as path from "path";
 import * as fs from "fs";
 import { trace, warn } from "./logger";
 import * as nanomatch from "nanomatch";
-import { Component, ComponentFilters, ComponentSchema } from "./types";
+import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
+import * as https from "https";
 
 export * from "./logger";
 
@@ -130,4 +131,51 @@ export const verifyComponentFilters = (
 
 export const bold = (str: string): string => {
   return `<b>${str}</b>`;
+};
+
+export const request = (path, payload): Promise<Buffer> => {
+  return new Promise((resolve, reject) => {
+    const req = https
+      .request(
+        {
+          path,
+          hostname: "arkit.herokuapp.com",
+          port: 443,
+          method: "post",
+          headers: {
+            "Content-Type": "text/plain",
+            "Content-Length": payload.length
+          }
+        },
+        res => {
+          const data: Buffer[] = [];
+
+          res.on("data", chunk => data.push(chunk));
+          res.on("end", () => {
+            resolve(Buffer.concat(data));
+          });
+        }
+      )
+      .on("error", err => {
+        reject(err);
+      });
+
+    req.write(payload);
+    req.end();
+  });
+};
+
+export const getAllComponents = (
+  layers: Layers,
+  sortByName = false
+): Component[] => {
+  const components = ([] as Component[]).concat(
+    ...[...layers.values()].map(components => [...components])
+  );
+
+  if (sortByName) {
+    components.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  return components;
 };
