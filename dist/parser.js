@@ -20,7 +20,7 @@ class Parser {
     resolveTsConfigPaths() {
         const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
         if (tsConfig.resultType === "success") {
-            this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
+            this.tsConfigFilePath = tsConfig.configFileAbsolutePath;
             utils_1.debug("Found TypeScript config", this.tsConfigFilePath);
             utils_1.debug("Registering ts-config paths...");
             utils_1.debug(tsConfig.paths);
