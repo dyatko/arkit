@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
+const types_1 = require("./types");
 const utils_1 = require("./utils");
 const DEFAULT_COMPONENTS = [
     {
@@ -10,11 +11,16 @@ const DEFAULT_COMPONENTS = [
     {
         type: "Component",
         patterns: ["**/*.ts", "**/*.js", "**/*.jsx", "**/*.tsx"]
+    },
+    {
+        type: "Vue",
+        format: types_1.ComponentNameFormat.FULL_NAME,
+        patterns: ["**/*.vue"]
     }
 ];
 class Config {
     constructor(options) {
-        this.extensions = [".js", ".ts", ".jsx", ".tsx"];
+        this.extensions = [".js", ".ts", ".jsx", ".tsx", ".vue"];
         this.directory = options.directory;
         this.final = this.getFinalConfig(options);
     }
@@ -50,7 +56,7 @@ class Config {
         const firstOption = options.first && options.first.length ? options.first : undefined;
         const userComponents = userConfig && userConfig.components;
         const generatedGroups = [
-            { first: true, components: ["Component"] },
+            { first: true, components: ["Component", "Vue"] },
             { type: "Dependencies", components: ["Dependency"] }
         ];
         if (firstOption) {

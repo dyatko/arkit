@@ -23,8 +23,14 @@ class Parser {
             this.tsConfigFilePath = path.relative(this.config.directory, tsConfig.configFileAbsolutePath);
             utils_1.debug("Found TypeScript config", this.tsConfigFilePath);
             utils_1.debug("Registering ts-config paths...");
-            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
             utils_1.debug(tsConfig.paths);
+            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
+        }
+        else {
+            this.tsResolve = tsconfig_paths_1.createMatchPath(this.config.directory, {
+                "~/*": ["*"],
+                "@/*": ["*", "src/*"]
+            }, undefined, true);
         }
     }
     prepareProject() {
@@ -223,8 +229,8 @@ class Parser {
     resolveTsModule(moduleSpecifier) {
         if (!this.tsResolve)
             return;
-        utils_1.trace("Resolve TS", moduleSpecifier);
-        const modulePath = this.tsResolve(moduleSpecifier);
+        const modulePath = this.tsResolve(moduleSpecifier, undefined, undefined, this.config.extensions);
+        utils_1.debug("Resolve TS", moduleSpecifier, modulePath);
         if (!modulePath)
             return;
         for (const ext of this.config.extensions) {

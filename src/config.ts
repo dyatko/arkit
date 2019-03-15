@@ -1,5 +1,6 @@
 import * as path from "path";
 import {
+  ComponentNameFormat,
   ComponentSchema,
   ConfigBase,
   ConfigSchema,
@@ -7,7 +8,7 @@ import {
   Options,
   OutputSchema
 } from "./types";
-import { debug, array, safeRequire } from "./utils";
+import { array, debug, safeRequire } from "./utils";
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
@@ -17,13 +18,18 @@ const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
     type: "Component",
     patterns: ["**/*.ts", "**/*.js", "**/*.jsx", "**/*.tsx"]
+  },
+  {
+    type: "Vue",
+    format: ComponentNameFormat.FULL_NAME,
+    patterns: ["**/*.vue"]
   }
 ];
 
 export class Config implements ConfigBase {
   directory: string;
   final: ConfigSchema;
-  extensions = [".js", ".ts", ".jsx", ".tsx"];
+  extensions = [".js", ".ts", ".jsx", ".tsx", ".vue"];
 
   constructor(options: Options) {
     this.directory = options.directory;
@@ -76,7 +82,7 @@ export class Config implements ConfigBase {
       options.first && options.first.length ? options.first : undefined;
     const userComponents = userConfig && userConfig.components;
     const generatedGroups: GroupSchema[] = [
-      { first: true, components: ["Component"] },
+      { first: true, components: ["Component", "Vue"] },
       { type: "Dependencies", components: ["Dependency"] }
     ];
 

@@ -7,6 +7,7 @@ Config {
     ".ts",
     ".jsx",
     ".tsx",
+    ".vue",
   ],
   "final": Object {
     "components": Array [
@@ -25,6 +26,13 @@ Config {
         ],
         "type": "Component",
       },
+      Object {
+        "format": "full",
+        "patterns": Array [
+          "**/*.vue",
+        ],
+        "type": "Vue",
+      },
     ],
     "excludePatterns": Array [],
     "output": Array [
@@ -33,6 +41,7 @@ Config {
           Object {
             "components": Array [
               "Component",
+              "Vue",
             ],
             "first": true,
           },
@@ -59,6 +68,7 @@ Config {
     ".ts",
     ".jsx",
     ".tsx",
+    ".vue",
   ],
   "final": Object {
     "components": Array [
@@ -77,6 +87,13 @@ Config {
         ],
         "type": "Component",
       },
+      Object {
+        "format": "full",
+        "patterns": Array [
+          "**/*.vue",
+        ],
+        "type": "Vue",
+      },
     ],
     "excludePatterns": Array [],
     "output": Array [
@@ -85,6 +102,7 @@ Config {
           Object {
             "components": Array [
               "Component",
+              "Vue",
             ],
             "first": true,
           },
@@ -111,6 +129,7 @@ Config {
     ".ts",
     ".jsx",
     ".tsx",
+    ".vue",
   ],
   "final": Object {
     "components": Array [

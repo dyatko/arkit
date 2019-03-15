@@ -43,13 +43,23 @@ export class Parser {
       );
       debug("Found TypeScript config", this.tsConfigFilePath);
       debug("Registering ts-config paths...");
+      debug(tsConfig.paths);
       this.tsResolve = createMatchPath(
         tsConfig.absoluteBaseUrl,
         tsConfig.paths,
         tsConfig.mainFields,
         tsConfig.addMatchAll
       );
-      debug(tsConfig.paths);
+    } else {
+      this.tsResolve = createMatchPath(
+        this.config.directory,
+        {
+          "~/*": ["*"],
+          "@/*": ["*", "src/*"]
+        },
+        undefined,
+        true
+      );
     }
   }
 
@@ -337,8 +347,13 @@ export class Parser {
   private resolveTsModule(moduleSpecifier): string | undefined {
     if (!this.tsResolve) return;
 
-    trace("Resolve TS", moduleSpecifier);
-    const modulePath = this.tsResolve(moduleSpecifier);
+    const modulePath = this.tsResolve(
+      moduleSpecifier,
+      undefined,
+      undefined,
+      this.config.extensions
+    );
+    debug("Resolve TS", moduleSpecifier, modulePath);
 
     if (!modulePath) return;
 

@@ -196,6 +196,7 @@ Object {
         "path",
       ],
       "types.ts": Array [
+        "ComponentNameFormat",
         "ComponentSchema",
         "ConfigBase",
         "ConfigSchema",
@@ -204,8 +205,8 @@ Object {
         "OutputSchema",
       ],
       "utils.ts": Array [
-        "debug",
         "array",
+        "debug",
         "safeRequire",
       ],
     },

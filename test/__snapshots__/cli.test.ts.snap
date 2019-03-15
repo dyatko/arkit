@@ -18,6 +18,13 @@ exports[`CLI Angular2 Todo exclude and puml should output correct puml 1`] = `
         \\"**/*.jsx\\",
         \\"**/*.tsx\\"
       ]
+    },
+    {
+      \\"type\\": \\"Vue\\",
+      \\"format\\": \\"full\\",
+      \\"patterns\\": [
+        \\"**/*.vue\\"
+      ]
     }
   ],
   \\"excludePatterns\\": [
@@ -32,7 +39,8 @@ exports[`CLI Angular2 Todo exclude and puml should output correct puml 1`] = `
         {
           \\"first\\": true,
           \\"components\\": [
-            \\"Component\\"
+            \\"Component\\",
+            \\"Vue\\"
           ]
         },
         {
@@ -120,6 +128,13 @@ exports[`CLI Angular2 Todo no args should output correct svg 1`] = `
         \\"**/*.jsx\\",
         \\"**/*.tsx\\"
       ]
+    },
+    {
+      \\"type\\": \\"Vue\\",
+      \\"format\\": \\"full\\",
+      \\"patterns\\": [
+        \\"**/*.vue\\"
+      ]
     }
   ],
   \\"excludePatterns\\": [
@@ -140,7 +155,8 @@ exports[`CLI Angular2 Todo no args should output correct svg 1`] = `
         {
           \\"first\\": true,
           \\"components\\": [
-            \\"Component\\"
+            \\"Component\\",
+            \\"Vue\\"
           ]
         },
         {
