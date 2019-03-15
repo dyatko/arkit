@@ -64,7 +64,12 @@ export class Parser {
   }
 
   private prepareProject() {
-    this.resolveTsConfigPaths();
+    try {
+      this.resolveTsConfigPaths();
+    } catch (e) {
+      warn(e);
+      this.tsConfigFilePath = undefined;
+    }
 
     this.project = new Project({
       tsConfigFilePath: this.tsConfigFilePath,

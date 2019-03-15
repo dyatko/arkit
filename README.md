@@ -14,8 +14,8 @@
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
 - Associates source files with configured architectural components
-- Groups and presents components and dependencies between them
-- Supports JavaScript, TypeScript and Flow source code and Node.js modules
+- Renders grouped components and dependency graph including Node.js modules
+- Supports JavaScript, TypeScript and Flow source code and Vue/Nuxt
 - Exports codebase architecture visualisation as SVG, PNG or Plant UML diagram
 - Integrates into development flow, so your CI, VCS, README and PRs are happy
 
@@ -104,13 +104,16 @@ Options:
 ## Real-world examples
 
 #### [Express.js](https://github.com/dyatko/arkit/tree/master/test/express) using `npx arkit`
-![Express architecture diagram](test/express/express.svg?sanitize=true)
+![Express architecture graph](test/express/express.svg?sanitize=true)
 
 #### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit` and [config in package.json](https://github.com/dyatko/arkit/blob/master/package.json#L17)
-![Arkit architecture diagram](dist/arkit.svg?sanitize=true)
+![Arkit dependency graph](dist/arkit.svg?sanitize=true)
 
 #### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [config in arkit.json](test/react-dom/arkit.json)
-![ReactDOM architecture diagram](test/react-dom/arkit.svg?sanitize=true)
+![ReactDOM architecture graph](test/react-dom/arkit.svg?sanitize=true)
+
+#### [Vue/Nuxt TodoMVC](https://github.com/dyatko/arkit-nuxt-todomvc) using `yarn arkit -o arkit.svg`
+![Vue and Nuxt dependency graph](https://raw.githubusercontent.com/dyatko/arkit-nuxt-todomvc/master/arkit.svg?sanitize=true)
 
 ## Contribution
 

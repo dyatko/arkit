@@ -34,7 +34,13 @@ class Parser {
         }
     }
     prepareProject() {
-        this.resolveTsConfigPaths();
+        try {
+            this.resolveTsConfigPaths();
+        }
+        catch (e) {
+            utils_1.warn(e);
+            this.tsConfigFilePath = undefined;
+        }
         this.project = new ts_morph_1.Project({
             tsConfigFilePath: this.tsConfigFilePath,
             addFilesFromTsConfig: false,
