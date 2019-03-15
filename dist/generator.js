@@ -1,248 +1,182 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const fs = require("fs");
 const utils_1 = require("./utils");
-const generator_base_1 = require("./generator.base");
 const types_1 = require("./types");
-const ProgressBar = require("progress");
-class Generator extends generator_base_1.GeneratorBase {
-    constructor() {
-        super(...arguments);
-        this.requestChain = Promise.resolve();
+class Generator {
+    constructor(config, files) {
+        this.config = config;
+        this.files = files;
     }
-    generate() {
-        const outputs = this.config.final.output;
-        const total = outputs.reduce((total, output) => total + utils_1.array(output.path).length, outputs.length);
-        this.progress = new ProgressBar("Generating :bar", {
-            total,
-            clear: true,
-            width: process.stdout.columns
-        });
-        return Promise.all(outputs.reduce((promises, output) => {
-            let puml = this.generatePlantUML(output);
-            this.progress.tick();
-            puml = `${puml}
-
-' View and edit on https://arkit.herokuapp.com`;
-            if (output.path && output.path.length) {
-                for (const outputPath of utils_1.array(output.path)) {
-                    const promise = this.convert(outputPath, puml).then(value => {
-                        this.progress.tick();
-                        return value;
-                    });
-                    promises.push(promise);
-                }
-            }
-            return promises;
-        }, []));
-    }
-    generatePlantUML(output) {
+    generate(output) {
         utils_1.info("Generating components...");
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
         utils_1.trace(Array.from(components.values()));
         utils_1.info("Generating layers...");
-        const layers = this.generateLayers(output, components);
-        const layerComponents = utils_1.getAllComponents(layers, true);
-        utils_1.trace(Array.from(layers.keys()));
-        const puml = ["@startuml"];
-        puml.push(this.generatePlantUMLSkin(output, layerComponents));
-        for (const [layer, components] of layers.entries()) {
-            puml.push(this.generatePlantUMLLayer(layer, components));
-        }
-        puml.push(this.generatePlantUMLRelationships(layerComponents));
-        puml.push("");
-        puml.push("@enduml");
-        return puml.join("\n");
+        return this.generateLayers(output, components);
     }
-    generatePlantUMLLayer(layer, components) {
-        if (!components.size)
-            return "";
-        const puml = [""];
-        const isLayer = layer !== types_1.EMPTY_LAYER;
-        if (isLayer)
-            puml.push(`package "${layer}" {`);
-        for (const component of components) {
-            const componentPuml = [
-                this.generatePlantUMLComponent(component, types_1.Context.LAYER)
-            ];
-            if (isLayer)
-                componentPuml.unshift("  ");
-            puml.push(componentPuml.join(""));
-        }
-        if (isLayer)
-            puml.push("}");
-        return puml.join("\n");
-    }
-    generatePlantUMLComponent(component, context) {
-        const puml = [];
-        const isDirectory = component.filename.endsWith("**");
-        const hasLayer = component.layer !== types_1.EMPTY_LAYER;
-        let name = component.name.replace(/\\/g, "/");
-        const safeName = "_" + name.replace(/[^\w]/g, "_");
-        if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
-            name = utils_1.bold(name);
-        }
-        if (isDirectory) {
-            if (hasLayer) {
-                puml.push(`[${name}]`);
+    generateComponents(output) {
+        const components = Object.keys(this.files).reduce((components, filename) => {
+            const filepath = filename.endsWith("**")
+                ? path.dirname(filename)
+                : filename;
+            const schema = this.findComponentSchema(output, filepath);
+            if (schema) {
+                const name = this.getComponentName(filepath, schema);
+                const file = this.files[filename];
+                const imports = Object.keys(file.imports);
+                const isClass = file.exports.some(exp => !!exp.match(/^[A-Z]/));
+                components.set(filename, {
+                    name,
+                    filename,
+                    imports,
+                    isClass,
+                    isImported: false,
+                    type: schema.type,
+                    layer: types_1.EMPTY_LAYER
+                });
             }
-            else if (context === types_1.Context.RELATIONSHIP) {
-                puml.push(safeName);
-            }
-            else {
-                puml.push(`[${name}] as ${safeName}`);
-            }
-        }
-        else if (!component.isClass) {
-            puml.push(`(${name})`);
-        }
-        else if (context === types_1.Context.RELATIONSHIP) {
-            puml.push(safeName);
-        }
-        else {
-            puml.push(`rectangle "${name}" as ${safeName}`);
-        }
-        return puml.join("");
-    }
-    generatePlantUMLRelationships(components) {
-        const puml = [""];
-        for (const component of components) {
-            for (const importedFilename of component.imports) {
-                const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
-                if (importedComponent) {
-                    const connectionLength = this.getConnectionLength(component, importedComponent);
-                    const connectionSign = this.getConnectionSign(component, importedComponent);
-                    const connectionStyle = this.getConnectionStyle(component);
-                    const connection = connectionSign.repeat(connectionLength) + connectionStyle + ">";
-                    const relationshipUML = [
-                        this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
-                        connection,
-                        this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
-                    ];
-                    puml.push(relationshipUML.join(" "));
+            return components;
+        }, new Map());
+        for (const component of components.values()) {
+            for (const potentialComponent of components.values()) {
+                if (potentialComponent.imports.includes(component.filename)) {
+                    component.isImported = true;
+                    break;
                 }
             }
         }
-        return puml.join("\n");
+        return components;
     }
-    getConnectionLength(component, importedComponent) {
-        const numberOfLevels = path
-            .dirname(path.relative(component.filename, importedComponent.filename))
-            .split(path.sep).length;
-        return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels - 1));
-    }
-    getConnectionSign(component, importedComponent) {
-        if (component.layer === importedComponent.layer &&
-            component.layer !== types_1.EMPTY_LAYER)
-            return "~";
-        return "-";
-    }
-    getConnectionStyle(component) {
-        if (!component.isImported)
-            return "[thickness=1]";
-        return "";
-    }
-    /**
-     * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
-     */
-    generatePlantUMLSkin(output, components) {
-        const puml = [""];
-        puml.push("scale max 1920 width");
-        const direction = output.direction || components.length > 20
-            ? types_1.OutputDirection.HORIZONTAL
-            : types_1.OutputDirection.VERTICAL;
-        if (direction === types_1.OutputDirection.HORIZONTAL) {
-            puml.push("left to right direction");
-        }
-        else {
-            puml.push("top to bottom direction");
-        }
-        puml.push(this.generatePlantUMLSkinParams(components));
-        return puml.join("\n");
-    }
-    generatePlantUMLSkinParams(components) {
-        const complexity = Math.min(1, components.length / 50);
-        const nodesep = 10 + Math.round(complexity * 20);
-        const ranksep = 20 + Math.round(complexity * 40);
-        return `
-skinparam monochrome true
-skinparam shadowing false
-skinparam nodesep ${nodesep}
-skinparam ranksep ${ranksep}
-skinparam defaultFontName Tahoma
-skinparam defaultFontSize 12
-skinparam roundCorner 4
-skinparam dpi 150
-skinparam arrowColor black
-skinparam arrowThickness 0.55
-skinparam packageTitleAlignment left
-
-' oval
-skinparam usecase {
-  borderThickness 0.5
-}
-
-' rectangle
-skinparam rectangle {
-  borderThickness 0.5
-}
-
-' component
-skinparam component {
-  borderThickness 1
-}
-`;
-    }
-    convert(pathOrType, puml) {
-        const fullExportPath = path.resolve(this.config.directory, pathOrType);
-        const ext = path.extname(fullExportPath);
-        const shouldConvertAndSave = Object.values(types_1.OutputFormat).includes(ext.replace(".", ""));
-        const shouldConvertAndOutput = Object.values(types_1.OutputFormat).includes(pathOrType);
-        if (fs.existsSync(fullExportPath)) {
-            utils_1.debug("Removing", fullExportPath);
-            fs.unlinkSync(fullExportPath);
-        }
-        if (shouldConvertAndSave || shouldConvertAndOutput) {
-            utils_1.debug("Converting", ext ? fullExportPath : pathOrType);
-            return this.convertToImage(puml, ext || pathOrType)
-                .then(image => {
-                if (shouldConvertAndSave) {
-                    utils_1.debug("Saving", fullExportPath, image.length);
-                    return this.save(fullExportPath, image);
-                }
-                return image.toString();
+    generateLayers(output, allComponents) {
+        const groups = utils_1.array(output.groups) || [{}];
+        const ungroupedComponents = new Map(allComponents);
+        const grouppedComponents = new Map();
+        const layers = new Map();
+        groups.forEach(group => {
+            const layerType = group.type || types_1.EMPTY_LAYER;
+            if (!layers.has(layerType)) {
+                layers.set(layerType, new Set());
+            }
+            Array.from(ungroupedComponents.entries())
+                .filter(([filename, component]) => {
+                return utils_1.verifyComponentFilters(group, component, this.config.directory);
             })
-                .catch(err => {
-                throw err;
-            });
-        }
-        else {
-            if (ext === ".puml") {
-                utils_1.debug("Saving", fullExportPath);
-                return this.save(fullExportPath, puml);
-            }
-            return Promise.resolve(puml);
-        }
-    }
-    save(path, data) {
-        const str = new types_1.SavedString(data.toString());
-        str.path = path;
-        fs.writeFileSync(path, data);
-        return Promise.resolve(str);
-    }
-    convertToImage(puml, format) {
-        return new Promise((resolve, reject) => {
-            const path = format.match(/\w{3}/);
-            if (!path) {
-                return reject(new Error(`Cannot identify image format from ${format}`));
-            }
-            this.requestChain = this.requestChain.then(() => {
-                return utils_1.request(`/${path[0]}`, puml)
-                    .then(result => resolve(result))
-                    .catch(err => utils_1.debug(err));
+                .forEach(([filename, component]) => {
+                component.layer = layerType;
+                component.first = group.first;
+                component.last = group.last;
+                layers.get(layerType).add(component);
+                grouppedComponents.set(component.filename, component);
+                ungroupedComponents.delete(filename);
+                return component;
             });
         });
+        if (ungroupedComponents.size) {
+            utils_1.trace("Ungrouped components");
+            utils_1.trace(Array.from(ungroupedComponents.values()));
+        }
+        const filenamesFromFirstComponents = new Set();
+        for (const component of grouppedComponents.values()) {
+            if (component.first) {
+                this.collectImportedFilenames(component, grouppedComponents, filenamesFromFirstComponents);
+            }
+        }
+        if (filenamesFromFirstComponents.size) {
+            utils_1.trace("Filenames from first components");
+            utils_1.trace(Array.from(filenamesFromFirstComponents));
+            for (const [filename, component] of allComponents) {
+                if (!filenamesFromFirstComponents.has(filename)) {
+                    for (const components of layers.values()) {
+                        components.delete(component);
+                    }
+                    ungroupedComponents.delete(filename);
+                    allComponents.delete(filename);
+                }
+            }
+        }
+        if (ungroupedComponents.size) {
+            utils_1.trace("Ungrouped components leftovers");
+            utils_1.trace(Array.from(ungroupedComponents.values()));
+        }
+        return layers;
+    }
+    collectImportedFilenames(component, components, filenames) {
+        if (filenames.has(component.filename))
+            return;
+        filenames.add(component.filename);
+        if (!component.last) {
+            component.imports.forEach(importedFilename => {
+                const importedComponent = components.get(importedFilename);
+                if (importedComponent) {
+                    this.collectImportedFilenames(importedComponent, components, filenames);
+                }
+            });
+        }
+        else {
+            component.imports = [];
+        }
+    }
+    resolveConflictingComponentNames(components) {
+        const componentsByName = {};
+        for (const component of components.values()) {
+            componentsByName[component.name] = componentsByName[component.name] || [];
+            componentsByName[component.name].push(component);
+        }
+        for (const name in componentsByName) {
+            const components = componentsByName[name];
+            const isIndex = name === "index";
+            const shouldPrefixWithDirectory = components.length > 1 || isIndex;
+            if (shouldPrefixWithDirectory) {
+                for (const component of components) {
+                    const componentPath = path.dirname(component.filename);
+                    const dir = componentPath !== this.config.directory
+                        ? path.basename(componentPath)
+                        : "";
+                    component.name = path.join(dir, component.name);
+                }
+            }
+        }
+        return components;
+    }
+    sortComponentsByName(components) {
+        const sortedComponents = new Map(Array.from(components.entries()).sort((a, b) => a[1].name.localeCompare(b[1].name)));
+        for (const component of components.values()) {
+            component.imports = component.imports
+                .filter(importedFilename => components.has(importedFilename))
+                .sort((a, b) => {
+                const componentA = components.get(a);
+                const componentB = components.get(b);
+                return componentA.name.localeCompare(componentB.name);
+            });
+        }
+        return sortedComponents;
+    }
+    findComponentSchema(output, filename) {
+        const componentSchemas = this.config.final.components;
+        const componentSchema = componentSchemas.find(componentSchema => {
+            const outputFilters = utils_1.array(output.groups) || [];
+            const includedInOutput = !outputFilters.length ||
+                outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
+            if (includedInOutput) {
+                return (!!componentSchema.patterns &&
+                    utils_1.match(path.relative(this.config.directory, filename), componentSchema.patterns));
+            }
+            else {
+                return false;
+            }
+        });
+        if (!componentSchema) {
+            utils_1.warn(`Component schema not found: ${filename}`);
+        }
+        return componentSchema;
+    }
+    getComponentName(filename, componentConfig) {
+        const nameFormat = componentConfig.format;
+        if (nameFormat === types_1.ComponentNameFormat.FULL_NAME) {
+            return path.basename(filename);
+        }
+        return path.basename(filename, path.extname(filename));
     }
 }
 exports.Generator = Generator;
