@@ -7,8 +7,7 @@ describe("Config", () => {
     const config = new Config({ directory });
 
     expect(config.directory).toBe(directory);
-    delete config.directory;
-    expect(config).toMatchSnapshot();
+    expect({ ...config, directory: undefined }).toMatchSnapshot();
   });
 
   test("Angular2 Todo", () => {
@@ -16,8 +15,7 @@ describe("Config", () => {
     const config = new Config({ directory });
 
     expect(config.directory).toBe(directory);
-    delete config.directory;
-    expect(config).toMatchSnapshot();
+    expect({ ...config, directory: undefined }).toMatchSnapshot();
   });
 
   test("Express", () => {
@@ -25,7 +23,6 @@ describe("Config", () => {
     const config = new Config({ directory });
 
     expect(config.directory).toBe(directory);
-    delete config.directory;
-    expect(config).toMatchSnapshot();
+    expect({ ...config, directory: undefined }).toMatchSnapshot();
   });
 });
