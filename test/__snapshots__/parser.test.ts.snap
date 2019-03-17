@@ -334,6 +334,7 @@ Object {
         "ComponentSchema",
         "ConfigBase",
         "Exports",
+        "File",
         "Files",
         "Imports",
       ],

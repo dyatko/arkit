@@ -46,6 +46,8 @@ class Parser {
             addFilesFromTsConfig: false,
             skipFileDependencyResolution: true
         });
+    }
+    preparePaths() {
         const components = this.config.final.components;
         const excludePatterns = [
             ...this.config.final.excludePatterns
@@ -75,6 +77,7 @@ class Parser {
     }
     parse() {
         this.prepareProject();
+        this.preparePaths();
         const files = {};
         const progress = new ProgressBar("Parsing :bar", {
             clear: true,
@@ -87,21 +90,24 @@ class Parser {
             progress.tick();
         });
         this.filePaths.forEach(fullPath => {
-            utils_1.trace(`Adding ${fullPath}`);
-            const sourceFile = this.project.addExistingSourceFile(fullPath);
-            const filePath = path.relative(this.config.directory, fullPath);
-            const statements = sourceFile.getStatements();
-            utils_1.debug(filePath, statements.length, "statements");
-            const exports = this.getExports(sourceFile, statements);
-            const imports = this.getImports(sourceFile, statements);
-            utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
-            files[fullPath] = { exports, imports };
-            this.project.removeSourceFile(sourceFile);
+            files[fullPath] = this.parseFile(fullPath);
             progress.tick();
         });
         this.cleanProject();
         progress.terminate();
         return files;
+    }
+    parseFile(fullPath) {
+        utils_1.trace(`Parsing ${fullPath}`);
+        const sourceFile = this.project.addExistingSourceFile(fullPath);
+        const filePath = path.relative(this.config.directory, fullPath);
+        const statements = sourceFile.getStatements();
+        utils_1.debug(filePath, statements.length, "statements");
+        const exports = this.getExports(sourceFile, statements);
+        const imports = this.getImports(sourceFile, statements);
+        utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
+        this.project.removeSourceFile(sourceFile);
+        return { exports, imports };
     }
     getImports(sourceFile, statements) {
         return statements.reduce((imports, statement) => {

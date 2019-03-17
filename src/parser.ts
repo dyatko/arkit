@@ -11,7 +11,14 @@ import {
 import { sync as resolve } from "resolve";
 import { find, getPaths, debug, info, trace, warn } from "./utils";
 import { createMatchPath, loadConfig, MatchPath } from "tsconfig-paths";
-import { ComponentSchema, ConfigBase, Exports, Files, Imports } from "./types";
+import {
+  ComponentSchema,
+  ConfigBase,
+  Exports,
+  File,
+  Files,
+  Imports
+} from "./types";
 import * as ProgressBar from "progress";
 
 const QUOTES = `(?:'|")`;
@@ -73,7 +80,9 @@ export class Parser {
       addFilesFromTsConfig: false,
       skipFileDependencyResolution: true
     });
+  }
 
+  private preparePaths() {
     const components = this.config.final.components as ComponentSchema[];
     const excludePatterns = [
       ...(this.config.final.excludePatterns as string[])
@@ -112,6 +121,7 @@ export class Parser {
 
   parse(): Files {
     this.prepareProject();
+    this.preparePaths();
 
     const files: Files = {};
     const progress = new ProgressBar("Parsing :bar", {
@@ -128,26 +138,7 @@ export class Parser {
     });
 
     this.filePaths.forEach(fullPath => {
-      trace(`Adding ${fullPath}`);
-
-      const sourceFile = this.project.addExistingSourceFile(fullPath);
-      const filePath = path.relative(this.config.directory, fullPath);
-      const statements = sourceFile.getStatements();
-
-      debug(filePath, statements.length, "statements");
-      const exports = this.getExports(sourceFile, statements);
-      const imports = this.getImports(sourceFile, statements);
-      debug(
-        "-",
-        Object.keys(exports).length,
-        "exports",
-        Object.keys(imports).length,
-        "imports"
-      );
-
-      files[fullPath] = { exports, imports };
-      this.project.removeSourceFile(sourceFile);
-
+      files[fullPath] = this.parseFile(fullPath);
       progress.tick();
     });
 
@@ -155,6 +146,28 @@ export class Parser {
     progress.terminate();
 
     return files;
+  }
+
+  private parseFile(fullPath: string): File {
+    trace(`Parsing ${fullPath}`);
+
+    const sourceFile = this.project.addExistingSourceFile(fullPath);
+    const filePath = path.relative(this.config.directory, fullPath);
+    const statements = sourceFile.getStatements();
+
+    debug(filePath, statements.length, "statements");
+    const exports = this.getExports(sourceFile, statements);
+    const imports = this.getImports(sourceFile, statements);
+    debug(
+      "-",
+      Object.keys(exports).length,
+      "exports",
+      Object.keys(imports).length,
+      "imports"
+    );
+
+    this.project.removeSourceFile(sourceFile);
+    return { exports, imports };
   }
 
   private getImports(sourceFile: SourceFile, statements: Statement[]): Imports {

@@ -16,4 +16,4 @@ export declare class PUML {
     private readonly staticSkinParams;
     private generatePlantUMLSkinParams;
 }
-//# sourceMappingURL=PUML.d.ts.map
+//# sourceMappingURL=puml.d.ts.map

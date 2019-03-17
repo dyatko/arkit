@@ -9,8 +9,10 @@ export declare class Parser {
     constructor(config: ConfigBase);
     private resolveTsConfigPaths;
     private prepareProject;
+    private preparePaths;
     private cleanProject;
     parse(): Files;
+    private parseFile;
     private getImports;
     private getExports;
     private addModule;
