@@ -1,71 +1,12 @@
-import * as path from "path";
-import * as yargs from "yargs";
-import { info, trace } from "./utils";
+import { array, convertToRelative, getAbsolute, info, trace } from "./utils";
 import { Config } from "./config";
 import { Parser } from "./parser";
 import { Generator } from "./generator";
-import { Options, OutputFormat, SavedString } from "./types";
-
-const parseDirectory = (directory: string | string[]): string => {
-  if (directory instanceof Array) directory = directory[0];
-  return directory || ".";
-};
-
-const splitByComma = (value = ""): string[] => {
-  return value.split(",");
-};
-
-const cli = yargs
-  .usage("$0 [directory]")
-  .option("directory", {
-    description: "Working directory",
-    default: ".",
-    coerce: parseDirectory
-  })
-  .option("first", {
-    description: "File patterns to start with",
-    string: true
-  })
-  .option("exclude", {
-    description: "File patterns to exclude",
-    default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"
-  })
-  .option("output", {
-    description: "Output type or file path to save"
-  })
-  .alias({
-    o: "output",
-    f: "first",
-    e: "exclude",
-    d: "directory",
-    h: "help",
-    v: "version",
-    _: "directory"
-  })
-  .coerce({
-    exclude: splitByComma,
-    first: splitByComma,
-    output: splitByComma
-  });
-
-const getAbsolute = (filepath: string): string => {
-  return !path.isAbsolute(filepath)
-    ? path.resolve(process.cwd(), filepath)
-    : filepath;
-};
-
-const convertToRelative = (
-  paths: string[],
-  root: string,
-  excludes: string[] = []
-): string[] => {
-  return paths.map(filepath => {
-    if (excludes.includes(filepath)) {
-      return filepath;
-    }
-    return path.relative(root, getAbsolute(filepath));
-  });
-};
+import { Options, OutputFormat, OutputSchema, SavedString } from "./types";
+import { cli } from "./cli";
+import * as ProgressBar from "progress";
+import { PUML } from "./puml";
+import { Converter } from "./converter";
 
 const getOptions = (options?: Options): Options => {
   const opts: Options = {
@@ -107,7 +48,44 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
   trace("Parsed files");
   trace(files);
 
-  return new Generator(config, files).generate();
+  const outputs = config.final.output as OutputSchema[];
+  const generator = new Generator(config, files);
+  const converter = new Converter(config);
+  const total = outputs.reduce(
+    (total, output) => total + array(output.path)!.length,
+    outputs.length * 2
+  );
+  const progress = new ProgressBar("Generating :bar", {
+    total,
+    clear: true,
+    width: process.stdout.columns
+  });
+
+  return Promise.all(
+    outputs.reduce(
+      (promises, output) => {
+        const layers = generator.generate(output);
+        progress.tick();
+
+        const puml = new PUML().from(output, layers);
+        progress.tick();
+
+        const paths = array(output.path) as string[];
+
+        for (const path of paths) {
+          const promise = converter.convert(path, puml).then(value => {
+            progress.tick();
+            return value;
+          });
+
+          promises.push(promise);
+        }
+
+        return promises;
+      },
+      [] as Promise<SavedString>[]
+    )
+  );
 };
 
 export const arkit = (options?: Options): Promise<SavedString[]> => {

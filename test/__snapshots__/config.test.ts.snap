@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Config Angular2 Todo 1`] = `
-Config {
+Object {
+  "directory": undefined,
   "extensions": Array [
     ".js",
     ".ts",
@@ -62,7 +63,8 @@ Config {
 `;
 
 exports[`Config Express 1`] = `
-Config {
+Object {
+  "directory": undefined,
   "extensions": Array [
     ".js",
     ".ts",
@@ -123,7 +125,8 @@ Config {
 `;
 
 exports[`Config Sample 1`] = `
-Config {
+Object {
+  "directory": undefined,
   "extensions": Array [
     ".js",
     ".ts",

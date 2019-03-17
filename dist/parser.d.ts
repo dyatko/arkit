@@ -1,6 +1,6 @@
 import { ConfigBase, Files } from "./types";
 export declare class Parser {
-    private config;
+    private readonly config;
     private project;
     private filePaths;
     private folderPaths;

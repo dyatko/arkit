@@ -27,8 +27,8 @@ const DEFAULT_COMPONENTS: ComponentSchema[] = [
 ];
 
 export class Config implements ConfigBase {
-  directory: string;
-  final: ConfigSchema;
+  readonly directory: string;
+  readonly final: ConfigSchema;
   extensions = [".js", ".ts", ".jsx", ".tsx", ".vue"];
 
   constructor(options: Options) {

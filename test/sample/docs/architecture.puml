@@ -3,10 +3,10 @@
 scale max 1920 width
 top to bottom direction
 
+skinparam nodesep 12
+skinparam ranksep 24
 skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep 12
-skinparam ranksep 25
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4

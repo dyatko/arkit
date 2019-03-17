@@ -22,7 +22,7 @@ const REQUIRE_RE = new RegExp(
 );
 
 export class Parser {
-  private config: ConfigBase;
+  private readonly config: ConfigBase;
   private project: Project;
   private filePaths: string[] = [];
   private folderPaths: string[] = [];

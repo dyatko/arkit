@@ -1,24 +1,15 @@
-/// <reference types="node" />
-import { GeneratorBase } from "./generator.base";
-import { SavedString } from "./types";
-export declare class Generator extends GeneratorBase {
-    private progress;
-    generate(): Promise<SavedString[]>;
-    private generatePlantUML;
-    private generatePlantUMLLayer;
-    private generatePlantUMLComponent;
-    private generatePlantUMLRelationships;
-    private getConnectionLength;
-    private getConnectionSign;
-    private getConnectionStyle;
-    /**
-     * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
-     */
-    private generatePlantUMLSkin;
-    private generatePlantUMLSkinParams;
-    private convert;
-    private save;
-    requestChain: Promise<any>;
-    convertToImage(puml: string, format: string): Promise<Buffer>;
+import { ComponentSchema, OutputSchema, Files, Components, Layers, ConfigBase } from "./types";
+export declare class Generator {
+    private readonly config;
+    private readonly files;
+    constructor(config: ConfigBase, files: Files);
+    generate(output: OutputSchema): Layers;
+    protected generateComponents(output: OutputSchema): Components;
+    protected generateLayers(output: OutputSchema, allComponents: Components): Layers;
+    private collectImportedFilenames;
+    protected resolveConflictingComponentNames(components: Components): Components;
+    protected sortComponentsByName(components: Components): Components;
+    protected findComponentSchema(output: OutputSchema, filename: string): ComponentSchema | undefined;
+    protected getComponentName(filename: string, componentConfig: ComponentSchema): string;
 }
 //# sourceMappingURL=generator.d.ts.map

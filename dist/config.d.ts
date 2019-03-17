@@ -1,7 +1,7 @@
 import { ConfigBase, ConfigSchema, Options } from "./types";
 export declare class Config implements ConfigBase {
-    directory: string;
-    final: ConfigSchema;
+    readonly directory: string;
+    readonly final: ConfigSchema;
     extensions: string[];
     constructor(options: Options);
     private getUserConfig;

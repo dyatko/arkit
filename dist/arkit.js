@@ -1,76 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
-const yargs = require("yargs");
 const utils_1 = require("./utils");
 const config_1 = require("./config");
 const parser_1 = require("./parser");
 const generator_1 = require("./generator");
 const types_1 = require("./types");
-const parseDirectory = (directory) => {
-    if (directory instanceof Array)
-        directory = directory[0];
-    return directory || ".";
-};
-const splitByComma = (value = "") => {
-    return value.split(",");
-};
-const cli = yargs
-    .usage("$0 [directory]")
-    .option("directory", {
-    description: "Working directory",
-    default: ".",
-    coerce: parseDirectory
-})
-    .option("first", {
-    description: "File patterns to start with",
-    string: true
-})
-    .option("exclude", {
-    description: "File patterns to exclude",
-    default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"
-})
-    .option("output", {
-    description: "Output type or file path to save"
-})
-    .alias({
-    o: "output",
-    f: "first",
-    e: "exclude",
-    d: "directory",
-    h: "help",
-    v: "version",
-    _: "directory"
-})
-    .coerce({
-    exclude: splitByComma,
-    first: splitByComma,
-    output: splitByComma
-});
-const getAbsolute = (filepath) => {
-    return !path.isAbsolute(filepath)
-        ? path.resolve(process.cwd(), filepath)
-        : filepath;
-};
-const convertToRelative = (paths, root, excludes = []) => {
-    return paths.map(filepath => {
-        if (excludes.includes(filepath)) {
-            return filepath;
-        }
-        return path.relative(root, getAbsolute(filepath));
-    });
-};
+const cli_1 = require("./cli");
+const ProgressBar = require("progress");
+const puml_1 = require("./puml");
+const converter_1 = require("./converter");
 const getOptions = (options) => {
-    const opts = Object.assign({}, cli.argv, options);
-    opts.directory = getAbsolute(opts.directory);
+    const opts = Object.assign({}, cli_1.cli.argv, options);
+    opts.directory = utils_1.getAbsolute(opts.directory);
     if (opts.first) {
-        opts.first = convertToRelative(opts.first, opts.directory);
+        opts.first = utils_1.convertToRelative(opts.first, opts.directory);
     }
     if (opts.output) {
-        opts.output = convertToRelative(opts.output, opts.directory, Object.values(types_1.OutputFormat));
+        opts.output = utils_1.convertToRelative(opts.output, opts.directory, Object.values(types_1.OutputFormat));
     }
     if (opts.exclude) {
-        opts.exclude = convertToRelative(opts.exclude, opts.directory);
+        opts.exclude = utils_1.convertToRelative(opts.exclude, opts.directory);
     }
     return opts;
 };
@@ -84,7 +33,30 @@ exports.getOutputs = (config) => {
     const files = new parser_1.Parser(config).parse();
     utils_1.trace("Parsed files");
     utils_1.trace(files);
-    return new generator_1.Generator(config, files).generate();
+    const outputs = config.final.output;
+    const generator = new generator_1.Generator(config, files);
+    const converter = new converter_1.Converter(config);
+    const total = outputs.reduce((total, output) => total + utils_1.array(output.path).length, outputs.length * 2);
+    const progress = new ProgressBar("Generating :bar", {
+        total,
+        clear: true,
+        width: process.stdout.columns
+    });
+    return Promise.all(outputs.reduce((promises, output) => {
+        const layers = generator.generate(output);
+        progress.tick();
+        const puml = new puml_1.PUML().from(output, layers);
+        progress.tick();
+        const paths = utils_1.array(output.path);
+        for (const path of paths) {
+            const promise = converter.convert(path, puml).then(value => {
+                progress.tick();
+                return value;
+            });
+            promises.push(promise);
+        }
+        return promises;
+    }, []));
 };
 exports.arkit = (options) => {
     const config = exports.getConfig(options);

@@ -161,29 +161,49 @@ Object {
       "arkit",
     ],
     "imports": Object {
+      "cli.ts": Array [
+        "cli",
+      ],
       "config.ts": Array [
         "Config",
+      ],
+      "converter.ts": Array [
+        "Converter",
       ],
       "generator.ts": Array [
         "Generator",
       ],
-      "node_modules/yargs/index.js": Array [
-        "yargs",
+      "node_modules/progress/index.js": Array [
+        "ProgressBar",
       ],
       "parser.ts": Array [
         "Parser",
       ],
-      "path": Array [
-        "path",
+      "puml.ts": Array [
+        "PUML",
       ],
       "types.ts": Array [
         "Options",
         "OutputFormat",
+        "OutputSchema",
         "SavedString",
       ],
       "utils.ts": Array [
+        "array",
+        "convertToRelative",
+        "getAbsolute",
         "info",
         "trace",
+      ],
+    },
+  },
+  "cli.ts": Object {
+    "exports": Array [
+      "cli",
+    ],
+    "imports": Object {
+      "node_modules/yargs/index.js": Array [
+        "yargs",
       ],
     },
   },
@@ -211,9 +231,33 @@ Object {
       ],
     },
   },
-  "generator.base.ts": Object {
+  "converter.ts": Object {
     "exports": Array [
-      "GeneratorBase",
+      "Converter",
+    ],
+    "imports": Object {
+      "fs": Array [
+        "fs",
+      ],
+      "logger.ts": Array [
+        "debug",
+      ],
+      "path": Array [
+        "path",
+      ],
+      "types.ts": Array [
+        "ConfigBase",
+        "OutputFormat",
+        "SavedString",
+      ],
+      "utils.ts": Array [
+        "request",
+      ],
+    },
+  },
+  "generator.ts": Object {
+    "exports": Array [
+      "Generator",
     ],
     "imports": Object {
       "path": Array [
@@ -237,43 +281,7 @@ Object {
         "array",
         "match",
         "verifyComponentFilters",
-      ],
-    },
-  },
-  "generator.ts": Object {
-    "exports": Array [
-      "Generator",
-    ],
-    "imports": Object {
-      "fs": Array [
-        "fs",
-      ],
-      "generator.base.ts": Array [
-        "GeneratorBase",
-      ],
-      "node_modules/progress/index.js": Array [
-        "ProgressBar",
-      ],
-      "path": Array [
-        "path",
-      ],
-      "types.ts": Array [
-        "Component",
-        "Context",
-        "EMPTY_LAYER",
-        "OutputDirection",
-        "OutputFormat",
-        "OutputSchema",
-        "SavedString",
-      ],
-      "utils.ts": Array [
-        "array",
-        "bold",
-        "debug",
-        "getAllComponents",
         "info",
-        "request",
-        "trace",
       ],
     },
   },
@@ -339,6 +347,31 @@ Object {
       ],
     },
   },
+  "puml.ts": Object {
+    "exports": Array [
+      "PUML",
+    ],
+    "imports": Object {
+      "path": Array [
+        "path",
+      ],
+      "schema.ts": Array [
+        "OutputDirection",
+        "OutputSchema",
+      ],
+      "types.ts": Array [
+        "Component",
+        "Context",
+        "EMPTY_LAYER",
+        "Layers",
+      ],
+      "utils.ts": Array [
+        "bold",
+        "getAllComponents",
+        "trace",
+      ],
+    },
+  },
   "schema.ts": Object {
     "exports": Array [
       "Options",
@@ -386,6 +419,8 @@ Object {
       "bold",
       "request",
       "getAllComponents",
+      "getAbsolute",
+      "convertToRelative",
     ],
     "imports": Object {
       "fs": Array [

@@ -1,71 +1,35 @@
 import * as path from "path";
-import * as fs from "fs";
 import {
+  trace,
+  warn,
   array,
-  bold,
-  debug,
-  getAllComponents,
-  info,
-  request,
-  trace
+  match,
+  verifyComponentFilters,
+  info
 } from "./utils";
-import { GeneratorBase } from "./generator.base";
 import {
-  Component,
-  Context,
-  EMPTY_LAYER,
-  OutputDirection,
-  OutputFormat,
+  ComponentFilters,
+  ComponentNameFormat,
+  ComponentSchema,
   OutputSchema,
-  SavedString
+  Files,
+  Component,
+  Components,
+  EMPTY_LAYER,
+  Layers,
+  ConfigBase
 } from "./types";
-import * as ProgressBar from "progress";
 
-export class Generator extends GeneratorBase {
-  private progress: ProgressBar;
+export class Generator {
+  private readonly config: ConfigBase;
+  private readonly files: Files;
 
-  generate(): Promise<SavedString[]> {
-    const outputs = this.config.final.output as OutputSchema[];
-    const total = outputs.reduce(
-      (total, output) => total + array(output.path)!.length,
-      outputs.length
-    );
-
-    this.progress = new ProgressBar("Generating :bar", {
-      total,
-      clear: true,
-      width: process.stdout.columns
-    });
-
-    return Promise.all(
-      outputs.reduce(
-        (promises, output) => {
-          let puml = this.generatePlantUML(output);
-          this.progress.tick();
-
-          puml = `${puml}
-
-' View and edit on https://arkit.herokuapp.com`;
-
-          if (output.path && output.path.length) {
-            for (const outputPath of array(output.path)!) {
-              const promise = this.convert(outputPath, puml).then(value => {
-                this.progress.tick();
-                return value;
-              });
-
-              promises.push(promise);
-            }
-          }
-
-          return promises;
-        },
-        [] as Promise<SavedString>[]
-      )
-    );
+  constructor(config: ConfigBase, files: Files) {
+    this.config = config;
+    this.files = files;
   }
 
-  private generatePlantUML(output: OutputSchema): string {
+  generate(output: OutputSchema): Layers {
     info("Generating components...");
     const components = this.sortComponentsByName(
       this.resolveConflictingComponentNames(this.generateComponents(output))
@@ -73,277 +37,249 @@ export class Generator extends GeneratorBase {
     trace(Array.from(components.values()));
 
     info("Generating layers...");
-    const layers = this.generateLayers(output, components);
-    const layerComponents = getAllComponents(layers, true);
-    trace(Array.from(layers.keys()));
-
-    const puml = ["@startuml"];
-
-    puml.push(this.generatePlantUMLSkin(output, layerComponents));
-
-    for (const [layer, components] of layers.entries()) {
-      puml.push(this.generatePlantUMLLayer(layer, components));
-    }
-
-    puml.push(this.generatePlantUMLRelationships(layerComponents));
-    puml.push("");
-    puml.push("@enduml");
-
-    return puml.join("\n");
+    return this.generateLayers(output, components);
   }
 
-  private generatePlantUMLLayer(
-    layer: string | Symbol,
-    components: Set<Component>
-  ): string {
-    if (!components.size) return "";
+  protected generateComponents(output: OutputSchema): Components {
+    const components = Object.keys(this.files).reduce(
+      (components, filename) => {
+        const filepath = filename.endsWith("**")
+          ? path.dirname(filename)
+          : filename;
+        const schema = this.findComponentSchema(output, filepath);
 
-    const puml = [""];
-    const isLayer = layer !== EMPTY_LAYER;
+        if (schema) {
+          const name = this.getComponentName(filepath, schema);
+          const file = this.files[filename];
+          const imports = Object.keys(file.imports);
+          const isClass = file.exports.some(exp => !!exp.match(/^[A-Z]/));
 
-    if (isLayer) puml.push(`package "${layer}" {`);
+          components.set(filename, {
+            name,
+            filename,
+            imports,
+            isClass,
+            isImported: false,
+            type: schema.type,
+            layer: EMPTY_LAYER
+          });
+        }
 
-    for (const component of components) {
-      const componentPuml = [
-        this.generatePlantUMLComponent(component, Context.LAYER)
-      ];
+        return components;
+      },
+      new Map() as Components
+    );
 
-      if (isLayer) componentPuml.unshift("  ");
-      puml.push(componentPuml.join(""));
-    }
-
-    if (isLayer) puml.push("}");
-
-    return puml.join("\n");
-  }
-
-  private generatePlantUMLComponent(
-    component: Component,
-    context: Context
-  ): string {
-    const puml: string[] = [];
-    const isDirectory = component.filename.endsWith("**");
-    const hasLayer = component.layer !== EMPTY_LAYER;
-    let name = component.name.replace(/\\/g, "/");
-    const safeName = "_" + name.replace(/[^\w]/g, "_");
-
-    if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
-      name = bold(name);
-    }
-
-    if (isDirectory) {
-      if (hasLayer) {
-        puml.push(`[${name}]`);
-      } else if (context === Context.RELATIONSHIP) {
-        puml.push(safeName);
-      } else {
-        puml.push(`[${name}] as ${safeName}`);
-      }
-    } else if (!component.isClass) {
-      puml.push(`(${name})`);
-    } else if (context === Context.RELATIONSHIP) {
-      puml.push(safeName);
-    } else {
-      puml.push(`rectangle "${name}" as ${safeName}`);
-    }
-
-    return puml.join("");
-  }
-
-  private generatePlantUMLRelationships(components: Component[]): string {
-    const puml = [""];
-
-    for (const component of components) {
-      for (const importedFilename of component.imports) {
-        const importedComponent = components.find(
-          importedComponent => importedComponent.filename === importedFilename
-        );
-
-        if (importedComponent) {
-          const connectionLength = this.getConnectionLength(
-            component,
-            importedComponent
-          );
-          const connectionSign = this.getConnectionSign(
-            component,
-            importedComponent
-          );
-          const connectionStyle = this.getConnectionStyle(component);
-          const connection =
-            connectionSign.repeat(connectionLength) + connectionStyle + ">";
-          const relationshipUML = [
-            this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
-            connection,
-            this.generatePlantUMLComponent(
-              importedComponent,
-              Context.RELATIONSHIP
-            )
-          ];
-
-          puml.push(relationshipUML.join(" "));
+    for (const component of components.values()) {
+      for (const potentialComponent of components.values()) {
+        if (potentialComponent.imports.includes(component.filename)) {
+          component.isImported = true;
+          break;
         }
       }
     }
 
-    return puml.join("\n");
+    return components;
   }
 
-  private getConnectionLength(
-    component: Component,
-    importedComponent: Component
-  ): number {
-    const numberOfLevels = path
-      .dirname(path.relative(component.filename, importedComponent.filename))
-      .split(path.sep).length;
-
-    return Math.max(
-      component.isImported ? 2 : 1,
-      Math.min(4, numberOfLevels - 1)
-    );
-  }
-
-  private getConnectionSign(
-    component: Component,
-    importedComponent: Component
-  ): string {
-    if (
-      component.layer === importedComponent.layer &&
-      component.layer !== EMPTY_LAYER
-    )
-      return "~";
-    return "-";
-  }
-
-  private getConnectionStyle(component: Component): string {
-    if (!component.isImported) return "[thickness=1]";
-    return "";
-  }
-
-  /**
-   * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
-   */
-  private generatePlantUMLSkin(
+  protected generateLayers(
     output: OutputSchema,
-    components: Component[]
-  ): string {
-    const puml = [""];
+    allComponents: Components
+  ): Layers {
+    const groups = array(output.groups) || [{}];
+    const ungroupedComponents: Components = new Map(allComponents);
+    const grouppedComponents = new Map<string, Component>();
+    const layers: Layers = new Map();
 
-    puml.push("scale max 1920 width");
+    groups.forEach(group => {
+      const layerType = group.type || EMPTY_LAYER;
 
-    const direction =
-      output.direction || components.length > 20
-        ? OutputDirection.HORIZONTAL
-        : OutputDirection.VERTICAL;
+      if (!layers.has(layerType)) {
+        layers.set(layerType, new Set());
+      }
 
-    if (direction === OutputDirection.HORIZONTAL) {
-      puml.push("left to right direction");
-    } else {
-      puml.push("top to bottom direction");
+      Array.from(ungroupedComponents.entries())
+        .filter(([filename, component]) => {
+          return verifyComponentFilters(
+            group,
+            component,
+            this.config.directory
+          );
+        })
+        .forEach(([filename, component]) => {
+          component.layer = layerType;
+          component.first = group.first;
+          component.last = group.last;
+          layers.get(layerType)!.add(component);
+          grouppedComponents.set(component.filename, component);
+          ungroupedComponents.delete(filename);
+          return component;
+        });
+    });
+
+    if (ungroupedComponents.size) {
+      trace("Ungrouped components");
+      trace(Array.from(ungroupedComponents.values()));
     }
 
-    puml.push(this.generatePlantUMLSkinParams(components));
+    const filenamesFromFirstComponents = new Set<string>();
 
-    return puml.join("\n");
-  }
-
-  private generatePlantUMLSkinParams(components: Component[]): string {
-    const complexity = Math.min(1, components.length / 50);
-    const nodesep = 10 + Math.round(complexity * 20);
-    const ranksep = 20 + Math.round(complexity * 40);
-
-    return `
-skinparam monochrome true
-skinparam shadowing false
-skinparam nodesep ${nodesep}
-skinparam ranksep ${ranksep}
-skinparam defaultFontName Tahoma
-skinparam defaultFontSize 12
-skinparam roundCorner 4
-skinparam dpi 150
-skinparam arrowColor black
-skinparam arrowThickness 0.55
-skinparam packageTitleAlignment left
-
-' oval
-skinparam usecase {
-  borderThickness 0.5
-}
-
-' rectangle
-skinparam rectangle {
-  borderThickness 0.5
-}
-
-' component
-skinparam component {
-  borderThickness 1
-}
-`;
-  }
-
-  private convert(pathOrType: string, puml: string): Promise<SavedString> {
-    const fullExportPath = path.resolve(this.config.directory, pathOrType);
-    const ext = path.extname(fullExportPath);
-    const shouldConvertAndSave = Object.values(OutputFormat).includes(
-      ext.replace(".", "")
-    );
-    const shouldConvertAndOutput = Object.values(OutputFormat).includes(
-      pathOrType
-    );
-
-    if (fs.existsSync(fullExportPath)) {
-      debug("Removing", fullExportPath);
-      fs.unlinkSync(fullExportPath);
+    for (const component of grouppedComponents.values()) {
+      if (component.first) {
+        this.collectImportedFilenames(
+          component,
+          grouppedComponents,
+          filenamesFromFirstComponents
+        );
+      }
     }
 
-    if (shouldConvertAndSave || shouldConvertAndOutput) {
-      debug("Converting", ext ? fullExportPath : pathOrType);
-      return this.convertToImage(puml, ext || pathOrType)
-        .then(image => {
-          if (shouldConvertAndSave) {
-            debug("Saving", fullExportPath, image.length);
-            return this.save(fullExportPath, image);
+    if (filenamesFromFirstComponents.size) {
+      trace("Filenames from first components");
+      trace(Array.from(filenamesFromFirstComponents));
+
+      for (const [filename, component] of allComponents) {
+        if (!filenamesFromFirstComponents.has(filename)) {
+          for (const components of layers.values()) {
+            components.delete(component);
           }
 
-          return image.toString();
-        })
-        .catch(err => {
-          throw err;
-        });
-    } else {
-      if (ext === ".puml") {
-        debug("Saving", fullExportPath);
-        return this.save(fullExportPath, puml);
+          ungroupedComponents.delete(filename);
+          allComponents.delete(filename);
+        }
       }
+    }
 
-      return Promise.resolve(puml);
+    if (ungroupedComponents.size) {
+      trace("Ungrouped components leftovers");
+      trace(Array.from(ungroupedComponents.values()));
+    }
+
+    return layers;
+  }
+
+  private collectImportedFilenames(
+    component: Component,
+    components: Components,
+    filenames: Set<string>
+  ) {
+    if (filenames.has(component.filename)) return;
+
+    filenames.add(component.filename);
+
+    if (!component.last) {
+      component.imports.forEach(importedFilename => {
+        const importedComponent = components.get(importedFilename);
+        if (importedComponent) {
+          this.collectImportedFilenames(
+            importedComponent,
+            components,
+            filenames
+          );
+        }
+      });
+    } else {
+      component.imports = [];
     }
   }
 
-  private save(path: string, data: Buffer | string): Promise<SavedString> {
-    const str = new SavedString(data.toString());
+  protected resolveConflictingComponentNames(
+    components: Components
+  ): Components {
+    const componentsByName: { [name: string]: Component[] } = {};
 
-    str.path = path;
-    fs.writeFileSync(path, data);
+    for (const component of components.values()) {
+      componentsByName[component.name] = componentsByName[component.name] || [];
+      componentsByName[component.name].push(component);
+    }
 
-    return Promise.resolve(str);
+    for (const name in componentsByName) {
+      const components = componentsByName[name];
+      const isIndex = name === "index";
+      const shouldPrefixWithDirectory = components.length > 1 || isIndex;
+
+      if (shouldPrefixWithDirectory) {
+        for (const component of components) {
+          const componentPath = path.dirname(component.filename);
+          const dir =
+            componentPath !== this.config.directory
+              ? path.basename(componentPath)
+              : "";
+          component.name = path.join(dir, component.name);
+        }
+      }
+    }
+
+    return components;
   }
 
-  requestChain: Promise<any> = Promise.resolve();
+  protected sortComponentsByName(components: Components): Components {
+    const sortedComponents: Components = new Map(
+      Array.from(components.entries()).sort((a, b) =>
+        a[1].name.localeCompare(b[1].name)
+      )
+    );
 
-  convertToImage(puml: string, format: string): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const path = format.match(/\w{3}/);
+    for (const component of components.values()) {
+      component.imports = component.imports
+        .filter(importedFilename => components.has(importedFilename))
+        .sort((a, b) => {
+          const componentA = components.get(a)!;
+          const componentB = components.get(b)!;
+          return componentA.name.localeCompare(componentB.name);
+        });
+    }
 
-      if (!path) {
-        return reject(new Error(`Cannot identify image format from ${format}`));
+    return sortedComponents;
+  }
+
+  protected findComponentSchema(
+    output: OutputSchema,
+    filename: string
+  ): ComponentSchema | undefined {
+    const componentSchemas = this.config.final.components as ComponentSchema[];
+    const componentSchema = componentSchemas.find(componentSchema => {
+      const outputFilters: ComponentFilters[] = array(output.groups) || [];
+      const includedInOutput =
+        !outputFilters.length ||
+        outputFilters.some(outputFilter =>
+          verifyComponentFilters(
+            outputFilter,
+            componentSchema,
+            this.config.directory
+          )
+        );
+
+      if (includedInOutput) {
+        return (
+          !!componentSchema.patterns &&
+          match(
+            path.relative(this.config.directory, filename),
+            componentSchema.patterns
+          )
+        );
+      } else {
+        return false;
       }
-
-      this.requestChain = this.requestChain.then(() => {
-        return request(`/${path[0]}`, puml)
-          .then(result => resolve(result))
-          .catch(err => debug(err));
-      });
     });
+
+    if (!componentSchema) {
+      warn(`Component schema not found: ${filename}`);
+    }
+
+    return componentSchema;
+  }
+
+  protected getComponentName(
+    filename: string,
+    componentConfig: ComponentSchema
+  ): string {
+    const nameFormat = componentConfig.format;
+
+    if (nameFormat === ComponentNameFormat.FULL_NAME) {
+      return path.basename(filename);
+    }
+
+    return path.basename(filename, path.extname(filename));
   }
 }

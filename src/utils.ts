@@ -179,3 +179,22 @@ export const getAllComponents = (
 
   return components;
 };
+
+export const getAbsolute = (filepath: string): string => {
+  return !path.isAbsolute(filepath)
+    ? path.resolve(process.cwd(), filepath)
+    : filepath;
+};
+
+export const convertToRelative = (
+  paths: string[],
+  root: string,
+  excludes: string[] = []
+): string[] => {
+  return paths.map(filepath => {
+    if (excludes.includes(filepath)) {
+      return filepath;
+    }
+    return path.relative(root, getAbsolute(filepath));
+  });
+};
