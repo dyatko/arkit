@@ -5,6 +5,7 @@ export declare class PUML {
     private generatePlantUMLLayer;
     private generatePlantUMLComponent;
     private generatePlantUMLRelationships;
+    private generatePlantUMLRelationship;
     private getConnectionLength;
     private getConnectionSign;
     private getConnectionStyle;
@@ -12,6 +13,7 @@ export declare class PUML {
      * https://github.com/plantuml/plantuml/blob/master/src/net/sourceforge/plantuml/SkinParam.java
      */
     private generatePlantUMLSkin;
+    private readonly staticSkinParams;
     private generatePlantUMLSkinParams;
 }
-//# sourceMappingURL=puml.d.ts.map
+//# sourceMappingURL=PUML.d.ts.map

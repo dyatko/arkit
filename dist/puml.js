@@ -5,6 +5,32 @@ const types_1 = require("./types");
 const utils_1 = require("./utils");
 const path = require("path");
 class PUML {
+    constructor() {
+        this.staticSkinParams = `skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 4
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.55
+skinparam packageTitleAlignment left
+
+' oval
+skinparam usecase {
+  borderThickness 0.5
+}
+
+' rectangle
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+' component
+skinparam component {
+  borderThickness 1
+}`;
+    }
     from(output, layers) {
         const layerComponents = utils_1.getAllComponents(layers, true);
         utils_1.trace(Array.from(layers.keys()));
@@ -74,20 +100,23 @@ class PUML {
             for (const importedFilename of component.imports) {
                 const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
                 if (importedComponent) {
-                    const connectionLength = this.getConnectionLength(component, importedComponent);
-                    const connectionSign = this.getConnectionSign(component, importedComponent);
-                    const connectionStyle = this.getConnectionStyle(component);
-                    const connection = connectionSign.repeat(connectionLength) + connectionStyle + ">";
-                    const relationshipUML = [
-                        this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
-                        connection,
-                        this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
-                    ];
-                    puml.push(relationshipUML.join(" "));
+                    puml.push(this.generatePlantUMLRelationship(component, importedComponent));
                 }
             }
         }
         return puml.join("\n");
+    }
+    generatePlantUMLRelationship(component, importedComponent) {
+        const connectionLength = this.getConnectionLength(component, importedComponent);
+        const connectionSign = this.getConnectionSign(component, importedComponent);
+        const connectionStyle = this.getConnectionStyle(component);
+        const connection = connectionSign.repeat(connectionLength) + connectionStyle + ">";
+        const puml = [
+            this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
+            connection,
+            this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
+        ];
+        return puml.join(" ");
     }
     getConnectionLength(component, importedComponent) {
         const numberOfLevels = path
@@ -125,36 +154,13 @@ class PUML {
         return puml.join("\n");
     }
     generatePlantUMLSkinParams(components) {
-        const complexity = Math.min(1, components.length / 50);
+        const complexity = Math.min(1, components.length / 60);
         const nodesep = 10 + Math.round(complexity * 20);
         const ranksep = 20 + Math.round(complexity * 40);
         return `
-skinparam monochrome true
-skinparam shadowing false
 skinparam nodesep ${nodesep}
 skinparam ranksep ${ranksep}
-skinparam defaultFontName Tahoma
-skinparam defaultFontSize 12
-skinparam roundCorner 4
-skinparam dpi 150
-skinparam arrowColor black
-skinparam arrowThickness 0.55
-skinparam packageTitleAlignment left
-
-' oval
-skinparam usecase {
-  borderThickness 0.5
-}
-
-' rectangle
-skinparam rectangle {
-  borderThickness 0.5
-}
-
-' component
-skinparam component {
-  borderThickness 1
-}
+${this.staticSkinParams}
 `;
     }
 }

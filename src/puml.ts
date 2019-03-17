@@ -91,32 +91,35 @@ export class PUML {
         );
 
         if (importedComponent) {
-          const connectionLength = this.getConnectionLength(
-            component,
-            importedComponent
+          puml.push(
+            this.generatePlantUMLRelationship(component, importedComponent)
           );
-          const connectionSign = this.getConnectionSign(
-            component,
-            importedComponent
-          );
-          const connectionStyle = this.getConnectionStyle(component);
-          const connection =
-            connectionSign.repeat(connectionLength) + connectionStyle + ">";
-          const relationshipUML = [
-            this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
-            connection,
-            this.generatePlantUMLComponent(
-              importedComponent,
-              Context.RELATIONSHIP
-            )
-          ];
-
-          puml.push(relationshipUML.join(" "));
         }
       }
     }
 
     return puml.join("\n");
+  }
+
+  private generatePlantUMLRelationship(
+    component: Component,
+    importedComponent: Component
+  ): string {
+    const connectionLength = this.getConnectionLength(
+      component,
+      importedComponent
+    );
+    const connectionSign = this.getConnectionSign(component, importedComponent);
+    const connectionStyle = this.getConnectionStyle(component);
+    const connection =
+      connectionSign.repeat(connectionLength) + connectionStyle + ">";
+    const puml = [
+      this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
+      connection,
+      this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP)
+    ];
+
+    return puml.join(" ");
   }
 
   private getConnectionLength(
@@ -177,16 +180,8 @@ export class PUML {
     return puml.join("\n");
   }
 
-  private generatePlantUMLSkinParams(components: Component[]): string {
-    const complexity = Math.min(1, components.length / 50);
-    const nodesep = 10 + Math.round(complexity * 20);
-    const ranksep = 20 + Math.round(complexity * 40);
-
-    return `
-skinparam monochrome true
+  private readonly staticSkinParams = `skinparam monochrome true
 skinparam shadowing false
-skinparam nodesep ${nodesep}
-skinparam ranksep ${ranksep}
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
 skinparam roundCorner 4
@@ -208,7 +203,17 @@ skinparam rectangle {
 ' component
 skinparam component {
   borderThickness 1
-}
+}`;
+
+  private generatePlantUMLSkinParams(components: Component[]): string {
+    const complexity = Math.min(1, components.length / 60);
+    const nodesep = 10 + Math.round(complexity * 20);
+    const ranksep = 20 + Math.round(complexity * 40);
+
+    return `
+skinparam nodesep ${nodesep}
+skinparam ranksep ${ranksep}
+${this.staticSkinParams}
 `;
   }
 }
