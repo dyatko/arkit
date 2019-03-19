@@ -125,3 +125,12 @@ The tool is under active development, so please feel free to [contribute with su
     <img src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image" alt="GitHub stargazer map" height="320" /><br />
     <a href="https://github.com/dyatko/arkit">Give a Github star</a> to get on the map.
 </p>
+
+#### Relevant projects
+
+- [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) validates and visualizes dependencies
+- [Madge](https://github.com/pahen/madge) generates a visual graph of module dependencies
+- [dependo](https://github.com/auchenberg/dependo) visualizes CommonJS, AMD, or ES6 module dependencies
+- [JSCity](https://github.com/aserg-ufmg/JSCity) visualizes JavaScript source code as navigable 3D cities
+- [colony](https://github.com/hughsk/colony) in-browser graphs representing the links between your Node.js code and its dependencies
+- [TsUML](https://github.com/remojansen/TsUML) generates UML diagrams from TypeScript source code
