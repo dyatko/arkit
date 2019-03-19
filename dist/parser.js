@@ -1,112 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
-const resolve_1 = require("resolve");
 const utils_1 = require("./utils");
-const tsconfig_paths_1 = require("tsconfig-paths");
 const ProgressBar = require("progress");
+const filesystem_1 = require("./filesystem");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
 const REQUIRE_RE = new RegExp(`require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`);
 class Parser {
     constructor(config) {
-        this.filePaths = [];
-        this.folderPaths = [];
-        this.config = config;
-    }
-    resolveTsConfigPaths() {
-        const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
-        if (tsConfig.resultType === "success") {
-            this.tsConfigFilePath = tsConfig.configFileAbsolutePath;
-            utils_1.debug("Found TypeScript config", this.tsConfigFilePath);
-            utils_1.debug("Registering ts-config paths...");
-            utils_1.debug(tsConfig.paths);
-            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
-        }
-        else {
-            this.tsResolve = tsconfig_paths_1.createMatchPath(this.config.directory, {
-                "~/*": ["*"],
-                "@/*": ["*", "src/*"]
-            }, undefined, true);
-        }
-    }
-    prepareProject() {
-        try {
-            this.resolveTsConfigPaths();
-        }
-        catch (e) {
-            utils_1.warn(e);
-            this.tsConfigFilePath = undefined;
-        }
-        this.project = new ts_morph_1.Project({
-            tsConfigFilePath: this.tsConfigFilePath,
-            addFilesFromTsConfig: false,
-            skipFileDependencyResolution: true
-        });
-    }
-    preparePaths() {
-        const components = this.config.final.components;
-        const excludePatterns = [
-            ...this.config.final.excludePatterns
-        ];
-        const includePatterns = [];
-        components.forEach(component => {
-            includePatterns.push(...component.patterns);
-            if (component.excludePatterns) {
-                excludePatterns.push(...component.excludePatterns);
-            }
-        });
-        utils_1.info("Searching files...");
-        utils_1.getPaths(this.config.directory, "", includePatterns, excludePatterns).forEach(path => {
-            if (path.endsWith("**")) {
-                this.folderPaths.push(path);
-            }
-            else {
-                this.filePaths.push(path);
-            }
-        });
-    }
-    cleanProject() {
-        this.tsResolve = undefined;
-        this.tsConfigFilePath = undefined;
-        this.folderPaths = [];
-        this.filePaths = [];
+        this.fs = new filesystem_1.FileSystem(config);
     }
     parse() {
-        this.prepareProject();
-        this.preparePaths();
         const files = {};
         const progress = new ProgressBar("Parsing :bar", {
             clear: true,
-            total: this.folderPaths.length + this.filePaths.length,
+            total: this.fs.folderPaths.length + this.fs.filePaths.length,
             width: process.stdout.columns
         });
         utils_1.info("Parsing", progress.total, "files");
-        this.folderPaths.forEach(fullPath => {
+        this.fs.folderPaths.forEach(fullPath => {
             files[fullPath] = { exports: [], imports: {} };
             progress.tick();
         });
-        this.filePaths.forEach(fullPath => {
+        this.fs.filePaths.forEach(fullPath => {
             files[fullPath] = this.parseFile(fullPath);
             progress.tick();
         });
-        this.cleanProject();
         progress.terminate();
         return files;
     }
     parseFile(fullPath) {
         utils_1.trace(`Parsing ${fullPath}`);
-        const sourceFile = this.project.addExistingSourceFile(fullPath);
-        const filePath = path.relative(this.config.directory, fullPath);
+        const sourceFile = this.fs.project.addExistingSourceFile(fullPath);
         const statements = sourceFile.getStatements();
-        utils_1.debug(filePath, statements.length, "statements");
+        utils_1.debug(fullPath, statements.length, "statements");
         const exports = this.getExports(sourceFile, statements);
         const imports = this.getImports(sourceFile, statements);
         utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
-        this.project.removeSourceFile(sourceFile);
+        this.fs.project.removeSourceFile(sourceFile);
         return { exports, imports };
     }
     getImports(sourceFile, statements) {
@@ -213,9 +147,9 @@ class Parser {
         }, []);
     }
     addModule(imports, moduleSpecifier, sourceFile) {
-        const modulePath = this.getModulePath(moduleSpecifier, sourceFile);
+        const modulePath = this.fs.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            const folder = utils_1.find(modulePath, this.folderPaths);
+            const folder = utils_1.find(modulePath, this.fs.folderPaths);
             const realModulePath = folder || modulePath;
             if (!imports[realModulePath]) {
                 imports[realModulePath] = [];
@@ -224,32 +158,6 @@ class Parser {
         }
         else {
             utils_1.trace("Import not found", sourceFile.getBaseName(), moduleSpecifier);
-        }
-    }
-    getModulePath(moduleSpecifier, sourceFile) {
-        try {
-            utils_1.trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
-            return resolve_1.sync(moduleSpecifier, {
-                basedir: sourceFile.getDirectoryPath(),
-                extensions: this.config.extensions
-            });
-        }
-        catch (e) {
-            return this.resolveTsModule(moduleSpecifier);
-        }
-    }
-    resolveTsModule(moduleSpecifier) {
-        if (!this.tsResolve)
-            return;
-        const modulePath = this.tsResolve(moduleSpecifier, undefined, undefined, this.config.extensions);
-        utils_1.debug("Resolve TS", moduleSpecifier, modulePath);
-        if (!modulePath)
-            return;
-        for (const ext of this.config.extensions) {
-            const fullPath = `${modulePath}${ext}`;
-            if (this.filePaths.includes(fullPath)) {
-                return fullPath;
-            }
         }
     }
 }

@@ -255,6 +255,40 @@ Object {
       ],
     },
   },
+  "filesystem.ts": Object {
+    "exports": Array [
+      "FileSystem",
+    ],
+    "imports": Object {
+      "logger.ts": Array [
+        "debug",
+        "info",
+        "trace",
+        "warn",
+      ],
+      "node_modules/resolve/index.js": Array [
+        "sync",
+      ],
+      "node_modules/ts-morph/dist/main.js": Array [
+        "Project",
+        "SourceFile",
+      ],
+      "node_modules/tsconfig-paths/lib/index.js": Array [
+        "createMatchPath",
+        "loadConfig",
+        "MatchPath",
+      ],
+      "schema.ts": Array [
+        "ComponentSchema",
+      ],
+      "types.ts": Array [
+        "ConfigBase",
+      ],
+      "utils.ts": Array [
+        "getPaths",
+      ],
+    },
+  },
   "generator.ts": Object {
     "exports": Array [
       "Generator",
@@ -305,33 +339,23 @@ Object {
       "Parser",
     ],
     "imports": Object {
+      "filesystem.ts": Array [
+        "FileSystem",
+      ],
       "node_modules/progress/index.js": Array [
         "ProgressBar",
-      ],
-      "node_modules/resolve/index.js": Array [
-        "sync",
       ],
       "node_modules/ts-morph/dist/main.js": Array [
         "ExportDeclarationStructure",
         "ImportDeclarationStructure",
-        "Project",
         "SourceFile",
         "Statement",
         "TypeGuards",
       ],
-      "node_modules/tsconfig-paths/lib/index.js": Array [
-        "createMatchPath",
-        "loadConfig",
-        "MatchPath",
-      ],
       "os": Array [
         "EOL",
       ],
-      "path": Array [
-        "path",
-      ],
       "types.ts": Array [
-        "ComponentSchema",
         "ConfigBase",
         "Exports",
         "File",
@@ -340,7 +364,6 @@ Object {
       ],
       "utils.ts": Array [
         "find",
-        "getPaths",
         "debug",
         "info",
         "trace",
