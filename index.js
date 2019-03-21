@@ -4,12 +4,13 @@ const { arkit, getConfig, getOutputs } = require("./dist/arkit");
 
 if (require.main === module) {
   const cli = require("yargs");
+  const name = require("../package").name;
   const description = require("./package").description;
   const version = require("./package").version;
   const homepage = require("./package").homepage;
 
   cli
-    .scriptName("arkit")
+    .scriptName(name)
     .epilogue(`${description} ${homepage}`)
     .version(version)
     .help("help");

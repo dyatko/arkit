@@ -122,7 +122,7 @@ The tool is under active development, so please feel free to [contribute with su
 <h4 align="center">Fun stats, stargazers map</h4>
 
 <p align="center">
-    <img src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRISFoOgWs4rihpPl2aWnQsqpMprhJIZnq7hulWWqMXPNqWodMkOWs_kImI2BLGdKZcXuiYYlP1Jj5T/pubchart?oid=1029094759&format=image" alt="GitHub stargazer map" height="320" /><br />
+    <img src="worldstar.svg?sanitize=true" alt="GitHub stargazer map" /><br />
     <a href="https://github.com/dyatko/arkit">Give a Github star</a> to get on the map.
 </p>
 
