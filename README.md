@@ -119,7 +119,7 @@ Options:
 
 The tool is under active development, so please feel free to [contribute with suggestions](https://github.com/dyatko/arkit/issues/new/choose) and pull requests. Your feedback is priceless.
 
-<h4 align="center">Fun stats, stargazers map</h4>
+<h4 align="center">Fun stats, stargazers map by <a href="https://www.npmjs.com/worldstar">worldstar</a></h4>
 
 <p align="center">
     <img src="worldstar.svg?sanitize=true" alt="GitHub stargazer map" /><br />
