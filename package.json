@@ -61,7 +61,7 @@
     "ts-jest": "24.0.0",
     "tslint": "5.14.0",
     "typescript-json-schema": "0.36.0",
-    "worldstar": "1.0.0"
+    "worldstar": "1.1.1"
   },
   "dependencies": {
     "nanomatch": "^1.2.13",
