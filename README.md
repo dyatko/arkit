@@ -119,13 +119,6 @@ Options:
 
 The tool is under active development, so please feel free to [contribute with suggestions](https://github.com/dyatko/arkit/issues/new/choose) and pull requests. Your feedback is priceless.
 
-<h4 align="center">Fun stats, stargazers map by <a href="https://www.npmjs.com/worldstar">worldstar</a></h4>
-
-<p align="center">
-    <img src="worldstar.svg?sanitize=true" alt="GitHub stargazer map" /><br />
-    <a href="https://github.com/dyatko/arkit">Give a Github star</a> to get on the map.
-</p>
-
 #### Relevant projects
 
 - [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) validates and visualizes dependencies
@@ -134,3 +127,10 @@ The tool is under active development, so please feel free to [contribute with su
 - [JSCity](https://github.com/aserg-ufmg/JSCity) visualizes JavaScript source code as navigable 3D cities
 - [colony](https://github.com/hughsk/colony) in-browser graphs representing the links between your Node.js code and its dependencies
 - [TsUML](https://github.com/remojansen/TsUML) generates UML diagrams from TypeScript source code
+
+<h4 align="center">Fun stats, stargazers map by <a href="https://github.com/dyatko/worldstar">worldstar</a></h4>
+
+<p align="center">
+    <img src="worldstar.svg?sanitize=true" alt="GitHub stargazer map" /><br />
+    <a href="https://github.com/dyatko/arkit">Give a Github star</a> to get on the map.
+</p>
