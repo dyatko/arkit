@@ -42,8 +42,8 @@ export interface Files {
 }
 
 export abstract class ConfigBase {
-  directory: string;
-  final: ConfigSchema;
+  readonly directory: string;
+  readonly final: ConfigSchema;
   extensions: string[];
 }
 

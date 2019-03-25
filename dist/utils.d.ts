@@ -15,6 +15,6 @@ export declare const verifyComponentFilters: (filters: ComponentFilters, compone
 export declare const bold: (str: string) => string;
 export declare const request: (path: any, payload: any) => Promise<Buffer>;
 export declare const getAllComponents: (layers: Layers, sortByName?: boolean) => Component[];
-export declare const getAbsolute: (filepath: string) => string;
+export declare const getAbsolute: (filepath: string, root?: string) => string;
 export declare const convertToRelative: (paths: string[], root: string, excludes?: string[]) => string[];
 //# sourceMappingURL=utils.d.ts.map

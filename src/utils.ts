@@ -180,10 +180,8 @@ export const getAllComponents = (
   return components;
 };
 
-export const getAbsolute = (filepath: string): string => {
-  return !path.isAbsolute(filepath)
-    ? path.resolve(process.cwd(), filepath)
-    : filepath;
+export const getAbsolute = (filepath: string, root = process.cwd()): string => {
+  return !path.isAbsolute(filepath) ? path.resolve(root, filepath) : filepath;
 };
 
 export const convertToRelative = (

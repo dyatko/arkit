@@ -28,7 +28,7 @@ describe("CLI", () => {
         if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath);
         if (fs.existsSync(pngPath)) fs.unlinkSync(pngPath);
 
-        execSync(`npm run architecture`);
+        exec(`npm run architecture`);
       });
 
       test("should generate correct png", () => {
@@ -102,7 +102,7 @@ describe("CLI", () => {
         if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath);
 
         process.chdir(dir);
-        execSync(arkit);
+        exec(arkit);
 
         expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot();
       });
@@ -110,7 +110,7 @@ describe("CLI", () => {
   });
 
   describe("ReactDOM", () => {
-    describe("no args", () => {
+    describe("config path", () => {
       test("should output correct svg", () => {
         const dir = path.resolve(__dirname, "./react-dom");
         const svgPath = path.resolve(dir, "./arkit.svg");
@@ -118,7 +118,7 @@ describe("CLI", () => {
         if (fs.existsSync(svgPath)) fs.unlinkSync(svgPath);
 
         process.chdir(dir);
-        execSync(arkit);
+        exec(`${arkit} -c react-arkit.json`);
 
         expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot();
       });

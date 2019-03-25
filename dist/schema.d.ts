@@ -1,5 +1,6 @@
 export interface Options {
     directory: string;
+    config?: string;
     output?: string[];
     first?: string[];
     exclude?: string[];
