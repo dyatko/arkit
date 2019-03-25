@@ -4,7 +4,7 @@ import { Project, SourceFile } from "ts-morph";
 import { ComponentSchema } from "./schema";
 import { getPaths } from "./utils";
 import { ConfigBase } from "./types";
-import { sync as resolve } from "resolve";
+import { sync as resolveSync } from "resolve";
 
 export class FileSystem {
   private readonly config: ConfigBase;
@@ -103,7 +103,7 @@ export class FileSystem {
         sourceFile.getDirectoryPath(),
         this.config.extensions
       );
-      return resolve(moduleSpecifier, {
+      return resolveSync(moduleSpecifier, {
         basedir: sourceFile.getDirectoryPath(),
         extensions: this.config.extensions
       });

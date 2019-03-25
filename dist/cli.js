@@ -17,21 +17,27 @@ exports.cli = yargs
     coerce: parseDirectory
 })
     .option("first", {
-    description: "File patterns to start with",
+    description: "File patterns to be first in the graph",
     string: true
 })
     .option("exclude", {
-    description: "File patterns to exclude",
+    description: "File patterns to exclude from the graph",
     default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"
 })
     .option("output", {
-    description: "Output type or file path to save"
+    description: "Output path or type (svg, png or puml)",
+    default: "arkit.svg"
+})
+    .option("config", {
+    description: "Config file path (json or js)",
+    default: "arkit.json"
 })
     .alias({
+    d: "directory",
+    c: "config",
     o: "output",
     f: "first",
     e: "exclude",
-    d: "directory",
     h: "help",
     v: "version",
     _: "directory"

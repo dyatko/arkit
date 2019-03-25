@@ -128,10 +128,8 @@ exports.getAllComponents = (layers, sortByName = false) => {
     }
     return components;
 };
-exports.getAbsolute = (filepath) => {
-    return !path.isAbsolute(filepath)
-        ? path.resolve(process.cwd(), filepath)
-        : filepath;
+exports.getAbsolute = (filepath, root = process.cwd()) => {
+    return !path.isAbsolute(filepath) ? path.resolve(root, filepath) : filepath;
 };
 exports.convertToRelative = (paths, root, excludes = []) => {
     return paths.map(filepath => {

@@ -33,8 +33,8 @@ export interface Files {
     [file: string]: File;
 }
 export declare abstract class ConfigBase {
-    directory: string;
-    final: ConfigSchema;
+    readonly directory: string;
+    readonly final: ConfigSchema;
     extensions: string[];
 }
 export declare class SavedString extends String {

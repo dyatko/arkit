@@ -27,8 +27,8 @@ const DEFAULT_COMPONENTS: ComponentSchema[] = [
 ];
 
 export class Config implements ConfigBase {
-  readonly directory: string;
-  readonly final: ConfigSchema;
+  directory: string;
+  final: ConfigSchema;
   extensions = [".js", ".ts", ".jsx", ".tsx", ".vue"];
 
   constructor(options: Options) {
@@ -36,8 +36,21 @@ export class Config implements ConfigBase {
     this.final = this.getFinalConfig(options);
   }
 
-  private getUserConfig(): ConfigSchema | undefined {
-    const userConfigPath = path.resolve(this.directory, "arkit");
+  private getFinalConfig(options: Options): ConfigSchema {
+    const userConfig = this.getUserConfig(options);
+
+    return {
+      components: this.getFinalComponents(options, userConfig),
+      excludePatterns: this.getExcludedPatterns(options, userConfig),
+      output: this.getFinalOutputs(options, userConfig)
+    };
+  }
+
+  private getUserConfig(options: Options): ConfigSchema | undefined {
+    const userConfigPath = path.resolve(
+      this.directory,
+      options.config || "arkit"
+    );
     const userConfig = safeRequire<ConfigSchema>(userConfigPath);
     const packageJSONPath = path.resolve(this.directory, "package");
     const packageJSON = safeRequire<any>(packageJSONPath);
@@ -51,16 +64,6 @@ export class Config implements ConfigBase {
       debug(`Found arkit config in ${packageJSONPath}`);
       return packageJSON.arkit;
     }
-  }
-
-  private getFinalConfig(options: Options): ConfigSchema {
-    const userConfig = this.getUserConfig();
-
-    return {
-      components: this.getFinalComponents(options, userConfig),
-      excludePatterns: this.getExcludedPatterns(options, userConfig),
-      output: this.getFinalOutputs(options, userConfig)
-    };
   }
 
   private getFinalComponents(
@@ -94,7 +97,7 @@ export class Config implements ConfigBase {
 
     return initialOutputs.map(output => ({
       ...output,
-      path: array(outputOption || output.path || "svg"),
+      path: array(output.path || outputOption || "svg"),
       groups: output.groups || (!userComponents ? generatedGroups : undefined)
     }));
   }

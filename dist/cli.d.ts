@@ -6,7 +6,9 @@ export declare const cli: yargs.Argv<yargs.Omit<{
 } & {
     exclude: string;
 } & {
-    output: unknown;
+    output: string;
+} & {
+    config: string;
 }, "first" | "exclude" | "output"> & {
     exclude: string[] | undefined;
     first: string[] | undefined;

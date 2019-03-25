@@ -24,8 +24,16 @@ class Config {
         this.directory = options.directory;
         this.final = this.getFinalConfig(options);
     }
-    getUserConfig() {
-        const userConfigPath = path.resolve(this.directory, "arkit");
+    getFinalConfig(options) {
+        const userConfig = this.getUserConfig(options);
+        return {
+            components: this.getFinalComponents(options, userConfig),
+            excludePatterns: this.getExcludedPatterns(options, userConfig),
+            output: this.getFinalOutputs(options, userConfig)
+        };
+    }
+    getUserConfig(options) {
+        const userConfigPath = path.resolve(this.directory, options.config || "arkit");
         const userConfig = utils_1.safeRequire(userConfigPath);
         const packageJSONPath = path.resolve(this.directory, "package");
         const packageJSON = utils_1.safeRequire(packageJSONPath);
@@ -37,14 +45,6 @@ class Config {
             utils_1.debug(`Found arkit config in ${packageJSONPath}`);
             return packageJSON.arkit;
         }
-    }
-    getFinalConfig(options) {
-        const userConfig = this.getUserConfig();
-        return {
-            components: this.getFinalComponents(options, userConfig),
-            excludePatterns: this.getExcludedPatterns(options, userConfig),
-            output: this.getFinalOutputs(options, userConfig)
-        };
     }
     getFinalComponents(options, userConfig) {
         const userComponents = userConfig && userConfig.components;
@@ -64,7 +64,7 @@ class Config {
             generatedGroups[0].patterns = firstOption;
             generatedGroups.push({}); // everything else
         }
-        return initialOutputs.map(output => (Object.assign({}, output, { path: utils_1.array(outputOption || output.path || "svg"), groups: output.groups || (!userComponents ? generatedGroups : undefined) })));
+        return initialOutputs.map(output => (Object.assign({}, output, { path: utils_1.array(output.path || outputOption || "svg"), groups: output.groups || (!userComponents ? generatedGroups : undefined) })));
     }
     getExcludedPatterns(options, userConfig) {
         const excludePatterns = [];

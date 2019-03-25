@@ -16,6 +16,10 @@ const getOptions = (options?: Options): Options => {
 
   opts.directory = getAbsolute(opts.directory);
 
+  if (opts.config) {
+    opts.config = getAbsolute(opts.config, opts.directory);
+  }
+
   if (opts.first) {
     opts.first = convertToRelative(opts.first, opts.directory);
   }
