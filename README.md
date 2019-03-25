@@ -56,11 +56,12 @@ user@machine:~$ npx arkit --help
 arkit [directory]
 
 Options:
-  -o, --output     Output type or file path to save
-  -f, --first      File patterns to start with                          [string]
-  -e, --exclude    File patterns to exclude
-        [default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"]
   -d, --directory  Working directory                              [default: "."]
+  -c, --config     Config file path (json or js)         [default: "arkit.json"]
+  -o, --output     Output path or type (svg, png or puml) [default: "arkit.svg"]
+  -f, --first      File patterns to be first in the graph               [string]
+  -e, --exclude    File patterns to exclude from the graph
+        [default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"]
   -h, --help       Show help                                           [boolean]
   -v, --version    Show version number                                 [boolean]
 ```
@@ -70,6 +71,7 @@ Options:
 ```json
 {
   "$schema": "https://arkit.js.org/schema.json",
+  "excludePatterns": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
   "components": [
     {
       "type": "Dependency",
@@ -80,7 +82,6 @@ Options:
       "patterns": ["**/*.ts", "**/*.tsx"]
     }
   ],
-  "excludePatterns": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
   "output": [
     {
       "path": "arkit.svg",
