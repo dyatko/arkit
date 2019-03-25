@@ -12,9 +12,6 @@ const converter_1 = require("./converter");
 const getOptions = (options) => {
     const opts = Object.assign({}, cli_1.cli.argv, options);
     opts.directory = utils_1.getAbsolute(opts.directory);
-    if (opts.config) {
-        opts.config = utils_1.getAbsolute(opts.config, opts.directory);
-    }
     if (opts.first) {
         opts.first = utils_1.convertToRelative(opts.first, opts.directory);
     }

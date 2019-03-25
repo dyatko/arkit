@@ -18,6 +18,8 @@ describe("Arkit", () => {
   test("Sample", () => {
     const directory = path.resolve(__dirname, "./sample");
 
+    process.chdir(directory);
+
     return arkit({ directory }).then(output => {
       expect(output).toMatchSnapshot();
     });
@@ -26,6 +28,8 @@ describe("Arkit", () => {
   test("Angular2 Todo", () => {
     const directory = path.resolve(__dirname, "./angular2_es2015");
 
+    process.chdir(directory);
+
     return arkit({ directory }).then(output => {
       expect(output).toMatchSnapshot();
     });
@@ -33,6 +37,8 @@ describe("Arkit", () => {
 
   test("Express", () => {
     const directory = path.resolve(__dirname, "./express");
+
+    process.chdir(directory);
 
     return arkit({ directory }).then(output => {
       expect(output).toMatchSnapshot();
