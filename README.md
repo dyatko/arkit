@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="arkit.svg?sanitize=true" alt="arkit" /><br />
+  <a href="https://arkit.pro"><img src="arkit.svg?sanitize=true" alt="arkit" /></a><br />
   <code>🇸🇪arkitektur</code>
 </p>
 <p align="center">
