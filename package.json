@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
@@ -8,7 +8,7 @@
     "architecture": "./index.js",
     "prettier": "prettier --write \"{src,test}/*.ts\"",
     "compile": "tsc --project .",
-    "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://arkit.js.org/schema.json' -o schema.json",
+    "build-schema": "typescript-json-schema src/schema.ts ConfigSchema --required true --id 'https://arkit.pro/schema.json' -o schema.json",
     "build": "npm run prettier && npm run compile && npm run build-schema",
     "lint": "eslint --ext .ts .",
     "jest": "jest --coverage",
@@ -16,7 +16,7 @@
     "prepack": "npm run build && npm run test"
   },
   "arkit": {
-    "$schema": "https://arkit.js.org/schema.json",
+    "$schema": "https://arkit.pro/schema.json",
     "output": [
       {
         "path": [
@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/dyatko/arkit/issues"
   },
-  "homepage": "https://arkit.js.org",
+  "homepage": "https://arkit.pro",
   "devDependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.12.2",

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://arkit.js.org/schema.json",
+  "$schema": "https://arkit.pro/schema.json",
   "components": [
     {
       "type": "Entry",

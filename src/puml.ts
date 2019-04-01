@@ -18,7 +18,7 @@ export class PUML {
 
     puml.push(this.generatePlantUMLRelationships(layerComponents));
     puml.push("\n@enduml");
-    puml.push("\n' View and edit on https://arkit.herokuapp.com");
+    puml.push("\n' View and edit on https://arkit.pro");
 
     return puml.join("\n");
   }

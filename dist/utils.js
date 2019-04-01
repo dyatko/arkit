@@ -100,7 +100,7 @@ exports.request = (path, payload) => {
         const req = https
             .request({
             path,
-            hostname: "arkit.herokuapp.com",
+            hostname: "arkit.pro",
             port: 443,
             method: "post",
             headers: {

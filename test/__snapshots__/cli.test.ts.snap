@@ -106,7 +106,7 @@ _todo_store_service --> _todo_model
 
 @enduml
 
-' View and edit on https://arkit.herokuapp.com
+' View and edit on https://arkit.pro
 "
 `;
 
@@ -278,7 +278,7 @@ _types --> _schema
 @enduml
 
 
-' View and edit on https://arkit.herokuapp.com
+' View and edit on https://arkit.pro
 ]]></script></g></svg>"
 `;
 
@@ -346,7 +346,7 @@ skinparam component {
 @enduml
 
 
-' View and edit on https://arkit.herokuapp.com
+' View and edit on https://arkit.pro
 ]]></script></g></svg>"
 `;
 
@@ -364,7 +364,7 @@ Options:
   -v, --version    Show version number                                 [boolean]
 
 Visualises JavaScript, TypeScript and Flow codebases as meaningful and
-committable architecture diagrams https://arkit.js.org
+committable architecture diagrams https://arkit.pro
 "
 `;
 
@@ -590,7 +590,7 @@ _ReactPartialRendererHooks ~~> (ReactPartialRendererContext)
 @enduml
 
 
-' View and edit on https://arkit.herokuapp.com
+' View and edit on https://arkit.pro
 ]]></script></g></svg>"
 `;
 
@@ -649,7 +649,7 @@ _component ~~> (base.component)
 
 @enduml
 
-' View and edit on https://arkit.herokuapp.com"
+' View and edit on https://arkit.pro"
 `;
 
 exports[`CLI Sample no args should generate correct svg 1`] = `
@@ -700,6 +700,6 @@ _component --> (base.component)
 @enduml
 
 
-' View and edit on https://arkit.herokuapp.com
+' View and edit on https://arkit.pro
 ]]></script></g></svg>"
 `;

@@ -70,7 +70,7 @@ Options:
 
 ```json
 {
-  "$schema": "https://arkit.js.org/schema.json",
+  "$schema": "https://arkit.pro/schema.json",
   "excludePatterns": ["test/**", "tests/**", "**/*.test.*", "**/*.spec.*"],
   "components": [
     {

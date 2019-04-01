@@ -139,7 +139,7 @@ export const request = (path, payload): Promise<Buffer> => {
       .request(
         {
           path,
-          hostname: "arkit.herokuapp.com",
+          hostname: "arkit.pro",
           port: 443,
           method: "post",
           headers: {

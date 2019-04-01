@@ -1,5 +1,5 @@
 {
-    "$id": "https://arkit.js.org/schema.json",
+    "$id": "https://arkit.pro/schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "ComponentNameFormat": {
@@ -22,7 +22,7 @@
                     "type": "array"
                 },
                 "format": {
-                    "$ref": "https://arkit.js.org/schema.json#/definitions/ComponentNameFormat",
+                    "$ref": "https://arkit.pro/schema.json#/definitions/ComponentNameFormat",
                     "default": "base",
                     "description": "Filename format, e.g. \"base\", \"full\""
                 },
@@ -88,14 +88,14 @@
         "OutputSchema": {
             "properties": {
                 "direction": {
-                    "$ref": "https://arkit.js.org/schema.json#/definitions/OutputDirection",
+                    "$ref": "https://arkit.pro/schema.json#/definitions/OutputDirection",
                     "default": "vertical",
                     "description": "Direction, e.g. \"horizontal\", \"vertical\""
                 },
                 "groups": {
                     "description": "Optional groups of components",
                     "items": {
-                        "$ref": "https://arkit.js.org/schema.json#/definitions/GroupSchema"
+                        "$ref": "https://arkit.pro/schema.json#/definitions/GroupSchema"
                     },
                     "type": "array"
                 },
@@ -122,11 +122,11 @@
         "components": {
             "anyOf": [
                 {
-                    "$ref": "https://arkit.js.org/schema.json#/definitions/ComponentSchema"
+                    "$ref": "https://arkit.pro/schema.json#/definitions/ComponentSchema"
                 },
                 {
                     "items": {
-                        "$ref": "https://arkit.js.org/schema.json#/definitions/ComponentSchema"
+                        "$ref": "https://arkit.pro/schema.json#/definitions/ComponentSchema"
                     },
                     "type": "array"
                 }
@@ -143,11 +143,11 @@
         "output": {
             "anyOf": [
                 {
-                    "$ref": "https://arkit.js.org/schema.json#/definitions/OutputSchema"
+                    "$ref": "https://arkit.pro/schema.json#/definitions/OutputSchema"
                 },
                 {
                     "items": {
-                        "$ref": "https://arkit.js.org/schema.json#/definitions/OutputSchema"
+                        "$ref": "https://arkit.pro/schema.json#/definitions/OutputSchema"
                     },
                     "type": "array"
                 }
