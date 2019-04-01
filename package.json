@@ -59,7 +59,7 @@
     "jest": "24.6.0",
     "prettier": "1.16.4",
     "ts-jest": "24.0.1",
-    "tslint": "5.14.0",
+    "tslint": "5.15.0",
     "typescript-json-schema": "0.36.0",
     "worldstar": "1.2.3"
   },
