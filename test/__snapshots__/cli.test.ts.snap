@@ -177,7 +177,7 @@ exports[`CLI Arkit package.json should generate correct png 1`] = `
 Object {
   "blksize": 4096,
   "blocks": 96,
-  "size": 46937,
+  "size": 46938,
 }
 `;
 
