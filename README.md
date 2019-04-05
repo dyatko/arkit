@@ -110,7 +110,7 @@ Options:
 #### [Arkit itself](https://github.com/dyatko/arkit/tree/master/src) using `npx arkit` and [config in package.json](https://github.com/dyatko/arkit/blob/master/package.json#L17)
 ![Arkit dependency graph](dist/arkit.svg?sanitize=true)
 
-#### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [config in arkit.json](test/react-dom/arkit.json)
+#### [ReactDOM](https://github.com/dyatko/arkit/tree/master/test/react-dom) using `npx arkit` and [config in arkit.json](https://github.com/dyatko/arkit/blob/master/test/react-dom/react-arkit.json)
 ![ReactDOM architecture graph](test/react-dom/arkit.svg?sanitize=true)
 
 #### [Vue/Nuxt TodoMVC](https://github.com/dyatko/arkit-nuxt-todomvc) using `yarn arkit -o arkit.svg`

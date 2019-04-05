@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
