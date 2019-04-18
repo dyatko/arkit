@@ -4,7 +4,7 @@
     {
       "type": "App",
       "format": "full",
-      "patterns": ["./main.ts"]
+      "patterns": ["./main.ts", "./utils.ts"]
     },
     {
       "type": "View",

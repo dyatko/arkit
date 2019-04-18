@@ -111,7 +111,7 @@ class Parser {
                     }
                     catch (e) {
                         utils_1.warn(e);
-                        utils_1.warn(statement.getText());
+                        utils_1.warn("isVariableStatement", statement.getText());
                     }
                 }
                 else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
@@ -126,7 +126,7 @@ class Parser {
                     }
                     catch (e) {
                         utils_1.warn(e);
-                        utils_1.warn(statement.getText());
+                        utils_1.warn("isInterfaceDeclaration, ...", statement.getText());
                     }
                 }
                 else if (ts_morph_1.TypeGuards.isFunctionDeclaration(statement)) {
@@ -136,7 +136,7 @@ class Parser {
                     }
                     catch (e) {
                         utils_1.warn(e);
-                        utils_1.warn(statement.getText());
+                        utils_1.warn("isFunctionDeclaration", statement.getText());
                     }
                 }
                 else {

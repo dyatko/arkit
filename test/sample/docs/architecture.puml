@@ -4,7 +4,7 @@ scale max 1920 width
 top to bottom direction
 
 skinparam nodesep 12
-skinparam ranksep 24
+skinparam ranksep 25
 skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName Tahoma
@@ -43,9 +43,11 @@ package "Base" {
 }
 
 (<b>main.ts</b>)
+(utils.ts)
 
 _component ~~> (base.component)
 (<b>main.ts</b>) -[thickness=1]> (main.view)
+(<b>main.ts</b>) -[thickness=1]> (utils.ts)
 (main.view) --> _component
 (main.view) ~~> (singleton)
 (singleton) --> _model

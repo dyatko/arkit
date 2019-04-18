@@ -140,6 +140,7 @@ Object {
         "format": "full",
         "patterns": Array [
           "./main.ts",
+          "./utils.ts",
         ],
         "type": "App",
       },

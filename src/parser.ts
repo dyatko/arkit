@@ -183,7 +183,7 @@ export class Parser {
               );
             } catch (e) {
               warn(e);
-              warn(statement.getText());
+              warn("isVariableStatement", statement.getText());
             }
           } else if (
             TypeGuards.isInterfaceDeclaration(statement) ||
@@ -199,7 +199,7 @@ export class Parser {
               }
             } catch (e) {
               warn(e);
-              warn(statement.getText());
+              warn("isInterfaceDeclaration, ...", statement.getText());
             }
           } else if (TypeGuards.isFunctionDeclaration(statement)) {
             try {
@@ -207,7 +207,7 @@ export class Parser {
               trace("EXPORT", sourceFile.getBaseName(), structure);
             } catch (e) {
               warn(e);
-              warn(statement.getText());
+              warn("isFunctionDeclaration", statement.getText());
             }
           } else {
             warn("EXPORT Unknown type", sourceFile.getBaseName(), statement);

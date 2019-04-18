@@ -608,6 +608,9 @@ Object {
   "main.ts": Object {
     "exports": Array [],
     "imports": Object {
+      "utils.ts": Array [
+        "util",
+      ],
       "views/main.view.js": Array [
         "mainView",
       ],
@@ -620,6 +623,10 @@ Object {
       "CONSTANT",
       "{ a, b: [b1, b2, b3], c }",
     ],
+    "imports": Object {},
+  },
+  "utils.ts": Object {
+    "exports": Array [],
     "imports": Object {},
   },
   "views/base.component.js": Object {
