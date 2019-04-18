@@ -609,7 +609,8 @@ Object {
     "exports": Array [],
     "imports": Object {
       "utils.ts": Array [
-        "util",
+        "arrUtil",
+        "objUtil",
       ],
       "views/main.view.js": Array [
         "mainView",
