@@ -4,6 +4,7 @@ import { trace, warn } from "./logger";
 import * as nanomatch from "nanomatch";
 import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
 import * as https from "https";
+import { Node, Statement, TypeGuards } from "ts-morph";
 
 export * from "./logger";
 
@@ -195,4 +196,25 @@ export const convertToRelative = (
     }
     return path.relative(root, getAbsolute(filepath));
   });
+};
+
+export const getAllStatements = (
+  nodes: Node[],
+  statements: Statement[] = []
+): Statement[] => {
+  return nodes.reduce((statements, node) => {
+    try {
+      const children = node.getChildren();
+
+      if (TypeGuards.isStatement(node) || TypeGuards.isImportTypeNode(node)) {
+        statements.push(node as Statement);
+      }
+
+      getAllStatements(children, statements);
+    } catch (e) {
+      warn(e);
+    }
+
+    return statements;
+  }, statements);
 };

@@ -368,6 +368,8 @@ Object {
         "info",
         "trace",
         "warn",
+        "getAllStatements",
+        "error",
       ],
     },
   },
@@ -445,6 +447,7 @@ Object {
       "getAllComponents",
       "getAbsolute",
       "convertToRelative",
+      "getAllStatements",
     ],
     "imports": Object {
       "fs": Array [
@@ -459,6 +462,11 @@ Object {
       ],
       "node_modules/nanomatch/index.js": Array [
         "nanomatch",
+      ],
+      "node_modules/ts-morph/dist/main.js": Array [
+        "Node",
+        "Statement",
+        "TypeGuards",
       ],
       "path": Array [
         "path",
@@ -623,12 +631,17 @@ Object {
       "List",
       "CONSTANT",
       "{ a, b: [b1, b2, b3], c }",
+      "Type",
     ],
     "imports": Object {},
   },
   "utils.ts": Object {
     "exports": Array [],
-    "imports": Object {},
+    "imports": Object {
+      "models/model.ts": Array [
+        "Type",
+      ],
+    },
   },
   "views/base.component.js": Object {
     "exports": Array [],

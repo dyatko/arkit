@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
+import { Node, Statement } from "ts-morph";
 export * from "./logger";
 export declare const getStats: (path: string) => {
     isDirectory: boolean;
@@ -17,4 +18,5 @@ export declare const request: (path: any, payload: any) => Promise<Buffer>;
 export declare const getAllComponents: (layers: Layers, sortByName?: boolean) => Component[];
 export declare const getAbsolute: (filepath: string, root?: string) => string;
 export declare const convertToRelative: (paths: string[], root: string, excludes?: string[]) => string[];
+export declare const getAllStatements: (nodes: Node<import("typescript").Node>[], statements?: Statement<import("typescript").Statement>[]) => Statement<import("typescript").Statement>[];
 //# sourceMappingURL=utils.d.ts.map

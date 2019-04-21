@@ -26,7 +26,13 @@ class Parser {
             progress.tick();
         });
         this.fs.filePaths.forEach(fullPath => {
-            files[fullPath] = this.parseFile(fullPath);
+            try {
+                files[fullPath] = this.parseFile(fullPath);
+            }
+            catch (e) {
+                utils_1.error(`Error parsing ${fullPath}`);
+                utils_1.trace(e);
+            }
             progress.tick();
         });
         progress.terminate();
@@ -35,10 +41,11 @@ class Parser {
     parseFile(fullPath) {
         utils_1.trace(`Parsing ${fullPath}`);
         const sourceFile = this.fs.project.addExistingSourceFile(fullPath);
-        const statements = sourceFile.getStatements();
-        utils_1.debug(fullPath, statements.length, "statements");
-        const exports = this.getExports(sourceFile, statements);
-        const imports = this.getImports(sourceFile, statements);
+        const rootStatements = sourceFile.getStatements();
+        const allStatements = utils_1.getAllStatements(rootStatements);
+        utils_1.debug(fullPath, allStatements.length, "statements");
+        const exports = this.getExports(sourceFile, rootStatements);
+        const imports = this.getImports(sourceFile, allStatements);
         utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
         this.fs.project.removeSourceFile(sourceFile);
         return { exports, imports };
@@ -46,7 +53,20 @@ class Parser {
     getImports(sourceFile, statements) {
         return statements.reduce((imports, statement) => {
             let sourceFileImports;
-            if (ts_morph_1.TypeGuards.isVariableStatement(statement) ||
+            if (ts_morph_1.TypeGuards.isImportTypeNode(statement)) {
+                try {
+                    const moduleSpecifier = eval(statement.getArgument().getText());
+                    sourceFileImports = this.addModule(imports, moduleSpecifier, sourceFile);
+                    const namedImport = statement.getQualifier();
+                    if (sourceFileImports && namedImport) {
+                        sourceFileImports.push(namedImport.getText());
+                    }
+                }
+                catch (e) {
+                    utils_1.warn(e);
+                }
+            }
+            else if (ts_morph_1.TypeGuards.isVariableStatement(statement) ||
                 ts_morph_1.TypeGuards.isExpressionStatement(statement)) {
                 const text = statement.getText();
                 const [match, moduleSpecifier, namedImport] = Array.from(REQUIRE_RE.exec(text) || []);

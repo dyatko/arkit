@@ -8,6 +8,7 @@ const fs = require("fs");
 const logger_1 = require("./logger");
 const nanomatch = require("nanomatch");
 const https = require("https");
+const ts_morph_1 = require("ts-morph");
 __export(require("./logger"));
 exports.getStats = (path) => {
     try {
@@ -138,4 +139,19 @@ exports.convertToRelative = (paths, root, excludes = []) => {
         }
         return path.relative(root, exports.getAbsolute(filepath));
     });
+};
+exports.getAllStatements = (nodes, statements = []) => {
+    return nodes.reduce((statements, node) => {
+        try {
+            const children = node.getChildren();
+            if (ts_morph_1.TypeGuards.isStatement(node) || ts_morph_1.TypeGuards.isImportTypeNode(node)) {
+                statements.push(node);
+            }
+            exports.getAllStatements(children, statements);
+        }
+        catch (e) {
+            logger_1.warn(e);
+        }
+        return statements;
+    }, statements);
 };

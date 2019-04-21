@@ -3,5 +3,6 @@ export function objUtil({ type, id }) {
 }
 
 export function arrUtil([a, b]) {
-  return { a, b };
+  const type: import('./models/model').Type = { a, b };
+  return type;
 }

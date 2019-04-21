@@ -51,6 +51,7 @@ _component ~~> (base.component)
 (main.view) --> _component
 (main.view) ~~> (singleton)
 (singleton) --> _model
+(utils.ts) --> _model
 
 @enduml
 

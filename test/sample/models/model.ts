@@ -13,3 +13,8 @@ export const CONSTANT = {
 }
 
 export const { a, b: [b1, b2, b3], c } = CONSTANT
+
+export interface Type {
+  a: any,
+  b: any
+}

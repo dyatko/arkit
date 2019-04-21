@@ -6,7 +6,15 @@ import {
   Statement,
   TypeGuards
 } from "ts-morph";
-import { find, debug, info, trace, warn } from "./utils";
+import {
+  find,
+  debug,
+  info,
+  trace,
+  warn,
+  getAllStatements,
+  error
+} from "./utils";
 import { ConfigBase, Exports, File, Files, Imports } from "./types";
 import * as ProgressBar from "progress";
 import { FileSystem } from "./filesystem";
@@ -41,7 +49,13 @@ export class Parser {
     });
 
     this.fs.filePaths.forEach(fullPath => {
-      files[fullPath] = this.parseFile(fullPath);
+      try {
+        files[fullPath] = this.parseFile(fullPath);
+      } catch (e) {
+        error(`Error parsing ${fullPath}`);
+        trace(e);
+      }
+
       progress.tick();
     });
 
@@ -54,11 +68,12 @@ export class Parser {
     trace(`Parsing ${fullPath}`);
 
     const sourceFile = this.fs.project.addExistingSourceFile(fullPath);
-    const statements = sourceFile.getStatements();
+    const rootStatements = sourceFile.getStatements();
+    const allStatements = getAllStatements(rootStatements);
 
-    debug(fullPath, statements.length, "statements");
-    const exports = this.getExports(sourceFile, statements);
-    const imports = this.getImports(sourceFile, statements);
+    debug(fullPath, allStatements.length, "statements");
+    const exports = this.getExports(sourceFile, rootStatements);
+    const imports = this.getImports(sourceFile, allStatements);
     debug(
       "-",
       Object.keys(exports).length,
@@ -76,7 +91,24 @@ export class Parser {
       (imports, statement) => {
         let sourceFileImports: string[] | undefined;
 
-        if (
+        if (TypeGuards.isImportTypeNode(statement)) {
+          try {
+            const moduleSpecifier = eval(statement.getArgument().getText());
+            sourceFileImports = this.addModule(
+              imports,
+              moduleSpecifier,
+              sourceFile
+            );
+
+            const namedImport = statement.getQualifier();
+
+            if (sourceFileImports && namedImport) {
+              sourceFileImports.push(namedImport.getText());
+            }
+          } catch (e) {
+            warn(e);
+          }
+        } else if (
           TypeGuards.isVariableStatement(statement) ||
           TypeGuards.isExpressionStatement(statement)
         ) {
