@@ -133,7 +133,8 @@ class Generator {
                     const dir = componentPath !== this.config.directory
                         ? path.basename(componentPath)
                         : "";
-                    component.name = path.join(dir, component.name);
+                    component.name =
+                        isIndex && dir ? dir : path.join(dir, component.name);
                 }
             }
         }

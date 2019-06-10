@@ -125,12 +125,8 @@ export class FileSystem {
 
     if (!modulePath) return;
 
-    for (const ext of this.config.extensions) {
-      const fullPath = `${modulePath}${ext}`;
-
-      if (this.filePaths.includes(fullPath)) {
-        return fullPath;
-      }
-    }
+    return resolveSync(modulePath, {
+      extensions: this.config.extensions
+    });
   }
 }

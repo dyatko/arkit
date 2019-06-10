@@ -84,12 +84,9 @@ class FileSystem {
         logger_1.debug("Resolve TS", moduleSpecifier, modulePath);
         if (!modulePath)
             return;
-        for (const ext of this.config.extensions) {
-            const fullPath = `${modulePath}${ext}`;
-            if (this.filePaths.includes(fullPath)) {
-                return fullPath;
-            }
-        }
+        return resolve_1.sync(modulePath, {
+            extensions: this.config.extensions
+        });
     }
 }
 exports.FileSystem = FileSystem;
