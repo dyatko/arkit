@@ -140,12 +140,11 @@ export class PUML {
     component: Component,
     importedComponent: Component
   ): string {
-    if (
+    const isVagueConnection =
       component.layer === importedComponent.layer &&
-      component.layer !== EMPTY_LAYER
-    )
-      return "~";
-    return "-";
+      component.layer !== EMPTY_LAYER;
+
+    return isVagueConnection ? "." : "-";
   }
 
   private getConnectionStyle(component: Component): string {
@@ -165,9 +164,10 @@ export class PUML {
     puml.push("scale max 1920 width");
 
     const direction =
-      output.direction || components.length > 20
+      output.direction ||
+      (components.length > 20
         ? OutputDirection.HORIZONTAL
-        : OutputDirection.VERTICAL;
+        : OutputDirection.VERTICAL);
 
     if (direction === OutputDirection.HORIZONTAL) {
       puml.push("left to right direction");
@@ -184,10 +184,10 @@ export class PUML {
 skinparam shadowing false
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
-skinparam roundCorner 4
+skinparam roundCorner 6
 skinparam dpi 150
 skinparam arrowColor black
-skinparam arrowThickness 0.55
+skinparam arrowThickness 0.5
 skinparam packageTitleAlignment left
 
 ' oval
@@ -207,8 +207,8 @@ skinparam component {
 
   private generatePlantUMLSkinParams(components: Component[]): string {
     const complexity = Math.min(1, components.length / 60);
-    const nodesep = 10 + Math.round(complexity * 20);
-    const ranksep = 20 + Math.round(complexity * 40);
+    const nodesep = 10 + Math.round(complexity * 15);
+    const ranksep = 20 + Math.round(complexity * 30);
 
     return `
 skinparam nodesep ${nodesep}

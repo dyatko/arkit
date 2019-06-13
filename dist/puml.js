@@ -10,10 +10,10 @@ class PUML {
 skinparam shadowing false
 skinparam defaultFontName Tahoma
 skinparam defaultFontSize 12
-skinparam roundCorner 4
+skinparam roundCorner 6
 skinparam dpi 150
 skinparam arrowColor black
-skinparam arrowThickness 0.55
+skinparam arrowThickness 0.5
 skinparam packageTitleAlignment left
 
 ' oval
@@ -125,10 +125,9 @@ skinparam component {
         return Math.max(component.isImported ? 2 : 1, Math.min(4, numberOfLevels - 1));
     }
     getConnectionSign(component, importedComponent) {
-        if (component.layer === importedComponent.layer &&
-            component.layer !== types_1.EMPTY_LAYER)
-            return "~";
-        return "-";
+        const isVagueConnection = component.layer === importedComponent.layer &&
+            component.layer !== types_1.EMPTY_LAYER;
+        return isVagueConnection ? "." : "-";
     }
     getConnectionStyle(component) {
         if (!component.isImported)
@@ -141,9 +140,10 @@ skinparam component {
     generatePlantUMLSkin(output, components) {
         const puml = [""];
         puml.push("scale max 1920 width");
-        const direction = output.direction || components.length > 20
-            ? schema_1.OutputDirection.HORIZONTAL
-            : schema_1.OutputDirection.VERTICAL;
+        const direction = output.direction ||
+            (components.length > 20
+                ? schema_1.OutputDirection.HORIZONTAL
+                : schema_1.OutputDirection.VERTICAL);
         if (direction === schema_1.OutputDirection.HORIZONTAL) {
             puml.push("left to right direction");
         }
@@ -155,8 +155,8 @@ skinparam component {
     }
     generatePlantUMLSkinParams(components) {
         const complexity = Math.min(1, components.length / 60);
-        const nodesep = 10 + Math.round(complexity * 20);
-        const ranksep = 20 + Math.round(complexity * 40);
+        const nodesep = 10 + Math.round(complexity * 15);
+        const ranksep = 20 + Math.round(complexity * 30);
         return `
 skinparam nodesep ${nodesep}
 skinparam ranksep ${ranksep}
