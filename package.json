@@ -48,7 +48,7 @@
     "@types/pino": "5.8.8",
     "@types/progress": "2.0.3",
     "@types/resolve": "0.0.8",
-    "@types/yargs": "13.0.1",
+    "@types/yargs": "13.0.2",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
     "eslint": "6.1.0",
