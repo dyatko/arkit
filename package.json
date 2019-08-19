@@ -71,7 +71,7 @@
     "resolve": "^1.11.0",
     "ts-morph": "^3.0.0",
     "tsconfig-paths": "^3.8.0",
-    "yargs": "^13.2.4"
+    "yargs": "^14.0.0"
   },
   "jest": {
     "preset": "ts-jest",
