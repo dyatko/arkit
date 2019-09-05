@@ -20,6 +20,10 @@ if (require.main === module) {
   console.log(`Running against ${config.directory} with the following config:`);
   console.log(JSON.stringify(config.final, undefined, 2));
 
+  console.log("\nDisclaimer : Arkit is using a web service to convert PlantUML to SVG/PNG.");
+  console.log("It's hosted at arkit.pro and does not store any data.");
+  console.log("If you want to use Arkit at work make sure this is fine with your company tools policy.\n");
+
   getOutputs(config).then(outputs => {
     outputs
       .sort((a, b) => {
