@@ -41,6 +41,10 @@ npx arkit -f src/main.js -o puml
 LEVEL=info npx arkit -e "node_modules,test,dist,coverage" -o puml
 ```
 
+:warning: Arkit is using a web service to convert PlantUML to SVG/PNG. 
+It's hosted at arkit.pro and does not store any data.
+**If you want to use Arkit at work make sure this is fine with your company tools policy**.
+
 If your project is huge and first diagrams look messy, it's better to generate them per feature, architectural layer, etc.
 
 Once you satisfied with results, add arkit command to your build script, so it will keep your architecture diagrams up-to-date.
