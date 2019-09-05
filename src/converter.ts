@@ -14,10 +14,10 @@ export class Converter {
   convert(pathOrType: string, puml: string): Promise<SavedString> {
     const fullExportPath = path.resolve(this.config.directory, pathOrType);
     const ext = path.extname(fullExportPath);
-    const shouldConvertAndSave = Object.values(OutputFormat).includes(
+    const shouldConvertAndSave = Object.values<any>(OutputFormat).includes(
       ext.replace(".", "")
     );
-    const shouldConvertAndOutput = Object.values(OutputFormat).includes(
+    const shouldConvertAndOutput = Object.values<any>(OutputFormat).includes(
       pathOrType
     );
 
