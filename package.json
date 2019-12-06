@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",
-    "@types/pino": "5.8.13",
+    "@types/pino": "5.14.0",
     "@types/progress": "2.0.3",
     "@types/resolve": "0.0.8",
     "@types/yargs": "13.0.3",
