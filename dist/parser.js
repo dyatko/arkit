@@ -40,7 +40,7 @@ class Parser {
     }
     parseFile(fullPath) {
         utils_1.trace(`Parsing ${fullPath}`);
-        const sourceFile = this.fs.project.addExistingSourceFile(fullPath);
+        const sourceFile = this.fs.project.addSourceFileAtPath(fullPath);
         const rootStatements = sourceFile.getStatements();
         const allStatements = utils_1.getAllStatements(rootStatements);
         utils_1.debug(fullPath, allStatements.length, "statements");
@@ -108,9 +108,7 @@ class Parser {
                         sourceFileImports.push(importStructure.defaultImport);
                     }
                     if (importStructure.namedImports instanceof Array) {
-                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === "string"
-                            ? namedImport
-                            : namedImport.name));
+                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === "string" ? namedImport : namedImport.name));
                     }
                     if (!sourceFileImports.length && !importStructure.namedImports) {
                         utils_1.warn("IMPORT", sourceFile.getBaseName(), structure);

@@ -54,39 +54,36 @@ export const getPaths = (
     return [];
   }
 
-  return fs.readdirSync(root).reduce(
-    (suitablePaths, fileName) => {
-      const filePath = path.join(directory, fileName);
-      const notExcluded =
-        !excludePatterns.length || !match(filePath, excludePatterns);
+  return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
+    const filePath = path.join(directory, fileName);
+    const notExcluded =
+      !excludePatterns.length || !match(filePath, excludePatterns);
 
-      if (notExcluded) {
-        const fullPath = path.join(root, fileName);
-        const stats = getStats(fullPath);
-        const isIncluded = match(filePath, includePatterns);
+    if (notExcluded) {
+      const fullPath = path.join(root, fileName);
+      const stats = getStats(fullPath);
+      const isIncluded = match(filePath, includePatterns);
 
-        if (stats.isDirectory) {
-          if (isIncluded) {
-            suitablePaths.push(path.join(fullPath, "**"));
-          } else {
-            const childPaths = getPaths(
-              mainDirectory,
-              filePath,
-              includePatterns,
-              excludePatterns,
-              history
-            );
-            suitablePaths.push(...childPaths);
-          }
-        } else if (stats.isFile && isIncluded) {
-          suitablePaths.push(fullPath);
+      if (stats.isDirectory) {
+        if (isIncluded) {
+          suitablePaths.push(path.join(fullPath, "**"));
+        } else {
+          const childPaths = getPaths(
+            mainDirectory,
+            filePath,
+            includePatterns,
+            excludePatterns,
+            history
+          );
+          suitablePaths.push(...childPaths);
         }
+      } else if (stats.isFile && isIncluded) {
+        suitablePaths.push(fullPath);
       }
+    }
 
-      return suitablePaths;
-    },
-    [] as string[]
-  );
+    return suitablePaths;
+  }, [] as string[]);
 };
 
 export const match = (filepath: string, patterns?: string[]): boolean => {

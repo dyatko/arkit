@@ -269,7 +269,7 @@ Object {
       "node_modules/resolve/index.js": Array [
         "sync",
       ],
-      "node_modules/ts-morph/dist/main.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": Array [
         "Project",
         "SourceFile",
       ],
@@ -345,7 +345,7 @@ Object {
       "node_modules/progress/index.js": Array [
         "ProgressBar",
       ],
-      "node_modules/ts-morph/dist/main.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": Array [
         "ExportDeclarationStructure",
         "ImportDeclarationStructure",
         "SourceFile",
@@ -463,7 +463,7 @@ Object {
       "node_modules/nanomatch/index.js": Array [
         "nanomatch",
       ],
-      "node_modules/ts-morph/dist/main.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": Array [
         "Node",
         "Statement",
         "TypeGuards",

@@ -10,7 +10,7 @@ const ProgressBar = require("progress");
 const puml_1 = require("./puml");
 const converter_1 = require("./converter");
 const getOptions = (options) => {
-    const opts = Object.assign({}, cli_1.cli.argv, options);
+    const opts = Object.assign(Object.assign({}, cli_1.cli.argv), options);
     opts.directory = utils_1.getAbsolute(opts.directory);
     if (opts.first) {
         opts.first = utils_1.convertToRelative(opts.first, opts.directory);

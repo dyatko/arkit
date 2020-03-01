@@ -62,29 +62,26 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
   });
 
   return Promise.all(
-    outputs.reduce(
-      (promises, output) => {
-        const layers = generator.generate(output);
-        progress.tick();
+    outputs.reduce((promises, output) => {
+      const layers = generator.generate(output);
+      progress.tick();
 
-        const puml = new PUML().from(output, layers);
-        progress.tick();
+      const puml = new PUML().from(output, layers);
+      progress.tick();
 
-        const paths = array(output.path) as string[];
+      const paths = array(output.path) as string[];
 
-        for (const path of paths) {
-          const promise = converter.convert(path, puml).then(value => {
-            progress.tick();
-            return value;
-          });
+      for (const path of paths) {
+        const promise = converter.convert(path, puml).then(value => {
+          progress.tick();
+          return value;
+        });
 
-          promises.push(promise);
-        }
+        promises.push(promise);
+      }
 
-        return promises;
-      },
-      [] as Promise<SavedString>[]
-    )
+      return promises;
+    }, [] as Promise<SavedString>[])
   );
 };
 

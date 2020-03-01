@@ -64,7 +64,7 @@ class Config {
             generatedGroups[0].patterns = firstOption;
             generatedGroups.push({}); // everything else
         }
-        return initialOutputs.map(output => (Object.assign({}, output, { path: utils_1.array(output.path || outputOption || "svg"), groups: output.groups || (!userComponents ? generatedGroups : undefined) })));
+        return initialOutputs.map(output => (Object.assign(Object.assign({}, output), { path: utils_1.array(output.path || outputOption || "svg"), groups: output.groups || (!userComponents ? generatedGroups : undefined) })));
     }
     getExcludedPatterns(options, userConfig) {
         const excludePatterns = [];
