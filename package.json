@@ -67,7 +67,7 @@
   "dependencies": {
     "nanomatch": "^1.2.13",
     "pino": "^6.0.0",
-    "pino-pretty": "^3.6.0",
+    "pino-pretty": "^4.0.0",
     "progress": "^2.0.3",
     "resolve": "^1.15.1",
     "ts-morph": "^7.0.0",
