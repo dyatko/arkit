@@ -61,7 +61,7 @@
     "ts-jest": "26.4.4",
     "tslint": "6.1.3",
     "typescript": "4.1.3",
-    "typescript-json-schema": "0.45.1",
+    "typescript-json-schema": "0.46.0",
     "worldstar": "1.2.3"
   },
   "dependencies": {
