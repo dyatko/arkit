@@ -71,7 +71,7 @@
     "progress": "^2.0.3",
     "resolve": "^1.20.0",
     "ts-morph": "^14.0.0",
-    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths": "^4.0.0",
     "yargs": "^17.0.0"
   },
   "jest": {
