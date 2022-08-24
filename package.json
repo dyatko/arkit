@@ -43,7 +43,7 @@
   },
   "homepage": "https://arkit.pro",
   "devDependencies": {
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/node": "16.11.56",
     "@types/pino": "7.0.4",
     "@types/progress": "2.0.5",
