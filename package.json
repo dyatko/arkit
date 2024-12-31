@@ -70,7 +70,7 @@
     "pino-pretty": "^13.0.0",
     "progress": "^2.0.3",
     "resolve": "^1.20.0",
-    "ts-morph": "^24.0.0",
+    "ts-morph": "^25.0.0",
     "tsconfig-paths": "^4.0.0",
     "yargs": "^17.0.0"
   },
