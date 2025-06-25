@@ -55,7 +55,7 @@
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-n": "17.20.0",
-    "eslint-plugin-prettier": "5.5.0",
+    "eslint-plugin-prettier": "5.5.1",
     "jest": "30.0.3",
     "prettier": "3.6.1",
     "ts-jest": "29.4.0",
