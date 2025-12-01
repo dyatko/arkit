@@ -59,9 +59,24 @@ LEVEL=info npx arkit -e "node_modules,test,dist,coverage" -o puml
 npx arkit -o arkit.svg && npx arkit -o arkit.png
 ```
 
-:warning: Arkit is using a web service to convert PlantUML to SVG/PNG. 
-It's hosted at arkit.pro and does not store any data.
-**If you want to use Arkit at work make sure this is fine with your company tools policy**.
+### Requirements
+
+Arkit uses **local PlantUML conversion** via Java to generate SVG and PNG diagrams. This means:
+
+- ✅ **No external web service calls** - All conversion happens locally
+- ✅ **Your code stays private** - No data is sent over the network
+- ✅ **Works offline** - Generate diagrams without internet connection
+- ⚠️ **Requires Java** - You must have Java Runtime Environment (JRE) 8+ installed
+
+#### Installing Java
+
+If you don't have Java installed, you'll see an error message with installation instructions:
+
+- **Windows**: Download from [Adoptium](https://adoptium.net/)
+- **macOS**: `brew install openjdk`
+- **Linux**: `sudo apt-get install default-jre` (Ubuntu/Debian) or `sudo yum install java-openjdk` (RHEL/CentOS)
+
+To verify Java is installed: `java -version`
 
 If your project is huge and first diagrams look messy, it's better to generate them per feature, architectural layer, etc.
 
@@ -123,6 +138,16 @@ Options:
 ```
 
 **See more possible JSON configuration options in the examples below**
+
+## Output Formats
+
+Arkit supports three output formats:
+
+- **SVG** (default): Scalable vector graphics, perfect for documentation and web
+- **PNG**: Raster images, great for presentations and PDFs
+- **PlantUML** (`puml`): Text-based format that can be version controlled or rendered with other tools
+
+All SVG and PNG conversion is done **locally using node-plantuml** without any external web service calls.
 
 ## Real-world examples
 

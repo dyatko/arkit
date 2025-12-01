@@ -1,13 +1,16 @@
-import * as pino from "pino";
+import pino from "pino";
 
 const logger = pino({
   name: "arkit",
   level: process.env.LEVEL || "error",
   base: null,
-  prettyPrint: {
-    colorize: true,
-    translateTime: true
-  }
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+      translateTime: true,
+    },
+  },
 });
 
 export const fatal = logger.fatal.bind(logger);

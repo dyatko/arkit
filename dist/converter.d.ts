@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { ConfigBase, SavedString } from "./types";
 export declare class Converter {
     private readonly config;
@@ -7,5 +6,5 @@ export declare class Converter {
     private save;
     requestChain: Promise<any>;
     convertToImage(puml: string, format: string): Promise<Buffer>;
+    private getJavaInstallationErrorMessage;
 }
-//# sourceMappingURL=converter.d.ts.map

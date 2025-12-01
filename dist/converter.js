@@ -1,10 +1,44 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Converter = void 0;
 const types_1 = require("./types");
-const path = require("path");
-const fs = require("fs");
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const logger_1 = require("./logger");
-const utils_1 = require("./utils");
+const plantuml = __importStar(require("node-plantuml"));
 class Converter {
     constructor(config) {
         this.requestChain = Promise.resolve();
@@ -16,26 +50,26 @@ class Converter {
         const shouldConvertAndSave = Object.values(types_1.OutputFormat).includes(ext.replace(".", ""));
         const shouldConvertAndOutput = Object.values(types_1.OutputFormat).includes(pathOrType);
         if (fs.existsSync(fullExportPath)) {
-            logger_1.debug("Removing", fullExportPath);
+            (0, logger_1.debug)("Removing", fullExportPath);
             fs.unlinkSync(fullExportPath);
         }
         if (shouldConvertAndSave || shouldConvertAndOutput) {
-            logger_1.debug("Converting", ext ? fullExportPath : pathOrType);
+            (0, logger_1.debug)("Converting", ext ? fullExportPath : pathOrType);
             return this.convertToImage(puml, ext || pathOrType)
-                .then(image => {
+                .then((image) => {
                 if (shouldConvertAndSave) {
-                    logger_1.debug("Saving", fullExportPath, image.length);
+                    (0, logger_1.debug)("Saving", fullExportPath, image.length);
                     return this.save(fullExportPath, image);
                 }
                 return image.toString();
             })
-                .catch(err => {
+                .catch((err) => {
                 throw err;
             });
         }
         else {
             if (ext === ".puml") {
-                logger_1.debug("Saving", fullExportPath);
+                (0, logger_1.debug)("Saving", fullExportPath);
                 return this.save(fullExportPath, puml);
             }
             return Promise.resolve(puml);
@@ -49,16 +83,51 @@ class Converter {
     }
     convertToImage(puml, format) {
         return new Promise((resolve, reject) => {
-            const path = format.match(/\w{3}/);
-            if (!path) {
+            const formatMatch = format.match(/\w{3}/);
+            if (!formatMatch) {
                 return reject(new Error(`Cannot identify image format from ${format}`));
             }
+            const outputFormat = formatMatch[0];
+            // Validate format is supported
+            if (outputFormat !== "svg" && outputFormat !== "png") {
+                return reject(new Error(`Unsupported format: ${outputFormat}. Only svg and png are supported.`));
+            }
+            (0, logger_1.debug)(`Converting PlantUML to ${outputFormat} using local PlantUML`);
+            // Chain requests to avoid concurrent PlantUML execution issues
             this.requestChain = this.requestChain.then(() => {
-                return utils_1.request(`/${path[0]}`, puml)
-                    .then(result => resolve(result))
-                    .catch(err => logger_1.debug(err));
+                return new Promise((resolveChain, rejectChain) => {
+                    const chunks = [];
+                    const gen = plantuml.generate(puml, { format: outputFormat });
+                    gen.out.on("data", (chunk) => {
+                        chunks.push(chunk);
+                    });
+                    gen.out.on("end", () => {
+                        const result = Buffer.concat(chunks);
+                        (0, logger_1.debug)(`Successfully generated ${outputFormat}, size: ${result.length} bytes`);
+                        resolveChain(result);
+                        resolve(result);
+                    });
+                    gen.out.on("error", (err) => {
+                        (0, logger_1.warn)(`PlantUML conversion error: ${err.message}`);
+                        const errorMsg = this.getJavaInstallationErrorMessage(err);
+                        rejectChain(new Error(errorMsg));
+                        reject(new Error(errorMsg));
+                    });
+                });
             });
         });
+    }
+    getJavaInstallationErrorMessage(err) {
+        const errMsg = err.message || "";
+        if (errMsg.includes("ENOENT") || errMsg.includes("java")) {
+            return (`PlantUML conversion failed: Java is not installed or not in PATH.\n` +
+                `Please install Java Runtime Environment (JRE) 8 or higher:\n` +
+                `  - Windows: Download from https://adoptium.net/\n` +
+                `  - macOS: brew install openjdk\n` +
+                `  - Linux: sudo apt-get install default-jre\n` +
+                `Original error: ${errMsg}`);
+        }
+        return `PlantUML conversion failed: ${errMsg}`;
     }
 }
 exports.Converter = Converter;
