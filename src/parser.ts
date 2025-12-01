@@ -5,7 +5,6 @@ import {
   Node,
   SourceFile,
   Statement,
-  SyntaxKind,
 } from "ts-morph";
 import {
   find,
@@ -52,8 +51,8 @@ export class Parser {
     this.fs.filePaths.forEach((fullPath) => {
       try {
         files[fullPath] = this.parseFile(fullPath);
-      } catch (e) {
-        error(`Error parsing ${fullPath}`);
+      } catch (e: any) {
+        error(`Error parsing ${fullPath}: ${e.message}`);
         trace(e);
       }
 

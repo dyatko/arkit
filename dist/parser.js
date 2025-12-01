@@ -34,7 +34,7 @@ class Parser {
                 files[fullPath] = this.parseFile(fullPath);
             }
             catch (e) {
-                (0, utils_1.error)(`Error parsing ${fullPath}`);
+                (0, utils_1.error)(`Error parsing ${fullPath}: ${e.message}`);
                 (0, utils_1.trace)(e);
             }
             progress.tick();

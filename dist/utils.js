@@ -35,12 +35,15 @@ var __importStar = (this && this.__importStar) || (function () {
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllStatements = exports.convertToRelative = exports.getAbsolute = exports.getAllComponents = exports.request = exports.bold = exports.verifyComponentFilters = exports.array = exports.safeRequire = exports.find = exports.match = exports.getPaths = exports.getMemoryUsage = exports.getStats = void 0;
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const logger_1 = require("./logger");
-const nanomatch = __importStar(require("nanomatch"));
+const nanomatch_1 = __importDefault(require("nanomatch"));
 const https = __importStar(require("https"));
 const ts_morph_1 = require("ts-morph");
 __exportStar(require("./logger"), exports);
@@ -105,11 +108,11 @@ const getPaths = (mainDirectory, directory, includePatterns, excludePatterns, hi
 };
 exports.getPaths = getPaths;
 const match = (filepath, patterns) => {
-    return !patterns || !patterns.length || nanomatch.some(filepath, patterns);
+    return !patterns || !patterns.length || nanomatch_1.default.some(filepath, patterns);
 };
 exports.match = match;
 const find = (filepath, patterns) => {
-    return patterns.find((pattern) => nanomatch(filepath, pattern).length);
+    return patterns.find((pattern) => (0, nanomatch_1.default)(filepath, pattern).length);
 };
 exports.find = find;
 const safeRequire = (path) => {

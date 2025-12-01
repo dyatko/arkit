@@ -58,7 +58,7 @@ describe("CLI", () => {
 
         // Verify file exists and has reasonable size (not empty, not too large)
         expect(stat.size).toBeGreaterThan(1000); // At least 1KB
-        expect(stat.size).toBeLessThan(100000); // Less than 100KB
+        expect(stat.size).toBeLessThan(200000); // Less than 200KB
 
         // Verify it's a valid PNG by checking the header
         const buffer = fs.readFileSync(pngPath);

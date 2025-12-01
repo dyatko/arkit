@@ -350,7 +350,6 @@ exports[`Parser Arkit 1`] = `
         "Node",
         "SourceFile",
         "Statement",
-        "SyntaxKind",
       ],
       "os": [
         "EOL",

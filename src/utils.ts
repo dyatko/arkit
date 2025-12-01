@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as fs from "fs";
 import { trace, warn } from "./logger";
-import * as nanomatch from "nanomatch";
+import nanomatch from "nanomatch";
 import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
 import * as https from "https";
 import { Node, Statement, SyntaxKind } from "ts-morph";
