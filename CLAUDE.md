@@ -375,7 +375,7 @@ const { arkit } = require('arkit');
 - `schema.json`: JSON schema for configuration validation
 - `tsconfig.json`: TypeScript compiler configuration
 - `package.json`: Project metadata and scripts
-- `.travis.yml`: CI/CD configuration
+- `.github/workflows/pr-tests.yml`: CI/CD configuration (GitHub Actions)
 - `index.js`: CLI entry point (compiled)
 
 ## Example Workflows
