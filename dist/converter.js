@@ -163,18 +163,18 @@ class Converter {
             (0, logger_1.debug)(`Converting PlantUML to ${format} using Java PlantUML + @hpcc-js/wasm GraphViz`);
             try {
                 const plantuml = yield Promise.resolve().then(() => __importStar(require("node-plantuml")));
-                // Step 1: Use PlantUML to generate DOT format
-                const dotSource = yield new Promise((resolve, reject) => {
+                // Use PlantUML to generate the requested format (svg or png)
+                const output = yield new Promise((resolve, reject) => {
                     const chunks = [];
-                    const gen = plantuml.generate(puml, { format: "svg" }); // PlantUML generates SVG directly
+                    const gen = plantuml.generate(puml, {
+                        format: format,
+                    });
                     gen.out.on("data", (chunk) => chunks.push(chunk));
-                    gen.out.on("end", () => resolve(Buffer.concat(chunks).toString()));
+                    gen.out.on("end", () => resolve(Buffer.concat(chunks)));
                     gen.out.on("error", reject);
                 });
-                // For now, PlantUML generates SVG/PNG directly, so we just return it
-                // In the future, we could intercept DOT generation and use WASM for layout
-                (0, logger_1.debug)(`Successfully generated ${format} using WASM backend, size: ${Buffer.byteLength(dotSource)} bytes`);
-                return Buffer.from(dotSource);
+                (0, logger_1.debug)(`Successfully generated ${format} using WASM backend, size: ${output.length} bytes`);
+                return output;
             }
             catch (error) {
                 (0, logger_1.warn)(`WASM conversion error: ${error.message}`);

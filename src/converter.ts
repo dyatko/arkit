@@ -152,23 +152,23 @@ export class Converter {
     try {
       const plantuml = await import("node-plantuml");
 
-      // Step 1: Use PlantUML to generate DOT format
-      const dotSource = await new Promise<string>((resolve, reject) => {
+      // Use PlantUML to generate the requested format (svg or png)
+      const output = await new Promise<Buffer>((resolve, reject) => {
         const chunks: Buffer[] = [];
-        const gen = plantuml.generate(puml, { format: "svg" }); // PlantUML generates SVG directly
+        const gen = plantuml.generate(puml, {
+          format: format as "svg" | "png",
+        });
 
         gen.out.on("data", (chunk: Buffer) => chunks.push(chunk));
-        gen.out.on("end", () => resolve(Buffer.concat(chunks).toString()));
+        gen.out.on("end", () => resolve(Buffer.concat(chunks)));
         gen.out.on("error", reject);
       });
 
-      // For now, PlantUML generates SVG/PNG directly, so we just return it
-      // In the future, we could intercept DOT generation and use WASM for layout
       debug(
-        `Successfully generated ${format} using WASM backend, size: ${Buffer.byteLength(dotSource)} bytes`,
+        `Successfully generated ${format} using WASM backend, size: ${output.length} bytes`,
       );
 
-      return Buffer.from(dotSource);
+      return output;
     } catch (error: any) {
       warn(`WASM conversion error: ${error.message}`);
       throw new Error(`WASM conversion failed: ${error.message}`);
