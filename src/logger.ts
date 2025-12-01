@@ -6,8 +6,8 @@ const logger = pino({
   base: null,
   prettyPrint: {
     colorize: true,
-    translateTime: true
-  }
+    translateTime: true,
+  },
 });
 
 export const fatal = logger.fatal.bind(logger);

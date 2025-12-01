@@ -6,24 +6,24 @@ import {
   ConfigSchema,
   GroupSchema,
   Options,
-  OutputSchema
+  OutputSchema,
 } from "./types";
 import { array, debug, safeRequire } from "./utils";
 
 const DEFAULT_COMPONENTS: ComponentSchema[] = [
   {
     type: "Dependency",
-    patterns: ["node_modules/*"]
+    patterns: ["node_modules/*"],
   },
   {
     type: "Component",
-    patterns: ["**/*.ts", "**/*.js", "**/*.jsx", "**/*.tsx"]
+    patterns: ["**/*.ts", "**/*.js", "**/*.jsx", "**/*.tsx"],
   },
   {
     type: "Vue",
     format: ComponentNameFormat.FULL_NAME,
-    patterns: ["**/*.vue"]
-  }
+    patterns: ["**/*.vue"],
+  },
 ];
 
 export class Config implements ConfigBase {
@@ -42,14 +42,14 @@ export class Config implements ConfigBase {
     return {
       components: this.getFinalComponents(options, userConfig),
       excludePatterns: this.getExcludedPatterns(options, userConfig),
-      output: this.getFinalOutputs(options, userConfig)
+      output: this.getFinalOutputs(options, userConfig),
     };
   }
 
   private getUserConfig(options: Options): ConfigSchema | undefined {
     const userConfigPath = path.resolve(
       this.directory,
-      options.config || "arkit"
+      options.config || "arkit",
     );
     const userConfig = safeRequire<ConfigSchema>(userConfigPath);
     const packageJSONPath = path.resolve(this.directory, "package");
@@ -68,7 +68,7 @@ export class Config implements ConfigBase {
 
   private getFinalComponents(
     options: Options,
-    userConfig?: ConfigSchema
+    userConfig?: ConfigSchema,
   ): ComponentSchema[] {
     const userComponents = userConfig && userConfig.components;
     return userComponents ? array(userComponents)! : DEFAULT_COMPONENTS;
@@ -76,7 +76,7 @@ export class Config implements ConfigBase {
 
   private getFinalOutputs(
     options: Options,
-    userConfig?: ConfigSchema
+    userConfig?: ConfigSchema,
   ): OutputSchema[] {
     const initialOutputs = array(userConfig && userConfig.output) || [{}];
     const outputOption =
@@ -86,7 +86,7 @@ export class Config implements ConfigBase {
     const userComponents = userConfig && userConfig.components;
     const generatedGroups: GroupSchema[] = [
       { first: true, components: ["Component", "Vue"] },
-      { type: "Dependencies", components: ["Dependency"] }
+      { type: "Dependencies", components: ["Dependency"] },
     ];
 
     if (firstOption) {
@@ -95,16 +95,16 @@ export class Config implements ConfigBase {
       generatedGroups.push({}); // everything else
     }
 
-    return initialOutputs.map(output => ({
+    return initialOutputs.map((output) => ({
       ...output,
       path: array(output.path || outputOption || "svg"),
-      groups: output.groups || (!userComponents ? generatedGroups : undefined)
+      groups: output.groups || (!userComponents ? generatedGroups : undefined),
     }));
   }
 
   private getExcludedPatterns(
     options: Options,
-    userConfig?: ConfigSchema
+    userConfig?: ConfigSchema,
   ): string[] {
     const excludePatterns: string[] = [];
 

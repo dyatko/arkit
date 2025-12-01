@@ -25,7 +25,7 @@ export class PUML {
 
   private generatePlantUMLLayer(
     layer: string | Symbol,
-    components: Set<Component>
+    components: Set<Component>,
   ): string {
     if (!components.size) return "";
 
@@ -36,7 +36,7 @@ export class PUML {
 
     for (const component of components) {
       const componentPuml = [
-        this.generatePlantUMLComponent(component, Context.LAYER)
+        this.generatePlantUMLComponent(component, Context.LAYER),
       ];
 
       if (isLayer) componentPuml.unshift("  ");
@@ -50,7 +50,7 @@ export class PUML {
 
   private generatePlantUMLComponent(
     component: Component,
-    context: Context
+    context: Context,
   ): string {
     const puml: string[] = [];
     const isDirectory = component.filename.endsWith("**");
@@ -87,12 +87,13 @@ export class PUML {
     for (const component of components) {
       for (const importedFilename of component.imports) {
         const importedComponent = components.find(
-          importedComponent => importedComponent.filename === importedFilename
+          (importedComponent) =>
+            importedComponent.filename === importedFilename,
         );
 
         if (importedComponent) {
           puml.push(
-            this.generatePlantUMLRelationship(component, importedComponent)
+            this.generatePlantUMLRelationship(component, importedComponent),
           );
         }
       }
@@ -103,11 +104,11 @@ export class PUML {
 
   private generatePlantUMLRelationship(
     component: Component,
-    importedComponent: Component
+    importedComponent: Component,
   ): string {
     const connectionLength = this.getConnectionLength(
       component,
-      importedComponent
+      importedComponent,
     );
     const connectionSign = this.getConnectionSign(component, importedComponent);
     const connectionStyle = this.getConnectionStyle(component);
@@ -116,7 +117,7 @@ export class PUML {
     const puml = [
       this.generatePlantUMLComponent(component, Context.RELATIONSHIP),
       connection,
-      this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP)
+      this.generatePlantUMLComponent(importedComponent, Context.RELATIONSHIP),
     ];
 
     return puml.join(" ");
@@ -124,7 +125,7 @@ export class PUML {
 
   private getConnectionLength(
     component: Component,
-    importedComponent: Component
+    importedComponent: Component,
   ): number {
     const numberOfLevels = path
       .dirname(path.relative(component.filename, importedComponent.filename))
@@ -132,13 +133,13 @@ export class PUML {
 
     return Math.max(
       component.isImported ? 2 : 1,
-      Math.min(4, numberOfLevels - 1)
+      Math.min(4, numberOfLevels - 1),
     );
   }
 
   private getConnectionSign(
     component: Component,
-    importedComponent: Component
+    importedComponent: Component,
   ): string {
     const isVagueConnection =
       component.layer === importedComponent.layer &&
@@ -157,7 +158,7 @@ export class PUML {
    */
   private generatePlantUMLSkin(
     output: OutputSchema,
-    components: Component[]
+    components: Component[],
   ): string {
     const puml = [""];
 
