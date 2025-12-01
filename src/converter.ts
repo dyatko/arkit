@@ -155,17 +155,6 @@ export class Converter {
       // Use PlantUML to generate the requested format (svg or png)
       const output = await new Promise<Buffer>((resolve, reject) => {
         const chunks: Buffer[] = [];
-        const errorChunks: Buffer[] = [];
-
-        // Debug: Check for multiple @startuml blocks
-        const startumlCount = (puml.match(/@startuml/g) || []).length;
-        const endumlCount = (puml.match(/@enduml/g) || []).length;
-        if (startumlCount > 1 || endumlCount > 1) {
-          debug(
-            `WARNING: PUML has ${startumlCount} @startuml and ${endumlCount} @enduml blocks`,
-          );
-        }
-
         const gen = plantuml.generate(puml, {
           format: format as "svg" | "png",
         });
@@ -179,24 +168,22 @@ export class Converter {
           if (format === "svg") {
             const svgString = result.toString("utf8");
             const closingSvgTag = "</svg>";
-            const xmlDeclCount = (svgString.match(/<\?xml/g) || []).length;
-
-            debug(
-              `SVG output has ${xmlDeclCount} XML declarations, ${svgString.length} bytes`,
-            );
-
             const firstSvgEnd = svgString.indexOf(closingSvgTag);
 
-            if (firstSvgEnd !== -1 && xmlDeclCount > 1) {
-              // Multiple SVG documents found, keep only the first one
-              const firstSvgComplete = svgString.substring(
-                0,
+            if (firstSvgEnd !== -1) {
+              const afterFirstSvg = svgString.substring(
                 firstSvgEnd + closingSvgTag.length,
               );
-              result = Buffer.from(firstSvgComplete, "utf8");
-              debug(
-                `Filtered duplicate PlantUML output (error SVG), kept first ${result.length} bytes (was ${svgString.length})`,
-              );
+              if (afterFirstSvg.includes('<?xml version="1.0"')) {
+                // Multiple SVG documents found, keep only the first one
+                result = Buffer.from(
+                  svgString.substring(0, firstSvgEnd + closingSvgTag.length),
+                  "utf8",
+                );
+                debug(
+                  `Filtered duplicate PlantUML output (error SVG), kept first ${result.length} bytes (was ${svgString.length})`,
+                );
+              }
             }
           }
 
