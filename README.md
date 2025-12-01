@@ -43,6 +43,22 @@ npm install arkit --save-dev
 yarn add arkit --dev
 ```
 
+### System Dependencies
+
+Arkit requires **Java Runtime Environment (JRE) 8 or higher** and **GraphViz** to be installed on your system for diagram generation:
+
+**Java Installation:**
+- **Windows**: Download from [Adoptium](https://adoptium.net/)
+- **macOS**: `brew install openjdk`
+- **Linux**: `sudo apt-get install default-jre`
+
+**GraphViz Installation:**
+- **Windows**: Download from [GraphViz](https://graphviz.org/download/)
+- **macOS**: `brew install graphviz`
+- **Linux**: `sudo apt-get install graphviz`
+
+You can generate PlantUML (`.puml`) files without these dependencies by using the `--output puml` option.
+
 ## Usage Examples
 
 ```sh
