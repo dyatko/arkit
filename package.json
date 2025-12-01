@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "1.6.4",
+  "version": "2.0.0",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
@@ -13,7 +13,8 @@
     "lint": "eslint --ext .ts .",
     "jest": "jest --coverage",
     "test": "npm run lint && npm run jest",
-    "prepack": "npm run build && npm run test"
+    "prepack": "npm run build && npm run test",
+    "prepublishOnly": "npm run build && npm run test"
   },
   "arkit": {
     "$schema": "https://arkit.pro/schema.json",
