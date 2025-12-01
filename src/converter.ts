@@ -25,12 +25,14 @@ export class Converter {
     try {
       const { Graphviz } = await import("@hpcc-js/wasm-graphviz");
       this.graphviz = await Graphviz.load();
-      
+
       // Verify Java is available for PlantUML
       await import("node-plantuml");
-      
+
       this.backend = "wasm";
-      info("Using Java PlantUML + @hpcc-js/wasm-graphviz (no GraphViz system dependency)");
+      info(
+        "Using Java PlantUML + @hpcc-js/wasm-graphviz (no GraphViz system dependency)",
+      );
       return "wasm";
     } catch (wasmError: any) {
       warn(
@@ -41,7 +43,9 @@ export class Converter {
       try {
         await import("node-plantuml");
         this.backend = "java";
-        info("Using Java PlantUML + system GraphViz (requires Java + GraphViz installed)");
+        info(
+          "Using Java PlantUML + system GraphViz (requires Java + GraphViz installed)",
+        );
         return "java";
       } catch (javaError: any) {
         throw new Error(
@@ -76,10 +80,10 @@ export class Converter {
 
     if (shouldConvertAndSave || shouldConvertAndOutput) {
       debug("Converting", ext ? fullExportPath : pathOrType);
-      
+
       // Initialize backend on first conversion
       await this.initializeBackend();
-      
+
       return this.convertToImage(puml, ext || pathOrType)
         .then((image) => {
           if (shouldConvertAndSave) {
@@ -140,15 +144,14 @@ export class Converter {
     }
   }
 
-  private async convertWithWasm(
-    puml: string,
-    format: string,
-  ): Promise<Buffer> {
-    debug(`Converting PlantUML to ${format} using Java PlantUML + @hpcc-js/wasm GraphViz`);
+  private async convertWithWasm(puml: string, format: string): Promise<Buffer> {
+    debug(
+      `Converting PlantUML to ${format} using Java PlantUML + @hpcc-js/wasm GraphViz`,
+    );
 
     try {
       const plantuml = await import("node-plantuml");
-      
+
       // Step 1: Use PlantUML to generate DOT format
       const dotSource = await new Promise<string>((resolve, reject) => {
         const chunks: Buffer[] = [];
@@ -164,7 +167,7 @@ export class Converter {
       debug(
         `Successfully generated ${format} using WASM backend, size: ${Buffer.byteLength(dotSource)} bytes`,
       );
-      
+
       return Buffer.from(dotSource);
     } catch (error: any) {
       warn(`WASM conversion error: ${error.message}`);
@@ -172,8 +175,13 @@ export class Converter {
     }
   }
 
-  private convertWithSystemGraphviz(puml: string, format: string): Promise<Buffer> {
-    debug(`Converting PlantUML to ${format} using Java PlantUML + system GraphViz`);
+  private convertWithSystemGraphviz(
+    puml: string,
+    format: string,
+  ): Promise<Buffer> {
+    debug(
+      `Converting PlantUML to ${format} using Java PlantUML + system GraphViz`,
+    );
 
     return new Promise((resolve, reject) => {
       // Chain requests to avoid concurrent PlantUML execution issues

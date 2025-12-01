@@ -6,22 +6,27 @@ jest.setTimeout(60000);
 
 // Normalize SVG output by replacing environment-specific values
 function normalizeSvg(svg: string): string {
-  return svg
-    // Normalize PlantUML version timestamp (timezone variations)
-    .replace(/PlantUML version [^\n]+/g, "PlantUML version 1.2019.06(NORMALIZED)")
-    // Normalize Java version
-    .replace(/Java Version: [^\n<]+/g, "Java Version: NORMALIZED")
-    // Normalize OS version
-    .replace(/OS Version: [^\n<]+/g, "OS Version: NORMALIZED")
-    // Normalize country (can be null or US)
-    .replace(/Country: [^\n<]+/g, "Country: NORMALIZED")
-    // Normalize machine name
-    .replace(/Machine: [^\n<]+/g, "Machine: NORMALIZED")
-    // Normalize memory values (can vary)
-    .replace(/Max Memory: [\d,]+/g, "Max Memory: NORMALIZED")
-    .replace(/Total Memory: [\d,]+/g, "Total Memory: NORMALIZED")
-    .replace(/Free Memory: [\d,]+/g, "Free Memory: NORMALIZED")
-    .replace(/Used Memory: [\d,]+/g, "Used Memory: NORMALIZED");
+  return (
+    svg
+      // Normalize PlantUML version timestamp (timezone variations)
+      .replace(
+        /PlantUML version [^\n]+/g,
+        "PlantUML version 1.2019.06(NORMALIZED)",
+      )
+      // Normalize Java version
+      .replace(/Java Version: [^\n<]+/g, "Java Version: NORMALIZED")
+      // Normalize OS version
+      .replace(/OS Version: [^\n<]+/g, "OS Version: NORMALIZED")
+      // Normalize country (can be null or US)
+      .replace(/Country: [^\n<]+/g, "Country: NORMALIZED")
+      // Normalize machine name
+      .replace(/Machine: [^\n<]+/g, "Machine: NORMALIZED")
+      // Normalize memory values (can vary)
+      .replace(/Max Memory: [\d,]+/g, "Max Memory: NORMALIZED")
+      .replace(/Total Memory: [\d,]+/g, "Total Memory: NORMALIZED")
+      .replace(/Free Memory: [\d,]+/g, "Free Memory: NORMALIZED")
+      .replace(/Used Memory: [\d,]+/g, "Used Memory: NORMALIZED")
+  );
 }
 
 describe("CLI", () => {
