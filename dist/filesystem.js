@@ -40,7 +40,6 @@ class FileSystem {
         }
         this.project = new ts_morph_1.Project({
             tsConfigFilePath: this.tsConfigFilePath,
-            addFilesFromTsConfig: false,
             skipFileDependencyResolution: true,
         });
     }

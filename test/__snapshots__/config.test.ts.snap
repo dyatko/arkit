@@ -1,25 +1,25 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Config Angular2 Todo 1`] = `
-Object {
+{
   "directory": undefined,
-  "extensions": Array [
+  "extensions": [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
     ".vue",
   ],
-  "final": Object {
-    "components": Array [
-      Object {
-        "patterns": Array [
+  "final": {
+    "components": [
+      {
+        "patterns": [
           "node_modules/*",
         ],
         "type": "Dependency",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/*.ts",
           "**/*.js",
           "**/*.jsx",
@@ -27,33 +27,33 @@ Object {
         ],
         "type": "Component",
       },
-      Object {
+      {
         "format": "full",
-        "patterns": Array [
+        "patterns": [
           "**/*.vue",
         ],
         "type": "Vue",
       },
     ],
-    "excludePatterns": Array [],
-    "output": Array [
-      Object {
-        "groups": Array [
-          Object {
-            "components": Array [
+    "excludePatterns": [],
+    "output": [
+      {
+        "groups": [
+          {
+            "components": [
               "Component",
               "Vue",
             ],
             "first": true,
           },
-          Object {
-            "components": Array [
+          {
+            "components": [
               "Dependency",
             ],
             "type": "Dependencies",
           },
         ],
-        "path": Array [
+        "path": [
           "svg",
         ],
       },
@@ -63,25 +63,25 @@ Object {
 `;
 
 exports[`Config Express 1`] = `
-Object {
+{
   "directory": undefined,
-  "extensions": Array [
+  "extensions": [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
     ".vue",
   ],
-  "final": Object {
-    "components": Array [
-      Object {
-        "patterns": Array [
+  "final": {
+    "components": [
+      {
+        "patterns": [
           "node_modules/*",
         ],
         "type": "Dependency",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/*.ts",
           "**/*.js",
           "**/*.jsx",
@@ -89,33 +89,33 @@ Object {
         ],
         "type": "Component",
       },
-      Object {
+      {
         "format": "full",
-        "patterns": Array [
+        "patterns": [
           "**/*.vue",
         ],
         "type": "Vue",
       },
     ],
-    "excludePatterns": Array [],
-    "output": Array [
-      Object {
-        "groups": Array [
-          Object {
-            "components": Array [
+    "excludePatterns": [],
+    "output": [
+      {
+        "groups": [
+          {
+            "components": [
               "Component",
               "Vue",
             ],
             "first": true,
           },
-          Object {
-            "components": Array [
+          {
+            "components": [
               "Dependency",
             ],
             "type": "Dependencies",
           },
         ],
-        "path": Array [
+        "path": [
           "express.svg",
         ],
       },
@@ -125,81 +125,81 @@ Object {
 `;
 
 exports[`Config Sample 1`] = `
-Object {
+{
   "directory": undefined,
-  "extensions": Array [
+  "extensions": [
     ".js",
     ".ts",
     ".jsx",
     ".tsx",
     ".vue",
   ],
-  "final": Object {
-    "components": Array [
-      Object {
+  "final": {
+    "components": [
+      {
         "format": "full",
-        "patterns": Array [
+        "patterns": [
           "./main.ts",
           "./utils.ts",
         ],
         "type": "App",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/*.view.**",
         ],
         "type": "View",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/**component.**",
         ],
         "type": "Component",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/controllers/*",
         ],
         "type": "Controller",
       },
-      Object {
-        "patterns": Array [
+      {
+        "patterns": [
           "**/models/*",
         ],
         "type": "Model",
       },
     ],
-    "excludePatterns": Array [],
-    "output": Array [
-      Object {
-        "groups": Array [
-          Object {
-            "components": Array [
+    "excludePatterns": [],
+    "output": [
+      {
+        "groups": [
+          {
+            "components": [
               "View",
               "Controller",
             ],
             "type": "Main",
           },
-          Object {
-            "components": Array [
+          {
+            "components": [
               "Component",
               "Model",
             ],
             "type": "Base",
           },
-          Object {
-            "patterns": Array [
+          {
+            "patterns": [
               "**/*",
             ],
           },
         ],
-        "path": Array [
+        "path": [
           "./docs/architecture.puml",
         ],
       },
-      Object {
+      {
         "groups": undefined,
-        "path": Array [
+        "path": [
           "./docs/architecture.svg",
         ],
       },

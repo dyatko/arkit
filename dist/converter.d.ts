@@ -8,3 +8,4 @@ export declare class Converter {
     convertToImage(puml: string, format: string): Promise<Buffer>;
     private getJavaInstallationErrorMessage;
 }
+//# sourceMappingURL=converter.d.ts.map

@@ -11,7 +11,8 @@ const ProgressBar = require("progress");
 const puml_1 = require("./puml");
 const converter_1 = require("./converter");
 const getOptions = (options) => {
-    const opts = Object.assign(Object.assign({}, cli_1.cli.argv), options);
+    const argv = cli_1.cli.argv;
+    const opts = Object.assign(Object.assign({ directory: ".", config: "arkit.json", output: ["arkit.svg"] }, argv), options);
     opts.directory = (0, utils_1.getAbsolute)(opts.directory);
     if (opts.first) {
         opts.first = (0, utils_1.convertToRelative)(opts.first, opts.directory);

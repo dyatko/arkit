@@ -173,7 +173,7 @@ const getAllStatements = (nodes, statements = []) => {
     return nodes.reduce((statements, node) => {
         try {
             const children = node.getChildren();
-            if (ts_morph_1.TypeGuards.isStatement(node) || ts_morph_1.TypeGuards.isImportTypeNode(node)) {
+            if (ts_morph_1.Node.isStatement(node) || ts_morph_1.Node.isImportTypeNode(node)) {
                 statements.push(node);
             }
             (0, exports.getAllStatements)(children, statements);

@@ -1,194 +1,177 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Parser Angular2 Todo 1`] = `
-Object {
-  "app/components/app/app.component.js": Object {
-    "exports": Array [
-      "AppComponent",
-    ],
-    "imports": Object {
-      "app/components/app/app.template.html": Array [
+{
+  "app/components/app/app.component.js": {
+    "exports": [],
+    "imports": {
+      "app/components/app/app.template.html": [
         "template",
       ],
     },
   },
-  "app/components/index.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "app/components/app/app.component.js": Array [],
-      "app/components/todo-footer/todo-footer.component.js": Array [],
-      "app/components/todo-header/todo-header.component.js": Array [],
-      "app/components/todo-item/todo-item.component.js": Array [],
-      "app/components/todo-list/todo-list.component.js": Array [],
+  "app/components/index.js": {
+    "exports": [],
+    "imports": {
+      "app/components/app/app.component.js": [],
+      "app/components/todo-footer/todo-footer.component.js": [],
+      "app/components/todo-header/todo-header.component.js": [],
+      "app/components/todo-item/todo-item.component.js": [],
+      "app/components/todo-list/todo-list.component.js": [],
     },
   },
-  "app/components/todo-footer/todo-footer.component.js": Object {
-    "exports": Array [
-      "TodoFooterComponent",
-    ],
-    "imports": Object {
-      "app/components/todo-footer/todo-footer.template.html": Array [
+  "app/components/todo-footer/todo-footer.component.js": {
+    "exports": [],
+    "imports": {
+      "app/components/todo-footer/todo-footer.template.html": [
         "template",
       ],
-      "app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": [
         "TodoStoreService",
       ],
     },
   },
-  "app/components/todo-header/todo-header.component.js": Object {
-    "exports": Array [
-      "TodoHeaderComponent",
-    ],
-    "imports": Object {
-      "app/components/todo-header/todo-header.template.html": Array [
+  "app/components/todo-header/todo-header.component.js": {
+    "exports": [],
+    "imports": {
+      "app/components/todo-header/todo-header.template.html": [
         "template",
       ],
-      "app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": [
         "TodoStoreService",
       ],
     },
   },
-  "app/components/todo-item/todo-item.component.js": Object {
-    "exports": Array [
-      "TodoItemComponent",
-    ],
-    "imports": Object {
-      "app/components/todo-item/todo-item.template.html": Array [
+  "app/components/todo-item/todo-item.component.js": {
+    "exports": [],
+    "imports": {
+      "app/components/todo-item/todo-item.template.html": [
         "template",
       ],
     },
   },
-  "app/components/todo-list/todo-list.component.js": Object {
-    "exports": Array [
-      "TodoListComponent",
-    ],
-    "imports": Object {
-      "app/components/todo-list/todo-list.template.html": Array [
+  "app/components/todo-list/todo-list.component.js": {
+    "exports": [],
+    "imports": {
+      "app/components/todo-list/todo-list.template.html": [
         "template",
       ],
-      "app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": [
         "TodoStoreService",
       ],
     },
   },
-  "app/main.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "app/main.module.js": Array [
+  "app/main.js": {
+    "exports": [],
+    "imports": {
+      "app/main.module.js": [
         "MainModule",
       ],
-      "node_modules/rxjs/index.js": Array [],
     },
   },
-  "app/main.module.js": Object {
-    "exports": Array [
-      "MainModule",
-    ],
-    "imports": Object {
-      "app/components/index.js": Array [
+  "app/main.module.js": {
+    "exports": [],
+    "imports": {
+      "app/components/index.js": [
         "AppComponent",
         "TodoListComponent",
         "TodoFooterComponent",
         "TodoHeaderComponent",
         "TodoItemComponent",
       ],
-      "app/pipes/index.js": Array [
+      "app/pipes/index.js": [
         "TrimPipe",
       ],
-      "app/routes.js": Array [
+      "app/routes.js": [
         "routes",
       ],
-      "app/services/todo-store.service.js": Array [
+      "app/services/todo-store.service.js": [
         "TodoStoreService",
       ],
     },
   },
-  "app/models/todo.model.js": Object {
-    "exports": Array [
+  "app/models/todo.model.js": {
+    "exports": [
       "TodoModel",
     ],
-    "imports": Object {},
+    "imports": {},
   },
-  "app/pipes/index.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "app/pipes/trim/trim.pipe.js": Array [],
+  "app/pipes/index.js": {
+    "exports": [],
+    "imports": {
+      "app/pipes/trim/trim.pipe.js": [],
     },
   },
-  "app/pipes/trim/trim.pipe.js": Object {
-    "exports": Array [
-      "TrimPipe",
-    ],
-    "imports": Object {},
+  "app/pipes/trim/trim.pipe.js": {
+    "exports": [],
+    "imports": {},
   },
-  "app/routes.js": Object {
-    "exports": Array [
+  "app/routes.js": {
+    "exports": [
       "routes",
     ],
-    "imports": Object {
-      "app/components/todo-list/todo-list.component.js": Array [
+    "imports": {
+      "app/components/todo-list/todo-list.component.js": [
         "TodoListComponent",
       ],
     },
   },
-  "app/services/todo-store.service.js": Object {
-    "exports": Array [
-      "TodoStoreService",
-    ],
-    "imports": Object {
-      "app/models/todo.model.js": Array [
+  "app/services/todo-store.service.js": {
+    "exports": [],
+    "imports": {
+      "app/models/todo.model.js": [
         "TodoModel",
       ],
     },
   },
-  "main.bundle.js": Object {
-    "exports": Array [],
-    "imports": Object {},
+  "main.bundle.js": {
+    "exports": [],
+    "imports": {},
   },
-  "webpack.config.js": Object {
-    "exports": Array [],
-    "imports": Object {},
+  "webpack.config.js": {
+    "exports": [],
+    "imports": {},
   },
 }
 `;
 
 exports[`Parser Arkit 1`] = `
-Object {
-  "arkit.ts": Object {
-    "exports": Array [
+{
+  "arkit.ts": {
+    "exports": [
       "getConfig",
       "getOutputs",
       "arkit",
     ],
-    "imports": Object {
-      "cli.ts": Array [
+    "imports": {
+      "cli.ts": [
         "cli",
       ],
-      "config.ts": Array [
+      "config.ts": [
         "Config",
       ],
-      "converter.ts": Array [
+      "converter.ts": [
         "Converter",
       ],
-      "generator.ts": Array [
+      "generator.ts": [
         "Generator",
       ],
-      "node_modules/progress/index.js": Array [
+      "node_modules/progress/index.js": [
         "ProgressBar",
       ],
-      "parser.ts": Array [
+      "parser.ts": [
         "Parser",
       ],
-      "puml.ts": Array [
+      "puml.ts": [
         "PUML",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "Options",
         "OutputFormat",
         "OutputSchema",
         "SavedString",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "array",
         "convertToRelative",
         "getAbsolute",
@@ -197,25 +180,25 @@ Object {
       ],
     },
   },
-  "cli.ts": Object {
-    "exports": Array [
+  "cli.ts": {
+    "exports": [
       "cli",
     ],
-    "imports": Object {
-      "node_modules/yargs/index.js": Array [
+    "imports": {
+      "node_modules/yargs/index.mjs": [
         "yargs",
       ],
     },
   },
-  "config.ts": Object {
-    "exports": Array [
+  "config.ts": {
+    "exports": [
       "Config",
     ],
-    "imports": Object {
-      "path": Array [
+    "imports": {
+      "path": [
         "path",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "ComponentNameFormat",
         "ComponentSchema",
         "ConfigBase",
@@ -224,80 +207,81 @@ Object {
         "Options",
         "OutputSchema",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "array",
         "debug",
         "safeRequire",
       ],
     },
   },
-  "converter.ts": Object {
-    "exports": Array [
+  "converter.ts": {
+    "exports": [
       "Converter",
     ],
-    "imports": Object {
-      "fs": Array [
+    "imports": {
+      "fs": [
         "fs",
       ],
-      "logger.ts": Array [
+      "logger.ts": [
         "debug",
+        "warn",
       ],
-      "path": Array [
+      "node_modules/node-plantuml/index.js": [
+        "plantuml",
+      ],
+      "path": [
         "path",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "ConfigBase",
         "OutputFormat",
         "SavedString",
       ],
-      "utils.ts": Array [
-        "request",
-      ],
     },
   },
-  "filesystem.ts": Object {
-    "exports": Array [
+  "filesystem.ts": {
+    "exports": [
       "FileSystem",
     ],
-    "imports": Object {
-      "logger.ts": Array [
+    "imports": {
+      "logger.ts": [
         "debug",
         "info",
         "trace",
         "warn",
       ],
-      "node_modules/resolve/index.js": Array [
+      "node_modules/resolve/index.js": [
         "sync",
       ],
-      "node_modules/ts-morph/dist/ts-morph.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": [
         "Project",
         "SourceFile",
       ],
-      "node_modules/tsconfig-paths/lib/index.js": Array [
+      "node_modules/tsconfig-paths/lib/index.js": [
         "createMatchPath",
         "loadConfig",
         "MatchPath",
       ],
-      "schema.ts": Array [
+      "schema.ts": [
         "ComponentSchema",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "ConfigBase",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "getPaths",
       ],
     },
   },
-  "generator.ts": Object {
-    "exports": Array [
+  "generator.ts": {
+    "exports": [
       "Generator",
     ],
-    "imports": Object {
-      "path": Array [
+    "imports": {
+      "path": [
         "path",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "ComponentFilters",
         "ComponentNameFormat",
         "ComponentSchema",
@@ -309,7 +293,7 @@ Object {
         "Layers",
         "ConfigBase",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "trace",
         "warn",
         "array",
@@ -319,8 +303,8 @@ Object {
       ],
     },
   },
-  "logger.ts": Object {
-    "exports": Array [
+  "logger.ts": {
+    "exports": [
       "fatal",
       "error",
       "warn",
@@ -328,41 +312,50 @@ Object {
       "debug",
       "trace",
     ],
-    "imports": Object {
-      "node_modules/pino/pino.js": Array [
+    "imports": {
+      "node_modules/pino/pino.js": [
         "pino",
       ],
     },
   },
-  "parser.ts": Object {
-    "exports": Array [
+  "node-plantuml.d.ts": {
+    "exports": [],
+    "imports": {
+      "stream": [
+        "Readable",
+      ],
+    },
+  },
+  "parser.ts": {
+    "exports": [
       "Parser",
     ],
-    "imports": Object {
-      "filesystem.ts": Array [
+    "imports": {
+      "filesystem.ts": [
         "FileSystem",
       ],
-      "node_modules/progress/index.js": Array [
+      "node_modules/progress/index.js": [
         "ProgressBar",
       ],
-      "node_modules/ts-morph/dist/ts-morph.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": [
         "ExportDeclarationStructure",
         "ImportDeclarationStructure",
+        "Node",
         "SourceFile",
         "Statement",
-        "TypeGuards",
+        "SyntaxKind",
       ],
-      "os": Array [
+      "os": [
         "EOL",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "ConfigBase",
         "Exports",
         "File",
         "Files",
         "Imports",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "find",
         "debug",
         "info",
@@ -373,33 +366,33 @@ Object {
       ],
     },
   },
-  "puml.ts": Object {
-    "exports": Array [
+  "puml.ts": {
+    "exports": [
       "PUML",
     ],
-    "imports": Object {
-      "path": Array [
+    "imports": {
+      "path": [
         "path",
       ],
-      "schema.ts": Array [
+      "schema.ts": [
         "OutputDirection",
         "OutputSchema",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "Component",
         "Context",
         "EMPTY_LAYER",
         "Layers",
       ],
-      "utils.ts": Array [
+      "utils.ts": [
         "bold",
         "getAllComponents",
         "trace",
       ],
     },
   },
-  "schema.ts": Object {
-    "exports": Array [
+  "schema.ts": {
+    "exports": [
       "Options",
       "ConfigSchema",
       "ComponentSchema",
@@ -410,10 +403,10 @@ Object {
       "OutputDirection",
       "OutputFormat",
     ],
-    "imports": Object {},
+    "imports": {},
   },
-  "types.ts": Object {
-    "exports": Array [
+  "types.ts": {
+    "exports": [
       "EMPTY_LAYER",
       "Components",
       "Layers",
@@ -426,14 +419,14 @@ Object {
       "ConfigBase",
       "SavedString",
     ],
-    "imports": Object {
-      "schema.ts": Array [
+    "imports": {
+      "schema.ts": [
         "ConfigSchema",
       ],
     },
   },
-  "utils.ts": Object {
-    "exports": Array [
+  "utils.ts": {
+    "exports": [
       "getStats",
       "getMemoryUsage",
       "getPaths",
@@ -449,29 +442,29 @@ Object {
       "convertToRelative",
       "getAllStatements",
     ],
-    "imports": Object {
-      "fs": Array [
+    "imports": {
+      "fs": [
         "fs",
       ],
-      "https": Array [
+      "https": [
         "https",
       ],
-      "logger.ts": Array [
+      "logger.ts": [
         "trace",
         "warn",
       ],
-      "node_modules/nanomatch/index.js": Array [
+      "node_modules/nanomatch/index.js": [
         "nanomatch",
       ],
-      "node_modules/ts-morph/dist/ts-morph.js": Array [
+      "node_modules/ts-morph/dist/ts-morph.js": [
         "Node",
         "Statement",
-        "TypeGuards",
+        "SyntaxKind",
       ],
-      "path": Array [
+      "path": [
         "path",
       ],
-      "types.ts": Array [
+      "types.ts": [
         "Component",
         "ComponentFilters",
         "ComponentSchema",
@@ -483,68 +476,68 @@ Object {
 `;
 
 exports[`Parser Express 1`] = `
-Object {
-  "application.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "http": Array [],
-      "middleware/init.js": Array [],
-      "middleware/query.js": Array [],
-      "node_modules/debug/src/index.js": Array [],
-      "path": Array [
+{
+  "application.js": {
+    "exports": [],
+    "imports": {
+      "http": [],
+      "middleware/init.js": [],
+      "middleware/query.js": [],
+      "node_modules/debug/src/index.js": [],
+      "path": [
         "resolve",
       ],
-      "router/index.js": Array [],
-      "utils.js": Array [
+      "router/index.js": [],
+      "utils.js": [
         "compileETag",
         "compileQueryParser",
         "compileTrust",
       ],
-      "view.js": Array [],
+      "view.js": [],
     },
   },
-  "express.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "application.js": Array [],
-      "events": Array [
+  "express.js": {
+    "exports": [],
+    "imports": {
+      "application.js": [],
+      "events": [
         "EventEmitter",
       ],
-      "middleware/query.js": Array [],
-      "request.js": Array [],
-      "response.js": Array [],
-      "router/index.js": Array [],
-      "router/route.js": Array [],
+      "middleware/query.js": [],
+      "request.js": [],
+      "response.js": [],
+      "router/index.js": [],
+      "router/route.js": [],
     },
   },
-  "middleware/init.js": Object {
-    "exports": Array [],
-    "imports": Object {},
+  "middleware/init.js": {
+    "exports": [],
+    "imports": {},
   },
-  "middleware/query.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "node_modules/qs/lib/index.js": Array [],
+  "middleware/query.js": {
+    "exports": [],
+    "imports": {
+      "node_modules/qs/lib/index.js": [],
     },
   },
-  "request.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "http": Array [],
-      "net": Array [
+  "request.js": {
+    "exports": [],
+    "imports": {
+      "http": [],
+      "net": [
         "isIP",
       ],
     },
   },
-  "response.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "http": Array [],
-      "node_modules/safe-buffer/index.js": Array [
+  "response.js": {
+    "exports": [],
+    "imports": {
+      "http": [],
+      "node_modules/safe-buffer/index.js": [
         "Buffer",
       ],
-      "path": Array [],
-      "utils.js": Array [
+      "path": [],
+      "utils.js": [
         "isAbsolute",
         "normalizeType",
         "normalizeTypes",
@@ -552,56 +545,56 @@ Object {
       ],
     },
   },
-  "router/index.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "node_modules/debug/src/index.js": Array [],
-      "router/layer.js": Array [],
-      "router/route.js": Array [],
+  "router/index.js": {
+    "exports": [],
+    "imports": {
+      "node_modules/debug/src/index.js": [],
+      "router/layer.js": [],
+      "router/route.js": [],
     },
   },
-  "router/layer.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "node_modules/debug/src/index.js": Array [],
+  "router/layer.js": {
+    "exports": [],
+    "imports": {
+      "node_modules/debug/src/index.js": [],
     },
   },
-  "router/route.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "node_modules/debug/src/index.js": Array [],
-      "router/layer.js": Array [],
+  "router/route.js": {
+    "exports": [],
+    "imports": {
+      "node_modules/debug/src/index.js": [],
+      "router/layer.js": [],
     },
   },
-  "utils.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "node_modules/qs/lib/index.js": Array [],
-      "node_modules/safe-buffer/index.js": Array [
+  "utils.js": {
+    "exports": [],
+    "imports": {
+      "node_modules/qs/lib/index.js": [],
+      "node_modules/safe-buffer/index.js": [
         "Buffer",
       ],
-      "querystring": Array [],
+      "querystring": [],
     },
   },
-  "view.js": Object {
-    "exports": Array [],
-    "imports": Object {
-      "fs": Array [],
-      "node_modules/debug/src/index.js": Array [],
-      "path": Array [],
+  "view.js": {
+    "exports": [],
+    "imports": {
+      "fs": [],
+      "node_modules/debug/src/index.js": [],
+      "path": [],
     },
   },
 }
 `;
 
 exports[`Parser Sample 1`] = `
-Object {
-  "controllers/singleton.ts": Object {
-    "exports": Array [
+{
+  "controllers/singleton.ts": {
+    "exports": [
       "singleton",
     ],
-    "imports": Object {
-      "models/model.ts": Array [
+    "imports": {
+      "models/model.ts": [
         "List",
         "Model",
         "CONSTANT",
@@ -613,59 +606,59 @@ Object {
       ],
     },
   },
-  "main.ts": Object {
-    "exports": Array [],
-    "imports": Object {
-      "utils.ts": Array [
+  "main.ts": {
+    "exports": [],
+    "imports": {
+      "utils.ts": [
         "arrUtil",
         "objUtil",
       ],
-      "views/main.view.js": Array [
+      "views/main.view.js": [
         "mainView",
       ],
     },
   },
-  "models/model.ts": Object {
-    "exports": Array [
+  "models/model.ts": {
+    "exports": [
       "Model",
       "List",
       "CONSTANT",
       "{ a, b: [b1, b2, b3], c }",
       "Type",
     ],
-    "imports": Object {},
+    "imports": {},
   },
-  "utils.ts": Object {
-    "exports": Array [],
-    "imports": Object {
-      "models/model.ts": Array [
+  "utils.ts": {
+    "exports": [],
+    "imports": {
+      "models/model.ts": [
         "Type",
       ],
     },
   },
-  "views/base.component.js": Object {
-    "exports": Array [],
-    "imports": Object {},
+  "views/base.component.js": {
+    "exports": [],
+    "imports": {},
   },
-  "views/component.js": Object {
-    "exports": Array [
+  "views/component.js": {
+    "exports": [
       "Component",
     ],
-    "imports": Object {
-      "views/base.component.js": Array [
+    "imports": {
+      "views/base.component.js": [
         "BaseComponent",
       ],
     },
   },
-  "views/main.view.js": Object {
-    "exports": Array [
+  "views/main.view.js": {
+    "exports": [
       "mainView",
     ],
-    "imports": Object {
-      "controllers/singleton.ts": Array [
+    "imports": {
+      "controllers/singleton.ts": [
         "singleton",
       ],
-      "views/component.js": Array [
+      "views/component.js": [
         "Component",
       ],
     },
