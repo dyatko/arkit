@@ -167,16 +167,26 @@ export class Converter {
           // If SVG, check for multiple XML declarations (PlantUML error output)
           // and keep only the first complete SVG document
           if (format === "svg") {
-            const svgString = result.toString();
-            const firstSvgEnd = svgString.indexOf("</svg>");
+            const svgString = result.toString("utf8");
+            const closingSvgTag = "</svg>";
+            const firstSvgEnd = svgString.indexOf(closingSvgTag);
+
             if (firstSvgEnd !== -1) {
-              const secondXmlStart = svgString.indexOf(
-                '<?xml version="1.0"',
-                firstSvgEnd,
+              // Check if there's content after the first </svg>
+              const afterFirstSvg = svgString.substring(
+                firstSvgEnd + closingSvgTag.length,
               );
-              if (secondXmlStart !== -1) {
+              const secondXmlDecl = afterFirstSvg.indexOf(
+                '<?xml version="1.0"',
+              );
+
+              if (secondXmlDecl !== -1) {
                 // Multiple SVG documents found, keep only the first one
-                result = Buffer.from(svgString.substring(0, firstSvgEnd + 6));
+                const firstSvgComplete = svgString.substring(
+                  0,
+                  firstSvgEnd + closingSvgTag.length,
+                );
+                result = Buffer.from(firstSvgComplete, "utf8");
                 debug(
                   `Filtered duplicate PlantUML output (error SVG), kept first ${result.length} bytes`,
                 );
