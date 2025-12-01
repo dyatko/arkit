@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     
     strategy:
+      fail-fast: false
       matrix:
         node-version: [18.x, 20.x, 22.x]
     
@@ -49,7 +50,6 @@ jobs:
       
       - name: Run tests with coverage
         run: npm run jest
-        continue-on-error: true
       
       - name: Upload coverage to Codecov
         if: matrix.node-version == '22.x'

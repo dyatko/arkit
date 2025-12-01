@@ -1,4 +1,5 @@
-import * as yargs from "yargs";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
 const parseDirectory = (directory: string | string[]): string => {
   if (directory instanceof Array) directory = directory[0];
@@ -9,7 +10,8 @@ const splitByComma = (value = ""): string[] => {
   return value.split(",");
 };
 
-export const cli = yargs
+export const cli = yargs(hideBin(process.argv))
+  .scriptName("arkit")
   .usage("$0 [directory]")
   .option("directory", {
     description: "Working directory",

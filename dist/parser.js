@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Parser = void 0;
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const utils_1 = require("./utils");
-const ProgressBar = require("progress");
+const progress_1 = __importDefault(require("progress"));
 const filesystem_1 = require("./filesystem");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
@@ -15,23 +19,23 @@ class Parser {
     }
     parse() {
         const files = {};
-        const progress = new ProgressBar("Parsing :bar", {
+        const progress = new progress_1.default("Parsing :bar", {
             clear: true,
             total: this.fs.folderPaths.length + this.fs.filePaths.length,
-            width: process.stdout.columns
+            width: process.stdout.columns,
         });
-        utils_1.info("Parsing", progress.total, "files");
-        this.fs.folderPaths.forEach(fullPath => {
+        (0, utils_1.info)("Parsing", progress.total, "files");
+        this.fs.folderPaths.forEach((fullPath) => {
             files[fullPath] = { exports: [], imports: {} };
             progress.tick();
         });
-        this.fs.filePaths.forEach(fullPath => {
+        this.fs.filePaths.forEach((fullPath) => {
             try {
                 files[fullPath] = this.parseFile(fullPath);
             }
             catch (e) {
-                utils_1.error(`Error parsing ${fullPath}`);
-                utils_1.trace(e);
+                (0, utils_1.error)(`Error parsing ${fullPath}: ${e.message}`);
+                (0, utils_1.trace)(e);
             }
             progress.tick();
         });
@@ -39,23 +43,24 @@ class Parser {
         return files;
     }
     parseFile(fullPath) {
-        utils_1.trace(`Parsing ${fullPath}`);
+        (0, utils_1.trace)(`Parsing ${fullPath}`);
         const sourceFile = this.fs.project.addSourceFileAtPath(fullPath);
         const rootStatements = sourceFile.getStatements();
-        const allStatements = utils_1.getAllStatements(rootStatements);
-        utils_1.debug(fullPath, allStatements.length, "statements");
+        const allStatements = (0, utils_1.getAllStatements)(rootStatements);
+        (0, utils_1.debug)(fullPath, allStatements.length, "statements");
         const exports = this.getExports(sourceFile, rootStatements);
         const imports = this.getImports(sourceFile, allStatements);
-        utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
+        (0, utils_1.debug)("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
         this.fs.project.removeSourceFile(sourceFile);
         return { exports, imports };
     }
     getImports(sourceFile, statements) {
         return statements.reduce((imports, statement) => {
             let sourceFileImports;
-            if (ts_morph_1.TypeGuards.isImportTypeNode(statement)) {
+            if (ts_morph_1.Node.isImportTypeNode(statement)) {
                 try {
-                    const moduleSpecifier = eval(statement.getArgument().getText());
+                    const argument = statement.getArgument();
+                    const moduleSpecifier = eval(argument.getText());
                     sourceFileImports = this.addModule(imports, moduleSpecifier, sourceFile);
                     const namedImport = statement.getQualifier();
                     if (sourceFileImports && namedImport) {
@@ -63,11 +68,11 @@ class Parser {
                     }
                 }
                 catch (e) {
-                    utils_1.warn(e);
+                    (0, utils_1.warn)(e);
                 }
             }
-            else if (ts_morph_1.TypeGuards.isVariableStatement(statement) ||
-                ts_morph_1.TypeGuards.isExpressionStatement(statement)) {
+            else if (ts_morph_1.Node.isVariableStatement(statement) ||
+                ts_morph_1.Node.isExpressionStatement(statement)) {
                 const text = statement.getText();
                 const [match, moduleSpecifier, namedImport] = Array.from(REQUIRE_RE.exec(text) || []);
                 if (moduleSpecifier) {
@@ -77,8 +82,8 @@ class Parser {
                     }
                 }
             }
-            else if (ts_morph_1.TypeGuards.isImportDeclaration(statement) ||
-                ts_morph_1.TypeGuards.isExportDeclaration(statement)) {
+            else if (ts_morph_1.Node.isImportDeclaration(statement) ||
+                ts_morph_1.Node.isExportDeclaration(statement)) {
                 let moduleSpecifier;
                 let structure;
                 try {
@@ -86,7 +91,7 @@ class Parser {
                     moduleSpecifier = structure.moduleSpecifier;
                 }
                 catch (e) {
-                    utils_1.warn(e);
+                    (0, utils_1.warn)(e);
                     const brokenLineNumber = statement.getStartLineNumber();
                     const brokenLine = sourceFile.getFullText().split(os_1.EOL)[brokenLineNumber - 1];
                     const moduleSpecifierMatch = TEXT_INSIDE_QUOTES_RE.exec(brokenLine);
@@ -99,7 +104,7 @@ class Parser {
                 }
                 if (sourceFileImports &&
                     structure &&
-                    ts_morph_1.TypeGuards.isImportDeclaration(statement)) {
+                    ts_morph_1.Node.isImportDeclaration(statement)) {
                     const importStructure = structure;
                     if (importStructure.namespaceImport) {
                         sourceFileImports.push(importStructure.namespaceImport);
@@ -108,10 +113,12 @@ class Parser {
                         sourceFileImports.push(importStructure.defaultImport);
                     }
                     if (importStructure.namedImports instanceof Array) {
-                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === "string" ? namedImport : namedImport.name));
+                        sourceFileImports.push(...importStructure.namedImports.map((namedImport) => typeof namedImport === "string"
+                            ? namedImport
+                            : namedImport.name));
                     }
                     if (!sourceFileImports.length && !importStructure.namedImports) {
-                        utils_1.warn("IMPORT", sourceFile.getBaseName(), structure);
+                        (0, utils_1.warn)("IMPORT", sourceFile.getBaseName(), structure);
                     }
                 }
             }
@@ -120,45 +127,46 @@ class Parser {
     }
     getExports(sourceFile, statements) {
         return statements.reduce((exports, statement) => {
-            if (ts_morph_1.TypeGuards.isExportableNode(statement) &&
-                statement.hasExportKeyword()) {
-                if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
+            const hasExport = ts_morph_1.Node.isExportable(statement) &&
+                statement.getText().trimStart().startsWith("export");
+            if (hasExport) {
+                if (ts_morph_1.Node.isVariableStatement(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        exports.push(...structure.declarations.map(declaration => declaration.name));
+                        exports.push(...structure.declarations.map((declaration) => String(declaration.name)));
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isVariableStatement", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isVariableStatement", statement.getText());
                     }
                 }
-                else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
-                    ts_morph_1.TypeGuards.isClassDeclaration(statement) ||
-                    ts_morph_1.TypeGuards.isEnumDeclaration(statement) ||
-                    ts_morph_1.TypeGuards.isTypeAliasDeclaration(statement)) {
+                else if (ts_morph_1.Node.isInterfaceDeclaration(statement) ||
+                    ts_morph_1.Node.isClassDeclaration(statement) ||
+                    ts_morph_1.Node.isEnumDeclaration(statement) ||
+                    ts_morph_1.Node.isTypeAliasDeclaration(statement)) {
                     try {
                         const structure = statement.getStructure();
                         if (structure.name) {
-                            exports.push(structure.name);
+                            exports.push(String(structure.name));
                         }
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isInterfaceDeclaration, ...", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isInterfaceDeclaration, ...", statement.getText());
                     }
                 }
-                else if (ts_morph_1.TypeGuards.isFunctionDeclaration(statement)) {
+                else if (ts_morph_1.Node.isFunctionDeclaration(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        utils_1.trace("EXPORT", sourceFile.getBaseName(), structure);
+                        (0, utils_1.trace)("EXPORT", sourceFile.getBaseName(), structure);
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isFunctionDeclaration", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isFunctionDeclaration", statement.getText());
                     }
                 }
                 else {
-                    utils_1.warn("EXPORT Unknown type", sourceFile.getBaseName(), statement);
+                    (0, utils_1.warn)("EXPORT Unknown type", sourceFile.getBaseName(), statement);
                 }
             }
             return exports;
@@ -167,7 +175,7 @@ class Parser {
     addModule(imports, moduleSpecifier, sourceFile) {
         const modulePath = this.fs.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            const folder = utils_1.find(modulePath, this.fs.folderPaths);
+            const folder = (0, utils_1.find)(modulePath, this.fs.folderPaths);
             const realModulePath = folder || modulePath;
             if (!imports[realModulePath]) {
                 imports[realModulePath] = [];
@@ -175,7 +183,7 @@ class Parser {
             return imports[realModulePath];
         }
         else {
-            utils_1.trace("Import not found", sourceFile.getBaseName(), moduleSpecifier);
+            (0, utils_1.trace)("Import not found", sourceFile.getBaseName(), moduleSpecifier);
         }
     }
 }

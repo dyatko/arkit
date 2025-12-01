@@ -65,14 +65,16 @@
     "worldstar": "1.2.3"
   },
   "dependencies": {
+    "@hpcc-js/wasm-graphviz": "^1.16.0",
     "nanomatch": "^1.2.13",
+    "node-plantuml": "^0.9.0",
     "pino": "^9.0.0",
     "pino-pretty": "^13.0.0",
     "progress": "^2.0.3",
     "resolve": "^1.20.0",
     "ts-morph": "^26.0.0",
     "tsconfig-paths": "^4.0.0",
-    "yargs": "^18.0.0"
+    "yargs": "^17.7.2"
   },
   "jest": {
     "preset": "ts-jest",
@@ -97,6 +99,9 @@
       "<rootDir>/test/express/",
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(yargs)/)"
     ],
     "verbose": true
   },

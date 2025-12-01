@@ -1,4 +1,4 @@
-import * as yargs from "yargs";
+import yargs from "yargs";
 export declare const cli: yargs.Argv<yargs.Omit<{
     directory: string;
 } & {
@@ -9,7 +9,7 @@ export declare const cli: yargs.Argv<yargs.Omit<{
     output: string;
 } & {
     config: string;
-}, "first" | "exclude" | "output"> & {
+}, "output" | "first" | "exclude"> & {
     exclude: string[] | undefined;
     first: string[] | undefined;
     output: string[] | undefined;

@@ -36,7 +36,7 @@ CLI/API Input → Config → Parser → Generator → PlantUML → Converter →
 2. **Parser** (`parser.ts`): Uses `ts-morph` to analyze TypeScript/JavaScript files and extract imports/exports
 3. **Generator** (`generator.ts`): Organizes files into component groups and builds dependency graph
 4. **PUML** (`puml.ts`): Converts dependency graph to PlantUML format
-5. **Converter** (`converter.ts`): Sends PlantUML to arkit.pro service for SVG/PNG rendering
+5. **Converter** (`converter.ts`): Converts PlantUML to SVG/PNG locally using node-plantuml
 6. **Filesystem** (`filesystem.ts`): Saves generated diagrams to disk
 
 ## Architecture & Source Files
@@ -80,9 +80,10 @@ CLI/API Input → Config → Parser → Generator → PlantUML → Converter →
 - Generates PlantUML markup for diagrams
 
 #### `src/converter.ts` - Format Conversion
-- Converts PlantUML to SVG/PNG via arkit.pro service
+- Converts PlantUML to SVG/PNG locally using `node-plantuml`
 - Handles direct PUML output
-- Manages HTTP requests to conversion service
+- Manages local Java process execution for PlantUML rendering
+- Provides helpful error messages if Java is not installed
 
 #### `src/filesystem.ts` - File Operations
 - File discovery and pattern matching
@@ -157,6 +158,7 @@ Configuration can also be placed in `package.json` under the `"arkit"` key.
 - **resolve**: Module resolution
 - **progress**: Progress bar display
 - **tsconfig-paths**: TypeScript path mapping support
+- **node-plantuml**: Local PlantUML converter (requires Java JRE 8+)
 
 ### Development Dependencies
 - **TypeScript**: Language and compiler
@@ -164,14 +166,68 @@ Configuration can also be placed in `package.json` under the `"arkit"` key.
 - **ESLint**: Code linting
 - **Prettier**: Code formatting
 
+### System Dependencies
+- **Java JRE 8+**: Required by PlantUML for diagram rendering
+  - Windows: Download from https://adoptium.net/
+  - macOS: `brew install openjdk`
+  - Linux: `sudo apt-get install default-jre`
+  
+- **GraphViz** (Optional): Arkit uses `@hpcc-js/wasm-graphviz` by default (no system dependency)
+  - If `@hpcc-js/wasm-graphviz` is installed (`npm install @hpcc-js/wasm-graphviz`), it is used automatically
+  - If not available, Arkit falls back to system GraphViz:
+    - Windows: Download from https://graphviz.org/download/
+    - macOS: `brew install graphviz`
+    - Linux: `sudo apt-get install graphviz`
+  
+**Note**: Users can avoid all system dependencies except Java by installing `@hpcc-js/wasm-graphviz`, or generate PlantUML (`.puml`) files only with `--output puml`.
+
+### GraphViz Backend: WASM vs System
+
+**Default: @hpcc-js/wasm-graphviz** (Implemented ✅)
+
+Arkit now uses `@hpcc-js/wasm-graphviz` as the default GraphViz backend when available:
+
+**Advantages:**
+- ✅ No GraphViz system dependency required
+- ✅ Easier installation and setup
+- ✅ Better cross-platform compatibility
+- ✅ Consistent rendering across all environments
+- ✅ ~20MB npm package (one-time download)
+
+**Backend Selection Logic:**
+1. **WASM (Default)**: If `@hpcc-js/wasm-graphviz` is installed, use it
+2. **System (Fallback)**: If WASM not available, fall back to system GraphViz
+
+**Current Implementation:**
+- `src/converter.ts` detects available backends on first conversion
+- Both backends currently use `node-plantuml` (Java + PlantUML)
+- WASM backend eliminates the GraphViz system dependency
+- Java is still required for PlantUML parsing
+
+**Future Enhancement:**
+For true zero-system-dependency rendering, PlantUML's DOT generation could be intercepted and rendered entirely with WASM, but this requires deeper integration with PlantUML's internals.
+
+**Alternative WASM Libraries:**
+- `@viz-js/viz`: Smaller bundle (~10MB), good for simpler diagrams
+- `viz.js`: Legacy option, no longer maintained
+
 ## Important Notes
 
-### External Service Usage
-⚠️ Arkit uses a web service hosted at arkit.pro to convert PlantUML to SVG/PNG. This service:
-- Does NOT store any data
-- Processes diagrams on-demand
-- May require company policy approval for enterprise use
-- Can be avoided by using `--output puml` and converting locally
+### Local PlantUML Conversion
+✅ Arkit uses **local PlantUML conversion** via the `node-plantuml` library. This means:
+- **No external web service calls** - All conversion happens locally using Java
+- **Your code stays private** - No data is sent over the network
+- **Works offline** - Generate diagrams without internet connection
+- **Requires Java Runtime Environment (JRE) 8+** to be installed
+- PlantUML `.puml` files can still be exported using `--output puml` for use with other tools
+
+#### Java Installation
+If Java is not installed, users will see a helpful error message with installation instructions:
+- **Windows**: Download from https://adoptium.net/
+- **macOS**: `brew install openjdk`
+- **Linux**: `sudo apt-get install default-jre` (Ubuntu/Debian) or `sudo yum install java-openjdk` (RHEL/CentOS)
+
+Verify installation: `java -version`
 
 ### File Exclusions
 By default, Arkit excludes:
@@ -262,18 +318,20 @@ const { arkit } = require('arkit');
 ### SVG (Default)
 - Scalable vector graphics
 - Best for web and documentation
-- Requires arkit.pro service
+- **Converted locally using node-plantuml**
+- Requires Java JRE 8+
 
 ### PNG
 - Raster image format
 - Good for presentations and PDFs
-- Requires arkit.pro service
+- **Converted locally using node-plantuml**
+- Requires Java JRE 8+
 
 ### PlantUML (PUML)
 - Text-based diagram format
-- Can be converted locally
+- Text output, no conversion needed
 - Good for version control
-- Can be rendered with local PlantUML installation
+- Can be rendered with external PlantUML tools
 
 ## Key Algorithms
 

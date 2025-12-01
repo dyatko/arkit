@@ -4,17 +4,21 @@ import { Parser } from "./parser";
 import { Generator } from "./generator";
 import { Options, OutputFormat, OutputSchema, SavedString } from "./types";
 import { cli } from "./cli";
-import * as ProgressBar from "progress";
+import ProgressBar from "progress";
 import { PUML } from "./puml";
 import { Converter } from "./converter";
 
 const getOptions = (options?: Options): Options => {
+  const argv = cli.argv;
   const opts: Options = {
-    ...cli.argv,
+    directory: ".",
+    config: "arkit.json",
+    output: ["arkit.svg"],
+    ...argv,
     ...options,
   };
 
-  opts.directory = getAbsolute(opts.directory);
+  opts.directory = getAbsolute(opts.directory!);
 
   if (opts.first) {
     opts.first = convertToRelative(opts.first, opts.directory);

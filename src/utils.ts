@@ -1,10 +1,10 @@
 import * as path from "path";
 import * as fs from "fs";
 import { trace, warn } from "./logger";
-import * as nanomatch from "nanomatch";
+import nanomatch from "nanomatch";
 import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
 import * as https from "https";
-import { Node, Statement, TypeGuards } from "ts-morph";
+import { Node, Statement, SyntaxKind } from "ts-morph";
 
 export * from "./logger";
 
@@ -131,6 +131,10 @@ export const bold = (str: string): string => {
   return `<b>${str}</b>`;
 };
 
+/**
+ * @deprecated This function is no longer used. PlantUML conversion is now done locally using node-plantuml.
+ * Kept for backward compatibility only.
+ */
 export const request = (path, payload): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const req = https
@@ -203,7 +207,7 @@ export const getAllStatements = (
     try {
       const children = node.getChildren();
 
-      if (TypeGuards.isStatement(node) || TypeGuards.isImportTypeNode(node)) {
+      if (Node.isStatement(node) || Node.isImportTypeNode(node)) {
         statements.push(node as Statement);
       }
 

@@ -1,62 +1,101 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
-const fs = require("fs");
+exports.getAllStatements = exports.convertToRelative = exports.getAbsolute = exports.getAllComponents = exports.request = exports.bold = exports.verifyComponentFilters = exports.array = exports.safeRequire = exports.find = exports.match = exports.getPaths = exports.getMemoryUsage = exports.getStats = void 0;
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const logger_1 = require("./logger");
-const nanomatch = require("nanomatch");
-const https = require("https");
+const nanomatch_1 = __importDefault(require("nanomatch"));
+const https = __importStar(require("https"));
 const ts_morph_1 = require("ts-morph");
-__export(require("./logger"));
-exports.getStats = (path) => {
+__exportStar(require("./logger"), exports);
+const getStats = (path) => {
     try {
         const stats = fs.statSync(path);
         return {
             isDirectory: stats.isDirectory(),
-            isFile: stats.isFile()
+            isFile: stats.isFile(),
         };
     }
     catch (e) {
-        logger_1.warn(e);
+        (0, logger_1.warn)(e);
         return {
             isDirectory: false,
-            isFile: false
+            isFile: false,
         };
     }
 };
-exports.getMemoryUsage = () => {
+exports.getStats = getStats;
+const getMemoryUsage = () => {
     const memoryUsage = process.memoryUsage();
     return memoryUsage.heapUsed / memoryUsage.heapTotal;
 };
-exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns, history = []) => {
+exports.getMemoryUsage = getMemoryUsage;
+const getPaths = (mainDirectory, directory, includePatterns, excludePatterns, history = []) => {
     const root = path.join(mainDirectory, directory);
     if (history.includes(root)) {
-        logger_1.warn(`Skipping ${root} as it was parsed already`);
+        (0, logger_1.warn)(`Skipping ${root} as it was parsed already`);
         return [];
     }
     else {
         history.push(root);
     }
-    const usedMemory = exports.getMemoryUsage();
+    const usedMemory = (0, exports.getMemoryUsage)();
     if (usedMemory > 0.95) {
-        logger_1.warn(`Stopping at ${root} since 95% of heap memory is used!`);
+        (0, logger_1.warn)(`Stopping at ${root} since 95% of heap memory is used!`);
         return [];
     }
     return fs.readdirSync(root).reduce((suitablePaths, fileName) => {
         const filePath = path.join(directory, fileName);
-        const notExcluded = !excludePatterns.length || !exports.match(filePath, excludePatterns);
+        const notExcluded = !excludePatterns.length || !(0, exports.match)(filePath, excludePatterns);
         if (notExcluded) {
             const fullPath = path.join(root, fileName);
-            const stats = exports.getStats(fullPath);
-            const isIncluded = exports.match(filePath, includePatterns);
+            const stats = (0, exports.getStats)(fullPath);
+            const isIncluded = (0, exports.match)(filePath, includePatterns);
             if (stats.isDirectory) {
                 if (isIncluded) {
                     suitablePaths.push(path.join(fullPath, "**"));
                 }
                 else {
-                    const childPaths = exports.getPaths(mainDirectory, filePath, includePatterns, excludePatterns, history);
+                    const childPaths = (0, exports.getPaths)(mainDirectory, filePath, includePatterns, excludePatterns, history);
                     suitablePaths.push(...childPaths);
                 }
             }
@@ -67,36 +106,47 @@ exports.getPaths = (mainDirectory, directory, includePatterns, excludePatterns, 
         return suitablePaths;
     }, []);
 };
-exports.match = (filepath, patterns) => {
-    return !patterns || !patterns.length || nanomatch.some(filepath, patterns);
+exports.getPaths = getPaths;
+const match = (filepath, patterns) => {
+    return !patterns || !patterns.length || nanomatch_1.default.some(filepath, patterns);
 };
-exports.find = (filepath, patterns) => {
-    return patterns.find(pattern => nanomatch(filepath, pattern).length);
+exports.match = match;
+const find = (filepath, patterns) => {
+    return patterns.find((pattern) => (0, nanomatch_1.default)(filepath, pattern).length);
 };
-exports.safeRequire = (path) => {
+exports.find = find;
+const safeRequire = (path) => {
     try {
         return require(path);
     }
     catch (e) {
-        logger_1.trace(e.toString());
+        (0, logger_1.trace)(e.toString());
     }
 };
-exports.array = (input) => {
+exports.safeRequire = safeRequire;
+const array = (input) => {
     if (input) {
         return [].concat(input);
     }
 };
-exports.verifyComponentFilters = (filters, component, mainDirectory) => {
+exports.array = array;
+const verifyComponentFilters = (filters, component, mainDirectory) => {
     const matchesPatterns = !("filename" in component) ||
-        exports.match(path.relative(mainDirectory, component.filename), filters.patterns);
+        (0, exports.match)(path.relative(mainDirectory, component.filename), filters.patterns);
     const matchesComponents = !filters.components ||
-        filters.components.some(type => type === component.type);
+        filters.components.some((type) => type === component.type);
     return matchesPatterns && matchesComponents;
 };
-exports.bold = (str) => {
+exports.verifyComponentFilters = verifyComponentFilters;
+const bold = (str) => {
     return `<b>${str}</b>`;
 };
-exports.request = (path, payload) => {
+exports.bold = bold;
+/**
+ * @deprecated This function is no longer used. PlantUML conversion is now done locally using node-plantuml.
+ * Kept for backward compatibility only.
+ */
+const request = (path, payload) => {
     return new Promise((resolve, reject) => {
         const req = https
             .request({
@@ -106,52 +156,57 @@ exports.request = (path, payload) => {
             method: "post",
             headers: {
                 "Content-Type": "text/plain",
-                "Content-Length": payload.length
-            }
-        }, res => {
+                "Content-Length": payload.length,
+            },
+        }, (res) => {
             const data = [];
-            res.on("data", chunk => data.push(chunk));
+            res.on("data", (chunk) => data.push(chunk));
             res.on("end", () => {
                 resolve(Buffer.concat(data));
             });
         })
-            .on("error", err => {
+            .on("error", (err) => {
             reject(err);
         });
         req.write(payload);
         req.end();
     });
 };
-exports.getAllComponents = (layers, sortByName = false) => {
-    const components = [].concat(...[...layers.values()].map(components => [...components]));
+exports.request = request;
+const getAllComponents = (layers, sortByName = false) => {
+    const components = [].concat(...[...layers.values()].map((components) => [...components]));
     if (sortByName) {
         components.sort((a, b) => a.name.localeCompare(b.name));
     }
     return components;
 };
-exports.getAbsolute = (filepath, root = process.cwd()) => {
+exports.getAllComponents = getAllComponents;
+const getAbsolute = (filepath, root = process.cwd()) => {
     return !path.isAbsolute(filepath) ? path.resolve(root, filepath) : filepath;
 };
-exports.convertToRelative = (paths, root, excludes = []) => {
-    return paths.map(filepath => {
+exports.getAbsolute = getAbsolute;
+const convertToRelative = (paths, root, excludes = []) => {
+    return paths.map((filepath) => {
         if (excludes.includes(filepath)) {
             return filepath;
         }
-        return path.relative(root, exports.getAbsolute(filepath));
+        return path.relative(root, (0, exports.getAbsolute)(filepath));
     });
 };
-exports.getAllStatements = (nodes, statements = []) => {
+exports.convertToRelative = convertToRelative;
+const getAllStatements = (nodes, statements = []) => {
     return nodes.reduce((statements, node) => {
         try {
             const children = node.getChildren();
-            if (ts_morph_1.TypeGuards.isStatement(node) || ts_morph_1.TypeGuards.isImportTypeNode(node)) {
+            if (ts_morph_1.Node.isStatement(node) || ts_morph_1.Node.isImportTypeNode(node)) {
                 statements.push(node);
             }
-            exports.getAllStatements(children, statements);
+            (0, exports.getAllStatements)(children, statements);
         }
         catch (e) {
-            logger_1.warn(e);
+            (0, logger_1.warn)(e);
         }
         return statements;
     }, statements);
 };
+exports.getAllStatements = getAllStatements;

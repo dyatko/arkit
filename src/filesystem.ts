@@ -58,7 +58,6 @@ export class FileSystem {
 
     this.project = new Project({
       tsConfigFilePath: this.tsConfigFilePath,
-      addFilesFromTsConfig: false,
       skipFileDependencyResolution: true,
     });
   }

@@ -2,9 +2,9 @@ import { EOL } from "os";
 import {
   ExportDeclarationStructure,
   ImportDeclarationStructure,
+  Node,
   SourceFile,
   Statement,
-  TypeGuards,
 } from "ts-morph";
 import {
   find,
@@ -16,7 +16,7 @@ import {
   error,
 } from "./utils";
 import { ConfigBase, Exports, File, Files, Imports } from "./types";
-import * as ProgressBar from "progress";
+import ProgressBar from "progress";
 import { FileSystem } from "./filesystem";
 
 const QUOTES = `(?:'|")`;
@@ -51,8 +51,8 @@ export class Parser {
     this.fs.filePaths.forEach((fullPath) => {
       try {
         files[fullPath] = this.parseFile(fullPath);
-      } catch (e) {
-        error(`Error parsing ${fullPath}`);
+      } catch (e: any) {
+        error(`Error parsing ${fullPath}: ${e.message}`);
         trace(e);
       }
 
@@ -90,9 +90,10 @@ export class Parser {
     return statements.reduce((imports, statement) => {
       let sourceFileImports: string[] | undefined;
 
-      if (TypeGuards.isImportTypeNode(statement)) {
+      if (Node.isImportTypeNode(statement)) {
         try {
-          const moduleSpecifier = eval(statement.getArgument().getText());
+          const argument = statement.getArgument();
+          const moduleSpecifier = eval(argument.getText());
           sourceFileImports = this.addModule(
             imports,
             moduleSpecifier,
@@ -108,8 +109,8 @@ export class Parser {
           warn(e);
         }
       } else if (
-        TypeGuards.isVariableStatement(statement) ||
-        TypeGuards.isExpressionStatement(statement)
+        Node.isVariableStatement(statement) ||
+        Node.isExpressionStatement(statement)
       ) {
         const text = statement.getText();
         const [match, moduleSpecifier, namedImport] = Array.from(
@@ -128,8 +129,8 @@ export class Parser {
           }
         }
       } else if (
-        TypeGuards.isImportDeclaration(statement) ||
-        TypeGuards.isExportDeclaration(statement)
+        Node.isImportDeclaration(statement) ||
+        Node.isExportDeclaration(statement)
       ) {
         let moduleSpecifier: string | undefined;
         let structure:
@@ -138,8 +139,10 @@ export class Parser {
           | undefined;
 
         try {
-          structure = statement.getStructure();
-          moduleSpecifier = structure.moduleSpecifier;
+          structure = statement.getStructure() as
+            | ImportDeclarationStructure
+            | ExportDeclarationStructure;
+          moduleSpecifier = structure.moduleSpecifier as string | undefined;
         } catch (e) {
           warn(e);
           const brokenLineNumber = statement.getStartLineNumber();
@@ -164,7 +167,7 @@ export class Parser {
         if (
           sourceFileImports &&
           structure &&
-          TypeGuards.isImportDeclaration(statement)
+          Node.isImportDeclaration(statement)
         ) {
           const importStructure = structure as ImportDeclarationStructure;
 
@@ -198,38 +201,41 @@ export class Parser {
 
   private getExports(sourceFile: SourceFile, statements: Statement[]): Exports {
     return statements.reduce((exports, statement) => {
-      if (
-        TypeGuards.isExportableNode(statement) &&
-        statement.hasExportKeyword()
-      ) {
-        if (TypeGuards.isVariableStatement(statement)) {
+      const hasExport =
+        Node.isExportable(statement) &&
+        statement.getText().trimStart().startsWith("export");
+
+      if (hasExport) {
+        if (Node.isVariableStatement(statement)) {
           try {
             const structure = statement.getStructure();
 
             exports.push(
-              ...structure.declarations.map((declaration) => declaration.name),
+              ...structure.declarations.map((declaration) =>
+                String(declaration.name),
+              ),
             );
           } catch (e) {
             warn(e);
             warn("isVariableStatement", statement.getText());
           }
         } else if (
-          TypeGuards.isInterfaceDeclaration(statement) ||
-          TypeGuards.isClassDeclaration(statement) ||
-          TypeGuards.isEnumDeclaration(statement) ||
-          TypeGuards.isTypeAliasDeclaration(statement)
+          Node.isInterfaceDeclaration(statement) ||
+          Node.isClassDeclaration(statement) ||
+          Node.isEnumDeclaration(statement) ||
+          Node.isTypeAliasDeclaration(statement)
         ) {
           try {
             const structure = statement.getStructure();
 
             if (structure.name) {
-              exports.push(structure.name);
+              exports.push(String(structure.name));
             }
           } catch (e) {
             warn(e);
             warn("isInterfaceDeclaration, ...", statement.getText());
           }
-        } else if (TypeGuards.isFunctionDeclaration(statement)) {
+        } else if (Node.isFunctionDeclaration(statement)) {
           try {
             const structure = statement.getStructure();
             trace("EXPORT", sourceFile.getBaseName(), structure);

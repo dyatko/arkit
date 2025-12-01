@@ -1,14 +1,21 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const pino = require("pino");
-const logger = pino({
+exports.trace = exports.debug = exports.info = exports.warn = exports.error = exports.fatal = void 0;
+const pino_1 = __importDefault(require("pino"));
+const logger = (0, pino_1.default)({
     name: "arkit",
     level: process.env.LEVEL || "error",
     base: null,
-    prettyPrint: {
-        colorize: true,
-        translateTime: true
-    }
+    transport: {
+        target: "pino-pretty",
+        options: {
+            colorize: true,
+            translateTime: true,
+        },
+    },
 });
 exports.fatal = logger.fatal.bind(logger);
 exports.error = logger.error.bind(logger);
