@@ -6,8 +6,21 @@ jest.setTimeout(60000);
 
 // Normalize SVG output by replacing environment-specific values
 function normalizeSvg(svg: string): string {
+  let normalized = svg;
+  
+  // Remove duplicate error SVG if present (PlantUML generates error SVG for empty diagrams)
+  const closingSvgTag = "</svg>";
+  const firstSvgEnd = normalized.indexOf(closingSvgTag);
+  if (firstSvgEnd !== -1) {
+    const afterFirstSvg = normalized.substring(firstSvgEnd + closingSvgTag.length);
+    if (afterFirstSvg.includes('<?xml version="1.0"')) {
+      // Multiple SVG documents found, keep only the first one
+      normalized = normalized.substring(0, firstSvgEnd + closingSvgTag.length);
+    }
+  }
+  
   return (
-    svg
+    normalized
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(
         /PlantUML version [^\n]+/g,
