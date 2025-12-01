@@ -4,7 +4,7 @@ import {
   ImportDeclarationStructure,
   SourceFile,
   Statement,
-  TypeGuards
+  TypeGuards,
 } from "ts-morph";
 import {
   find,
@@ -13,7 +13,7 @@ import {
   trace,
   warn,
   getAllStatements,
-  error
+  error,
 } from "./utils";
 import { ConfigBase, Exports, File, Files, Imports } from "./types";
 import * as ProgressBar from "progress";
@@ -23,7 +23,7 @@ const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
 const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
 const REQUIRE_RE = new RegExp(
-  `require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`
+  `require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`,
 );
 
 export class Parser {
@@ -38,17 +38,17 @@ export class Parser {
     const progress = new ProgressBar("Parsing :bar", {
       clear: true,
       total: this.fs.folderPaths.length + this.fs.filePaths.length,
-      width: process.stdout.columns
+      width: process.stdout.columns,
     });
 
     info("Parsing", progress.total, "files");
 
-    this.fs.folderPaths.forEach(fullPath => {
+    this.fs.folderPaths.forEach((fullPath) => {
       files[fullPath] = { exports: [], imports: {} };
       progress.tick();
     });
 
-    this.fs.filePaths.forEach(fullPath => {
+    this.fs.filePaths.forEach((fullPath) => {
       try {
         files[fullPath] = this.parseFile(fullPath);
       } catch (e) {
@@ -79,7 +79,7 @@ export class Parser {
       Object.keys(exports).length,
       "exports",
       Object.keys(imports).length,
-      "imports"
+      "imports",
     );
 
     this.fs.project.removeSourceFile(sourceFile);
@@ -96,7 +96,7 @@ export class Parser {
           sourceFileImports = this.addModule(
             imports,
             moduleSpecifier,
-            sourceFile
+            sourceFile,
           );
 
           const namedImport = statement.getQualifier();
@@ -113,14 +113,14 @@ export class Parser {
       ) {
         const text = statement.getText();
         const [match, moduleSpecifier, namedImport] = Array.from(
-          REQUIRE_RE.exec(text) || []
+          REQUIRE_RE.exec(text) || [],
         );
 
         if (moduleSpecifier) {
           sourceFileImports = this.addModule(
             imports,
             moduleSpecifier,
-            sourceFile
+            sourceFile,
           );
 
           if (sourceFileImports && namedImport) {
@@ -157,7 +157,7 @@ export class Parser {
           sourceFileImports = this.addModule(
             imports,
             moduleSpecifier,
-            sourceFile
+            sourceFile,
           );
         }
 
@@ -178,9 +178,11 @@ export class Parser {
 
           if (importStructure.namedImports instanceof Array) {
             sourceFileImports.push(
-              ...importStructure.namedImports.map(namedImport =>
-                typeof namedImport === "string" ? namedImport : namedImport.name
-              )
+              ...importStructure.namedImports.map((namedImport) =>
+                typeof namedImport === "string"
+                  ? namedImport
+                  : namedImport.name,
+              ),
             );
           }
 
@@ -205,7 +207,7 @@ export class Parser {
             const structure = statement.getStructure();
 
             exports.push(
-              ...structure.declarations.map(declaration => declaration.name)
+              ...structure.declarations.map((declaration) => declaration.name),
             );
           } catch (e) {
             warn(e);
@@ -247,7 +249,7 @@ export class Parser {
   private addModule(
     imports: Imports,
     moduleSpecifier: string,
-    sourceFile: SourceFile
+    sourceFile: SourceFile,
   ): string[] | undefined {
     const modulePath = this.fs.getModulePath(moduleSpecifier, sourceFile);
 

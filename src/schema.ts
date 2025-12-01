@@ -46,7 +46,7 @@ export interface ComponentSchema {
 export enum ComponentNameFormat {
   BASE_NAME = "base",
   FULL_NAME = "full",
-  COMPLETE_PATH = "complete"
+  COMPLETE_PATH = "complete",
 }
 
 export interface OutputSchema {
@@ -96,10 +96,10 @@ export interface ComponentFilters {
 
 export enum OutputDirection {
   HORIZONTAL = "horizontal",
-  VERTICAL = "vertical"
+  VERTICAL = "vertical",
 }
 
 export enum OutputFormat {
   SVG = "svg",
-  PNG = "png"
+  PNG = "png",
 }

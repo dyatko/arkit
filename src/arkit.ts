@@ -11,7 +11,7 @@ import { Converter } from "./converter";
 const getOptions = (options?: Options): Options => {
   const opts: Options = {
     ...cli.argv,
-    ...options
+    ...options,
   };
 
   opts.directory = getAbsolute(opts.directory);
@@ -24,7 +24,7 @@ const getOptions = (options?: Options): Options => {
     opts.output = convertToRelative(
       opts.output,
       opts.directory,
-      Object.values(OutputFormat)
+      Object.values(OutputFormat),
     );
   }
 
@@ -53,12 +53,12 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
   const converter = new Converter(config);
   const total = outputs.reduce(
     (total, output) => total + array(output.path)!.length,
-    outputs.length * 2
+    outputs.length * 2,
   );
   const progress = new ProgressBar("Generating :bar", {
     total,
     clear: true,
-    width: process.stdout.columns
+    width: process.stdout.columns,
   });
 
   return Promise.all(
@@ -72,7 +72,7 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
       const paths = array(output.path) as string[];
 
       for (const path of paths) {
-        const promise = converter.convert(path, puml).then(value => {
+        const promise = converter.convert(path, puml).then((value) => {
           progress.tick();
           return value;
         });
@@ -81,7 +81,7 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
       }
 
       return promises;
-    }, [] as Promise<SavedString>[])
+    }, [] as Promise<SavedString>[]),
   );
 };
 
