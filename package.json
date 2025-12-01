@@ -65,6 +65,7 @@
     "worldstar": "1.2.3"
   },
   "dependencies": {
+    "@hpcc-js/wasm-graphviz": "^1.16.0",
     "nanomatch": "^1.2.13",
     "node-plantuml": "^0.9.0",
     "pino": "^9.0.0",

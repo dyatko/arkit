@@ -216,6 +216,7 @@ exports[`Parser Arkit 1`] = `
   },
   "converter.ts": {
     "exports": [
+      "ConverterBackend",
       "Converter",
     ],
     "imports": {
@@ -225,10 +226,9 @@ exports[`Parser Arkit 1`] = `
       "logger.ts": [
         "debug",
         "warn",
+        "info",
       ],
-      "node_modules/node-plantuml/index.js": [
-        "plantuml",
-      ],
+      "node_modules/node-plantuml/index.js": [],
       "path": [
         "path",
       ],
@@ -302,6 +302,10 @@ exports[`Parser Arkit 1`] = `
         "info",
       ],
     },
+  },
+  "hpcc-wasm.d.ts": {
+    "exports": [],
+    "imports": {},
   },
   "logger.ts": {
     "exports": [

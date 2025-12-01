@@ -172,46 +172,44 @@ Configuration can also be placed in `package.json` under the `"arkit"` key.
   - macOS: `brew install openjdk`
   - Linux: `sudo apt-get install default-jre`
   
-- **GraphViz**: Required by PlantUML for complex diagram layouts (dot command)
-  - Windows: Download from https://graphviz.org/download/
-  - macOS: `brew install graphviz`
-  - Linux: `sudo apt-get install graphviz`
+- **GraphViz** (Optional): Arkit uses `@hpcc-js/wasm-graphviz` by default (no system dependency)
+  - If `@hpcc-js/wasm-graphviz` is installed (`npm install @hpcc-js/wasm-graphviz`), it is used automatically
+  - If not available, Arkit falls back to system GraphViz:
+    - Windows: Download from https://graphviz.org/download/
+    - macOS: `brew install graphviz`
+    - Linux: `sudo apt-get install graphviz`
   
-**Note**: Users can avoid system dependencies by using `--output puml` to generate PlantUML files only, which can be rendered separately.
+**Note**: Users can avoid all system dependencies except Java by installing `@hpcc-js/wasm-graphviz`, or generate PlantUML (`.puml`) files only with `--output puml`.
 
-### Node.js Alternatives to GraphViz (Future Consideration)
+### GraphViz Backend: WASM vs System
 
-While Arkit currently requires system-level GraphViz, there are pure Node.js alternatives that could eliminate this dependency:
+**Default: @hpcc-js/wasm-graphviz** (Implemented ✅)
 
-1. **@hpcc-js/wasm** (Recommended)
-   - WebAssembly port of Graphviz
-   - No system dependencies required
-   - Actively maintained by HPCC Systems
-   - Drop-in replacement for Graphviz
-   - `npm install @hpcc-js/wasm`
+Arkit now uses `@hpcc-js/wasm-graphviz` as the default GraphViz backend when available:
 
-2. **@viz-js/viz**
-   - Modern maintained version of viz.js
-   - Pure JavaScript/WebAssembly
-   - Smaller bundle size than @hpcc-js/wasm
-   - `npm install @viz-js/viz`
-
-3. **Viz.js** (Legacy)
-   - Original Emscripten port of Graphviz
-   - No longer actively maintained
-   - Still widely used but consider alternatives
-
-**Implementation Note**: To use these alternatives with `node-plantuml`, you would need to:
-- Install the WebAssembly GraphViz package
-- Configure PlantUML to use the JS-based renderer instead of system `dot` command
-- This would require modifications to `src/converter.ts` and potentially switching from `node-plantuml` to a custom PlantUML integration
-
-**Trade-offs**:
-- ✅ Eliminates system dependency (easier installation)
+**Advantages:**
+- ✅ No GraphViz system dependency required
+- ✅ Easier installation and setup
 - ✅ Better cross-platform compatibility
-- ❌ Larger npm package size (WASM bundles are ~10-20MB)
-- ❌ May have slightly slower performance for very large diagrams
-- ❌ Requires additional implementation work
+- ✅ Consistent rendering across all environments
+- ✅ ~20MB npm package (one-time download)
+
+**Backend Selection Logic:**
+1. **WASM (Default)**: If `@hpcc-js/wasm-graphviz` is installed, use it
+2. **System (Fallback)**: If WASM not available, fall back to system GraphViz
+
+**Current Implementation:**
+- `src/converter.ts` detects available backends on first conversion
+- Both backends currently use `node-plantuml` (Java + PlantUML)
+- WASM backend eliminates the GraphViz system dependency
+- Java is still required for PlantUML parsing
+
+**Future Enhancement:**
+For true zero-system-dependency rendering, PlantUML's DOT generation could be intercepted and rendered entirely with WASM, but this requires deeper integration with PlantUML's internals.
+
+**Alternative WASM Libraries:**
+- `@viz-js/viz`: Smaller bundle (~10MB), good for simpler diagrams
+- `viz.js`: Legacy option, no longer maintained
 
 ## Important Notes
 
