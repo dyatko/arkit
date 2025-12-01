@@ -185,7 +185,10 @@ exports[`Parser Arkit 1`] = `
       "cli",
     ],
     "imports": {
-      "node_modules/yargs/index.mjs": [
+      "node_modules/yargs/helpers/index.js": [
+        "hideBin",
+      ],
+      "node_modules/yargs/index.cjs": [
         "yargs",
       ],
     },
