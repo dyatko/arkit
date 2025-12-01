@@ -11,7 +11,7 @@ expect.addSnapshotSerializer({
 
   print(value: SavedString, serialize) {
     return serialize(value.toString());
-  }
+  },
 });
 
 describe("Arkit", () => {
@@ -20,7 +20,7 @@ describe("Arkit", () => {
 
     process.chdir(directory);
 
-    return arkit({ directory }).then(output => {
+    return arkit({ directory }).then((output) => {
       expect(output).toMatchSnapshot();
     });
   });
@@ -30,7 +30,7 @@ describe("Arkit", () => {
 
     process.chdir(directory);
 
-    return arkit({ directory }).then(output => {
+    return arkit({ directory }).then((output) => {
       expect(output).toMatchSnapshot();
     });
   });
@@ -40,7 +40,7 @@ describe("Arkit", () => {
 
     process.chdir(directory);
 
-    return arkit({ directory }).then(output => {
+    return arkit({ directory }).then((output) => {
       expect(output).toMatchSnapshot();
     });
   });

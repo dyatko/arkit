@@ -14,23 +14,23 @@ export const cli = yargs
   .option("directory", {
     description: "Working directory",
     default: ".",
-    coerce: parseDirectory
+    coerce: parseDirectory,
   })
   .option("first", {
     description: "File patterns to be first in the graph",
-    string: true
+    string: true,
   })
   .option("exclude", {
     description: "File patterns to exclude from the graph",
-    default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*"
+    default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*",
   })
   .option("output", {
     description: "Output path or type (svg, png or puml)",
-    default: "arkit.svg"
+    default: "arkit.svg",
   })
   .option("config", {
     description: "Config file path (json or js)",
-    default: "arkit.json"
+    default: "arkit.json",
   })
   .alias({
     d: "directory",
@@ -40,10 +40,10 @@ export const cli = yargs
     e: "exclude",
     h: "help",
     v: "version",
-    _: "directory"
+    _: "directory",
   })
   .coerce({
     exclude: splitByComma,
     first: splitByComma,
-    output: splitByComma
+    output: splitByComma,
   });

@@ -33,17 +33,17 @@ export class FileSystem {
         tsConfig.absoluteBaseUrl,
         tsConfig.paths,
         tsConfig.mainFields,
-        tsConfig.addMatchAll
+        tsConfig.addMatchAll,
       );
     } else {
       this.tsResolve = createMatchPath(
         this.config.directory,
         {
           "~/*": ["*"],
-          "@/*": ["*", "src/*"]
+          "@/*": ["*", "src/*"],
         },
         undefined,
-        true
+        true,
       );
     }
   }
@@ -59,18 +59,18 @@ export class FileSystem {
     this.project = new Project({
       tsConfigFilePath: this.tsConfigFilePath,
       addFilesFromTsConfig: false,
-      skipFileDependencyResolution: true
+      skipFileDependencyResolution: true,
     });
   }
 
   private preparePaths() {
     const components = this.config.final.components as ComponentSchema[];
     const excludePatterns = [
-      ...(this.config.final.excludePatterns as string[])
+      ...(this.config.final.excludePatterns as string[]),
     ];
     const includePatterns: string[] = [];
 
-    components.forEach(component => {
+    components.forEach((component) => {
       includePatterns.push(...component.patterns);
 
       if (component.excludePatterns) {
@@ -83,8 +83,8 @@ export class FileSystem {
       this.config.directory,
       "",
       includePatterns,
-      excludePatterns
-    ).forEach(path => {
+      excludePatterns,
+    ).forEach((path) => {
       if (path.endsWith("**")) {
         this.folderPaths.push(path);
       } else {
@@ -95,17 +95,17 @@ export class FileSystem {
 
   getModulePath(
     moduleSpecifier: string,
-    sourceFile: SourceFile
+    sourceFile: SourceFile,
   ): string | undefined {
     try {
       trace(
         moduleSpecifier,
         sourceFile.getDirectoryPath(),
-        this.config.extensions
+        this.config.extensions,
       );
       return resolveSync(moduleSpecifier, {
         basedir: sourceFile.getDirectoryPath(),
-        extensions: this.config.extensions
+        extensions: this.config.extensions,
       });
     } catch (e) {
       return this.resolveTsModule(moduleSpecifier);
@@ -119,14 +119,14 @@ export class FileSystem {
       moduleSpecifier,
       undefined,
       undefined,
-      this.config.extensions
+      this.config.extensions,
     );
     debug("Resolve TS", moduleSpecifier, modulePath);
 
     if (!modulePath) return;
 
     return resolveSync(modulePath, {
-      extensions: this.config.extensions
+      extensions: this.config.extensions,
     });
   }
 }

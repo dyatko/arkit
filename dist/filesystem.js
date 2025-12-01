@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FileSystem = void 0;
 const tsconfig_paths_1 = require("tsconfig-paths");
 const logger_1 = require("./logger");
 const ts_morph_1 = require("ts-morph");
@@ -14,18 +15,18 @@ class FileSystem {
         this.preparePaths();
     }
     resolveTsConfigPaths() {
-        const tsConfig = tsconfig_paths_1.loadConfig(this.config.directory);
+        const tsConfig = (0, tsconfig_paths_1.loadConfig)(this.config.directory);
         if (tsConfig.resultType === "success") {
             this.tsConfigFilePath = tsConfig.configFileAbsolutePath;
-            logger_1.debug("Found TypeScript config", this.tsConfigFilePath);
-            logger_1.debug("Registering ts-config paths...");
-            logger_1.debug(tsConfig.paths);
-            this.tsResolve = tsconfig_paths_1.createMatchPath(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
+            (0, logger_1.debug)("Found TypeScript config", this.tsConfigFilePath);
+            (0, logger_1.debug)("Registering ts-config paths...");
+            (0, logger_1.debug)(tsConfig.paths);
+            this.tsResolve = (0, tsconfig_paths_1.createMatchPath)(tsConfig.absoluteBaseUrl, tsConfig.paths, tsConfig.mainFields, tsConfig.addMatchAll);
         }
         else {
-            this.tsResolve = tsconfig_paths_1.createMatchPath(this.config.directory, {
+            this.tsResolve = (0, tsconfig_paths_1.createMatchPath)(this.config.directory, {
                 "~/*": ["*"],
-                "@/*": ["*", "src/*"]
+                "@/*": ["*", "src/*"],
             }, undefined, true);
         }
     }
@@ -34,29 +35,29 @@ class FileSystem {
             this.resolveTsConfigPaths();
         }
         catch (e) {
-            logger_1.warn(e);
+            (0, logger_1.warn)(e);
             this.tsConfigFilePath = undefined;
         }
         this.project = new ts_morph_1.Project({
             tsConfigFilePath: this.tsConfigFilePath,
             addFilesFromTsConfig: false,
-            skipFileDependencyResolution: true
+            skipFileDependencyResolution: true,
         });
     }
     preparePaths() {
         const components = this.config.final.components;
         const excludePatterns = [
-            ...this.config.final.excludePatterns
+            ...this.config.final.excludePatterns,
         ];
         const includePatterns = [];
-        components.forEach(component => {
+        components.forEach((component) => {
             includePatterns.push(...component.patterns);
             if (component.excludePatterns) {
                 excludePatterns.push(...component.excludePatterns);
             }
         });
-        logger_1.info("Searching files...");
-        utils_1.getPaths(this.config.directory, "", includePatterns, excludePatterns).forEach(path => {
+        (0, logger_1.info)("Searching files...");
+        (0, utils_1.getPaths)(this.config.directory, "", includePatterns, excludePatterns).forEach((path) => {
             if (path.endsWith("**")) {
                 this.folderPaths.push(path);
             }
@@ -67,10 +68,10 @@ class FileSystem {
     }
     getModulePath(moduleSpecifier, sourceFile) {
         try {
-            logger_1.trace(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
-            return resolve_1.sync(moduleSpecifier, {
+            (0, logger_1.trace)(moduleSpecifier, sourceFile.getDirectoryPath(), this.config.extensions);
+            return (0, resolve_1.sync)(moduleSpecifier, {
                 basedir: sourceFile.getDirectoryPath(),
-                extensions: this.config.extensions
+                extensions: this.config.extensions,
             });
         }
         catch (e) {
@@ -81,11 +82,11 @@ class FileSystem {
         if (!this.tsResolve)
             return;
         const modulePath = this.tsResolve(moduleSpecifier, undefined, undefined, this.config.extensions);
-        logger_1.debug("Resolve TS", moduleSpecifier, modulePath);
+        (0, logger_1.debug)("Resolve TS", moduleSpecifier, modulePath);
         if (!modulePath)
             return;
-        return resolve_1.sync(modulePath, {
-            extensions: this.config.extensions
+        return (0, resolve_1.sync)(modulePath, {
+            extensions: this.config.extensions,
         });
     }
 }

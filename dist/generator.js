@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Generator = void 0;
 const path = require("path");
 const utils_1 = require("./utils");
 const types_1 = require("./types");
@@ -9,10 +10,10 @@ class Generator {
         this.files = files;
     }
     generate(output) {
-        utils_1.info("Generating components...");
+        (0, utils_1.info)("Generating components...");
         const components = this.sortComponentsByName(this.resolveConflictingComponentNames(this.generateComponents(output)));
-        utils_1.trace(Array.from(components.values()));
-        utils_1.info("Generating layers...");
+        (0, utils_1.trace)(Array.from(components.values()));
+        (0, utils_1.info)("Generating layers...");
         return this.generateLayers(output, components);
     }
     generateComponents(output) {
@@ -25,7 +26,7 @@ class Generator {
                 const name = this.getComponentName(filepath, schema);
                 const file = this.files[filename];
                 const imports = Object.keys(file.imports);
-                const isClass = file.exports.some(exp => !!exp.match(/^[A-Z]/));
+                const isClass = file.exports.some((exp) => !!exp.match(/^[A-Z]/));
                 components.set(filename, {
                     name,
                     filename,
@@ -33,7 +34,7 @@ class Generator {
                     isClass,
                     isImported: false,
                     type: schema.type,
-                    layer: types_1.EMPTY_LAYER
+                    layer: types_1.EMPTY_LAYER,
                 });
             }
             return components;
@@ -49,18 +50,18 @@ class Generator {
         return components;
     }
     generateLayers(output, allComponents) {
-        const groups = utils_1.array(output.groups) || [{}];
+        const groups = (0, utils_1.array)(output.groups) || [{}];
         const ungroupedComponents = new Map(allComponents);
         const grouppedComponents = new Map();
         const layers = new Map();
-        groups.forEach(group => {
+        groups.forEach((group) => {
             const layerType = group.type || types_1.EMPTY_LAYER;
             if (!layers.has(layerType)) {
                 layers.set(layerType, new Set());
             }
             Array.from(ungroupedComponents.entries())
                 .filter(([filename, component]) => {
-                return utils_1.verifyComponentFilters(group, component, this.config.directory);
+                return (0, utils_1.verifyComponentFilters)(group, component, this.config.directory);
             })
                 .forEach(([filename, component]) => {
                 component.layer = layerType;
@@ -73,8 +74,8 @@ class Generator {
             });
         });
         if (ungroupedComponents.size) {
-            utils_1.trace("Ungrouped components");
-            utils_1.trace(Array.from(ungroupedComponents.values()));
+            (0, utils_1.trace)("Ungrouped components");
+            (0, utils_1.trace)(Array.from(ungroupedComponents.values()));
         }
         const filenamesFromFirstComponents = new Set();
         for (const component of grouppedComponents.values()) {
@@ -83,8 +84,8 @@ class Generator {
             }
         }
         if (filenamesFromFirstComponents.size) {
-            utils_1.trace("Filenames from first components");
-            utils_1.trace(Array.from(filenamesFromFirstComponents));
+            (0, utils_1.trace)("Filenames from first components");
+            (0, utils_1.trace)(Array.from(filenamesFromFirstComponents));
             for (const [filename, component] of allComponents) {
                 if (!filenamesFromFirstComponents.has(filename)) {
                     for (const components of layers.values()) {
@@ -96,8 +97,8 @@ class Generator {
             }
         }
         if (ungroupedComponents.size) {
-            utils_1.trace("Ungrouped components leftovers");
-            utils_1.trace(Array.from(ungroupedComponents.values()));
+            (0, utils_1.trace)("Ungrouped components leftovers");
+            (0, utils_1.trace)(Array.from(ungroupedComponents.values()));
         }
         return layers;
     }
@@ -106,7 +107,7 @@ class Generator {
             return;
         filenames.add(component.filename);
         if (!component.last) {
-            component.imports.forEach(importedFilename => {
+            component.imports.forEach((importedFilename) => {
                 const importedComponent = components.get(importedFilename);
                 if (importedComponent) {
                     this.collectImportedFilenames(importedComponent, components, filenames);
@@ -144,7 +145,7 @@ class Generator {
         const sortedComponents = new Map(Array.from(components.entries()).sort((a, b) => a[1].name.localeCompare(b[1].name)));
         for (const component of components.values()) {
             component.imports = component.imports
-                .filter(importedFilename => components.has(importedFilename))
+                .filter((importedFilename) => components.has(importedFilename))
                 .sort((a, b) => {
                 const componentA = components.get(a);
                 const componentB = components.get(b);
@@ -155,20 +156,20 @@ class Generator {
     }
     findComponentSchema(output, filename) {
         const componentSchemas = this.config.final.components;
-        const componentSchema = componentSchemas.find(componentSchema => {
-            const outputFilters = utils_1.array(output.groups) || [];
+        const componentSchema = componentSchemas.find((componentSchema) => {
+            const outputFilters = (0, utils_1.array)(output.groups) || [];
             const includedInOutput = !outputFilters.length ||
-                outputFilters.some(outputFilter => utils_1.verifyComponentFilters(outputFilter, componentSchema, this.config.directory));
+                outputFilters.some((outputFilter) => (0, utils_1.verifyComponentFilters)(outputFilter, componentSchema, this.config.directory));
             if (includedInOutput) {
                 return (!!componentSchema.patterns &&
-                    utils_1.match(path.relative(this.config.directory, filename), componentSchema.patterns));
+                    (0, utils_1.match)(path.relative(this.config.directory, filename), componentSchema.patterns));
             }
             else {
                 return false;
             }
         });
         if (!componentSchema) {
-            utils_1.warn(`Component schema not found: ${filename}`);
+            (0, utils_1.warn)(`Component schema not found: ${filename}`);
         }
         return componentSchema;
     }

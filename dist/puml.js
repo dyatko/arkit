@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PUML = void 0;
 const schema_1 = require("./schema");
 const types_1 = require("./types");
 const utils_1 = require("./utils");
@@ -32,8 +33,8 @@ skinparam component {
 }`;
     }
     from(output, layers) {
-        const layerComponents = utils_1.getAllComponents(layers, true);
-        utils_1.trace(Array.from(layers.keys()));
+        const layerComponents = (0, utils_1.getAllComponents)(layers, true);
+        (0, utils_1.trace)(Array.from(layers.keys()));
         const puml = ["@startuml"];
         puml.push(this.generatePlantUMLSkin(output, layerComponents));
         for (const [layer, components] of layers.entries()) {
@@ -53,7 +54,7 @@ skinparam component {
             puml.push(`package "${layer}" {`);
         for (const component of components) {
             const componentPuml = [
-                this.generatePlantUMLComponent(component, types_1.Context.LAYER)
+                this.generatePlantUMLComponent(component, types_1.Context.LAYER),
             ];
             if (isLayer)
                 componentPuml.unshift("  ");
@@ -70,7 +71,7 @@ skinparam component {
         let name = component.name.replace(/\\/g, "/");
         const safeName = "_" + name.replace(/[^\w]/g, "_");
         if ((isDirectory && !hasLayer) || (!isDirectory && !component.isImported)) {
-            name = utils_1.bold(name);
+            name = (0, utils_1.bold)(name);
         }
         if (isDirectory) {
             if (hasLayer) {
@@ -98,7 +99,7 @@ skinparam component {
         const puml = [""];
         for (const component of components) {
             for (const importedFilename of component.imports) {
-                const importedComponent = components.find(importedComponent => importedComponent.filename === importedFilename);
+                const importedComponent = components.find((importedComponent) => importedComponent.filename === importedFilename);
                 if (importedComponent) {
                     puml.push(this.generatePlantUMLRelationship(component, importedComponent));
                 }
@@ -114,7 +115,7 @@ skinparam component {
         const puml = [
             this.generatePlantUMLComponent(component, types_1.Context.RELATIONSHIP),
             connection,
-            this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP)
+            this.generatePlantUMLComponent(importedComponent, types_1.Context.RELATIONSHIP),
         ];
         return puml.join(" ");
     }

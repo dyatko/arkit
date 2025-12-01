@@ -7,10 +7,7 @@ jest.setTimeout(60000);
 describe("CLI", () => {
   const arkit = path.resolve(__dirname, "../index.js");
   const exec = (command: string): string => {
-    return execSync(command)
-      .toString()
-      .split(__dirname)
-      .join("__dirname");
+    return execSync(command).toString().split(__dirname).join("__dirname");
   };
 
   describe("Options", () => {
@@ -37,7 +34,7 @@ describe("CLI", () => {
         expect({
           blksize: stat.blksize,
           blocks: stat.blocks,
-          size: stat.size
+          size: stat.size,
         }).toMatchSnapshot();
       });
 
@@ -87,7 +84,7 @@ describe("CLI", () => {
 
         process.chdir(dir);
         expect(
-          exec(`${arkit} -o puml -e "app/components/**"`)
+          exec(`${arkit} -o puml -e "app/components/**"`),
         ).toMatchSnapshot();
       });
     });

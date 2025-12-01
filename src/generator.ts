@@ -5,7 +5,7 @@ import {
   array,
   match,
   verifyComponentFilters,
-  info
+  info,
 } from "./utils";
 import {
   ComponentFilters,
@@ -17,7 +17,7 @@ import {
   Components,
   EMPTY_LAYER,
   Layers,
-  ConfigBase
+  ConfigBase,
 } from "./types";
 
 export class Generator {
@@ -32,7 +32,7 @@ export class Generator {
   generate(output: OutputSchema): Layers {
     info("Generating components...");
     const components = this.sortComponentsByName(
-      this.resolveConflictingComponentNames(this.generateComponents(output))
+      this.resolveConflictingComponentNames(this.generateComponents(output)),
     );
     trace(Array.from(components.values()));
 
@@ -52,7 +52,7 @@ export class Generator {
           const name = this.getComponentName(filepath, schema);
           const file = this.files[filename];
           const imports = Object.keys(file.imports);
-          const isClass = file.exports.some(exp => !!exp.match(/^[A-Z]/));
+          const isClass = file.exports.some((exp) => !!exp.match(/^[A-Z]/));
 
           components.set(filename, {
             name,
@@ -61,13 +61,13 @@ export class Generator {
             isClass,
             isImported: false,
             type: schema.type,
-            layer: EMPTY_LAYER
+            layer: EMPTY_LAYER,
           });
         }
 
         return components;
       },
-      new Map() as Components
+      new Map() as Components,
     );
 
     for (const component of components.values()) {
@@ -84,14 +84,14 @@ export class Generator {
 
   protected generateLayers(
     output: OutputSchema,
-    allComponents: Components
+    allComponents: Components,
   ): Layers {
     const groups = array(output.groups) || [{}];
     const ungroupedComponents: Components = new Map(allComponents);
     const grouppedComponents = new Map<string, Component>();
     const layers: Layers = new Map();
 
-    groups.forEach(group => {
+    groups.forEach((group) => {
       const layerType = group.type || EMPTY_LAYER;
 
       if (!layers.has(layerType)) {
@@ -103,7 +103,7 @@ export class Generator {
           return verifyComponentFilters(
             group,
             component,
-            this.config.directory
+            this.config.directory,
           );
         })
         .forEach(([filename, component]) => {
@@ -129,7 +129,7 @@ export class Generator {
         this.collectImportedFilenames(
           component,
           grouppedComponents,
-          filenamesFromFirstComponents
+          filenamesFromFirstComponents,
         );
       }
     }
@@ -161,20 +161,20 @@ export class Generator {
   private collectImportedFilenames(
     component: Component,
     components: Components,
-    filenames: Set<string>
+    filenames: Set<string>,
   ) {
     if (filenames.has(component.filename)) return;
 
     filenames.add(component.filename);
 
     if (!component.last) {
-      component.imports.forEach(importedFilename => {
+      component.imports.forEach((importedFilename) => {
         const importedComponent = components.get(importedFilename);
         if (importedComponent) {
           this.collectImportedFilenames(
             importedComponent,
             components,
-            filenames
+            filenames,
           );
         }
       });
@@ -184,7 +184,7 @@ export class Generator {
   }
 
   protected resolveConflictingComponentNames(
-    components: Components
+    components: Components,
   ): Components {
     const componentsByName: { [name: string]: Component[] } = {};
 
@@ -218,13 +218,13 @@ export class Generator {
   protected sortComponentsByName(components: Components): Components {
     const sortedComponents: Components = new Map(
       Array.from(components.entries()).sort((a, b) =>
-        a[1].name.localeCompare(b[1].name)
-      )
+        a[1].name.localeCompare(b[1].name),
+      ),
     );
 
     for (const component of components.values()) {
       component.imports = component.imports
-        .filter(importedFilename => components.has(importedFilename))
+        .filter((importedFilename) => components.has(importedFilename))
         .sort((a, b) => {
           const componentA = components.get(a)!;
           const componentB = components.get(b)!;
@@ -237,19 +237,19 @@ export class Generator {
 
   protected findComponentSchema(
     output: OutputSchema,
-    filename: string
+    filename: string,
   ): ComponentSchema | undefined {
     const componentSchemas = this.config.final.components as ComponentSchema[];
-    const componentSchema = componentSchemas.find(componentSchema => {
+    const componentSchema = componentSchemas.find((componentSchema) => {
       const outputFilters: ComponentFilters[] = array(output.groups) || [];
       const includedInOutput =
         !outputFilters.length ||
-        outputFilters.some(outputFilter =>
+        outputFilters.some((outputFilter) =>
           verifyComponentFilters(
             outputFilter,
             componentSchema,
-            this.config.directory
-          )
+            this.config.directory,
+          ),
         );
 
       if (includedInOutput) {
@@ -257,7 +257,7 @@ export class Generator {
           !!componentSchema.patterns &&
           match(
             path.relative(this.config.directory, filename),
-            componentSchema.patterns
+            componentSchema.patterns,
           )
         );
       } else {
@@ -274,7 +274,7 @@ export class Generator {
 
   protected getComponentName(
     filename: string,
-    componentConfig: ComponentSchema
+    componentConfig: ComponentSchema,
   ): string {
     const nameFormat = componentConfig.format;
 

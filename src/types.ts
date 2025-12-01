@@ -11,7 +11,7 @@ export interface Layers
 
 export enum Context {
   LAYER,
-  RELATIONSHIP
+  RELATIONSHIP,
 }
 
 export interface Component {

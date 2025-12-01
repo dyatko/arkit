@@ -85,4 +85,3 @@ export declare enum OutputFormat {
     SVG = "svg",
     PNG = "png"
 }
-//# sourceMappingURL=schema.d.ts.map

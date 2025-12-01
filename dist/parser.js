@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Parser = void 0;
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const utils_1 = require("./utils");
@@ -18,20 +19,20 @@ class Parser {
         const progress = new ProgressBar("Parsing :bar", {
             clear: true,
             total: this.fs.folderPaths.length + this.fs.filePaths.length,
-            width: process.stdout.columns
+            width: process.stdout.columns,
         });
-        utils_1.info("Parsing", progress.total, "files");
-        this.fs.folderPaths.forEach(fullPath => {
+        (0, utils_1.info)("Parsing", progress.total, "files");
+        this.fs.folderPaths.forEach((fullPath) => {
             files[fullPath] = { exports: [], imports: {} };
             progress.tick();
         });
-        this.fs.filePaths.forEach(fullPath => {
+        this.fs.filePaths.forEach((fullPath) => {
             try {
                 files[fullPath] = this.parseFile(fullPath);
             }
             catch (e) {
-                utils_1.error(`Error parsing ${fullPath}`);
-                utils_1.trace(e);
+                (0, utils_1.error)(`Error parsing ${fullPath}`);
+                (0, utils_1.trace)(e);
             }
             progress.tick();
         });
@@ -39,14 +40,14 @@ class Parser {
         return files;
     }
     parseFile(fullPath) {
-        utils_1.trace(`Parsing ${fullPath}`);
+        (0, utils_1.trace)(`Parsing ${fullPath}`);
         const sourceFile = this.fs.project.addSourceFileAtPath(fullPath);
         const rootStatements = sourceFile.getStatements();
-        const allStatements = utils_1.getAllStatements(rootStatements);
-        utils_1.debug(fullPath, allStatements.length, "statements");
+        const allStatements = (0, utils_1.getAllStatements)(rootStatements);
+        (0, utils_1.debug)(fullPath, allStatements.length, "statements");
         const exports = this.getExports(sourceFile, rootStatements);
         const imports = this.getImports(sourceFile, allStatements);
-        utils_1.debug("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
+        (0, utils_1.debug)("-", Object.keys(exports).length, "exports", Object.keys(imports).length, "imports");
         this.fs.project.removeSourceFile(sourceFile);
         return { exports, imports };
     }
@@ -63,7 +64,7 @@ class Parser {
                     }
                 }
                 catch (e) {
-                    utils_1.warn(e);
+                    (0, utils_1.warn)(e);
                 }
             }
             else if (ts_morph_1.TypeGuards.isVariableStatement(statement) ||
@@ -86,7 +87,7 @@ class Parser {
                     moduleSpecifier = structure.moduleSpecifier;
                 }
                 catch (e) {
-                    utils_1.warn(e);
+                    (0, utils_1.warn)(e);
                     const brokenLineNumber = statement.getStartLineNumber();
                     const brokenLine = sourceFile.getFullText().split(os_1.EOL)[brokenLineNumber - 1];
                     const moduleSpecifierMatch = TEXT_INSIDE_QUOTES_RE.exec(brokenLine);
@@ -108,10 +109,12 @@ class Parser {
                         sourceFileImports.push(importStructure.defaultImport);
                     }
                     if (importStructure.namedImports instanceof Array) {
-                        sourceFileImports.push(...importStructure.namedImports.map(namedImport => typeof namedImport === "string" ? namedImport : namedImport.name));
+                        sourceFileImports.push(...importStructure.namedImports.map((namedImport) => typeof namedImport === "string"
+                            ? namedImport
+                            : namedImport.name));
                     }
                     if (!sourceFileImports.length && !importStructure.namedImports) {
-                        utils_1.warn("IMPORT", sourceFile.getBaseName(), structure);
+                        (0, utils_1.warn)("IMPORT", sourceFile.getBaseName(), structure);
                     }
                 }
             }
@@ -125,11 +128,11 @@ class Parser {
                 if (ts_morph_1.TypeGuards.isVariableStatement(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        exports.push(...structure.declarations.map(declaration => declaration.name));
+                        exports.push(...structure.declarations.map((declaration) => declaration.name));
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isVariableStatement", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isVariableStatement", statement.getText());
                     }
                 }
                 else if (ts_morph_1.TypeGuards.isInterfaceDeclaration(statement) ||
@@ -143,22 +146,22 @@ class Parser {
                         }
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isInterfaceDeclaration, ...", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isInterfaceDeclaration, ...", statement.getText());
                     }
                 }
                 else if (ts_morph_1.TypeGuards.isFunctionDeclaration(statement)) {
                     try {
                         const structure = statement.getStructure();
-                        utils_1.trace("EXPORT", sourceFile.getBaseName(), structure);
+                        (0, utils_1.trace)("EXPORT", sourceFile.getBaseName(), structure);
                     }
                     catch (e) {
-                        utils_1.warn(e);
-                        utils_1.warn("isFunctionDeclaration", statement.getText());
+                        (0, utils_1.warn)(e);
+                        (0, utils_1.warn)("isFunctionDeclaration", statement.getText());
                     }
                 }
                 else {
-                    utils_1.warn("EXPORT Unknown type", sourceFile.getBaseName(), statement);
+                    (0, utils_1.warn)("EXPORT Unknown type", sourceFile.getBaseName(), statement);
                 }
             }
             return exports;
@@ -167,7 +170,7 @@ class Parser {
     addModule(imports, moduleSpecifier, sourceFile) {
         const modulePath = this.fs.getModulePath(moduleSpecifier, sourceFile);
         if (modulePath) {
-            const folder = utils_1.find(modulePath, this.fs.folderPaths);
+            const folder = (0, utils_1.find)(modulePath, this.fs.folderPaths);
             const realModulePath = folder || modulePath;
             if (!imports[realModulePath]) {
                 imports[realModulePath] = [];
@@ -175,7 +178,7 @@ class Parser {
             return imports[realModulePath];
         }
         else {
-            utils_1.trace("Import not found", sourceFile.getBaseName(), moduleSpecifier);
+            (0, utils_1.trace)("Import not found", sourceFile.getBaseName(), moduleSpecifier);
         }
     }
 }
