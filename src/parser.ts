@@ -17,7 +17,7 @@ import {
   error,
 } from "./utils";
 import { ConfigBase, Exports, File, Files, Imports } from "./types";
-import * as ProgressBar from "progress";
+import ProgressBar from "progress";
 import { FileSystem } from "./filesystem";
 
 const QUOTES = `(?:'|")`;

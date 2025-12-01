@@ -1,4 +1,4 @@
-import * as yargs from "yargs";
+import yargs from "yargs";
 export declare const cli: yargs.Argv<yargs.Omit<{
     directory: string;
 } & {

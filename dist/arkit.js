@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arkit = exports.getOutputs = exports.getConfig = void 0;
 const utils_1 = require("./utils");
@@ -7,7 +10,7 @@ const parser_1 = require("./parser");
 const generator_1 = require("./generator");
 const types_1 = require("./types");
 const cli_1 = require("./cli");
-const ProgressBar = require("progress");
+const progress_1 = __importDefault(require("progress"));
 const puml_1 = require("./puml");
 const converter_1 = require("./converter");
 const getOptions = (options) => {
@@ -40,7 +43,7 @@ const getOutputs = (config) => {
     const generator = new generator_1.Generator(config, files);
     const converter = new converter_1.Converter(config);
     const total = outputs.reduce((total, output) => total + (0, utils_1.array)(output.path).length, outputs.length * 2);
-    const progress = new ProgressBar("Generating :bar", {
+    const progress = new progress_1.default("Generating :bar", {
         total,
         clear: true,
         width: process.stdout.columns,

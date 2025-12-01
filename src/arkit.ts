@@ -4,7 +4,7 @@ import { Parser } from "./parser";
 import { Generator } from "./generator";
 import { Options, OutputFormat, OutputSchema, SavedString } from "./types";
 import { cli } from "./cli";
-import * as ProgressBar from "progress";
+import ProgressBar from "progress";
 import { PUML } from "./puml";
 import { Converter } from "./converter";
 

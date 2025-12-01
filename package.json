@@ -99,6 +99,9 @@
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
     ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(yargs)/)"
+    ],
     "verbose": true
   },
   "eslintIgnore": [

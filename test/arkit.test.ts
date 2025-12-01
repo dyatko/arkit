@@ -1,4 +1,16 @@
 import * as path from "path";
+
+// Mock the cli module to avoid yargs ESM issues in Jest
+jest.mock("../src/cli", () => ({
+  cli: {
+    argv: {
+      directory: ".",
+      config: "arkit.json",
+      output: ["arkit.svg"],
+    },
+  },
+}));
+
 import { arkit } from "../src/arkit";
 import { SavedString } from "../src/types";
 

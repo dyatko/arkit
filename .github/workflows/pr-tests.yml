@@ -49,7 +49,6 @@ jobs:
       
       - name: Run tests with coverage
         run: npm run jest
-        continue-on-error: true
       
       - name: Upload coverage to Codecov
         if: matrix.node-version == '22.x'

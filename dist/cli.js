@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cli = void 0;
-const yargs = require("yargs");
+const yargs_1 = __importDefault(require("yargs"));
+const helpers_1 = require("yargs/helpers");
 const parseDirectory = (directory) => {
     if (directory instanceof Array)
         directory = directory[0];
@@ -10,7 +14,8 @@ const parseDirectory = (directory) => {
 const splitByComma = (value = "") => {
     return value.split(",");
 };
-exports.cli = yargs
+exports.cli = (0, yargs_1.default)((0, helpers_1.hideBin)(process.argv))
+    .scriptName("arkit")
     .usage("$0 [directory]")
     .option("directory", {
     description: "Working directory",

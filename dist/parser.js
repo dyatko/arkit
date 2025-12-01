@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parser = void 0;
 const os_1 = require("os");
 const ts_morph_1 = require("ts-morph");
 const utils_1 = require("./utils");
-const ProgressBar = require("progress");
+const progress_1 = __importDefault(require("progress"));
 const filesystem_1 = require("./filesystem");
 const QUOTES = `(?:'|")`;
 const TEXT_INSIDE_QUOTES = `${QUOTES}([^'"]+)${QUOTES}`;
@@ -16,7 +19,7 @@ class Parser {
     }
     parse() {
         const files = {};
-        const progress = new ProgressBar("Parsing :bar", {
+        const progress = new progress_1.default("Parsing :bar", {
             clear: true,
             total: this.fs.folderPaths.length + this.fs.filePaths.length,
             width: process.stdout.columns,
