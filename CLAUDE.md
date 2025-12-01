@@ -166,6 +166,53 @@ Configuration can also be placed in `package.json` under the `"arkit"` key.
 - **ESLint**: Code linting
 - **Prettier**: Code formatting
 
+### System Dependencies
+- **Java JRE 8+**: Required by PlantUML for diagram rendering
+  - Windows: Download from https://adoptium.net/
+  - macOS: `brew install openjdk`
+  - Linux: `sudo apt-get install default-jre`
+  
+- **GraphViz**: Required by PlantUML for complex diagram layouts (dot command)
+  - Windows: Download from https://graphviz.org/download/
+  - macOS: `brew install graphviz`
+  - Linux: `sudo apt-get install graphviz`
+  
+**Note**: Users can avoid system dependencies by using `--output puml` to generate PlantUML files only, which can be rendered separately.
+
+### Node.js Alternatives to GraphViz (Future Consideration)
+
+While Arkit currently requires system-level GraphViz, there are pure Node.js alternatives that could eliminate this dependency:
+
+1. **@hpcc-js/wasm** (Recommended)
+   - WebAssembly port of Graphviz
+   - No system dependencies required
+   - Actively maintained by HPCC Systems
+   - Drop-in replacement for Graphviz
+   - `npm install @hpcc-js/wasm`
+
+2. **@viz-js/viz**
+   - Modern maintained version of viz.js
+   - Pure JavaScript/WebAssembly
+   - Smaller bundle size than @hpcc-js/wasm
+   - `npm install @viz-js/viz`
+
+3. **Viz.js** (Legacy)
+   - Original Emscripten port of Graphviz
+   - No longer actively maintained
+   - Still widely used but consider alternatives
+
+**Implementation Note**: To use these alternatives with `node-plantuml`, you would need to:
+- Install the WebAssembly GraphViz package
+- Configure PlantUML to use the JS-based renderer instead of system `dot` command
+- This would require modifications to `src/converter.ts` and potentially switching from `node-plantuml` to a custom PlantUML integration
+
+**Trade-offs**:
+- ✅ Eliminates system dependency (easier installation)
+- ✅ Better cross-platform compatibility
+- ❌ Larger npm package size (WASM bundles are ~10-20MB)
+- ❌ May have slightly slower performance for very large diagrams
+- ❌ Requires additional implementation work
+
 ## Important Notes
 
 ### Local PlantUML Conversion
