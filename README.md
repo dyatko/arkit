@@ -13,32 +13,50 @@
 
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
 
-- Associates source files with configured architectural components
-- Renders grouped components and dependency graph including Node.js modules
-- Supports JavaScript, TypeScript and Flow source code and Vue/Nuxt
-- Exports codebase architecture visualisation as SVG, PNG or Plant UML diagram
-- Integrates into development flow, so your CI, VCS, README and PRs are happy
+Arkit is a powerful static analysis tool that automatically generates visual architecture diagrams from your codebase, making it easy to understand and communicate software structure.
 
-## Usage
+## Key Features
+
+- **Automatic Code Analysis**: Analyzes JavaScript, TypeScript, Flow, Vue, and Nuxt source files
+- **Component Grouping**: Associates source files with configured architectural components
+- **Dependency Visualization**: Renders grouped components and dependency graph including Node.js modules
+- **Multiple Export Formats**: Exports as SVG, PNG, or PlantUML diagrams
+- **CI/CD Integration**: Integrates seamlessly into development flow for automated documentation
+- **Configurable**: Flexible configuration via CLI arguments or JSON/JS config files
+- **Real-time Updates**: Keep architecture diagrams synchronized with code changes
+
+## Quick Start
 
 ```sh
-# Run arkit straight away
+# Run arkit instantly without installation
 npx arkit
+```
 
-# Or add it to your project as a dev dependency
+This will analyze your current directory and generate an `arkit.svg` diagram showing your project's architecture.
+
+## Installation
+
+```sh
+# Add as a dev dependency to your project
 npm install arkit --save-dev
+# or
 yarn add arkit --dev
 ```
 
+## Usage Examples
+
 ```sh
-# Run arkit against your source folder and save result as SVG
+# Generate SVG diagram from source folder
 npx arkit src/ -o arkit.svg
 
-# You can also specify source files to start from and output format
+# Specify entry files and output format (PlantUML)
 npx arkit -f src/main.js -o puml
 
-# And get some more with debugging and file exclusions
+# Enable debugging and exclude specific paths
 LEVEL=info npx arkit -e "node_modules,test,dist,coverage" -o puml
+
+# Generate both SVG and PNG
+npx arkit -o arkit.svg && npx arkit -o arkit.png
 ```
 
 :warning: Arkit is using a web service to convert PlantUML to SVG/PNG. 
