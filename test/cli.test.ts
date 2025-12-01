@@ -128,7 +128,9 @@ describe("CLI", () => {
         process.chdir(dir);
         exec(arkit);
 
-        expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot();
+        expect(
+          normalizeSvg(fs.readFileSync(svgPath).toString()),
+        ).toMatchSnapshot();
       });
     });
   });
@@ -144,7 +146,9 @@ describe("CLI", () => {
         process.chdir(dir);
         exec(`${arkit} -c react-arkit.json`);
 
-        expect(fs.readFileSync(svgPath).toString()).toMatchSnapshot();
+        expect(
+          normalizeSvg(fs.readFileSync(svgPath).toString()),
+        ).toMatchSnapshot();
       });
     });
   });
