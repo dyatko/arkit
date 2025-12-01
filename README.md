@@ -8,7 +8,6 @@
   <a href="https://libraries.io/npm/arkit/dependents"><img src="https://img.shields.io/librariesio/dependents/npm/arkit.svg?style=flat-square" alt="Dependents" /></a>
   <a href="https://github.com/dyatko/arkit/actions/workflows/pr-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/dyatko/arkit/pr-tests.yml?branch=master&style=flat-square" alt="CI Status" /></a>
   <a href="https://codecov.io/gh/dyatko/arkit"><img src="https://img.shields.io/codecov/c/github/dyatko/arkit?style=flat-square" alt="Test coverage" /></a>
-  <a href="https://codeclimate.com/github/dyatko/arkit/issues"><img src="https://img.shields.io/codeclimate/tech-debt/dyatko/arkit.svg?style=flat-square" alt="Technical debt" /></a>
 </p>
 
 # Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams
