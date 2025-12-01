@@ -166,11 +166,29 @@ class Converter {
                 // Use PlantUML to generate the requested format (svg or png)
                 const output = yield new Promise((resolve, reject) => {
                     const chunks = [];
+                    const errorChunks = [];
                     const gen = plantuml.generate(puml, {
                         format: format,
                     });
                     gen.out.on("data", (chunk) => chunks.push(chunk));
-                    gen.out.on("end", () => resolve(Buffer.concat(chunks)));
+                    gen.out.on("end", () => {
+                        let result = Buffer.concat(chunks);
+                        // If SVG, check for multiple XML declarations (PlantUML error output)
+                        // and keep only the first complete SVG document
+                        if (format === "svg") {
+                            const svgString = result.toString();
+                            const firstSvgEnd = svgString.indexOf("</svg>");
+                            if (firstSvgEnd !== -1) {
+                                const secondXmlStart = svgString.indexOf('<?xml version="1.0"', firstSvgEnd);
+                                if (secondXmlStart !== -1) {
+                                    // Multiple SVG documents found, keep only the first one
+                                    result = Buffer.from(svgString.substring(0, firstSvgEnd + 6));
+                                    (0, logger_1.debug)(`Filtered duplicate PlantUML output (error SVG), kept first ${result.length} bytes`);
+                                }
+                            }
+                        }
+                        resolve(result);
+                    });
                     gen.out.on("error", reject);
                 });
                 (0, logger_1.debug)(`Successfully generated ${format} using WASM backend, size: ${output.length} bytes`);
