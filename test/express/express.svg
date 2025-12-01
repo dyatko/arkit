@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="227px" preserveAspectRatio="none" style="width:381px;height:227px;" version="1.1" viewBox="0 0 381 227" width="381px" zoomAndPan="magnify"><defs/><g><ellipse cx="227.0477" cy="47.242" fill="#F8F8F8" rx="47.5477" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="63" x="195.5477" y="50.9842">application</text><ellipse cx="45.7696" cy="47.242" fill="#F8F8F8" rx="39.7696" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="52" x="19.7696" y="50.9842">express</text><ellipse cx="216.9178" cy="98.9342" fill="#F8F8F8" rx="15.4178" ry="12.9342" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="17" x="208.4178" y="102.6764">init</text><ellipse cx="71.0919" cy="203.242" fill="#F8F8F8" rx="22.0919" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="27" x="57.5919" y="206.9842">layer</text><ellipse cx="159.9203" cy="99.242" fill="#F8F8F8" rx="24.9203" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="31" x="144.4203" y="102.9842">query</text><ellipse cx="132.9056" cy="47.242" fill="#F8F8F8" rx="33.4056" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="43" x="111.4056" y="50.9842">request</text><ellipse cx="329.1838" cy="47.242" fill="#F8F8F8" rx="41.1838" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="302.1838" y="50.9842">response</text><ellipse cx="49.2132" cy="151.242" fill="#F8F8F8" rx="24.2132" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="30" x="34.2132" y="154.9842">route</text><ellipse cx="93.0416" cy="99.242" fill="#F8F8F8" rx="27.0416" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="34" x="76.0416" y="102.9842">router</text><ellipse cx="326.9706" cy="99.242" fill="#F8F8F8" rx="19.9706" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="24" x="314.9706" y="102.9842">utils</text><ellipse cx="266.1777" cy="99.242" fill="#F8F8F8" rx="20.6777" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="25" x="253.6777" y="102.9842">view</text><!--MD5=[f65be266b6b2e39d4be7a5d6e6903414]
+link application to init--><path d="M224.579,60.104 C223.326,66.368 221.776,74.12 220.404,80.978 " fill="none" id="application-&gt;init" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="219.398,86.008,225.0845,77.9666,220.378,81.105,217.2396,76.3986,219.398,86.008" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f5f018c637e7f5ea50811ad5295b4114]
+link application to query--><path d="M211.797,59.346 C201.708,66.875 188.425,76.787 177.836,84.689 " fill="none" id="application-&gt;query" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="173.776,87.72,183.3809,85.5414,177.7827,84.7289,178.5952,79.1307,173.776,87.72" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[69b0b92125cfa37fcdf332d79ad15f1f]
+link application to router--><path d="M200.526,57.878 C176.6,66.806 141.63,79.854 118.13,88.623 " fill="none" id="application-&gt;router" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="113.297,90.426,123.1274,91.0286,117.9818,88.6787,120.3317,83.533,113.297,90.426" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[6dac6e700f3c0a41612178a5b4456aca]
+link application to utils--><path d="M248.699,58.849 C266.131,67.565 290.406,79.703 307.289,88.144 " fill="none" id="application-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="311.843,90.421,305.582,82.8184,307.3709,88.1849,302.0043,89.9738,311.843,90.421" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f6057ff1da20de5a82853c838f202404]
+link application to view--><path d="M236.242,59.849 C241.64,66.769 248.503,75.568 254.278,82.972 " fill="none" id="application-&gt;view" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="257.358,86.921,254.9763,77.3645,254.2827,82.9786,248.6685,82.285,257.358,86.921" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[9e29852929e9dcabcf6f8b54fa755a0e]
+link <b>express</b> to application--><path d="M64.5375,35.409 C74.496,29.863 87.222,23.825 99.5,21 C128.519,14.322 137.333,14.998 166.5,21 C178.25,23.418 190.532,28.222 200.935,33.049 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;application" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="205.575,35.261,199.1723,27.7773,201.0616,33.1093,195.7296,34.9987,205.575,35.261" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[b9551749bfa82e8e8ff53d79a226d83c]
+link <b>express</b> to query--><path d="M68.5227,57.878 C88.3468,66.573 117.083,79.177 137.037,87.929 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;query" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="141.658,89.955,135.0223,82.6771,137.079,87.9469,131.8093,90.0036,141.658,89.955" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[ecd0dea8a10c261a2035c68b39f11610]
+link <b>express</b> to request--><path d="M86.1016,47 C88.7121,47 91.3227,47 93.9332,47 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;request" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="99.2917,47,90.2917,43,94.2917,47,90.2917,51,99.2917,47" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[2863eaa87aa33048ba775b52e8db5986]
+link <b>express</b> to response--><path d="M64.5375,35.409 C74.496,29.863 87.222,23.825 99.5,21 C175.297,3.557 198.641,3.832 274.5,21 C285.22,23.426 296.301,28.226 305.648,33.048 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;response" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="310.089,35.407,304.0174,27.6523,305.6734,33.0613,300.2643,34.7173,310.089,35.407" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[775b14db6709f75a9fac5aac1e74ef68]
+link <b>express</b> to route--><path d="M46.3559,60.101 C46.8859,78.122 47.8851,112.095 48.4919,132.7245 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;route" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="48.6445,137.9145,52.3779,128.8007,48.4974,132.9167,44.3814,129.0361,48.6445,137.9145" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[19de29cc6105727bd104a1737b33203b]
+link <b>express</b> to router--><path d="M56.9009,59.597 C63.399,66.51 71.7218,75.364 78.738,82.828 " fill="none" id="&lt;b&gt;express&lt;/b&gt;-&gt;router" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="82.4815,86.81,79.2302,77.5133,79.0563,83.1674,73.4022,82.9935,82.4815,86.81" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[cc61fb0b23b7ac461e73e430530c4b64]
+link response to utils--><path d="M328.516,60.104 C328.274,66.155 327.976,73.594 327.709,80.275 " fill="none" id="response-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="327.494,85.661,331.8483,76.827,327.6926,80.6649,323.8546,76.5092,327.494,85.661" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[e98fa5271b257df5e7c1c2dacb1312da]
+link route to layer--><path d="M54.2137,163.8493 C57.0631,170.3253 60.6367,178.447 63.7535,185.5306 " fill="none" id="route-&gt;layer" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="65.8237,190.2358,65.8603,180.387,63.81,185.6592,58.5378,183.6089,65.8237,190.2358" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[003e487444f943aa50d88832eef51573]
+link router to layer--><path d="M90.3899,112.101 C86.4866,130.1984 79.1132,164.3841 74.6694,184.9871 " fill="none" id="router-&gt;layer" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="73.6067,189.9145,79.4143,181.9601,74.6609,185.0269,71.5941,180.2735,73.6067,189.9145" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[70aee2be56aa2196b0289e783c4a27a6]
+link router to route--><path d="M82.7949,111.597 C76.7116,118.5095 68.92,127.3636 62.3517,134.8276 " fill="none" id="router-&gt;route" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="58.8471,138.8102,67.7956,134.6963,62.1502,135.0566,61.7899,129.4113,58.8471,138.8102" style="stroke: #000000; stroke-width: 0.5;"/><script type="text/plantuml"><![CDATA[MD5=[e727c60a115096e97ac5c812141cd394]
+@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam nodesep 13
+skinparam ranksep 26
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(application)
+(<b>express</b>)
+(init)
+(layer)
+(query)
+(request)
+(response)
+(route)
+(router)
+(utils)
+(view)
+
+
+(application) --> (init)
+(application) --> (query)
+(application) --> (router)
+(application) --> (utils)
+(application) --> (view)
+(<b>express</b>) -[thickness=1]> (application)
+(<b>express</b>) -[thickness=1]> (query)
+(<b>express</b>) -[thickness=1]> (request)
+(<b>express</b>) -[thickness=1]> (response)
+(<b>express</b>) -[thickness=1]> (route)
+(<b>express</b>) -[thickness=1]> (router)
+(response) --> (utils)
+(route) --> (layer)
+(router) --> (layer)
+(router) --> (route)
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>

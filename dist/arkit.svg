@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="401px" preserveAspectRatio="none" style="width:782px;height:401px;" version="1.1" viewBox="0 0 782 401" width="782px" zoomAndPan="magnify"><defs/><g><!--MD5=[a6f11bb19cee6b13000111f5ad685e8b]
+cluster Dependencies--><path d="M157,306 L251,306 A4.5,4.5 0 0 1 254,309 L261,326.4844 L767,326.4844 A3,3 0 0 1 770,329.4844 L770,386 A3,3 0 0 1 767,389 L157,389 A3,3 0 0 1 154,386 L154,309 A3,3 0 0 1 157,306 " fill="#FFFFFF" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="154" x2="261" y1="326.4844" y2="326.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="94" x="158" y="320.0059">Dependencies</text><!--MD5=[a71e3188fc52cc8401259d95822f0449]
+entity nanomatch--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="85" x="236.5" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="231.5" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="231.5" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="65" x="246.5" y="361.0059">nanomatch</text><!--MD5=[c0cd64a1b408ece1273c15cbb42ecb48]
+entity pino--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="45" x="336.5" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="331.5" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="331.5" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="25" x="346.5" y="361.0059">pino</text><!--MD5=[63a986ea2eddc5539a0918540cb05aed]
+entity progress--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="71" x="682.5" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="677.5" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="677.5" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="51" x="692.5" y="361.0059">progress</text><!--MD5=[d76b2dd879d6a5e1d9735431d93b83eb]
+entity resolve--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="62" x="397" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="392" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="392" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="407" y="361.0059">resolve</text><!--MD5=[8ffd63cd11e23cfee4a642a984dbf6af]
+entity ts-morph--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="73" x="474.5" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="469.5" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="469.5" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="484.5" y="361.0059">ts-morph</text><!--MD5=[5da68f6e6052c57b10c9d31d160c217f]
+entity tsconfig-paths--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="104" x="563" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="558" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="558" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="84" x="573" y="361.0059">tsconfig-paths</text><!--MD5=[3422ac39ab4b1519bcf537fd476080e9]
+entity yargs--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #383838; stroke-width: 1.0;" width="51" x="170.5" y="339"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="165.5" y="344"/><rect fill="#F8F8F8" height="5" style="stroke: #383838; stroke-width: 1.0;" width="10" x="165.5" y="363.4844"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="31" x="180.5" y="361.0059">yargs</text><ellipse cx="230.0061" cy="25.242" fill="#F8F8F8" rx="23.5061" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="29" x="215.5061" y="28.9842">arkit</text><ellipse cx="20.1446" cy="208.9157" fill="#F8F8F8" rx="14.1446" ry="11.9157" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="13" x="13.6446" y="212.6579">cli</text><!--MD5=[9b175bf41d9031fc73b2d23114484617]
+entity _config--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="56" x="202" y="72"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="212" y="94.0059">config</text><!--MD5=[596069b5d1c03d992244e8df7b78e7fa]
+entity _converter--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="74" x="304" y="72"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="314" y="94.0059">converter</text><!--MD5=[87e5f189758f188e992f835c2ae5b802]
+entity _filesystem--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="79" x="455.5" y="72"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="59" x="465.5" y="94.0059">filesystem</text><!--MD5=[bfa94df0d4ceea2318174c906ec62bd3]
+entity _generator--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="75" x="111.5" y="72"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="55" x="121.5" y="94.0059">generator</text><ellipse cx="211.2487" cy="273.242" fill="#F8F8F8" rx="27.7487" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="35" x="193.7487" y="276.9842">index</text><ellipse cx="383.9558" cy="209.242" fill="#F8F8F8" rx="28.4558" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="365.9558" y="212.9842">logger</text><!--MD5=[a33901bb4370b10c1cb4e380a1b2276e]
+entity _parser--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="56" x="435" y="8"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="445" y="30.0059">parser</text><!--MD5=[27f363bce3ef1a6c4c9472d222d45cf6]
+entity _puml--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="48" x="48" y="72"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="28" x="58" y="94.0059">puml</text><!--MD5=[48d5f9b8cc26619de48164ae0fd9e780]
+entity _schema--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="66" x="102" y="256"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="46" x="112" y="278.0059">schema</text><!--MD5=[0190f419ef54fc162964943b68b4f170]
+entity _types--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="51" x="182.5" y="192"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="31" x="192.5" y="214.0059">types</text><ellipse cx="312.9706" cy="149.242" fill="#F8F8F8" rx="19.9706" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="24" x="300.9706" y="152.9842">utils</text><!--MD5=[4973c389aa2c377c15e818329c82b098]
+link <b>arkit</b> to cli--><path d="M206.772,27.863 C158.72,32.235 50.9577,44.899 28,72 C-0.9517,106.176 8.5526,164.212 15.4607,192.104 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;cli" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="16.7955,197.265,18.4129,187.5498,15.5427,192.4245,10.668,189.5543,16.7955,197.265" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[3ef4cd0402f24cf9e1de39667c3ecb3f]
+link <b>arkit</b> to _config--><path d="M230,38.249 C230,46.348 230,57.183 230,66.673 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_config" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="230,71.781,234,62.781,230,66.781,226,62.781,230,71.781" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[7e72266f040ccf1607d790f530e45289]
+link <b>arkit</b> to _converter--><path d="M245.904,34.883 C261.954,43.848 287.224,57.963 307.681,69.39 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_converter" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="312.234,71.933,306.3264,64.0526,307.8685,69.4952,302.426,71.0373,312.234,71.933" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[8097374f7142548b7a890ead09ee56fe]
+link <b>arkit</b> to _generator--><path d="M216.986,35.961 C205.557,44.709 188.599,57.69 174.479,68.497 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_generator" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="170.197,71.775,179.7745,69.4791,174.1668,68.7352,174.9108,63.1274,170.197,71.775" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[38738d36366e95da585b7000f564045b]
+link <b>arkit</b> to _parser--><path d="M253.664,25 C312.27,25 370.876,25 429.482,25 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_parser" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="434.789,25,425.789,21,429.789,25,425.789,29,434.789,25" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[a6c99bc27f8a5df501f6deb953cc1206]
+link <b>arkit</b> to progress--><path d="M252.81,28.248 C320.625,35.083 517.791,56.125 542,72 C554.876,80.443 668.052,270.557 705.804,334.3458 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;progress" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="708.389,338.7161,707.2487,328.9335,705.8429,334.4129,700.3635,333.0072,708.389,338.7161" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[5fd153b349494263d8e7f4f2216a3c65]
+link <b>arkit</b> to _puml--><path d="M210.521,32.343 C185.533,40.655 140.998,56.058 104,72 C103.0588,72.406 102.106,72.825 101.147,73.256 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_puml" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="96.3252,75.48,106.1731,75.3413,100.8652,73.3851,102.8213,68.0773,96.3252,75.48" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[4191f6fd6e40dd5b341ae5ab34913be2]
+link <b>arkit</b> to _types--><path d="M206.971,28.088 C161.015,32.783 60.5662,45.86 40,72 C-5.5899,129.944 117.757,179.055 177.582,198.759 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;_types" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="182.472,200.351,175.1515,193.7623,177.7174,198.8038,172.676,201.3696,182.472,200.351" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[5d007d3b1824d14964ea8f19f3e5cec4]
+link <b>arkit</b> to utils--><path d="M253.707,25.046 C288.993,25.081 354.444,31.059 385,72 C394.038,84.11 392.526,92.897 385,106 C379.253,116.007 352.722,129.846 333.535,138.859 " fill="none" id="&lt;b&gt;arkit&lt;/b&gt;-&gt;utils" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="328.832,141.041,338.6796,140.8819,333.3676,138.9367,335.3128,133.6248,328.832,141.041" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[a56170b3d48935c4d3b22f4ab35cf5f6]
+link cli to yargs--><path d="M27.3117,219.36 C39.8769,235.087 66.8458,267.32 94,290 C116.569,308.8503 144.969,326.5279 166.067,338.675 " fill="none" id="cli-&gt;yargs" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="170.453,341.1816,164.6225,333.244,166.1115,338.7014,160.6541,340.1904,170.453,341.1816" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[18c9d18ff7c5b344df0fa5f9cb40db42]
+link _config to _types--><path d="M226.941,106.407 C223.033,127.366 216.263,163.68 211.964,186.74 " fill="none" id="_config-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="211.033,191.732,216.6135,183.6167,211.9487,186.8166,208.7488,182.1517,211.033,191.732" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[351f68a5f896d67f539cead901abd720]
+link _config to utils--><path d="M253.12,106.156 C266.62,115.59 283.371,127.296 295.72,135.925 " fill="none" id="_config-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="300.057,138.955,294.9712,130.5208,295.9586,136.0909,290.3886,137.0782,300.057,138.955" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[c9657907db6ff79fce239197463be672]
+link _converter to logger--><path d="M346.979,106.407 C355.131,128.779 369.659,168.647 377.883,191.214 " fill="none" id="_converter-&gt;logger" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="379.635,196.022,380.3106,186.1963,377.9225,191.3244,372.7944,188.9363,379.635,196.022" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[fc162100910514425fff6944e35fc2d8]
+link _converter to _types--><path d="M320.783,106.086 C310.019,114.781 296.637,125.798 285,136 C265.335,153.239 243.633,173.665 228.295,188.35 " fill="none" id="_converter-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="224.538,191.954,233.802,188.6105,228.1463,188.4928,228.264,182.8372,224.538,191.954" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[61d1a339dcb5d9c1f41aeaef7d739cc0]
+link _converter to utils--><path d="M333.2,106.156 C329.395,114.039 324.823,123.51 320.992,131.445 " fill="none" id="_converter-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="318.716,136.16,326.2299,129.7928,320.889,131.6569,319.0249,126.316,318.716,136.16" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[0ed876bbe3cff773d614e1e8d04ba7d9]
+link _filesystem to logger--><path d="M472.528,106.067 C461.564,114.406 448.509,125.111 438,136 C420.988,153.627 404.56,176.668 394.381,191.881 " fill="none" id="_filesystem-&gt;logger" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="391.429,196.336,399.7361,191.0453,394.1919,192.1687,393.0685,186.6246,391.429,196.336" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[a3cb2900d233dd20d6fe2b1cf7508165]
+link _filesystem to resolve--><path d="M490.91,106.178 C479.346,151.917 446.411,282.182 433.391,333.6768 " fill="none" id="_filesystem-&gt;resolve" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="432.122,338.697,438.2063,330.9523,433.3478,333.8496,430.4505,328.991,432.122,338.697" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[24e3fd6873b45d5741aef9beafd9834e]
+link _filesystem to _schema--><path d="M485.792,106.144 C480.791,114.95 474.518,126.053 469,136 C446.905,175.826 457.659,200.386 420,226 C329.656,287.448 281.94,229.265 176,256 C175.055,256.238 174.103,256.493 173.146,256.761 " fill="none" id="_filesystem-&gt;_schema" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="168.34,258.206,178.1106,259.4448,173.1282,256.7661,175.8068,251.7837,168.34,258.206" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[98819f9f4add06b3b80a5ab485f70b86]
+link _filesystem to ts-morph--><path d="M495.977,106.178 C498.738,151.917 506.603,282.182 509.713,333.6768 " fill="none" id="_filesystem-&gt;ts-morph" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="510.016,338.697,513.4662,329.4722,509.7146,333.7061,505.4808,329.9545,510.016,338.697" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[63d7708099e3394480946b991f7f0f8a]
+link _filesystem to tsconfig-paths--><path d="M502.326,106.178 C523.08,152.009 582.264,282.708 605.485,333.9879 " fill="none" id="_filesystem-&gt;tsconfig-paths" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="607.618,338.697,607.5488,328.8484,605.5553,334.1423,600.2613,332.1488,607.618,338.697" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[29fc7cb263c8a986e59895fafbf2618c]
+link _filesystem to _types--><path d="M462.757,106.124 C431.689,121.385 383.172,144.501 340,162 C305.699,175.903 265.42,189.566 238.459,198.341 " fill="none" id="_filesystem-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="233.584,199.922,243.3787,200.953,238.3405,198.3808,240.9128,193.3426,233.584,199.922" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f8d8a2b83cdbee1bf0f4ba02f327bf22]
+link _filesystem to utils--><path d="M455.254,102.236 C451.117,103.508 446.973,104.781 443,106 C399.454,119.365 388.124,121.329 345,136 C341.524,137.182 337.859,138.494 334.3,139.804 " fill="none" id="_filesystem-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="329.539,141.576,339.369,142.1849,334.2249,139.8317,336.5781,134.6875,329.539,141.576" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[c454013af6cb5178a340d0b9287c02c6]
+link _generator to _types--><path d="M157.204,106.407 C167.727,127.455 185.993,163.986 197.515,187.03 " fill="none" id="_generator-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="199.866,191.732,199.4188,181.8933,197.6299,187.2599,192.2634,185.471,199.866,191.732" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[b9fac3aebaefdaeea982719c5caf3df9]
+link _generator to utils--><path d="M186.809,103.45 C189.242,104.314 191.655,105.169 194,106 C227.933,118.021 267.33,131.913 291.198,140.322 " fill="none" id="_generator-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="296.048,142.031,288.8886,135.2676,291.3321,140.3695,286.2302,142.813,296.048,142.031" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[da4bbf343560df7839df82a1a3559676]
+link <b>index</b> to yargs--><path d="M208.722,286.302 C206.38,298.946 202.691,318.8705 199.887,334.0127 " fill="none" id="&lt;b&gt;index&lt;/b&gt;-&gt;yargs" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="198.973,338.9471,204.5453,330.8262,199.8837,334.0307,196.6792,329.3691,198.973,338.9471" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[468e2e1e074ba5023716eba1760428d1]
+link logger to pino--><path d="M381.869,222.363 C377.605,247.094 367.98,302.918 362.677,333.6741 " fill="none" id="logger-&gt;pino" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="361.802,338.7493,367.2731,330.5599,362.6516,333.822,359.3894,329.2005,361.802,338.7493" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f1e53fc1dea015a30eab6e1e446d89a6]
+link _parser to _filesystem--><path d="M471.408,42.29 C475.272,49.777 479.906,58.755 484.039,66.764 " fill="none" id="_parser-&gt;_filesystem" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="486.537,71.604,485.9641,61.7718,484.244,67.1608,478.855,65.4407,486.537,71.604" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[2a0eb8f5257b765efc105a9918f3a3f4]
+link _parser to progress--><path d="M491.285,29.015 C549.225,36.921 676,63.835 676,148 C676,148 676,148 676,210 C676,255.834 695.6,306.7141 708.022,334.3564 " fill="none" id="_parser-&gt;progress" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="710.1,338.9151,710.0063,329.0667,708.0259,334.3656,702.727,332.3852,710.1,338.9151" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[eaee9194cde86e4dba5cce260119b667]
+link _parser to ts-morph--><path d="M491.316,34.359 C509.3,41.301 531.163,53.15 542,72 C591.775,158.582 543.663,284.793 521.178,334.1345 " fill="none" id="_parser-&gt;ts-morph" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="518.957,338.9415,526.3632,332.4493,521.0543,334.4026,519.101,329.0937,518.957,338.9415" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[5f92b096f1964618f4d35e1885e72196]
+link _parser to _types--><path d="M434.951,27.67 C399.472,31.046 337.957,41.238 296,72 C274.815,87.532 237.688,152.817 219.167,186.972 " fill="none" id="_parser-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="216.573,191.775,224.3687,185.7561,218.9485,187.3754,217.3292,181.9552,216.573,191.775" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[a75add013ca82fc82481878bfd4e3641]
+link _parser to utils--><path d="M453.398,42.215 C442.339,59.779 422.741,87.732 400,106 C389.242,114.642 356.367,129.528 334.254,139.059 " fill="none" id="_parser-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="329.436,141.125,339.284,141.2519,334.0308,139.1533,336.1294,133.9001,329.436,141.125" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[0b11a76e76c7e435b874dbc72abb77e2]
+link _puml to _schema--><path d="M77.5908,106.151 C88.9858,139.07 114.894,213.916 127.64,250.738 " fill="none" id="_puml-&gt;_schema" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="129.422,255.885,130.2608,246.0719,127.7878,251.1596,122.7002,248.6866,129.422,255.885" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[1cd7a194fad6e583d98284dd9e7ad5ce]
+link _puml to _types--><path d="M90.6251,106.16 C115.309,127.577 158.827,165.335 185.374,188.369 " fill="none" id="_puml-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="189.163,191.657,184.9864,182.7376,185.3863,188.3803,179.7436,188.7802,189.163,191.657" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[33d3eea4709a8b567280e9efd5c81c20]
+link _puml to utils--><path d="M96.1715,102.917 C98.7739,104.056 101.4154,105.112 104,106 C168.65,128.215 248.81,140.238 288.443,145.211 " fill="none" id="_puml-&gt;utils" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="293.531,145.839,285.0893,140.7658,288.5687,145.226,284.1085,148.7055,293.531,145.839" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[c9602602a4a319a2655ab3a7f1f5377e]
+link _types to _schema--><path d="M188.82,226.29 C179.348,234.335 167.849,244.101 157.916,252.537 " fill="none" id="_types-&gt;_schema" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="154.052,255.819,163.5011,253.0416,157.863,252.5823,158.3223,246.9441,154.052,255.819" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[73cb47c51127de574fdb5397cdc244a0]
+link utils to logger--><path d="M324.724,159.578 C336.146,168.908 353.646,183.204 366.674,193.846 " fill="none" id="utils-&gt;logger" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="370.562,197.022,366.123,188.2302,366.6899,193.8586,361.0616,194.4256,370.562,197.022" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[d38b201016fba965bf2b066d18cd9a0b]
+link utils to nanomatch--><path d="M310.975,162.21 C305.37,196.004 289.6,291.089 282.519,333.782 " fill="none" id="utils-&gt;nanomatch" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="281.7,338.7212,287.1191,330.4972,282.5183,333.7886,279.2269,329.1879,281.7,338.7212" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[f8e0fe0ac68fce3f86c399a94539086c]
+link utils to ts-morph--><path d="M316.138,162.032 C320.834,178.142 331.003,206.902 348,226 C388.844,271.893 420.023,257.251 466,298 C478.101,308.725 489.371,323.0098 497.606,334.5959 " fill="none" id="utils-&gt;ts-morph" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="500.499,338.7307,498.6177,329.0632,497.6329,334.6337,492.0625,333.6489,500.499,338.7307" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[e5765284aad8fb6834ca7645c6428beb]
+link utils to _types--><path d="M298.4,158.065 C282.893,166.63 257.941,180.414 238.176,191.331 " fill="none" id="utils-&gt;_types" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="233.787,193.756,243.599,192.9044,238.1634,191.3379,239.7299,185.9022,233.787,193.756" style="stroke: #000000; stroke-width: 0.5;"/><script type="text/plantuml"><![CDATA[MD5=[176df32a7288658719bca40f20e13aca]
+@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam nodesep 15
+skinparam ranksep 30
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(<b>arkit</b>)
+(cli)
+rectangle "config" as _config
+rectangle "converter" as _converter
+rectangle "filesystem" as _filesystem
+rectangle "generator" as _generator
+(<b>index</b>)
+(logger)
+rectangle "parser" as _parser
+rectangle "puml" as _puml
+rectangle "schema" as _schema
+rectangle "types" as _types
+(utils)
+
+package "Dependencies" {
+  [nanomatch]
+  [pino]
+  [progress]
+  [resolve]
+  [ts-morph]
+  [tsconfig-paths]
+  [yargs]
+}
+
+(<b>arkit</b>) -[thickness=1]> (cli)
+(<b>arkit</b>) -[thickness=1]> _config
+(<b>arkit</b>) -[thickness=1]> _converter
+(<b>arkit</b>) -[thickness=1]> _generator
+(<b>arkit</b>) -[thickness=1]> _parser
+(<b>arkit</b>) ---[thickness=1]> [progress]
+(<b>arkit</b>) -[thickness=1]> _puml
+(<b>arkit</b>) -[thickness=1]> _types
+(<b>arkit</b>) -[thickness=1]> (utils)
+(cli) ---> [yargs]
+_config --> _types
+_config --> (utils)
+_converter --> (logger)
+_converter --> _types
+_converter --> (utils)
+_filesystem --> (logger)
+_filesystem ---> [resolve]
+_filesystem --> _schema
+_filesystem ---> [ts-morph]
+_filesystem ---> [tsconfig-paths]
+_filesystem --> _types
+_filesystem --> (utils)
+_generator --> _types
+_generator --> (utils)
+(<b>index</b>) --[thickness=1]> [yargs]
+(logger) ---> [pino]
+_parser --> _filesystem
+_parser ---> [progress]
+_parser ---> [ts-morph]
+_parser --> _types
+_parser --> (utils)
+_puml --> _schema
+_puml --> _types
+_puml --> (utils)
+_types --> _schema
+(utils) --> (logger)
+(utils) ---> [nanomatch]
+(utils) ---> [ts-morph]
+(utils) --> _types
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>

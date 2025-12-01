@@ -1,0 +1,58 @@
+@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam nodesep 12
+skinparam ranksep 24
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+' oval
+skinparam usecase {
+  borderThickness 0.5
+}
+
+' rectangle
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+' component
+skinparam component {
+  borderThickness 1
+}
+
+
+package "Main" {
+  (main.view)
+  (singleton)
+}
+
+package "Base" {
+  (base.component)
+  rectangle "component" as _component
+  rectangle "model" as _model
+}
+
+(<b>main.ts</b>)
+(utils.ts)
+
+_component ..> (base.component)
+(<b>main.ts</b>) -[thickness=1]> (main.view)
+(<b>main.ts</b>) -[thickness=1]> (utils.ts)
+(main.view) --> _component
+(main.view) ..> (singleton)
+(singleton) --> _model
+(utils.ts) --> _model
+
+@enduml
+
+' View and edit on https://arkit.pro

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="161px" preserveAspectRatio="none" style="width:297px;height:161px;" version="1.1" viewBox="0 0 297 161" width="297px" zoomAndPan="magnify"><defs/><g><ellipse cx="222.5267" cy="133.1053" fill="#F8F8F8" rx="63.5267" ry="15.1053" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="97" x="174.0267" y="136.8475">base.component</text><!--MD5=[b2450ec52c60b2be457112322be3a3ef]
+entity _component--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="86" x="179.5" y="58"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="66" x="189.5" y="80.0059">component</text><ellipse cx="43.6482" cy="21.242" fill="#F8F8F8" rx="37.6482" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="49" x="19.1482" y="24.9842">main.ts</text><ellipse cx="135.598" cy="21.242" fill="#F8F8F8" rx="42.598" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="56" x="107.598" y="24.9842">main.view</text><!--MD5=[1700bfca23630273650fbec26f4bd101]
+entity _model--><rect fill="#F8F8F8" height="34.4844" rx="3" ry="3" style="stroke: #000000; stroke-width: 0.5;" width="56" x="52.5" y="116"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="62.5" y="138.0059">model</text><ellipse cx="126.4767" cy="75.242" fill="#F8F8F8" rx="40.4767" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="99.9767" y="78.9842">singleton</text><ellipse cx="43.3701" cy="75.242" fill="#F8F8F8" rx="29.8701" ry="13.242" style="stroke: #383838; stroke-width: 0.5;"/><text fill="#000000" font-family="Tahoma, sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="38" x="24.3701" y="78.9842">utils.ts</text><!--MD5=[576e154fbc144b3e7b9ea7a474c75f27]
+link _component to base.component--><path d="M222.5,92.1975 C222.5,98.5571 222.5,105.9109 222.5,112.5541 " fill="none" id="_component-&gt;base.component" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="222.5,117.9298,226.5,108.9298,222.5,112.9298,218.5,108.9298,222.5,117.9298" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[be26fbf43944b91615ab8bbc1271b772]
+link <b>main.ts</b> to main.view--><path d="M81.2344,21 C83.3806,21 85.5269,21 87.6731,21 " fill="none" id="&lt;b&gt;main.ts&lt;/b&gt;-&gt;main.view" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="92.681,21,83.681,17,87.681,21,83.681,25,92.681,21" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[91a73c4aef3099cb02644ec17199c447]
+link <b>main.ts</b> to utils.ts--><path d="M43.5,34.061 C43.5,40.659 43.5,48.959 43.5,56.2801 " fill="none" id="&lt;b&gt;main.ts&lt;/b&gt;-&gt;utils.ts" style="stroke: #000000; stroke-width: 1.0;"/><polygon fill="#000000" points="43.5,61.6438,47.5,52.6438,43.5,56.6438,39.5,52.6438,43.5,61.6438" style="stroke: #000000; stroke-width: 1.0;"/><!--MD5=[84102a6d7ca67d9c9fe4fedb267da643]
+link main.view to _component--><path d="M153.526,32.774 C164.342,39.239 178.402,47.643 191.004,55.1749 " fill="none" id="main.view-&gt;_component" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="195.572,57.9052,189.8976,49.8553,191.2798,55.3407,185.7944,56.7229,195.572,57.9052" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[13ad85ba1f11006a238f12e2f77a82bd]
+link main.view to singleton--><path d="M133.413,34.061 C132.231,40.886 130.735,49.531 129.437,57.0317 " fill="none" id="main.view-&gt;singleton" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="128.576,62.0049,134.0528,53.8193,129.429,57.0782,126.1701,52.4544,128.576,62.0049" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[52772a3a1f3b08503d9e7b2e6dee9ab6]
+link singleton to _model--><path d="M116.745,87.8762 C111.137,94.7027 103.9362,103.469 97.4325,111.3866 " fill="none" id="singleton-&gt;_model" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="93.9056,115.6802,102.7091,111.2646,97.0793,111.8165,96.5273,106.1867,93.9056,115.6802" style="stroke: #000000; stroke-width: 0.5;"/><!--MD5=[496d5e1f3cd6368c214c3803c4fe1d8f]
+link utils.ts to _model--><path d="M51.1664,87.6032 C55.7385,94.5231 61.6736,103.5061 67.008,111.5797 " fill="none" id="utils.ts-&gt;_model" style="stroke: #000000; stroke-width: 0.5;"/><polygon fill="#000000" points="69.8973,115.9526,68.273,106.2386,67.1409,111.781,61.5985,110.6489,69.8973,115.9526" style="stroke: #000000; stroke-width: 0.5;"/><script type="text/plantuml"><![CDATA[MD5=[4cbfda120a86d21b5e5fde7842795f40]
+@startuml
+
+scale max 1920 width
+top to bottom direction
+
+skinparam nodesep 12
+skinparam ranksep 24
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Tahoma
+skinparam defaultFontSize 12
+skinparam roundCorner 6
+skinparam dpi 150
+skinparam arrowColor black
+skinparam arrowThickness 0.5
+skinparam packageTitleAlignment left
+
+skinparam usecase {
+  borderThickness 0.5
+}
+
+skinparam rectangle {
+  borderThickness 0.5
+}
+
+skinparam component {
+  borderThickness 1
+}
+
+
+(base.component)
+rectangle "component" as _component
+(<b>main.ts</b>)
+(main.view)
+rectangle "model" as _model
+(singleton)
+(utils.ts)
+
+_component --> (base.component)
+(<b>main.ts</b>) -[thickness=1]> (main.view)
+(<b>main.ts</b>) -[thickness=1]> (utils.ts)
+(main.view) --> _component
+(main.view) --> (singleton)
+(singleton) --> _model
+(utils.ts) --> _model
+
+@enduml
+
+
+' View and edit on https://arkit.pro
+]]></script></g></svg>
