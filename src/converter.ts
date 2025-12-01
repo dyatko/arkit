@@ -163,7 +163,7 @@ export class Converter {
         gen.out.on("data", (chunk: Buffer) => chunks.push(chunk));
         gen.out.on("end", () => {
           let result = Buffer.concat(chunks);
-          
+
           // If SVG, check for multiple XML declarations (PlantUML error output)
           // and keep only the first complete SVG document
           if (format === "svg") {
@@ -183,7 +183,7 @@ export class Converter {
               }
             }
           }
-          
+
           resolve(result);
         });
         gen.out.on("error", reject);
