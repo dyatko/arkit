@@ -186,6 +186,51 @@ All SVG and PNG conversion is done **locally using node-plantuml** without any e
 #### [Vue/Nuxt TodoMVC](https://github.com/dyatko/arkit-nuxt-todomvc) using `yarn arkit -o arkit.svg`
 ![Vue and Nuxt dependency graph](https://raw.githubusercontent.com/dyatko/arkit-nuxt-todomvc/master/arkit.svg?sanitize=true)
 
+## Development
+
+### Building from Source
+
+Starting from version 2.0.0, the `dist/` folder is **no longer committed** to the repository to keep the git history clean and reduce repository size.
+
+If you're contributing or running from source, you'll need to build the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/dyatko/arkit.git
+cd arkit
+
+# Install dependencies
+npm install
+
+# Build the project (compiles TypeScript and generates schema)
+npm run build
+
+# Run tests
+npm test
+
+# Generate arkit's own architecture diagram
+npm run architecture
+```
+
+The build process:
+1. Formats code with Prettier
+2. Compiles TypeScript to JavaScript (outputs to `dist/`)
+3. Generates type definitions
+4. Creates JSON schema for configuration validation
+
+### Package Publishing
+
+The project uses automated publishing via GitHub Actions:
+- **Pull Requests**: Tests and build verification only (no publishing)
+- **Master/Main**: Automatic npm publishing when version changes
+
+To publish a new version:
+1. Update version in `package.json` (e.g., `2.0.0` → `2.1.0`)
+2. Merge PR to master/main
+3. GitHub Actions automatically publishes to npm
+
+See [`.github/workflows/README.md`](.github/workflows/README.md) for details.
+
 ## Contribution
 
 The tool is under active development, so please feel free to [contribute with suggestions](https://github.com/dyatko/arkit/issues/new/choose) and pull requests. Your feedback is priceless.
