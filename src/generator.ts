@@ -276,12 +276,14 @@ export class Generator {
     filename: string,
     componentConfig: ComponentSchema,
   ): string {
+    const reservedNames = ['constructor', 'toString', 'valueOf'];
     const nameFormat = componentConfig.format;
 
     if (nameFormat === ComponentNameFormat.FULL_NAME) {
       return path.basename(filename);
     }
 
-    return path.basename(filename, path.extname(filename));
+    const componentName = path.basename(filename, path.extname(filename));
+    return reservedNames.indexOf(componentName) === -1 ? componentName : `_${componentName}`;
   }
 }
