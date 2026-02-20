@@ -1,11 +1,7 @@
-name: PR Tests
+name: PR Tests & Build Verification
 
 on:
   pull_request:
-    branches:
-      - master
-      - main
-  push:
     branches:
       - master
       - main
@@ -50,6 +46,23 @@ jobs:
       
       - name: Run tests with coverage
         run: npm run jest
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Verify build artifacts
+        run: |
+          test -f dist/arkit.js || (echo "dist/arkit.js not found" && exit 1)
+          test -f dist/arkit.d.ts || (echo "dist/arkit.d.ts not found" && exit 1)
+          echo "Build verification successful"
+      
+      - name: Archive build artifacts
+        if: matrix.node-version == '22.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 7
       
       - name: Upload coverage reports to Codecov
         if: matrix.node-version == '22.x'
