@@ -154,7 +154,7 @@ class Generator {
     resolveConflictingComponentNames(components) {
         const componentsByName = {};
         for (const component of components.values()) {
-            componentsByName[component.name] = componentsByName[component.name] || [];
+            componentsByName[component.name] = Array.isArray(componentsByName[component.name]) || [];
             componentsByName[component.name].push(component);
         }
         for (const name in componentsByName) {
