@@ -530,9 +530,7 @@ exports[`Parser Express 1`] = `
   },
   "middleware/query.js": {
     "exports": [],
-    "imports": {
-      "node_modules/qs/lib/index.js": [],
-    },
+    "imports": {},
   },
   "request.js": {
     "exports": [],
@@ -547,9 +545,6 @@ exports[`Parser Express 1`] = `
     "exports": [],
     "imports": {
       "http": [],
-      "node_modules/safe-buffer/index.js": [
-        "Buffer",
-      ],
       "path": [],
       "utils.js": [
         "isAbsolute",
@@ -583,10 +578,6 @@ exports[`Parser Express 1`] = `
   "utils.js": {
     "exports": [],
     "imports": {
-      "node_modules/qs/lib/index.js": [],
-      "node_modules/safe-buffer/index.js": [
-        "Buffer",
-      ],
       "querystring": [],
     },
   },
