@@ -23,6 +23,11 @@ function normalizeSvg(svg: string): string {
 
   return (
     normalized
+      // Normalize all numeric coordinates (differ between GraphViz versions)
+      .replace(/\b\d+\.\d+\b/g, "0")
+      // Normalize PlantUML filter IDs (random per run)
+      .replace(/id="f[a-z0-9]+"/g, 'id="FILTER"')
+      .replace(/url\(#f[a-z0-9]+\)/g, "url(#FILTER)")
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(
         /PlantUML version [^\n]+/g,
