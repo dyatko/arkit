@@ -27,10 +27,7 @@ function normalizeSvg(svg: string): string {
       // No \b anchors: SVG path data has digits after letters (e.g. "M207.0") with no word boundary
       .replace(/\d+(\.\d+)?/g, "0")
       // Normalize PlantUML version timestamp (timezone variations)
-      .replace(
-        /PlantUML version [^\n]+/g,
-        "PlantUML version NORMALIZED",
-      )
+      .replace(/PlantUML version [^\n]+/g, "PlantUML version NORMALIZED")
       // Normalize operating system name (macOS vs Linux in CI)
       .replace(/Operating System: [^\n<]+/g, "Operating System: NORMALIZED")
       // Normalize Java version
