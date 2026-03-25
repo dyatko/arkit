@@ -27,8 +27,8 @@ function normalizeSvg(svg: string): string {
       .replace(/id="f[a-z0-9]+"/g, 'id="FILTER"')
       .replace(/url\(#f[a-z0-9]+\)/g, "url(#FILTER)")
       // Normalize all numeric values (coordinates, dimensions, textLength differ between GraphViz versions)
-      // No trailing \b because digits followed by letters (e.g. "317px") have no word boundary
-      .replace(/\b\d+(\.\d+)?/g, "0")
+      // No \b anchors: SVG path data has digits after letters (e.g. "M207.0") with no word boundary
+      .replace(/\d+(\.\d+)?/g, "0")
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(
         /PlantUML version [^\n]+/g,
