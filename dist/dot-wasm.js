@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-"use strict";
 /**
  * WASM GraphViz dot wrapper
  *
@@ -22,8 +21,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const wasm_graphviz_1 = require("@hpcc-js/wasm-graphviz");
 const args = process.argv.slice(2);
 // Handle -V (version check)
 if (args.includes("-V")) {
@@ -42,9 +39,13 @@ for (const arg of args) {
 let input = "";
 process.stdin.setEncoding("utf8");
 process.stdin.on("data", (chunk) => (input += chunk));
-process.stdin.on("end", () => __awaiter(void 0, void 0, void 0, function* () {
+process.stdin.on("end", () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const graphviz = yield wasm_graphviz_1.Graphviz.load();
+        // Use Function-wrapped import() to prevent TypeScript from compiling it to require().
+        // @hpcc-js/wasm-graphviz is ESM-only and require() fails on Node < 22.
+        const dynamicImport = new Function("specifier", "return import(specifier)");
+        const { Graphviz } = yield dynamicImport("@hpcc-js/wasm-graphviz");
+        const graphviz = yield Graphviz.load();
         const result = graphviz.dot(input, format);
         process.stdout.write(result);
     }

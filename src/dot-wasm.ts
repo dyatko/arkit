@@ -14,8 +14,6 @@
  *   stdout       Rendered output
  */
 
-import { Graphviz } from "@hpcc-js/wasm-graphviz";
-
 const args = process.argv.slice(2);
 
 // Handle -V (version check)
@@ -36,9 +34,16 @@ for (const arg of args) {
 // Read DOT source from stdin and render
 let input = "";
 process.stdin.setEncoding("utf8");
-process.stdin.on("data", (chunk) => (input += chunk));
+process.stdin.on("data", (chunk: string) => (input += chunk));
 process.stdin.on("end", async () => {
   try {
+    // Use Function-wrapped import() to prevent TypeScript from compiling it to require().
+    // @hpcc-js/wasm-graphviz is ESM-only and require() fails on Node < 22.
+    const dynamicImport = new Function(
+      "specifier",
+      "return import(specifier)",
+    ) as (specifier: string) => Promise<any>;
+    const { Graphviz } = await dynamicImport("@hpcc-js/wasm-graphviz");
     const graphviz = await Graphviz.load();
     const result = graphviz.dot(input, format);
     process.stdout.write(result);

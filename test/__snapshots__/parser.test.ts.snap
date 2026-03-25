@@ -244,11 +244,7 @@ exports[`Parser Arkit 1`] = `
   },
   "dot-wasm.ts": {
     "exports": [],
-    "imports": {
-      "node_modules/@hpcc-js/wasm-graphviz/dist/index.js": [
-        "Graphviz",
-      ],
-    },
+    "imports": {},
   },
   "filesystem.ts": {
     "exports": [

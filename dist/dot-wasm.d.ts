@@ -12,5 +12,7 @@
  *   stdin        DOT source input
  *   stdout       Rendered output
  */
-export {};
+declare const args: string[];
+declare let format: string;
+declare let input: string;
 //# sourceMappingURL=dot-wasm.d.ts.map
