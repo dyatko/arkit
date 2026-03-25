@@ -24,12 +24,15 @@ function normalizeSvg(svg: string): string {
       .replace(/id="f[a-z0-9]+"/g, 'id="FILTER"')
       .replace(/url\(#f[a-z0-9]+\)/g, "url(#FILTER)")
       // Normalize all numeric values (coordinates, dimensions, textLength differ between GraphViz versions)
-      .replace(/\b\d+(\.\d+)?\b/g, "0")
+      // No trailing \b because digits followed by letters (e.g. "317px") have no word boundary
+      .replace(/\b\d+(\.\d+)?/g, "0")
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(
         /PlantUML version [^\n]+/g,
-        "PlantUML version 1.2019.06(NORMALIZED)",
+        "PlantUML version NORMALIZED",
       )
+      // Normalize operating system name (macOS vs Linux in CI)
+      .replace(/Operating System: [^\n<]+/g, "Operating System: NORMALIZED")
       // Normalize Java version
       .replace(/Java Version: [^\n<]+/g, "Java Version: NORMALIZED")
       // Normalize OS version
