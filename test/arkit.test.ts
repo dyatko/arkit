@@ -20,11 +20,11 @@ jest.setTimeout(60000);
 function normalizeSvg(svg: string): string {
   return (
     svg
-      // Normalize all numeric coordinates (differ between GraphViz versions)
-      .replace(/\b\d+\.\d+\b/g, "0")
-      // Normalize PlantUML filter IDs (random per run)
+      // Normalize PlantUML filter IDs (random per run) - must be before number normalization
       .replace(/id="f[a-z0-9]+"/g, 'id="FILTER"')
       .replace(/url\(#f[a-z0-9]+\)/g, "url(#FILTER)")
+      // Normalize all numeric values (coordinates, dimensions, textLength differ between GraphViz versions)
+      .replace(/\b\d+(\.\d+)?\b/g, "0")
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(
         /PlantUML version [^\n]+/g,
