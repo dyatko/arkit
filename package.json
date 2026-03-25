@@ -13,8 +13,7 @@
     "lint": "eslint --ext .ts .",
     "jest": "jest --coverage",
     "test": "npm run lint && npm run jest",
-    "prepack": "npm run build && npm run test",
-    "prepublishOnly": "npm run build && npm run test"
+    "prepack": "npm run build && npm run test"
   },
   "arkit": {
     "$schema": "https://arkit.pro/schema.json",
