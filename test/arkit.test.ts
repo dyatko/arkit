@@ -23,8 +23,11 @@ function normalizeSvg(svg: string): string {
       // Normalize PlantUML filter IDs (random per run) - must be before number normalization
       .replace(/id="f[a-z0-9]+"/g, 'id="FILTER"')
       .replace(/url\(#f[a-z0-9]+\)/g, "url(#FILTER)")
-      // Normalize all numeric values (coordinates, dimensions, textLength differ between GraphViz versions)
-      // No \b anchors: SVG path data has digits after letters (e.g. "M207.0") with no word boundary
+      // Strip path/polygon elements entirely (different GraphViz versions generate different geometries)
+      .replace(/<path[^/]*\/>/g, "")
+      .replace(/<polygon[^/]*\/>/g, "")
+      .replace(/<line[^/]*\/>/g, "")
+      // Normalize all numeric values (coordinates, dimensions differ between GraphViz versions)
       .replace(/\d+(\.\d+)?/g, "0")
       // Normalize PlantUML version timestamp (timezone variations)
       .replace(/PlantUML version [^\n]+/g, "PlantUML version NORMALIZED")
