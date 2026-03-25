@@ -3,8 +3,8 @@ export type ConverterBackend = "wasm" | "java";
 export declare class Converter {
     private readonly config;
     private backend;
-    private graphviz;
     constructor(config: ConfigBase);
+    private getDotWrapperPath;
     private initializeBackend;
     convert(pathOrType: string, puml: string): Promise<SavedString>;
     private save;

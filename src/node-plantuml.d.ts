@@ -17,6 +17,7 @@ declare module "node-plantuml" {
       | "latex";
     charset?: string;
     config?: string;
+    dot?: string;
   }
 
   interface GenerateResult {

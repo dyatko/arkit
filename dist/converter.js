@@ -50,9 +50,21 @@ const logger_1 = require("./logger");
 class Converter {
     constructor(config) {
         this.backend = null;
-        this.graphviz = null;
         this.requestChain = Promise.resolve();
         this.config = config;
+    }
+    getDotWrapperPath() {
+        // Check dist/ (runtime) then fall back to src/../dist/ (ts-jest)
+        const candidates = [
+            path.join(__dirname, "dot-wasm.js"),
+            path.join(__dirname, "..", "dist", "dot-wasm.js"),
+        ];
+        for (const candidate of candidates) {
+            if (fs.existsSync(candidate)) {
+                return candidate;
+            }
+        }
+        return undefined;
     }
     // Initialize the appropriate backend
     initializeBackend() {
@@ -60,38 +72,37 @@ class Converter {
             if (this.backend) {
                 return this.backend;
             }
-            // Try WASM first (default - eliminates GraphViz system dependency)
-            // Note: Java is still required for PlantUML, but GraphViz is not
-            try {
-                const { Graphviz } = yield Promise.resolve().then(() => __importStar(require("@hpcc-js/wasm-graphviz")));
-                this.graphviz = yield Graphviz.load();
-                // Verify Java is available for PlantUML
-                yield Promise.resolve().then(() => __importStar(require("node-plantuml")));
+            // Try WASM wrapper first (eliminates GraphViz system dependency)
+            // The dot-wasm.js script uses @hpcc-js/wasm-graphviz as a drop-in dot replacement
+            const dotWrapperPath = this.getDotWrapperPath();
+            if (dotWrapperPath) {
+                try {
+                    fs.chmodSync(dotWrapperPath, 0o755);
+                }
+                catch (_a) {
+                    // Ignore permission errors
+                }
                 this.backend = "wasm";
                 (0, logger_1.info)("Using Java PlantUML + @hpcc-js/wasm-graphviz (no GraphViz system dependency)");
                 return "wasm";
             }
-            catch (wasmError) {
-                (0, logger_1.warn)(`@hpcc-js/wasm-graphviz not available: ${wasmError.message}, falling back to system GraphViz`);
-                // Fall back to system GraphViz
-                try {
-                    yield Promise.resolve().then(() => __importStar(require("node-plantuml")));
-                    this.backend = "java";
-                    (0, logger_1.info)("Using Java PlantUML + system GraphViz (requires Java + GraphViz installed)");
-                    return "java";
-                }
-                catch (javaError) {
-                    throw new Error(`No diagram renderer available.\n` +
-                        `@hpcc-js/wasm error: ${wasmError.message}\n` +
-                        `Java/PlantUML error: ${javaError.message}\n\n` +
-                        `Please install Java Runtime Environment (JRE) 8+:\n` +
-                        `  - Windows: https://adoptium.net/\n` +
-                        `  - macOS: brew install openjdk\n` +
-                        `  - Linux: sudo apt-get install default-jre\n\n` +
-                        `Then either:\n` +
-                        `  1. npm install @hpcc-js/wasm-graphviz (recommended, no GraphViz needed)\n` +
-                        `  2. Install GraphViz: https://graphviz.org/download/`);
-                }
+            // Fall back to system GraphViz
+            try {
+                yield Promise.resolve().then(() => __importStar(require("node-plantuml")));
+                this.backend = "java";
+                (0, logger_1.info)("Using Java PlantUML + system GraphViz (requires Java + GraphViz installed)");
+                return "java";
+            }
+            catch (javaError) {
+                throw new Error(`No diagram renderer available.\n` +
+                    `Java/PlantUML error: ${javaError.message}\n\n` +
+                    `Please install Java Runtime Environment (JRE) 8+:\n` +
+                    `  - Windows: https://adoptium.net/\n` +
+                    `  - macOS: brew install openjdk\n` +
+                    `  - Linux: sudo apt-get install default-jre\n\n` +
+                    `Then either:\n` +
+                    `  1. npm install @hpcc-js/wasm-graphviz (recommended, no GraphViz needed)\n` +
+                    `  2. Install GraphViz: https://graphviz.org/download/`);
             }
         });
     }
@@ -168,6 +179,7 @@ class Converter {
                     const chunks = [];
                     const gen = plantuml.generate(puml, {
                         format: format,
+                        dot: this.getDotWrapperPath(),
                     });
                     gen.out.on("data", (chunk) => chunks.push(chunk));
                     gen.out.on("end", () => {
