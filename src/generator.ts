@@ -186,14 +186,15 @@ export class Generator {
   protected resolveConflictingComponentNames(
     components: Components,
   ): Components {
-    const componentsByName: { [name: string]: Component[] } = {};
+    const componentsByName: { [name: string]: Component[] } =
+      Object.create(null);
 
     for (const component of components.values()) {
       componentsByName[component.name] = componentsByName[component.name] || [];
       componentsByName[component.name].push(component);
     }
 
-    for (const name in componentsByName) {
+    for (const name of Object.keys(componentsByName)) {
       const components = componentsByName[name];
       const isIndex = name === "index";
       const shouldPrefixWithDirectory = components.length > 1 || isIndex;
