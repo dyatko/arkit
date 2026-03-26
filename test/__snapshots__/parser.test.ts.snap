@@ -345,6 +345,9 @@ exports[`Parser Arkit 1`] = `
       "filesystem.ts": [
         "FileSystem",
       ],
+      "fs": [
+        "fs",
+      ],
       "node_modules/progress/index.js": [
         "ProgressBar",
       ],
