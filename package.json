@@ -1,6 +1,6 @@
 {
   "name": "arkit",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
@@ -98,6 +98,7 @@
       "<rootDir>/test/angular2_es2015/",
       "<rootDir>/test/react-dom/",
       "<rootDir>/test/express/",
+      "<rootDir>/test/exclude-sample/",
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
     ],
