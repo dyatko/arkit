@@ -449,7 +449,6 @@ exports[`Parser Arkit 1`] = `
       "array",
       "verifyComponentFilters",
       "bold",
-      "request",
       "getAllComponents",
       "getAbsolute",
       "convertToRelative",
@@ -458,9 +457,6 @@ exports[`Parser Arkit 1`] = `
     "imports": {
       "fs": [
         "fs",
-      ],
-      "https": [
-        "https",
       ],
       "logger.ts": [
         "trace",
