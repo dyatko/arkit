@@ -1,0 +1,59 @@
+# Arkit
+
+> Arkit is a static code analysis tool that generates architecture diagrams from JavaScript, TypeScript, Flow, Vue, and Nuxt codebases.
+
+## Quick Start
+
+Install: `npm install arkit`
+CLI: `npx arkit [directory] -o arkit.svg`
+Programmatic: `const { arkit } = require('arkit'); arkit({ directory: './src' })`
+
+## CLI Options
+
+- `-d, --directory` Working directory (default: ".")
+- `-c, --config` Config file path (default: "arkit.json")
+- `-o, --output` Output path or type: svg, png, puml (default: "arkit.svg")
+- `-f, --first` File patterns to be first in the graph
+- `-e, --exclude` File patterns to exclude (default: "test,tests,dist,coverage,**/*.test.*,**/*.spec.*,**/*.min.*")
+- `--json` Output structured JSON to stdout (machine-readable)
+
+## Output Formats
+
+- SVG: Scalable vector graphics (requires Java JRE 8+)
+- PNG: Raster images (requires Java JRE 8+)
+- PlantUML (puml): Text format, no system dependencies
+
+## Programmatic API
+
+```typescript
+import { arkit } from 'arkit';
+const results = await arkit({ directory: './src', output: ['arkit.svg'] });
+// results: SavedString[] - each has .path (if saved) and .toString() (content)
+```
+
+## JSON Output
+
+Use `--json` for machine-readable output:
+```bash
+npx arkit --json -o arkit.svg
+```
+Returns:
+```json
+{
+  "success": true,
+  "version": "2.1.0",
+  "directory": "/path/to/project",
+  "outputs": [{ "path": "arkit.svg", "format": "svg", "size": 12345 }]
+}
+```
+
+## Configuration
+
+JSON config file (`arkit.json`) or `"arkit"` key in package.json.
+Schema: https://arkit.pro/schema.json
+
+## Links
+
+- Docs: https://arkit.pro
+- GitHub: https://github.com/dyatko/arkit
+- NPM: https://www.npmjs.com/package/arkit

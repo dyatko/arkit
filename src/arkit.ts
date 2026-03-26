@@ -62,7 +62,7 @@ export const getOutputs = (config: Config): Promise<SavedString[]> => {
   const progress = new ProgressBar("Generating :bar", {
     total,
     clear: true,
-    width: process.stdout.columns,
+    width: process.stderr.columns || 40,
   });
 
   return Promise.all(

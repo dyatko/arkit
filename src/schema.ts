@@ -4,6 +4,7 @@ export interface Options {
   output?: string[];
   first?: string[];
   exclude?: string[];
+  json?: boolean;
 }
 
 /**

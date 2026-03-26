@@ -1,63 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`CLI Angular2 Todo exclude and puml should output correct puml 1`] = `
-"Running against __dirname/angular2_es2015 with the following config:
-{
-  "components": [
-    {
-      "type": "Dependency",
-      "patterns": [
-        "node_modules/*"
-      ]
-    },
-    {
-      "type": "Component",
-      "patterns": [
-        "**/*.ts",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.tsx"
-      ]
-    },
-    {
-      "type": "Vue",
-      "format": "full",
-      "patterns": [
-        "**/*.vue"
-      ]
-    }
-  ],
-  "excludePatterns": [
-    "app/components/**"
-  ],
-  "output": [
-    {
-      "path": [
-        "puml"
-      ],
-      "groups": [
-        {
-          "first": true,
-          "components": [
-            "Component",
-            "Vue"
-          ]
-        },
-        {
-          "type": "Dependencies",
-          "components": [
-            "Dependency"
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-Note: Arkit now uses LOCAL PlantUML conversion (requires Java JRE 8+).
-Your code stays private and never leaves your machine. No external service calls.
-
-@startuml
+"@startuml
 
 scale max 1920 width
 top to bottom direction
@@ -115,69 +59,7 @@ rectangle "todo.model" as _todo_model
 `;
 
 exports[`CLI Angular2 Todo no args should output correct svg 1`] = `
-"Running against __dirname/angular2_es2015 with the following config:
-{
-  "components": [
-    {
-      "type": "Dependency",
-      "patterns": [
-        "node_modules/*"
-      ]
-    },
-    {
-      "type": "Component",
-      "patterns": [
-        "**/*.ts",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.tsx"
-      ]
-    },
-    {
-      "type": "Vue",
-      "format": "full",
-      "patterns": [
-        "**/*.vue"
-      ]
-    }
-  ],
-  "excludePatterns": [
-    "test",
-    "tests",
-    "dist",
-    "coverage",
-    "**/*.test.*",
-    "**/*.spec.*",
-    "**/*.min.*"
-  ],
-  "output": [
-    {
-      "path": [
-        "arkit.svg"
-      ],
-      "groups": [
-        {
-          "first": true,
-          "components": [
-            "Component",
-            "Vue"
-          ]
-        },
-        {
-          "type": "Dependencies",
-          "components": [
-            "Dependency"
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-Note: Arkit now uses LOCAL PlantUML conversion (requires Java JRE 8+).
-Your code stays private and never leaves your machine. No external service calls.
-
-Saved __dirname/angular2_es2015/arkit.svg
+"Saved __dirname/angular2_es2015/arkit.svg
 "
 `;
 
@@ -378,6 +260,7 @@ exports[`CLI Options should output help 1`] = `
 "arkit [directory]
 
 Options:
+      --json       Output results as JSON to stdout   [boolean] [default: false]
   -d, --directory  Working directory
   -c, --config     Config file path (json or js)
   -o, --output     Output path or type (svg, png or puml)
