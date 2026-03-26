@@ -1,7 +1,11 @@
 import * as path from "path";
+import * as utils from "../src/utils";
 import { Config } from "../src/config";
 import { Parser } from "../src/parser";
 import { Files } from "../src/types";
+
+// Mock memory usage to avoid Node 20 heap pressure with --coverage
+jest.spyOn(utils, "getMemoryUsage").mockReturnValue(0.5);
 
 const cleanSnapshot = (directory: string, files: Files): Files => {
   const re = new RegExp(directory + "/?", "g");

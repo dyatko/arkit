@@ -1,4 +1,8 @@
 import * as path from "path";
+import * as utils from "../src/utils";
+
+// Mock memory usage to avoid Node 20 heap pressure with --coverage
+jest.spyOn(utils, "getMemoryUsage").mockReturnValue(0.5);
 
 // Mock the cli module to avoid yargs ESM issues in Jest
 jest.mock("../src/cli", () => ({
