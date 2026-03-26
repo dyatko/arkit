@@ -63,4 +63,16 @@ describe("Parser", () => {
     const appImports = Object.keys(appFile![1].imports);
     expect(appImports.some((i) => i.includes("Hello.vue"))).toBe(true);
   });
+
+  test("Path aliases with @/ resolved via tsconfig", () => {
+    const directory = path.resolve(__dirname, "./alias-sample");
+    const parser = new Parser(new Config({ directory }));
+    const files = cleanSnapshot(directory, parser.parse());
+
+    // app.ts should have its @/utils import resolved to src/utils.ts
+    const appFile = Object.entries(files).find(([k]) => k.includes("app.ts"));
+    expect(appFile).toBeDefined();
+    const appImports = Object.keys(appFile![1].imports);
+    expect(appImports.some((i) => i.includes("utils.ts"))).toBe(true);
+  });
 });
