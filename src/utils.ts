@@ -3,7 +3,6 @@ import * as fs from "fs";
 import { trace, warn } from "./logger";
 import nanomatch from "nanomatch";
 import { Component, ComponentFilters, ComponentSchema, Layers } from "./types";
-import * as https from "https";
 import { Node, Statement, SyntaxKind } from "ts-morph";
 
 export * from "./logger";
@@ -130,42 +129,6 @@ export const verifyComponentFilters = (
 
 export const bold = (str: string): string => {
   return `<b>${str}</b>`;
-};
-
-/**
- * @deprecated This function is no longer used. PlantUML conversion is now done locally using node-plantuml.
- * Kept for backward compatibility only.
- */
-export const request = (path, payload): Promise<Buffer> => {
-  return new Promise((resolve, reject) => {
-    const req = https
-      .request(
-        {
-          path,
-          hostname: "arkit.pro",
-          port: 443,
-          method: "post",
-          headers: {
-            "Content-Type": "text/plain",
-            "Content-Length": payload.length,
-          },
-        },
-        (res) => {
-          const data: Buffer[] = [];
-
-          res.on("data", (chunk) => data.push(chunk));
-          res.on("end", () => {
-            resolve(Buffer.concat(data));
-          });
-        },
-      )
-      .on("error", (err) => {
-        reject(err);
-      });
-
-    req.write(payload);
-    req.end();
-  });
 };
 
 export const getAllComponents = (
