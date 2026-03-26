@@ -195,12 +195,12 @@ export class Generator {
     }
 
     for (const name of Object.keys(componentsByName)) {
-      const components = componentsByName[name];
+      const conflicting = componentsByName[name];
       const isIndex = name === "index";
-      const shouldPrefixWithDirectory = components.length > 1 || isIndex;
+      const shouldPrefixWithDirectory = conflicting.length > 1 || isIndex;
 
       if (shouldPrefixWithDirectory) {
-        for (const component of components) {
+        for (const component of conflicting) {
           const componentPath = path.dirname(component.filename);
           const dir =
             componentPath !== this.config.directory
@@ -213,7 +213,32 @@ export class Generator {
       }
     }
 
+    // Resolve remaining conflicts by using full relative paths
+    this.resolveRemainingConflicts(components);
+
     return components;
+  }
+
+  private resolveRemainingConflicts(components: Components): void {
+    const nameGroups: { [name: string]: Component[] } = Object.create(null);
+
+    for (const component of components.values()) {
+      nameGroups[component.name] = nameGroups[component.name] || [];
+      nameGroups[component.name].push(component);
+    }
+
+    for (const name of Object.keys(nameGroups)) {
+      if (nameGroups[name].length > 1) {
+        for (const component of nameGroups[name]) {
+          const baseName = path.basename(component.name);
+          const relativePath = path.relative(
+            this.config.directory,
+            path.dirname(component.filename),
+          );
+          component.name = path.join(relativePath, baseName);
+        }
+      }
+    }
   }
 
   protected sortComponentsByName(components: Components): Components {
