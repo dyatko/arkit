@@ -186,7 +186,8 @@ export class Generator {
   protected resolveConflictingComponentNames(
     components: Components,
   ): Components {
-    const componentsByName: { [name: string]: Component[] } = Object.create(null);
+    const componentsByName: { [name: string]: Component[] } =
+      Object.create(null);
 
     for (const component of components.values()) {
       componentsByName[component.name] = componentsByName[component.name] || [];
