@@ -1,5 +1,8 @@
 import * as path from "path";
+import * as utils from "../src/utils";
 import { getPaths } from "../src/utils";
+
+jest.spyOn(utils, "getMemoryUsage").mockReturnValue(0.5);
 
 describe("getPaths", () => {
   const directory = path.resolve(__dirname, "./exclude-sample");
