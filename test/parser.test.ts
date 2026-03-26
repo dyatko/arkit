@@ -91,6 +91,18 @@ describe("Parser", () => {
     expect(appImports.some((i) => i.includes("index.js"))).toBe(true);
   });
 
+  test("jsconfig.json baseUrl resolves bare imports", () => {
+    const directory = path.resolve(__dirname, "./jsconfig-sample");
+    const parser = new Parser(new Config({ directory }));
+    const files = cleanSnapshot(directory, parser.parse());
+
+    // app.js should have its require('utils') resolved to src/utils.js via baseUrl
+    const appFile = Object.entries(files).find(([k]) => k.includes("app.js"));
+    expect(appFile).toBeDefined();
+    const appImports = Object.keys(appFile![1].imports);
+    expect(appImports.some((i) => i.includes("utils.js"))).toBe(true);
+  });
+
   test("Path aliases with @/ resolved via tsconfig", () => {
     const directory = path.resolve(__dirname, "./alias-sample");
     const parser = new Parser(new Config({ directory }));
