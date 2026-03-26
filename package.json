@@ -98,6 +98,7 @@
       "<rootDir>/test/angular2_es2015/",
       "<rootDir>/test/react-dom/",
       "<rootDir>/test/express/",
+      "<rootDir>/test/exclude-sample/",
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
     ],
