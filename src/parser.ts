@@ -1,4 +1,5 @@
 import { EOL } from "os";
+import * as fs from "fs";
 import {
   ExportDeclarationStructure,
   ImportDeclarationStructure,
@@ -64,10 +65,22 @@ export class Parser {
     return files;
   }
 
+  private createSourceFile(fullPath: string): SourceFile {
+    if (fullPath.endsWith(".vue")) {
+      const content = fs.readFileSync(fullPath, "utf-8");
+      const scriptMatch = content.match(/<script[^>]*>([\s\S]*?)<\/script>/);
+      const scriptContent = scriptMatch ? scriptMatch[1] : "";
+      return this.fs.project.createSourceFile(fullPath, scriptContent, {
+        overwrite: true,
+      });
+    }
+    return this.fs.project.addSourceFileAtPath(fullPath);
+  }
+
   private parseFile(fullPath: string): File {
     trace(`Parsing ${fullPath}`);
 
-    const sourceFile = this.fs.project.addSourceFileAtPath(fullPath);
+    const sourceFile = this.createSourceFile(fullPath);
     const rootStatements = sourceFile.getStatements();
     const allStatements = getAllStatements(rootStatements);
 
