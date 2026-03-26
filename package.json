@@ -1,9 +1,16 @@
 {
   "name": "arkit",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "description": "Visualises JavaScript, TypeScript and Flow codebases as meaningful and committable architecture diagrams",
   "main": "./dist/arkit.js",
   "types": "./dist/arkit.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/arkit.js",
+      "types": "./dist/arkit.d.ts"
+    },
+    "./schema.json": "./schema.json"
+  },
   "scripts": {
     "architecture": "./index.js",
     "prettier": "prettier --write \"{src,test}/*.ts\"",

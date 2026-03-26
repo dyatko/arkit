@@ -9,6 +9,7 @@ const logger = pino({
     options: {
       colorize: true,
       translateTime: true,
+      destination: 2,
     },
   },
 });

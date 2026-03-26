@@ -34,6 +34,11 @@ export const cli = yargs(hideBin(process.argv))
     description: "Config file path (json or js)",
     default: "arkit.json",
   })
+  .option("json", {
+    description: "Output results as JSON to stdout",
+    boolean: true,
+    default: false,
+  })
   .alias({
     d: "directory",
     c: "config",
