@@ -64,6 +64,33 @@ describe("Parser", () => {
     expect(appImports.some((i) => i.includes("Hello.vue"))).toBe(true);
   });
 
+  test("CommonJS module.exports and exports.* detected", () => {
+    const directory = path.resolve(__dirname, "./commonjs-sample");
+    const parser = new Parser(new Config({ directory }));
+    const files = cleanSnapshot(directory, parser.parse());
+
+    // helper.js should have named exports detected
+    const helperFile = Object.entries(files).find(([k]) =>
+      k.includes("helper.js"),
+    );
+    expect(helperFile).toBeDefined();
+    expect(helperFile![1].exports.length).toBeGreaterThan(0);
+
+    // index.js should have exports detected (module.exports = {...})
+    const indexFile = Object.entries(files).find(([k]) =>
+      k.includes("index.js"),
+    );
+    expect(indexFile).toBeDefined();
+    expect(indexFile![1].exports.length).toBeGreaterThan(0);
+
+    // app.js should import both helper and index
+    const appFile = Object.entries(files).find(([k]) => k.includes("app.js"));
+    expect(appFile).toBeDefined();
+    const appImports = Object.keys(appFile![1].imports);
+    expect(appImports.some((i) => i.includes("helper.js"))).toBe(true);
+    expect(appImports.some((i) => i.includes("index.js"))).toBe(true);
+  });
+
   test("Path aliases with @/ resolved via tsconfig", () => {
     const directory = path.resolve(__dirname, "./alias-sample");
     const parser = new Parser(new Config({ directory }));

@@ -10,7 +10,7 @@ This document provides a comprehensive overview of Arkit for AI agents to quickl
 - **Website**: https://arkit.pro
 - **NPM**: https://www.npmjs.com/arkit
 - **License**: MIT
-- **Current Version**: 1.6.4
+- **Current Version**: 2.0.7
 
 ## What Does Arkit Do?
 
@@ -257,6 +257,58 @@ npm run lint          # Run ESLint
 npm run architecture  # Generate diagram for Arkit itself
 ./index.js            # Direct execution
 ```
+
+## GitHub Issue Fixing Workflow
+
+When fixing open GitHub issues, follow this sequential workflow for each issue. Create separate PRs and merge them one at a time into master.
+
+### Per-Issue Workflow
+
+1. **Create branch**: `git checkout -b fix/<descriptive-name> master`
+2. **Write failing test first**: Create test fixtures in `test/<fixture-name>/` and add test cases to the relevant `test/*.test.ts` file. Run the test to confirm it fails.
+3. **Implement the fix**: Make minimal changes to `src/` files to fix the issue.
+4. **Build and test**:
+   - `npm run build` — compile TypeScript
+   - `npm run jest -- --testPathPattern="<relevant test>"` — run the specific test
+   - `npm run jest -- -u` — update snapshots if needed (e.g., Express snapshot after parser changes)
+   - `npm test` — full test suite must pass
+5. **Bump version**: Increment patch version in `package.json` (e.g., 2.0.7 → 2.0.8)
+6. **Commit**: Single commit with a descriptive message
+7. **Push and create PR**: `git push -u origin <branch>` then `gh pr create`
+8. **Wait for CI**: All GitHub Actions checks must pass (Node 20, 22, 24)
+9. **Merge**: `gh pr merge --squash`
+10. **Close issue with meaningful comment**: Use `gh issue close <number> --comment "..."` with a comment that:
+    - Explains what was wrong (root cause)
+    - Describes what was fixed and how
+    - References the PR number
+    - Thanks the reporter
+
+### Sequential Merging
+
+PRs must be merged sequentially into master. Before starting the next PR:
+1. `git checkout master && git pull`
+2. If the new branch was already created, rebase it: `git rebase master`
+3. Resolve any merge conflicts (common in `test/parser.test.ts` and `test/generator.test.ts` — keep all test blocks)
+
+### Closing Issues Without Code Changes
+
+When an issue is already fixed or not actionable:
+- Write a meaningful, helpful reply that addresses the reporter's specific concern
+- Explain what changed and which version includes the fix
+- Suggest how to use the feature if applicable
+- Thank the reporter and invite them to reopen if needed
+
+### Known CI Gotchas
+
+- **Node 20 heap memory**: `getPaths()` has a 95% heap guard. With `--coverage`, Node 20's smaller default heap can cause tests to fail. Mock `getMemoryUsage` in tests: `jest.spyOn(utils, "getMemoryUsage").mockReturnValue(0.5)`
+- **Stuck GitHub Actions runners**: Jobs can get stuck (pending indefinitely). Cancel the run and re-run all jobs.
+- **Snapshot updates**: After changing `parser.ts` imports or export detection, the Arkit self-parse snapshot and Express snapshot may need updating with `npx jest <test> -u`
+
+### Test Fixtures
+
+- Place test fixtures in `test/<fixture-name>/` directories
+- Add fixture directories containing `.test.ts` files to `testPathIgnorePatterns` in `package.json` to prevent Jest from running them as tests
+- Keep fixtures minimal — only the files needed to reproduce the issue
 
 ## Common Modification Scenarios
 

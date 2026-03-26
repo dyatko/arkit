@@ -1,4 +1,5 @@
 import { EOL } from "os";
+import * as path from "path";
 import * as fs from "fs";
 import {
   ExportDeclarationStructure,
@@ -26,6 +27,7 @@ const TEXT_INSIDE_QUOTES_RE = new RegExp(TEXT_INSIDE_QUOTES);
 const REQUIRE_RE = new RegExp(
   `require\\(${TEXT_INSIDE_QUOTES}\\)(?:\\.(\\w+))?`,
 );
+const EXPORTS_RE = /(?:module\.)?exports(?:\.(\w+))?\s*=/g;
 
 export class Parser {
   private readonly fs: FileSystem;
@@ -213,7 +215,7 @@ export class Parser {
   }
 
   private getExports(sourceFile: SourceFile, statements: Statement[]): Exports {
-    return statements.reduce((exports, statement) => {
+    const exports = statements.reduce((exports, statement) => {
       const hasExport =
         Node.isExportable(statement) &&
         statement.getText().trimStart().startsWith("export");
@@ -263,6 +265,29 @@ export class Parser {
 
       return exports;
     }, [] as Exports);
+
+    // Fallback: detect CommonJS exports (module.exports = ... / exports.foo = ...)
+    if (!exports.length) {
+      const text = sourceFile.getFullText();
+      let match: RegExpExecArray | null;
+      EXPORTS_RE.lastIndex = 0;
+
+      while ((match = EXPORTS_RE.exec(text)) !== null) {
+        const namedExport = match[1];
+        if (namedExport) {
+          exports.push(namedExport);
+        } else {
+          exports.push(
+            path.basename(
+              sourceFile.getFilePath(),
+              path.extname(sourceFile.getFilePath()),
+            ),
+          );
+        }
+      }
+    }
+
+    return exports;
   }
 
   private addModule(
