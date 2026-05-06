@@ -70,7 +70,7 @@
     "prettier": "3.6.2",
     "ts-jest": "29.4.9",
     "typescript": "5.9.3",
-    "typescript-json-schema": "0.67.1"
+    "typescript-json-schema": "0.67.2"
   },
   "dependencies": {
     "@hpcc-js/wasm-graphviz": "^1.16.0",
