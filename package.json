@@ -164,5 +164,8 @@
     "typescript",
     "uml",
     "visualisation"
-  ]
+  ],
+  "overrides": {
+    "picomatch": "4.0.4"
+  }
 }
